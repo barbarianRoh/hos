@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
+  
+<configuration>
+	<typeAliases>
+		<typeAlias type="com.team2.component.RohDTO" alias="RohDTO" />
+		<typeAlias type="com.team2.component.HongDTO" alias="HongDTO" />
+		<typeAlias type="com.team2.component.KimDTO" alias="KimDTO" />
+		<typeAlias type="com.team2.component.ChooDTO" alias="ChooDTO" />
+	</typeAliases>
+</configuration>
