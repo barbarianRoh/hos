@@ -14,10 +14,18 @@ public class RohController {
 	@Autowired
 	private RohService service;
 	
-	@RequestMapping("test")
-	public String test(Model model) {
-		int count = service.countContent();
-		model.addAttribute("count", count);
-		return "/roh/test";
+	@RequestMapping("maptest")
+	public String maptest() {
+		return "/roh/maptest";
+	}
+	
+	@RequestMapping("apitest")
+	public String apitest() {
+		return "/roh/apitest";
+	}
+	
+	@RequestMapping("maptest2")
+	public String maptest2() {
+		return "/roh/maptest2";
 	}
 }
