@@ -2,10 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <meta charset="UTF-8">
-
+<title>약국API(자바, 단순출력)</title>
 <table>
 	<tr><td>rNum = ${rNumValues}</tr>
 	<tr><td>dutyAddr = ${dutyAddrValues}</tr>
+	<tr><td>dutyMapimg = ${dutyMapimgValues}</tr>
 	<tr><td>dutyName = ${dutyNameValues}</tr>
 	<tr><td>dutyTel = ${dutyTelValues}</tr>
 	<tr><td>dutyTime1s = ${dutyTime1sValues}</tr>

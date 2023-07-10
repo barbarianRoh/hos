@@ -3,6 +3,7 @@ package com.team2.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -233,7 +234,6 @@ public class RohController {
 		return "/roh/maptest2";
 	}
 	
-	            
 	// 약국api 자바코드
 	@RequestMapping("test")
 	public String xmltest(Model model) throws Exception {
@@ -245,7 +245,7 @@ public class RohController {
         urlBuilder.append("&" + URLEncoder.encode("QN","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); // 기관명
         urlBuilder.append("&" + URLEncoder.encode("ORD","UTF-8") + "=" + URLEncoder.encode("NAME", "UTF-8")); // 순서
         urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); // 페이지 번호
-        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("300", "UTF-8")); // 목록 건수
+        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); // 목록 건수
         
         URL url = new URL(urlBuilder.toString());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -280,10 +280,27 @@ public class RohController {
 	
 	@RequestMapping("apitest")
 	public String apitest(Model model) {
-	    String url = "https://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyListInfoInqire?serviceKey=4c%2BBa%2BaPJxSbLQnLM24kicpVPXAEBmsK1V5nqbo7d6AJ4VRKUVVz8vKzYaRLTJFVaHWJ9IUKmf9L01QnZeCEig%3D%3D&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B0%95%EB%82%A8%EA%B5%AC&QT=1&QN=%EC%82%BC%EC%84%B1%EC%95%BD%EA%B5%AD&ORD=NAME&pageNo=1&numOfRows=10";
-
+		String url = null;
+		
+		try {
+			StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyListInfoInqire");
+		    urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=4c%2BBa%2BaPJxSbLQnLM24kicpVPXAEBmsK1V5nqbo7d6AJ4VRKUVVz8vKzYaRLTJFVaHWJ9IUKmf9L01QnZeCEig%3D%3D");
+		    urlBuilder.append("&" + URLEncoder.encode("Q0","UTF-8") + "=" + URLEncoder.encode("서울특별시", "UTF-8")); // 주소(시도)
+	        urlBuilder.append("&" + URLEncoder.encode("Q1","UTF-8") + "=" + URLEncoder.encode("강남구", "UTF-8")); // 주소(시군구)
+	        urlBuilder.append("&" + URLEncoder.encode("QT","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); // 월~일요일, 공휴일: 1~8
+	        urlBuilder.append("&" + URLEncoder.encode("QN","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); // 기관명
+	        urlBuilder.append("&" + URLEncoder.encode("ORD","UTF-8") + "=" + URLEncoder.encode("NAME", "UTF-8")); // 순서
+	        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); // 페이지 번호
+	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); // 목록 건수
+			
+		    url = urlBuilder.toString();
+		} catch(UnsupportedEncodingException e) {
+		    e.printStackTrace();
+		}
+		
 	    List<String> rNumValues = new ArrayList<>();
 	    List<String> dutyAddrValues = new ArrayList<>();
+	    List<String> dutyMapimgValues = new ArrayList<>();
 	    List<String> dutyNameValues = new ArrayList<>();
 	    List<String> dutyTelValues = new ArrayList<>();
 	    List<String> dutyTime1sValues = new ArrayList<>();
@@ -320,7 +337,10 @@ public class RohController {
 
 	            String dutyAddr = getTextContent(itemElement, "dutyAddr");
 	            dutyAddrValues.add(dutyAddr);
-
+	            
+	            String dutyMapimg = getTextContent(itemElement, "dutyMapimg");
+	            dutyMapimgValues.add(dutyMapimg);
+	            
 	            String dutyName = getTextContent(itemElement, "dutyName");
 	            dutyNameValues.add(dutyName);
 
@@ -388,6 +408,7 @@ public class RohController {
 	    // 모델에 결과 리스트 추가
 	    model.addAttribute("rNumValues", rNumValues);
 	    model.addAttribute("dutyAddrValues", dutyAddrValues);
+	    model.addAttribute("dutyMapimgValues", dutyMapimgValues);
 	    model.addAttribute("dutyNameValues", dutyNameValues);
 	    model.addAttribute("dutyTelValues", dutyTelValues);
 	    model.addAttribute("dutyTime1sValues", dutyTime1sValues);
@@ -411,7 +432,7 @@ public class RohController {
 
 	    return "/roh/apitest";
 	}
-	// 중복 줄이는 메서드
+	// 약국api 내 중복 줄이는 메서드
 	private String getTextContent(Element element, String tagName) {
 	    NodeList nodeList = element.getElementsByTagName(tagName);
 	    if (nodeList.getLength() > 0) {
@@ -419,6 +440,11 @@ public class RohController {
 	        return tagElement != null ? tagElement.getTextContent() : "";
 	    }
 	    return "";
+	}
+	
+	@RequestMapping("kakaophar")
+	public String kakaophar(Model model) {
+		return "/roh/kakao-phar";
 	}
 
 }

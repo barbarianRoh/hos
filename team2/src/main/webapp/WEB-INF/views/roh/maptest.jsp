@@ -47,7 +47,7 @@
 	} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 	    
 	    var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),    
-	        message = 'geolocation을 사용할수 없어요..'
+	        message = 'geolocation을 사용할수 없습니다'
 	        
 	    displayMarker(locPosition, message);
 	}
@@ -615,4 +615,5 @@ var markers = $(data.positions).map(function(i, position) {
 // 클러스터러에 마커들을 추가합니다
 clusterer.addMarkers(markers);
 </script>
-<p><button onclick="panTo()">내 위치로 이동</button></p>
+
+<button onclick="panTo()">내 위치로 이동</button>
