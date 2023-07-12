@@ -1,8 +1,5 @@
 package com.team2.controller;
 
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.input.SAXBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,15 +52,20 @@ public class ChooController {
 	}
 	
 	@RequestMapping("addressselect")
-	public String addressselect() {		//½Ã¶û ±¸¸¦ ÅØ½ºÆ®·Î ÀÔ·Â°ªÀ» ³Ö´Â ÆäÀÌÁö
+	public String addressselect() {		//ì‹œë‘ êµ¬ë¥¼ í…ìŠ¤íŠ¸ë¡œ ì…ë ¥ê°’ì„ ë„£ëŠ” í˜ì´ì§€
 		return "/choo/addressselect";
 	}
 	
-	@RequestMapping("hosapi")			//½Ãµµ±ºÀ» ÀÔ·Â¹Ş¾Æ¼­ api¸¦ ÀÌ¿ëÇØ¼­ °Ë»öÇÏ´Â °÷
-	public String hosapi(Model model, String Q0, String Q1) throws Exception{
-		List<String> hpid = api1.hpidlist(Q0,Q1);	//Ã¹¹ø¥™ api¸¦ ½á¼­ ±â°üid¸¦ °¡Á®¿À´Â °÷
-		List<ChooDTO> hosresult = api2.hpidselect(hpid); //±â°üid¸¦ ÀÔ·ÂÇØ¼­ ÇØ´ç º´¿ø¿¡ Á¤º¸¸¦ °¡Áö°í ¿À´Â °÷
-
+	@RequestMapping("hosapi")			//ì‹œë„êµ°ì„ ì…ë ¥ë°›ì•„ì„œ apië¥¼ ì´ìš©í•´ì„œ ê²€ìƒ‰í•˜ëŠ” ê³³
+	public String hosapi(Model model, String Q0, String Q1, String QD) throws Exception{
+		List<String> hpid = api1.hpidlist(Q0,Q1,QD);	 //ì²«ë²ˆìª  apië¥¼ ì¨ì„œ ê¸°ê´€idë¥¼ ê°€ì ¸ì˜¤ëŠ” ê³³
+		List<ChooDTO> hosresult = api2.hpidselect(hpid); //ê¸°ê´€idë¥¼ ì…ë ¥í•´ì„œ í•´ë‹¹ ë³‘ì›ì— ì •ë³´ë¥¼ ê°€ì§€ê³  ì˜¤ëŠ” ê³³
+		
+		double a = hosresult.get(0).getWgs84Lat();
+		double b = hosresult.get(0).getWgs84Lon();
+		
+		model.addAttribute("x", a);
+		model.addAttribute("y", b);
 		model.addAttribute("hos", hosresult);
 		return "/choo/hosapiresult";
 	}

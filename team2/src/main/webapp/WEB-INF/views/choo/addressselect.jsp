@@ -176,23 +176,24 @@ function panTo() {
 
 
 
-
+<hr>
+<hr>
 
 <form method = "post" name="hosselect" action="/hos/choo/hosapi">
-	<table width="500" height="100" border="1" cellspacing="0" cellpadding="0" align="center">
-		<tr height="100">
-			<td width="200" align="center">시 또는 도를 입력해주세요</td>
-			<td width="200"><input type="text" size="50" maxlength="50" name="Q0"></td>
+	<table width="600" height="400" border="1" cellspacing="0" cellpadding="0" align="center">
+		<tr width="400" colspan="3">
+			<td width="300" height="50" align="center">시/도</td>
+			<td width="100"><input type="text" size="50" maxlength="50" name="Q0"></td>
 		</tr>
-		<tr height="100">
-			<td width="200" align="center">시나 군 또는 구를 입력해주세요</td>
-			<td width="200"><input type="text" size="50" maxlength="50" name="Q1"></td>
+		<tr width="400" colspan="3">
+			<td width="300" height="50" align="center">시/군/구</td>
+			<td width="100"><input type="text" size="50" maxlength="50" name="Q1"></td>
 		</tr>
-		<tr height="100">
-			<td width="200" align="center">진료과선택</td>
-			<td width="200"><input type="text" size="50" maxlength="50" name="QD" id="QDInput"></td>
-			<td width="200">
-			<select name="selectOption" id="assignValue()">
+		<tr width="400" colspan="3">
+			<td width="300" height="50" align="center">진료과선택</td>
+			<td width="100"><input type="text" size="50" maxlength="50" name="QD" id="QDInput"></td>
+			<td width="100">
+			<select name="selectOption" id="selectOption" onchange="assignValue()">
 				<option value="D001">내 과</option>
 				<option value="D002">소아과</option>
 				<option value="D003">신경과</option>
@@ -222,11 +223,11 @@ function panTo() {
 			</td>
 		</tr>
 	<tr>
-		<td colspan="2" align="center"><input type="submit" value="검색"></td></tr>	
+		<td width="100" height="50" colspan="3" align="center"><input type="submit" value="검색"></td></tr>	
 	</table>
 	<script>
 			function assignValue(){
-				var selectElement = document.getElementByName("selectOption")[0];
+				var selectElement = document.getElementById("selectOption");
 				var selectedValue = selectElement.value;
 				document.getElementById("QDInput").value = selectedValue;
 			}

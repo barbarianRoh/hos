@@ -14,8 +14,8 @@
 <script>
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = { 
-        center: new kakao.maps.LatLng(37.563226004661, 126.978652258309), // 지도의 중심좌표
-        level: 9 // 지도의 확대 레벨
+        center: new kakao.maps.LatLng(${x}, ${y}), // 지도의 중심좌표
+        level: 7 // 지도의 확대 레벨
     };
 
 // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
@@ -72,9 +72,19 @@ for (var i = 0; i < positions.length; i ++) {
 	}
 </script>
 
-
-<c:forEach var="dto" items="${hos}">
-	${dto.dutyName} ${dto.dutyAddr} ${dto.dutyTel1} ${dto.dgidIdName} ${dto.wgs84Lat} ${dto.wgs84Lon}<br />
-</c:forEach>
-
-
+<table width="1400" border="1" cellspacing="0" cellpadding="0" align="center">
+	<tr height="20">
+		<td align="center" width="220">병원이름</td>
+		<td align="center" width="480">주 소</td>
+		<td align="center" width="550">진료과</td>
+		<td align="center" width="150">전화번호</td>
+	</tr>
+	<c:forEach var="dto" items="${hos}">
+	<tr height="20">
+		<td align="center" width="220">${dto.dutyName}</td>
+		<td align="center" width="480">${dto.dutyAddr}</td>
+		<td align="center" width="550">${dto.dgidIdName}</td>
+		<td align="center" width="150">${dto.dutyTel1}</td>
+	</tr>
+	</c:forEach>
+</table>

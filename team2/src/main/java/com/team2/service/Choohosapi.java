@@ -1,6 +1,5 @@
 package com.team2.service;
 
-import org.jdom2.Element;
 import org.springframework.stereotype.Service;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -23,7 +22,7 @@ import java.io.StringReader;
 @Service
 public class Choohosapi {
 // UZHnvSBw7ESYEUBtz%2BH9YHocdwfx3wFhm54v1fiXwk9pj4Wv3pY5%2F4uhCj9YTxYd1gtqHkhlP9vC9tMQh6CulA%3D%3D : 인증키
-	 public List<String> hpidlist(String Q0, String Q1) throws Exception {
+	 public List<String> hpidlist(String Q0, String Q1, String QD) throws Exception {
 		 	List<String> idlist = new ArrayList<>();
 		 	
 		 	StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire"); /*URL*/
@@ -38,6 +37,12 @@ public class Choohosapi {
 	        	urlBuilder.append("&" + URLEncoder.encode("Q1","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*주소(시군구)*/
 	        }else {	
 	        	urlBuilder.append("&" + URLEncoder.encode("Q1","UTF-8") + "=" + URLEncoder.encode(Q1, "UTF-8")); /*주소(시군구)*/
+	        }
+	        
+	        if(QD == null) {
+	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*진료과코드*/
+	        }else {
+	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode(QD, "UTF-8")); /*진료과코드*/
 	        }
 	        
 	        // urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*목록 건수*/
