@@ -28,7 +28,7 @@ public class KimServiceImpl implements KimService {
         String secretKey = "WmdzZlhmZ250RXhDQkNyVU11anRYcUVRRkxnV055bHI=";
         String apiURL = "https://4y1xd9dljl.apigw.ntruss.com/custom/v1/10986/7bf9e2e8d2a63506fe6c922f20d22415594fc76cb451105812ba223ee1f2fc5e";
 
-        String chatbotMessage = ""; // ¿¿¥‰ ∏ﬁºº¡ˆ
+        String chatbotMessage = ""; // ÏùëÎãµ Î©îÏÑ∏ÏßÄ
         try {
             //String apiURL = "https://ex9av8bv0e.apigw.ntruss.com/custom_chatbot/prod/";
 
@@ -67,8 +67,13 @@ public class KimServiceImpl implements KimService {
                 //chatbotMessage = decodedString;
                 in.close();
                 
-                // ¿¿¥‰ ∏ﬁºº¡ˆ √‚∑¬
-                System.out.println(chatbotMessage);
+                String extractedText = jsonToString(chatbotMessage);
+
+                // Output the extracted text
+                System.out.println(extractedText);
+
+                // Return the extracted text
+                return extractedText;
             } else {  // Error occurred
                 chatbotMessage = con.getResponseMessage();
                 System.out.println(con.getResponseCode());
@@ -147,19 +152,19 @@ public class KimServiceImpl implements KimService {
     }
     public String jsonToString(String jsonResultStr) {
         String resultText = "";
-        // API »£√‚ ∞·∞˙ πﬁ¿∫ JSON «¸≈¬ πÆ¿⁄ø≠ø°º≠ ≈ÿΩ∫∆Æ √ﬂ√‚
-        // JSONParser  ªÁøÎ«œ¡ˆ æ ¿Ω
+        // API Ìò∏Ï∂ú Í≤∞Í≥º Î∞õÏùÄ JSON ÌòïÌÉú Î¨∏ÏûêÏó¥ÏóêÏÑú ÌÖçÏä§Ìä∏ Ï∂îÏ∂ú
+        // JSONParser  ÏÇ¨Ïö©ÌïòÏßÄ ÏïäÏùå
         JSONObject jsonObj = new JSONObject(jsonResultStr);
-        JSONArray chatArray = (JSONArray) jsonObj.get("bubbles");
-        if(chatArray != null) {
-            JSONObject tempObj = (JSONObject) chatArray.get(0);
-            JSONObject dataObj = (JSONObject) tempObj.get("data");
+        JSONArray chatArray = jsonObj.getJSONArray("bubbles");
+        if(chatArray != null && chatArray.length() > 0) {
+            JSONObject tempObj = chatArray.getJSONObject(0);
+            JSONObject dataObj = tempObj.getJSONObject("data");
             if(dataObj != null) {
 //                tempObj = (JSONObject) dataObj.get("description");
-                resultText += (String) dataObj.get("description");
+                resultText = dataObj.getString("description");
             }
         } else {
-            System.out.println("æ¯¿Ω");
+            System.out.println("ÏóÜÏùå");
         }
         return resultText;
 	
