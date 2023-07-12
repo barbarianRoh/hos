@@ -2,7 +2,14 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
 <mapper namespace="com.team2.mapper.ChooMapper">
+
+<select id="hospitalselect" resultType="ChooTestDTO">
+	select * from hospital where name=#{name}
+</select>
+
+<select id="nameCheck" resultType="int">
+	select count(*) from hospital where name=#{name}
+</select>
 
 </mapper>
