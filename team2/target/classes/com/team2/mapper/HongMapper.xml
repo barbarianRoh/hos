@@ -5,4 +5,12 @@
 
 <mapper namespace="com.team2.mapper.HongMapper">
 
+  	<sql id="this">
+		select * from sample  
+  	</sql>
+
+  	<select id="medicineList" resultType="com.team2.component.HongDTO">
+  		<include refid="this" />
+  	</select>
+  	
 </mapper>
