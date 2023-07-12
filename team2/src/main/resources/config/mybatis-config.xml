@@ -9,5 +9,6 @@
 		<typeAlias type="com.team2.component.HongDTO" alias="HongDTO" />
 		<typeAlias type="com.team2.component.KimDTO" alias="KimDTO" />
 		<typeAlias type="com.team2.component.ChooDTO" alias="ChooDTO" />
+		<typeAlias type="com.team2.component.ChooTestDTO" alias="ChooTestDTO" />
 	</typeAliases>
 </configuration>
