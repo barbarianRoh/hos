@@ -171,7 +171,7 @@ String url = "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDr
         model.addAttribute("keyword", keyword);
         model.addAttribute("searchResult", searchResult);
         
-        String url = "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?serviceKey=MMbncKBwZqOh19KQELbd%2FeILVFSsR6IbbxB7%2BNF3Oz1uxb5VmjB9p%2BQ1LFZyk2F8RZ6QWiTXrf%2BhNb6G%2BiDWVw%3D%3D&trustEntpName=%ED%95%9C%EB%AF%B8%EC%95%BD%ED%92%88(%EC%A3%BC)&pageNo=1&startPage=1&numOfRows=1";
+        String url = "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?serviceKey=MMbncKBwZqOh19KQELbd%2FeILVFSsR6IbbxB7%2BNF3Oz1uxb5VmjB9p%2BQ1LFZyk2F8RZ6QWiTXrf%2BhNb6G%2BiDWVw%3D%3D&trustEntpName=" + keyword + "%ED%95%9C%EB%AF%B8%EC%95%BD%ED%92%88(%EC%A3%BC)&pageNo=1&startPage=1&numOfRows=1";
         try {
         	// XML 파서생성
     		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -297,6 +297,6 @@ String url = "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDr
         } catch(IOException e) {
     	e.printStackTrace();
     	}
-        return "medicine";
+        return "plz";
     }
 }
