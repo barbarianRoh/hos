@@ -13,18 +13,19 @@
 <%@ page import="org.xml.sax.SAXException" %>
 <%@ page import="javax.xml.parsers.ParserConfigurationException" %>
 
+<html>
 <head>
     <title>Search page</title>
 </head>
-
 <body>
     <h1>Search page - ${param.keyword}</h1>
 
-
-   <%
+    <%
     String keyword = request.getParameter("keyword");
     DataApiClient dataApiClient = new DataApiClient();
-    String url = "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?serviceKey=MMbncKBwZqOh19KQELbd%2FeILVFSsR6IbbxB7%2BNF3Oz1uxb5VmjB9p%2BQ1LFZyk2F8RZ6QWiTXrf%2BhNb6G%2BiDWVw%3D%3D&trustEntpName=" + keyword + "(%EC%A3%BC)&pageNo=1&startPage=1&numOfRows=1";
+    String apiKey = "MMbncKBwZqOh19KQELbd%2FeILVFSsR6IbbxB7%2BNF3Oz1uxb5VmjB9p%2BQ1LFZyk2F8RZ6QWiTXrf%2BhNb6G%2BiDWVw%3D%3D";
+    String encodedKeyword = java.net.URLEncoder.encode(keyword, "UTF-8");
+    String url = "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?serviceKey=MMbncKBwZqOh19KQELbd%2FeILVFSsR6IbbxB7%2BNF3Oz1uxb5VmjB9p%2BQ1LFZyk2F8RZ6QWiTXrf%2BhNb6G%2BiDWVw%3D%3D"&trustEntpName=" + encodedKeyword + "(%EC%A3%BC)&pageNo=1&startPage=1&numOfRows=1";
 
     List<String> entpNames = new ArrayList<>();
     List<String> itemNames = new ArrayList<>();

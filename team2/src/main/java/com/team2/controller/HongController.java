@@ -28,28 +28,28 @@ public class HongController {
 public String Medicine(Model model) throws SAXException, ParserConfigurationException {
 String url = "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?serviceKey=MMbncKBwZqOh19KQELbd%2FeILVFSsR6IbbxB7%2BNF3Oz1uxb5VmjB9p%2BQ1LFZyk2F8RZ6QWiTXrf%2BhNb6G%2BiDWVw%3D%3D&trustEntpName=%ED%95%9C%EB%AF%B8%EC%95%BD%ED%92%88(%EC%A3%BC)&pageNo=12&startPage=1&numOfRows=1";
     try {
-    	// XML ÆÄ¼­»ı¼º
+    	// XML íŒŒì„œìƒì„±
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 	
-	// XML ÆÄÀÏ ·Îµå
+	// XML íŒŒì¼ ë¡œë“œ
 	Document document = builder.parse(new URL(url).openStream());
 
-	NodeList resultCodeList = document.getElementsByTagName("resultCode"); // °á°úÄÚµå
+	NodeList resultCodeList = document.getElementsByTagName("resultCode"); // ê²°ê³¼ì½”ë“œ
 	NodeList pageNoList = document.getElementsByTagName("pageNo"); 
 	NodeList numOfRowsList = document.getElementsByTagName("numOfRows");
-	NodeList itemImageList = document.getElementsByTagName("itemImage"); /*ÀÌ¹ÌÁö*/
-	NodeList entpNameList = document.getElementsByTagName("entpName"); /*¾÷Ã¼¸í*/
-	NodeList itemNameList = document.getElementsByTagName("itemName");  /*Á¦Ç°¸í*/
-	NodeList itemSeqList = document.getElementsByTagName("itemSeq");    /*Ç°¸ñ±âÁØÄÚµå*/
-	NodeList efcyQesitmList = document.getElementsByTagName("efcyQesitm"); /*ÀÌ ¾àÀÇ È¿´ÉÀº ¹«¾ùÀÔ´Ï±î?*/
-	NodeList useMethodQesitmList = document.getElementsByTagName("useMethodQesitm"); /*ÀÌ ¾àÀº ¾î¶»°Ô »ç¿ëÇÕ´Ï±î?*/
-	NodeList atpnWarnQesitmList = document.getElementsByTagName("atpnWarnQesitm"); /*ÀÌ ¾àÀ» »ç¿ëÇÏ±â Àü¿¡ ¹İµå½Ã ¾Ë¾Æ¾ß ÇÒ ³»¿ëÀº ¹«¾ùÀÔ´Ï±î?*/
-	NodeList atpnQesitmList = document.getElementsByTagName("atpnQesitm"); /*ÀÌ ¾àÀÇ »ç¿ë»ó ÁÖÀÇ»çÇ×Àº ¹«¾ùÀÔ´Ï±î?*/
-	NodeList intrcQesitmList = document.getElementsByTagName("intrcQesitm"); /*ÀÌ ¾àÀ» »ç¿ëÇÏ´Â µ¿¾È ÁÖÀÇÇØ¾ß ÇÒ ¾à ¶Ç´Â À½½ÄÀº ¹«¾ùÀÔ´Ï±î?*/
-	NodeList seQesitmList = document.getElementsByTagName("seQesitm"); /*ÀÌ ¾àÀº ¾î¶² ÀÌ»ó¹İÀÀÀÌ ³ªÅ¸³¯ ¼ö ÀÖ½À´Ï±î?*/
-	NodeList depositMethodQesitmList = document.getElementsByTagName("depositMethodQesitm"); /*ÀÌ ¾àÀº ¾î¶»°Ô º¸°üÇØ¾ß ÇÕ´Ï±î?*/
-	NodeList updateDeList = document.getElementsByTagName("updateDe"); /*¼öÁ¤ÀÏÀÚ*/
+	NodeList itemImageList = document.getElementsByTagName("itemImage"); /*ì´ë¯¸ì§€*/
+	NodeList entpNameList = document.getElementsByTagName("entpName"); /*ì—…ì²´ëª…*/
+	NodeList itemNameList = document.getElementsByTagName("itemName");  /*ì œí’ˆëª…*/
+	NodeList itemSeqList = document.getElementsByTagName("itemSeq");    /*í’ˆëª©ê¸°ì¤€ì½”ë“œ*/
+	NodeList efcyQesitmList = document.getElementsByTagName("efcyQesitm"); /*ì´ ì•½ì˜ íš¨ëŠ¥ì€ ë¬´ì—‡ì…ë‹ˆê¹Œ?*/
+	NodeList useMethodQesitmList = document.getElementsByTagName("useMethodQesitm"); /*ì´ ì•½ì€ ì–´ë–»ê²Œ ì‚¬ìš©í•©ë‹ˆê¹Œ?*/
+	NodeList atpnWarnQesitmList = document.getElementsByTagName("atpnWarnQesitm"); /*ì´ ì•½ì„ ì‚¬ìš©í•˜ê¸° ì „ì— ë°˜ë“œì‹œ ì•Œì•„ì•¼ í•  ë‚´ìš©ì€ ë¬´ì—‡ì…ë‹ˆê¹Œ?*/
+	NodeList atpnQesitmList = document.getElementsByTagName("atpnQesitm"); /*ì´ ì•½ì˜ ì‚¬ìš©ìƒ ì£¼ì˜ì‚¬í•­ì€ ë¬´ì—‡ì…ë‹ˆê¹Œ?*/
+	NodeList intrcQesitmList = document.getElementsByTagName("intrcQesitm"); /*ì´ ì•½ì„ ì‚¬ìš©í•˜ëŠ” ë™ì•ˆ ì£¼ì˜í•´ì•¼ í•  ì•½ ë˜ëŠ” ìŒì‹ì€ ë¬´ì—‡ì…ë‹ˆê¹Œ?*/
+	NodeList seQesitmList = document.getElementsByTagName("seQesitm"); /*ì´ ì•½ì€ ì–´ë–¤ ì´ìƒë°˜ì‘ì´ ë‚˜íƒ€ë‚  ìˆ˜ ìˆìŠµë‹ˆê¹Œ?*/
+	NodeList depositMethodQesitmList = document.getElementsByTagName("depositMethodQesitm"); /*ì´ ì•½ì€ ì–´ë–»ê²Œ ë³´ê´€í•´ì•¼ í•©ë‹ˆê¹Œ?*/
+	NodeList updateDeList = document.getElementsByTagName("updateDe"); /*ìˆ˜ì •ì¼ì*/
 
 	List<String> resultCodeValues = new ArrayList<String>();
 	List<String> pageNoValues = new ArrayList<String>();
@@ -135,20 +135,20 @@ String url = "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDr
 		model.addAttribute("resultCodeValues", resultCodeValues); 
 		model.addAttribute("pageNoValues" , pageNoValues);
 		model.addAttribute("numOfRowsValues", numOfRowsValues);
-		model.addAttribute("itemImageValues" , itemImageValues); //ÀÌ¹ÌÁö
-		model.addAttribute("entpNameValues", entpNameValues);	// ¾÷Ã¼¸í
-		model.addAttribute("itemNameValues", itemNameValues);	// Á¦Ç°¸í
-		model.addAttribute("itemSeqValues", itemSeqValues);		// Ç°¸ñ±âÁØÄÚµå
-		model.addAttribute("efcyQesitmValues", efcyQesitmValues);	// È¿´ÉÀÌ¹¹¾ß
-		model.addAttribute("useMethodQesitmValues", useMethodQesitmValues);	// »ç¿ë¹ı
-		model.addAttribute("atpnWarnQesitmValues", atpnWarnQesitmValues);	// ¾Ë¾Æ¾ßÇÔ!
-		model.addAttribute("atpnQesitmValues", atpnQesitmValues);		// ÁÖÀÇ»çÇ×
-		model.addAttribute("intrcQesitmValues", intrcQesitmValues);	// ÁÖÀÇÇÒ ¾à¶Ç´Â À½½Ä
-		model.addAttribute("seQesitmValues", seQesitmValues);	// ÀÌ»ó¹İÀÀ
-		model.addAttribute("depositMethodQesitmValues", depositMethodQesitmValues);	// º¸°ü¹ı
-		model.addAttribute("updateDeValues", updateDeValues);	// ¼öÁ¤ÀÏÀÚ
+		model.addAttribute("itemImageValues" , itemImageValues); //ì´ë¯¸ì§€
+		model.addAttribute("entpNameValues", entpNameValues);	// ì—…ì²´ëª…
+		model.addAttribute("itemNameValues", itemNameValues);	// ì œí’ˆëª…
+		model.addAttribute("itemSeqValues", itemSeqValues);		// í’ˆëª©ê¸°ì¤€ì½”ë“œ
+		model.addAttribute("efcyQesitmValues", efcyQesitmValues);	// íš¨ëŠ¥ì´ë­ì•¼
+		model.addAttribute("useMethodQesitmValues", useMethodQesitmValues);	// ì‚¬ìš©ë²•
+		model.addAttribute("atpnWarnQesitmValues", atpnWarnQesitmValues);	// ì•Œì•„ì•¼í•¨!
+		model.addAttribute("atpnQesitmValues", atpnQesitmValues);		// ì£¼ì˜ì‚¬í•­
+		model.addAttribute("intrcQesitmValues", intrcQesitmValues);	// ì£¼ì˜í•  ì•½ë˜ëŠ” ìŒì‹
+		model.addAttribute("seQesitmValues", seQesitmValues);	// ì´ìƒë°˜ì‘
+		model.addAttribute("depositMethodQesitmValues", depositMethodQesitmValues);	// ë³´ê´€ë²•
+		model.addAttribute("updateDeValues", updateDeValues);	// ìˆ˜ì •ì¼ì
 	} else {
-		System.out.println("resultCode ¿ä¼Ò¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù");
+		System.out.println("resultCode ìš”ì†Œë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤");
 	}
 
     } catch(IOException e) {
@@ -173,26 +173,26 @@ String url = "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDr
         
         String url = "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList?serviceKey=MMbncKBwZqOh19KQELbd%2FeILVFSsR6IbbxB7%2BNF3Oz1uxb5VmjB9p%2BQ1LFZyk2F8RZ6QWiTXrf%2BhNb6G%2BiDWVw%3D%3D&trustEntpName=" + keyword + "%ED%95%9C%EB%AF%B8%EC%95%BD%ED%92%88(%EC%A3%BC)&pageNo=1&startPage=1&numOfRows=1";
         try {
-        	// XML ÆÄ¼­»ı¼º
+        	// XML íŒŒì„œìƒì„±
     		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     		DocumentBuilder builder = factory.newDocumentBuilder();
     	Document document = builder.parse(new URL(url).openStream());
         // Retrieve data from the API and populate the lists
-    	NodeList resultCodeList = document.getElementsByTagName("resultCode"); // °á°úÄÚµå
+    	NodeList resultCodeList = document.getElementsByTagName("resultCode"); // ê²°ê³¼ì½”ë“œ
     	NodeList pageNoList = document.getElementsByTagName("pageNo"); 
     	NodeList numOfRowsList = document.getElementsByTagName("numOfRows");
-    	NodeList itemImageList = document.getElementsByTagName("itemImage"); /*ÀÌ¹ÌÁö*/
-    	NodeList entpNameList = document.getElementsByTagName("entpName"); /*¾÷Ã¼¸í*/
-    	NodeList itemNameList = document.getElementsByTagName("itemName");  /*Á¦Ç°¸í*/
-    	NodeList itemSeqList = document.getElementsByTagName("itemSeq");    /*Ç°¸ñ±âÁØÄÚµå*/
-    	NodeList efcyQesitmList = document.getElementsByTagName("efcyQesitm"); /*ÀÌ ¾àÀÇ È¿´ÉÀº ¹«¾ùÀÔ´Ï±î?*/
-    	NodeList useMethodQesitmList = document.getElementsByTagName("useMethodQesitm"); /*ÀÌ ¾àÀº ¾î¶»°Ô »ç¿ëÇÕ´Ï±î?*/
-    	NodeList atpnWarnQesitmList = document.getElementsByTagName("atpnWarnQesitm"); /*ÀÌ ¾àÀ» »ç¿ëÇÏ±â Àü¿¡ ¹İµå½Ã ¾Ë¾Æ¾ß ÇÒ ³»¿ëÀº ¹«¾ùÀÔ´Ï±î?*/
-    	NodeList atpnQesitmList = document.getElementsByTagName("atpnQesitm"); /*ÀÌ ¾àÀÇ »ç¿ë»ó ÁÖÀÇ»çÇ×Àº ¹«¾ùÀÔ´Ï±î?*/
-    	NodeList intrcQesitmList = document.getElementsByTagName("intrcQesitm"); /*ÀÌ ¾àÀ» »ç¿ëÇÏ´Â µ¿¾È ÁÖÀÇÇØ¾ß ÇÒ ¾à ¶Ç´Â À½½ÄÀº ¹«¾ùÀÔ´Ï±î?*/
-    	NodeList seQesitmList = document.getElementsByTagName("seQesitm"); /*ÀÌ ¾àÀº ¾î¶² ÀÌ»ó¹İÀÀÀÌ ³ªÅ¸³¯ ¼ö ÀÖ½À´Ï±î?*/
-    	NodeList depositMethodQesitmList = document.getElementsByTagName("depositMethodQesitm"); /*ÀÌ ¾àÀº ¾î¶»°Ô º¸°üÇØ¾ß ÇÕ´Ï±î?*/
-    	NodeList updateDeList = document.getElementsByTagName("updateDe"); /*¼öÁ¤ÀÏÀÚ*/
+    	NodeList itemImageList = document.getElementsByTagName("itemImage"); /*ì´ë¯¸ì§€*/
+    	NodeList entpNameList = document.getElementsByTagName("entpName"); /*ì—…ì²´ëª…*/
+    	NodeList itemNameList = document.getElementsByTagName("itemName");  /*ì œí’ˆëª…*/
+    	NodeList itemSeqList = document.getElementsByTagName("itemSeq");    /*í’ˆëª©ê¸°ì¤€ì½”ë“œ*/
+    	NodeList efcyQesitmList = document.getElementsByTagName("efcyQesitm"); /*ì´ ì•½ì˜ íš¨ëŠ¥ì€ ë¬´ì—‡ì…ë‹ˆê¹Œ?*/
+    	NodeList useMethodQesitmList = document.getElementsByTagName("useMethodQesitm"); /*ì´ ì•½ì€ ì–´ë–»ê²Œ ì‚¬ìš©í•©ë‹ˆê¹Œ?*/
+    	NodeList atpnWarnQesitmList = document.getElementsByTagName("atpnWarnQesitm"); /*ì´ ì•½ì„ ì‚¬ìš©í•˜ê¸° ì „ì— ë°˜ë“œì‹œ ì•Œì•„ì•¼ í•  ë‚´ìš©ì€ ë¬´ì—‡ì…ë‹ˆê¹Œ?*/
+    	NodeList atpnQesitmList = document.getElementsByTagName("atpnQesitm"); /*ì´ ì•½ì˜ ì‚¬ìš©ìƒ ì£¼ì˜ì‚¬í•­ì€ ë¬´ì—‡ì…ë‹ˆê¹Œ?*/
+    	NodeList intrcQesitmList = document.getElementsByTagName("intrcQesitm"); /*ì´ ì•½ì„ ì‚¬ìš©í•˜ëŠ” ë™ì•ˆ ì£¼ì˜í•´ì•¼ í•  ì•½ ë˜ëŠ” ìŒì‹ì€ ë¬´ì—‡ì…ë‹ˆê¹Œ?*/
+    	NodeList seQesitmList = document.getElementsByTagName("seQesitm"); /*ì´ ì•½ì€ ì–´ë–¤ ì´ìƒë°˜ì‘ì´ ë‚˜íƒ€ë‚  ìˆ˜ ìˆìŠµë‹ˆê¹Œ?*/
+    	NodeList depositMethodQesitmList = document.getElementsByTagName("depositMethodQesitm"); /*ì´ ì•½ì€ ì–´ë–»ê²Œ ë³´ê´€í•´ì•¼ í•©ë‹ˆê¹Œ?*/
+    	NodeList updateDeList = document.getElementsByTagName("updateDe"); /*ìˆ˜ì •ì¼ì*/
 
     	List<String> resultCodeValues = new ArrayList<String>();
     	List<String> pageNoValues = new ArrayList<String>();
@@ -278,25 +278,25 @@ String url = "http://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDr
     		model.addAttribute("resultCodeValues", resultCodeValues); 
     		model.addAttribute("pageNoValues" , pageNoValues);
     		model.addAttribute("numOfRowsValues", numOfRowsValues);
-    		model.addAttribute("itemImageValues" , itemImageValues); //ÀÌ¹ÌÁö
-    		model.addAttribute("entpNameValues", entpNameValues);	// ¾÷Ã¼¸í
-    		model.addAttribute("itemNameValues", itemNameValues);	// Á¦Ç°¸í
-    		model.addAttribute("itemSeqValues", itemSeqValues);		// Ç°¸ñ±âÁØÄÚµå
-    		model.addAttribute("efcyQesitmValues", efcyQesitmValues);	// È¿´ÉÀÌ¹¹¾ß
-    		model.addAttribute("useMethodQesitmValues", useMethodQesitmValues);	// »ç¿ë¹ı
-    		model.addAttribute("atpnWarnQesitmValues", atpnWarnQesitmValues);	// ¾Ë¾Æ¾ßÇÔ!
-    		model.addAttribute("atpnQesitmValues", atpnQesitmValues);		// ÁÖÀÇ»çÇ×
-    		model.addAttribute("intrcQesitmValues", intrcQesitmValues);	// ÁÖÀÇÇÒ ¾à¶Ç´Â À½½Ä
-    		model.addAttribute("seQesitmValues", seQesitmValues);	// ÀÌ»ó¹İÀÀ
-    		model.addAttribute("depositMethodQesitmValues", depositMethodQesitmValues);	// º¸°ü¹ı
-    		model.addAttribute("updateDeValues", updateDeValues);	// ¼öÁ¤ÀÏÀÚ
+    		model.addAttribute("itemImageValues" , itemImageValues); //ì´ë¯¸ì§€
+    		model.addAttribute("entpNameValues", entpNameValues);	// ì—…ì²´ëª…
+    		model.addAttribute("itemNameValues", itemNameValues);	// ì œí’ˆëª…
+    		model.addAttribute("itemSeqValues", itemSeqValues);		// í’ˆëª©ê¸°ì¤€ì½”ë“œ
+    		model.addAttribute("efcyQesitmValues", efcyQesitmValues);	// íš¨ëŠ¥ì´ë­ì•¼
+    		model.addAttribute("useMethodQesitmValues", useMethodQesitmValues);	// ì‚¬ìš©ë²•
+    		model.addAttribute("atpnWarnQesitmValues", atpnWarnQesitmValues);	// ì•Œì•„ì•¼í•¨!
+    		model.addAttribute("atpnQesitmValues", atpnQesitmValues);		// ì£¼ì˜ì‚¬í•­
+    		model.addAttribute("intrcQesitmValues", intrcQesitmValues);	// ì£¼ì˜í•  ì•½ë˜ëŠ” ìŒì‹
+    		model.addAttribute("seQesitmValues", seQesitmValues);	// ì´ìƒë°˜ì‘
+    		model.addAttribute("depositMethodQesitmValues", depositMethodQesitmValues);	// ë³´ê´€ë²•
+    		model.addAttribute("updateDeValues", updateDeValues);	// ìˆ˜ì •ì¼ì
     	} else {
-    		System.out.println("resultCode ¿ä¼Ò¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù");
+    		System.out.println("resultCode ìš”ì†Œë¥¼ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤");
     	}
 
         } catch(IOException e) {
     	e.printStackTrace();
     	}
-        return "plz";
+        return "";
     }
 }
