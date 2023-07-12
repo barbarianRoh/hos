@@ -6,11 +6,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.team2.service.KimService;
 
+
 @Controller
 @RequestMapping("/kim/*")
 public class KimController {
 	
 	@Autowired
 	private KimService service;
+	
+	@RequestMapping("/chatForm")
+	public String chatForm() {
+		return "kim/chatForm";
+	}
+
 	
 }
