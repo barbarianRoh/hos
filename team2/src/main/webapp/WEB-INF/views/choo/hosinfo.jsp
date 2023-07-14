@@ -7,14 +7,14 @@
 </head>
 
 
-<c:if test="${count == 0}">
+<c:if test="${dto.dutyName == null}">
 	<script>
 		alert("입력하신 병원을 찾지 못했습니다");
 		history.back(-1);
 	</script>
 </c:if>
 
-<c:if test="${count == 1}">
+<c:if test="${dto.dutyName != null}">
 
 <!-- 지도를 표시할 div 입니다 -->
 <div id="map" style="width:1200px;height:650px;"></div>
@@ -24,7 +24,7 @@
 
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = { 
-        center: new kakao.maps.LatLng(${y},${x}), // 지도의 중심좌표
+        center: new kakao.maps.LatLng(${dto.wgs84Lat},${dto.wgs84Lon}), // 지도의 중심좌표
         level: 3 // 지도의 확대 레벨
     };
 
@@ -32,7 +32,7 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 var map = new kakao.maps.Map(mapContainer, mapOption); 
 		
 		//마커가 표시될 위치입니다 
-		var markerPosition  = new kakao.maps.LatLng(${y},${x});
+		var markerPosition  = new kakao.maps.LatLng(${dto.wgs84Lat},${dto.wgs84Lon});
 		
 		// 마커를 생성합니다
 		var marker = new kakao.maps.Marker({
@@ -42,8 +42,11 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 		// 마커가 지도 위에 표시되도록 설정합니다
 		marker.setMap(map);
 		
-		var iwContent = '<div style="padding:5px;">  ${name} <br><a href="https://map.kakao.com/link/map/ ${name}  ,  ${y}  ,  ${x}  " style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/  ${name}  ,  ${y}  ,  ${x}  " style="color:blue" target="_blank">길찾기</a></div>', 
-		iwPosition = new kakao.maps.LatLng(${y},${x});
+		var iwContent = '<div style="padding:5px;">  ${dto.dutyName} <hr>' + 
+		'<font size=2> 전화번호 : ${dto.dutyTel1} </font><br>' + 
+		'<font size=2> 주 소 : ${dto.dutyAddr} </font><br>' + 
+		'<a href="https://map.kakao.com/link/map/ ${dto.dutyName}  ,  ${dto.wgs84Lat}  ,  ${dto.wgs84Lon}  " style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/  ${dto.dutyName}  ,  ${dto.wgs84Lat}  ,  ${dto.wgs84Lon}  " style="color:blue" target="_blank">길찾기</a></div>', 
+		iwPosition = new kakao.maps.LatLng(${dto.wgs84Lat},${dto.wgs84Lon});
 			
 		//인포윈도우를 생성합니다
 		var infowindow = new kakao.maps.InfoWindow({

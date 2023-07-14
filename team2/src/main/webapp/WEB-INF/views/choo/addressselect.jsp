@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
@@ -21,14 +21,41 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449"></script>
 <script>
 
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-    mapOption = { 
+var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
+var mapOption = { 
         center: new kakao.maps.LatLng(37.350701, 127.0016), // 지도의 중심좌표
         level: 13 // 지도의 확대 레벨
     };
 
 //지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-var map = new kakao.maps.Map(mapContainer, mapOption); 
+var map = new kakao.maps.Map(mapContainer, mapOption);
+
+var positions = [
+	<c:forEach var="dto" items="${hos}">
+		{
+			title: '${dto.dutyName}',
+			"lat": ${dto.wgs84Lat},
+			"lng": ${dto.wgs84Lon}
+		},
+	</c:forEach>
+];
+	
+	//데이터에 좌표 값을 가지고 마커를 표시
+	//마커 클러스터러로 관리할 마커 객체를 생성할 때 지도 객체를 설정하지 않습니다.
+	var markers = positions.map(function(position) {  // 마커를 배열 단위로 묶음
+        return new kakao.maps.Marker({
+            position : new kakao.maps.LatLng(position.lat, position.lng),
+        	title: positions.title
+        });
+    });
+	
+	//마커 클러스터러를 생성합니다
+	var clusterer = new kakao.maps.MarkerClusterer({
+        map: map, 				// 마커들을 클러스터로 관리하고 표시할 지도 객체 
+        averageCenter: true, 	// 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
+        minLevel: 5, 			// 클러스터 할 최소 지도 레벨
+        markers: markers		// 클러스터에 마커 추가
+	});
 </script>
 
 <select name="sido1" id="sido1"></select>
@@ -179,21 +206,22 @@ function panTo() {
 <hr>
 <hr>
 
-<form method = "post" name="hosselect" action="/hos/choo/hosapi">
+<form method = "post" name="hosselect" action="/hos/choo/hosapiresult">
 	<table width="600" height="400" border="1" cellspacing="0" cellpadding="0" align="center">
 		<tr width="400" colspan="3">
-			<td width="300" height="50" align="center">시/도</td>
+			<td width="300" height="150" align="center">시/도</td>
 			<td width="100"><input type="text" size="50" maxlength="50" name="Q0"></td>
 		</tr>
 		<tr width="400" colspan="3">
-			<td width="300" height="50" align="center">시/군/구</td>
+			<td width="300" height="150" align="center">시/군/구</td>
 			<td width="100"><input type="text" size="50" maxlength="50" name="Q1"></td>
 		</tr>
 		<tr width="400" colspan="3">
-			<td width="300" height="50" align="center">진료과선택</td>
+			<td width="300" height="100" align="center">진료과선택</td>
 			<td width="100"><input type="text" size="50" maxlength="50" name="QD" id="QDInput"></td>
 			<td width="100">
 			<select name="selectOption" id="selectOption" onchange="assignValue()">
+				<option value="">진료과선택</option>
 				<option value="D001">내 과</option>
 				<option value="D002">소아과</option>
 				<option value="D003">신경과</option>
@@ -226,6 +254,7 @@ function panTo() {
 		<td width="100" height="50" colspan="3" align="center"><input type="submit" value="검색"></td></tr>	
 	</table>
 	<script>
+			//위에 select의 option값을 선택했을 때 QD에 자동으로 들어가게 하는 곳
 			function assignValue(){
 				var selectElement = document.getElementById("selectOption");
 				var selectedValue = selectElement.value;
@@ -236,3 +265,7 @@ function panTo() {
 </form>
 
 <button onclick="panTo()">내 위치로 이동</button>
+
+<%-- <c:forEach var="dto" items="${hos}">
+	${dto.wgs84Lat}
+</c:forEach>--%>

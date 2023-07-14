@@ -2,11 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<head>
-    <meta charset="utf-8">
-    <title>주소로 검색한 병원정보</title>
-</head>
-
+	<meta charset="utf-8">
+	<title>주변 병원정보</title>
+<c:if test="${back == null}">
+	<script>
+		alert('병원을 찾을 수 없습니다');
+		history.go(-1);
+	</script>
+</c:if>	
 <!-- 지도를 표시할 div 입니다 -->
 <div id="map" style="width:1200px;height:650px;"></div>
 
@@ -14,12 +17,12 @@
 <script>
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = { 
-        center: new kakao.maps.LatLng(${x}, ${y}), // 지도의 중심좌표
+        center: new kakao.maps.LatLng(${y}, ${x}), // 지도의 중심좌표
         level: 7 // 지도의 확대 레벨
     };
 
 // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-var map = new kakao.maps.Map(mapContainer, mapOption); 
+var map = new kakao.maps.Map(mapContainer, mapOption);
 
 //마커를 표시할 위치와 내용을 가지고 있는 객체 배열입니다 
 var positions=[
