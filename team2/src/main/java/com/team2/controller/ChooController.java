@@ -35,8 +35,8 @@ public class ChooController {
 	@Autowired
 	private ChooGPShos api3;
 	
-	@RequestMapping("map")
-	public String hosmap(ChooTestDTO dto, Model model) {
+	@RequestMapping("hosselect")
+	public String hosselect(ChooTestDTO dto, Model model) {
 		return "/choo/hosselect";
 	}
 	
@@ -55,9 +55,10 @@ public class ChooController {
 	
 	@RequestMapping("addressselect")
 	public String addressselect(Model model) {		//시랑 구를 텍스트로 입력값을 넣는 페이지
-		String Q0 = "";
-		String Q1 = "";
 		try {
+			String Q0 = "";
+			String Q1 = "";
+			
 			List<String> hpid1 = api1.hpidlist(Q0,Q1);
 			List<ChooDTO> hosresult1 = api2.hpidselect1(hpid1);
 			
@@ -96,18 +97,28 @@ public class ChooController {
 		try {
 			List<String> hosname = api3.GPSselect(WGS84_LAT, WGS84_LON);
 			List<String> hpid2 = api1.hosselect(hosname, QD);
-		if(hpid2 != null) {
+		
+			//for(int a = 0; a < hpid2.size(); a++) {		//값이 넘어오고 있는지 확인
+				//System.out.println(hpid2.get(a));
+			//}
+			
+		if(hpid2.size() != 0) {
 			List<ChooDTO> hosresult2 = api2.hosselect(hpid2);
+			
+			//for(int b = 0; b < hosresult2.size(); b++) {		//값이 넘어오고 있는지 확인
+				//System.out.println(hosresult2.get(b).getWgs84Lat());
+			//}
 			
 			double a = hosresult2.get(0).getWgs84Lat();
 			double b = hosresult2.get(0).getWgs84Lon();
 			
-			model.addAttribute("x", WGS84_LON);			//검색한 값의 위치로 지도를 이동시키기 위한 경도/위도값
-			model.addAttribute("y", WGS84_LAT);			//검색한 값의 위치로 지도를 이동시키기 위한 경도/위도값
+			model.addAttribute("x", b);			//검색한 값의 위치로 지도를 이동시키기 위한 경도/위도값
+			model.addAttribute("y", a);			//검색한 값의 위치로 지도를 이동시키기 위한 경도/위도값
 			model.addAttribute("hos", hosresult2);
 		}else {
-			String back = "";
-			model.addAttribute("back", back);
+			List<ChooDTO> hosresult2 = api2.hosselect(hpid2);
+			
+			model.addAttribute("hos", hosresult2);
 		}
 		} catch (Exception e) {
 			e.printStackTrace();

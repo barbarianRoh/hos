@@ -4,7 +4,7 @@
 
 	<meta charset="utf-8">
 	<title>주변 병원정보</title>
-<c:if test="${back == null}">
+<c:if test="${hos == null}">
 	<script>
 		alert('병원을 찾을 수 없습니다');
 		history.go(-1);

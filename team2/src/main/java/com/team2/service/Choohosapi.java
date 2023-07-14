@@ -224,6 +224,7 @@ public class Choohosapi {
 			  //System.out.println(dto.getHpid());
 			return dto;
 	}
+	 
 	 //UZHnvSBw7ESYEUBtz%2BH9YHocdwfx3wFhm54v1fiXwk9pj4Wv3pY5%2F4uhCj9YTxYd1gtqHkhlP9vC9tMQh6CulA%3D%3D
 	 //GPS 기반 좌표로 검색한 병원 이름과 입력받은 진료과를 넣고 해당 과에 해당하는 병원 검색
 	 public List<String> hosselect(List<String> hosname, String QD) throws Exception {
@@ -232,7 +233,7 @@ public class Choohosapi {
 		 	for(int i = 0; i < hosname.size(); i++) {
 		 	StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire"); /*URL*/
 	        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=UZHnvSBw7ESYEUBtz%2BH9YHocdwfx3wFhm54v1fiXwk9pj4Wv3pY5%2F4uhCj9YTxYd1gtqHkhlP9vC9tMQh6CulA%3D%3D"); /*Service Key*/
-	        if(hosname == null) {
+	        if(hosname.size() == 0) {
 	        	urlBuilder.append("&" + URLEncoder.encode("QN","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*기관명*/
 	        }else {
 	        	urlBuilder.append("&" + URLEncoder.encode("QN","UTF-8") + "=" + URLEncoder.encode(hosname.get(i), "UTF-8")); /*기관명*/
@@ -282,6 +283,7 @@ public class Choohosapi {
 					   Node idforhos =  idforhoslist.item(0).getChildNodes().item(0);
 					   String value = idforhos.getNodeValue();				//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
 					   String stringValue = value != null ? value : "";		//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
+					   //System.out.println(stringValue);
 					   idlist.add(stringValue);								//값을 for문을 사용해서 dto에 저장을 해야하기에 사용
 				   }
 		 	}
