@@ -447,4 +447,18 @@ public class RohController {
 		return "/roh/kakao-phar";
 	}
 
+	@RequestMapping("aboutpage")
+	public String aboutPage() {
+		return "/roh/about-page";
+	}
+	
+	@RequestMapping("components")
+	public String contactPage() {
+		return "/roh/components";
+	}
+	
+	@RequestMapping("index")
+	public String index() {
+		return "/roh/index";
+	}
 }
