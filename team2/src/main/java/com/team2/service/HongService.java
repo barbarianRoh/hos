@@ -9,8 +9,10 @@ import com.team2.controller.DataApiClient;
 
 public interface HongService {
 
-	static List<HongDTO> searchMedicine(Model model) {
+	static List<HongDTO> search(Model model) {
 		return null;
 	}
-
+	static List<HongDTO> Medicine(Model model) {
+		return null;
+	}
 }
