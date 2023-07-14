@@ -31,7 +31,7 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 	<table width="500" height="100" border="1" cellspacing="0" cellpadding="0" align="center">
 		<tr height="30">
 			<td width="150" align="center">병원검색</td>
-			<td width="100"><input type="text" size="50" maxlength="50" name="name"></td>
+			<td width="100"><input type="text" size="50" maxlength="50" name="QN"></td>
 		</tr>
 		<tr>
 			<td colspan="2" align="center"><input type="submit" value="검색"></td></tr>
