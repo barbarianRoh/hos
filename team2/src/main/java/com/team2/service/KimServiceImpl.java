@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -59,31 +60,24 @@ public class KimServiceImpl implements KimService {
 
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(
-                                con.getInputStream(),"UTF-8"));
+                                con.getInputStream()));
                 String decodedString;
                 while ((decodedString = in.readLine()) != null) {
                     chatbotMessage = decodedString;
                 }
                 //chatbotMessage = decodedString;
                 in.close();
-                
-                String extractedText = jsonToString(chatbotMessage);
-
-                // Output the extracted text
-                System.out.println(extractedText);
-
-                // Return the extracted text
-                return extractedText;
+                // 응답 메세지 출력
+                System.out.println(chatbotMessage);
+                chatbotMessage = jsonToString(chatbotMessage);
             } else {  // Error occurred
                 chatbotMessage = con.getResponseMessage();
-                System.out.println(con.getResponseCode());
             }
         } catch (Exception e) {
             System.out.println(e);
         }
         return chatbotMessage;
     }
-
     public static String makeSignature(String message, String secretKey) {
 
         String encodeBase64String = "";
@@ -141,15 +135,26 @@ public class KimServiceImpl implements KimService {
             bubbles_array.put(bubbles_obj);
 
             obj.put("bubbles", bubbles_array);
-            obj.put("event", "open");
+//            obj.put("event", "send");
 
+            if(Objects.equals(voiceMessage, "")) {
+                obj.put("event", "open"); // 월컴 메세지
+            } else {
+                obj.put("event", "send");
+            }
             requestBody = obj.toString();
-            requestBody= "{\"version\": \"v2\",\"userId\": \"U47b00b58c90f8e47428af8b7bddcda3d\",\"userIp\": \"8.8.8.8\",\"timestamp\": 12345678,\"bubbles\": [{\"type\": \"text\",\"data\" : { \"description\" : \"postback text of welcome action\" } } ],\"event\": \"open\"}";
+            // 웰컴 메세지 출력
+
+
         } catch (Exception e){
             System.out.println("## Exception : " + e);
         }
         return requestBody;
     }
+    
+    
+    
+    
     public String jsonToString(String jsonResultStr) {
         String resultText = "";
         // API 호출 결과 받은 JSON 형태 문자열에서 텍스트 추출
