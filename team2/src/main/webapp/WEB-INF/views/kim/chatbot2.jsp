@@ -1,10 +1,14 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<script>
+
 $(function(){
     // To receive the welcome message, send it to the server with an empty value before receiving the message input to receive the welcome message
     callAjax();
     $('#chatForm').on('submit', function(event){
         event.preventDefault();
         if($('#message').val() == "") { // Prevent a welcome message from appearing when the send button is pressed without entering a question
-            alert("질문을 입력해주세요");
+            alert("질문을 입력해주세요.");
             return false;
         }
         if($('#message').val() != ""){
@@ -16,8 +20,6 @@ $(function(){
         $('#message'). val('');
     }); // end of submit
     // create a separate ajax
-    
-    
     function callAjax() {
         $.ajax({
             url: "chatbotSend",
@@ -36,6 +38,6 @@ $(function(){
             }
         });
     }
-    
-    
 });
+
+</script>
