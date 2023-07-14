@@ -71,7 +71,7 @@ public class ChooGPShos {
         		
         		String value = hosname.getNodeValue();
         		String stringValue = value != null ? value : "";
-				//System.out.println(stringValue); 이부분에선 값을 제대로 가지고 오고 있음
+				//System.out.println(stringValue); //이부분에선 값을 제대로 가지고 오고 있음
         		hpidselect.add(stringValue);
         	}
 		return hpidselect;
