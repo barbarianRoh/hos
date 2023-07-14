@@ -100,13 +100,10 @@ public class HongController {
         return medicines;
     }
 
-
-
 	@RequestMapping("check")
 	public String check() {
 		return "/hong/search";
 	}
-	
 
     @RequestMapping("search")
     public String search(@RequestParam("keyword") String keyword, Model model) throws ParserConfigurationException, SAXException, IOException {
