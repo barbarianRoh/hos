@@ -4,20 +4,19 @@
 <!-- view.jsp -->
 <html>
 <head>
-    <title>Medicine List</title>
+    <title>Medicine Information</title>
 </head>
 <body>    
     <table>
-        <c:forEach items="${entpNameValues}" var="entpName" varStatus="status">
+        <c:forEach items="${itemNameValues}" var="itemName" varStatus="status">
             <tr>
-            	<th>이미지</th>
             	<td>
             		<img src="${itemImageValues[status.index]}" alt="Image">
             	</td>
             </tr> 
             <tr>
                 <th>업체명</th>
-                <td>${entpName}</td>
+                <td>${entpNameValues[status.index]}</td>
             </tr>
    			<tr>
                 <th>제품명</th>
