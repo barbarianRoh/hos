@@ -8,15 +8,16 @@
 <script src="//code.jquery.com/jquery-3.7.0.min.js"></script>
 <!-- 폰트어썸 아이콘 사용을 위한 라이브러리 -->
 <script src="https://kit.fontawesome.com/f507061817.js" crossorigin="anonymous"></script>
+
+<!-- 지도 크기변경 margin:0 auto는 가운데정렬 -->
+<div id="map" style="width:100%;height:85vh;margin: 0 auto;"></div>
+
 <p>지도가 다시 로딩되면 지도 정보가 표출됩니다</p>
 <p id="result"></p>
 <p id="centerAddr"></p>
 
 <select name="sido" id="sido"></select>
 <select name="gugun" id="gugun"></select>
-
-<!-- 지도 크기변경 margin:0 auto는 가운데정렬 -->
-<div id="map" style="width:100%;height:85vh;margin: 0 auto;"></div>
 
 <script>
 // 변수선언
@@ -65,7 +66,9 @@ function mapStart(s1, s2){ // --------------------------------------------------
 	queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1');
 	queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('1000');
 	xhr.open('GET', url + queryParams);
-
+	
+	console.log(url+queryParams);
+	
 	var pharmacies = []; // 약국 위치정보를 담기위한 배열
 	
 	xhr.onreadystatechange = function () {
@@ -406,9 +409,14 @@ $('document').ready(function() {
 	});
 });
 </script>
+
 <style>
- .gps-icon{position:absolute;top:33%;right:0.65%;z-index:1;}
+.gps-icon{
+ 	position:absolute;
+ 	top:22%;
+ 	right:0.65%;
+ 	z-index:1;
+}
 </style>
 
-
-<button draggable="false" title="내위치" type="button" class="gps-icon" style="background-color:#ffffff; cursor: pointer; width: 32px; height: 32px; user-select: none; -webkit-user-drag: none; border-top: none; border-right: none; border-bottom: 1px solid rgb(226, 226, 226); border-left: none; border-image: initial; border-radius: 3px 3px 3px 3px;" onclick="panTo()"><i class="fa-solid fa-location-crosshairs" style="color: #444444;"></i></button>
+<button onclick="panTo()" draggable="false" title="내위치" type="button" class="gps-icon" style="background-color:#ffffff; cursor: pointer; width: 32px; height: 32px; user-select: none; -webkit-user-drag: none; border-top: none; border-right: none; border-bottom: 1px solid rgb(226, 226, 226); border-left: none; border-image: initial; border-radius: 3px 3px 3px 3px;"><i class="fa-solid fa-location-crosshairs" style="color: #444444;"></i></button>
