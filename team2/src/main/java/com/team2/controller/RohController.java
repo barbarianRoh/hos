@@ -204,9 +204,9 @@ public class RohController {
 	    return "";
 	}
 	
-	@RequestMapping("aboutpage")
-	public String aboutPage() {
-		return "/roh/about-page";
+	@RequestMapping("test")
+	public String test() {
+		return "/roh/test";
 	}
 	
 	@RequestMapping("components")

@@ -2,15 +2,29 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
 
-<!-- 카카오맵API와 서비스, 클러스터기능 라이브러리 불러옴 -->
+<!-- 카카오맵API와 서비스, 클러스터기능 라이브러리 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f4352b5c75fa4dee61f430ab3f1ff6f4&libraries=services,clusterer"></script>
-<!-- Jquery 불러옴 -->
+
+<!-- Jquery -->
 <script src="//code.jquery.com/jquery-3.7.0.min.js"></script>
-<!-- 폰트어썸 아이콘 사용을 위한 라이브러리 -->
+
+<!-- 폰트어썸 아이콘 -->
 <script src="https://kit.fontawesome.com/f507061817.js" crossorigin="anonymous"></script>
 
 <!-- 지도 크기변경 margin:0 auto는 가운데정렬 -->
 <div id="map" style="width:100%;height:85vh;margin: 0 auto;"></div>
+
+	<!-- 사이드바 영역 -->
+	<div class="container">
+		<input type="checkbox" id="toggle-menu" />
+		<label for="toggle-menu" class="menu-button"><i class="fa-solid fa-chevron-right fa-2x" style="color: #3f3f3f;"></i></label>
+		
+	
+		<aside class="sidebar">
+			<ul id="pharmacies-list">
+	    	</ul>
+	  	</aside>
+	</div>
 
 <p>지도가 다시 로딩되면 지도 정보가 표출됩니다</p>
 <p id="result"></p>
@@ -26,13 +40,42 @@ var a2 = null;
 var markers;
 var sidoSelect = document.getElementById('sido');
 var gugunSelect = document.getElementById('gugun');
+var pharmacies;
+var pharList = document.getElementById('pharmacies-list');
+var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
+
+<!-- Geolocation API -->        
+//GeoLocation(GPS를 받아 내 위치를 표시하는 기능)
+//크롬에선 HTTPS환경에서만 작동함
+if (navigator.geolocation) {
+
+	// GeoLocation을 이용해서 접속 위치를 얻어옵니다
+	navigator.geolocation.getCurrentPosition(function(position) {
+		geolat = position.coords.latitude, // 위도
+		geolon = position.coords.longitude; // 경도
+   
+		var locPosition = new kakao.maps.LatLng(geolat, geolon), // 마커가 표시될 위치를 Geolocation으로 얻어온 좌표로 생성합니다
+		message = '<div style="padding:5px;">현재 위치입니다</div>'; // 인포윈도우에 표시될 내용입니다
+   
+		// 마커와 인포윈도우를 표시합니다
+		displayMarker(locPosition, message);
+       
+	});
+
+} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+ 
+	var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),    
+	message = 'geolocation을 사용할수 없습니다'
+     
+	displayMarker(locPosition, message);
+}
 
 // 카카오맵 API 지도설정 및 생성
 // 1:20m, 2:30m, 3:50m, 4:100m, 5:250m, 6:500m, 7:1km, 8:2km
 // 9:4km, 10:8km, 11:16km, 12:32km, 13:64km, 14:128km
 var container = document.getElementById('map'); // 지도를 표시할 div
 var options = {
-   center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도 중심좌표 위도, 경도 순으로 입력
+    center: new kakao.maps.LatLng(geolat, geolon), // 지도 중심좌표 위도, 경도 순으로 입력
    level: 5
 };
 
@@ -47,6 +90,35 @@ var clusterer = new kakao.maps.MarkerClusterer({
 
 //주소-좌표 변환 객체를 생성합니다
 var geocoder = new kakao.maps.services.Geocoder();
+
+// 현재위치, 약국위치 비교 메서드
+function calculateDistance(mylat, mylon, pharlat, pharlon) {
+	const earthRadius = 6371; // 지구의 반지름 km
+
+	// 각도를 라디안으로 변환
+	const toRadians = (degrees) => (degrees * Math.PI) / 180;
+
+	// 위도와 경도 차이계산
+	const dLat = toRadians(pharlat - mylat);
+	const dLon = toRadians(pharlon - mylon);
+
+	// 하버사인 공식 적용
+	const a =
+		Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+		Math.cos(toRadians(mylat)) *
+		Math.cos(toRadians(pharlat)) *
+		Math.sin(dLon / 2) *
+		Math.sin(dLon / 2);
+
+	const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+	// 거리계산
+	const distanceKm = earthRadius * c;
+	// km -> m로 변환
+	const distance = Math.round(distanceKm * 1000);
+	
+	return distance;
+}
 
 // 약국 API 호출 및 지도에 반영
 function mapStart(s1, s2){ // ------------------------------------------------------------------------------------------------------------------------------------------
@@ -64,12 +136,13 @@ function mapStart(s1, s2){ // --------------------------------------------------
 	queryParams += '&' + encodeURIComponent('QN') + '=' + encodeURIComponent('');
 	queryParams += '&' + encodeURIComponent('ORD') + '=' + encodeURIComponent('NAME');
 	queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1');
-	queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('1000');
+	queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('100');
 	xhr.open('GET', url + queryParams);
 	
 	console.log(url+queryParams);
 	
-	var pharmacies = []; // 약국 위치정보를 담기위한 배열
+	pharmacies = []; // 약국 위치정보를 담기위한 배열
+	pharList.innerHTML = '';
 	
 	xhr.onreadystatechange = function () {
 		if (this.readyState === 4 && this.status === 200) {
@@ -99,9 +172,20 @@ function mapStart(s1, s2){ // --------------------------------------------------
 				var dutyTime6sElement = pharmacy.getElementsByTagName('dutyTime6s')[0];
 				var dutyTime7sElement = pharmacy.getElementsByTagName('dutyTime7s')[0];
 				var dutyTime8sElement = pharmacy.getElementsByTagName('dutyTime8s')[0];
-				var lat2 = parseFloat(pharmacy.getElementsByTagName('wgs84Lat')[0].textContent);
-				var lng2 = parseFloat(pharmacy.getElementsByTagName('wgs84Lon')[0].textContent);
-               
+				
+				// var lat2 = parseFloat(pharmacy.getElementsByTagName('wgs84Lat')[0].textContent);
+				// var lng2 = parseFloat(pharmacy.getElementsByTagName('wgs84Lon')[0].textContent);
+				
+				// 약국 API의 좌표길이가 너무 길면 오류가 발생하여 처리한 부분
+				var latElement = pharmacy.getElementsByTagName('wgs84Lat')[0];
+				var latValue = latElement ? parseFloat(latElement.textContent) : 0;
+				var lat2 = latValue.toFixed(14);
+
+				var lngElement = pharmacy.getElementsByTagName('wgs84Lon')[0];
+				var lngValue = lngElement ? parseFloat(lngElement.textContent) : 0;
+				var lng2 = lngValue.toFixed(14);
+
+
 				// 널체크
 				var dutyAddr2 = dutyAddrElement ? dutyAddrElement.textContent : '';
 				var dutyName2 = dutyNameElement ? dutyNameElement.textContent : '';
@@ -122,6 +206,7 @@ function mapStart(s1, s2){ // --------------------------------------------------
 				var dutyTime6s2 = dutyTime6sElement ? dutyTime6sElement.textContent : '';
 				var dutyTime7s2 = dutyTime7sElement ? dutyTime7sElement.textContent : '';
 				var dutyTime8s2 = dutyTime8sElement ? dutyTime8sElement.textContent : '';
+				var distance = calculateDistance(geolat, geolon, lat2, lng2);
 				
 				// 추출된 요소 pharmacies 배열에 추가
 				pharmacies.push({
@@ -145,7 +230,8 @@ function mapStart(s1, s2){ // --------------------------------------------------
 					dutyTime7s: dutyTime7s2,
 					dutyTime8s: dutyTime8s2,
 					lat: lat2,
-					lng: lng2
+					lng: lng2,
+					distance: distance
 				});
 			}
 			
@@ -198,21 +284,39 @@ function mapStart(s1, s2){ // --------------------------------------------------
 				removable : infoRemoveable
 			});
 
-			// 마커에 마우스오버 이벤트 발생시 인포윈도우 생성
-			kakao.maps.event.addListener(pharmacyMarker, 'mouseover', function() {
+			// 마커에 마우스클릭 이벤트 발생시 인포윈도우 생성
+			kakao.maps.event.addListener(pharmacyMarker, 'click', function() {
 				infoWindow.open(map, pharmacyMarker);   
 			});
+			
+			/* // 마커에 마우스오버 이벤트 발생시 인포윈도우 생성
+			kakao.maps.event.addListener(pharmacyMarker, 'mouseover', function() {
+				infoWindow.open(map, pharmacyMarker);   
+			}); */
    
-			// 마커에 마우스아웃 이벤트 발생시 인포윈도우 제거
+			/* // 마커에 마우스아웃 이벤트 발생시 인포윈도우 제거
 			kakao.maps.event.addListener(pharmacyMarker, 'mouseout', function() {
 				infoWindow.close();
-			});
+			}); */
 			 
 			return pharmacyMarker;
 			});
 			
+			// 기존의 마커와 클러스터러를 전부 지웁니다
+			clusterer.clear();
 			// 마커와 마커클러스터러 생성
 			clusterer.addMarkers(markers);
+			
+			// 사이드바에 목록추가
+			pharmacies.forEach(function(pharmacy) {
+				  var listItem = document.createElement('li');
+				  listItem.innerHTML = '<hr />' +
+				  pharmacy.dutyName + '<br />' +
+				  pharmacy.dutyAddr + '<br />' +
+				  pharmacy.dutyTel + '<br />' +
+				  pharmacy.distance + 'm' + '<hr />';
+				  pharList.appendChild(listItem);
+			});
 		}
 	};
 	xhr.send('');
@@ -254,7 +358,7 @@ function handleSelectChange() {
 // 확대수준이 변경되거나 지도가 이동했을때 타일 이미지 로드가 모두 완료되면 발생함.
 kakao.maps.event.addListener(map, 'tilesloaded', function() {
 	searchAddrFromCoords(map.getCenter(), displayCenterInfo);
-	clusterer.clear(); // 기존의 마커와 클러스터러를 전부 지웁니다
+	//clusterer.clear(); // 기존의 마커와 클러스터러를 전부 지웁니다
 });
 
 function searchAddrFromCoords(coords, callback) {
@@ -284,35 +388,7 @@ var zoomControl = new kakao.maps.ZoomControl();
 
 // 지도의 우측에 확대 축소 컨트롤을 추가한다
 map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-
-<!-- Geolocation API -->        
-var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
-
-	// GeoLocation(GPS를 받아 내 위치를 표시하는 기능)
-	// 크롬에선 HTTPS환경에서만 작동함
-	if (navigator.geolocation) {
-  
-	// GeoLocation을 이용해서 접속 위치를 얻어옵니다
-	navigator.geolocation.getCurrentPosition(function(position) {
-		geolat = position.coords.latitude, // 위도
-		geolon = position.coords.longitude; // 경도
-      
-		var locPosition = new kakao.maps.LatLng(geolat, geolon), // 마커가 표시될 위치를 Geolocation으로 얻어온 좌표로 생성합니다
-		message = '<div style="padding:5px;">현재 위치입니다</div>'; // 인포윈도우에 표시될 내용입니다
-      
-		// 마커와 인포윈도우를 표시합니다
-		displayMarker(locPosition, message);
-          
-	});
-  
-} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
-    
-	var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),    
-	message = 'geolocation을 사용할수 없습니다'
-        
-	displayMarker(locPosition, message);
-}
-
+//지오자리
 // 지도에 마커와 인포윈도우를 표시하는 함수입니다
 function displayMarker(locPosition, message) {
 
@@ -408,15 +484,82 @@ $('document').ready(function() {
 		}
 	});
 });
+
+// 사이드바 부분
+var toggleMenu = document.getElementById('toggle-menu');
+var sidebar = document.querySelector('.sidebar');
+var menuButton = document.querySelector('.menu-button');
+
+toggleMenu.addEventListener('change', function() {
+	if (toggleMenu.checked) {
+		sidebar.classList.add('open');
+		menuButton.style.transform = 'translateX(500px)';
+  	} else {
+    	sidebar.classList.remove('open');
+    	menuButton.style.transform = 'translateX(0)';
+  	}
+});
 </script>
 
 <style>
 .gps-icon{
  	position:absolute;
- 	top:22%;
- 	right:0.65%;
+ 	top: 22%;
+ 	right: 0.65%;
  	z-index:1;
 }
+
+#toggle-menu { 
+    display: none;
+}
+/*  */
+.container {
+	display: flex;
+}
+
+.sidebar {
+	width: 500px;
+  	background-color: #fff;
+  	transition: transform 0.5s ease;
+  	transform: translateX(-500px);
+  	position: fixed;
+  	top: 8px;
+  	z-index:1;
+  	overflow-y: auto;
+  	max-height: 85vh;
+}
+
+.sidebar ul {
+	list-style: none;
+}
+
+.sidebar.open {
+  	transform: translateX(0);
+}
+
+.content {
+	flex: 1;
+  	padding: 20px;
+}
+
+.menu-button {
+	cursor: pointer;
+	position: absolute;
+	top:43vh;
+  	z-index: 2;
+  	border-color: #fff;
+  	background-color: #fff;
+  	cursor: pointer;
+  	width: 23px;
+  	height: 50px;
+  	border-radius: 0px 3px 3px 0px;
+  	display: flex;
+  	justify-content: center;
+  	align-items: center;
+  	padding-right: 4px;
+  	transition: transform 0.5s ease;
+}
+
 </style>
 
-<button onclick="panTo()" draggable="false" title="내위치" type="button" class="gps-icon" style="background-color:#ffffff; cursor: pointer; width: 32px; height: 32px; user-select: none; -webkit-user-drag: none; border-top: none; border-right: none; border-bottom: 1px solid rgb(226, 226, 226); border-left: none; border-image: initial; border-radius: 3px 3px 3px 3px;"><i class="fa-solid fa-location-crosshairs" style="color: #444444;"></i></button>
+<button onclick="panTo()" draggable="false" title="내위치" type="button" class="gps-icon" style="background-color:#fff; cursor: pointer; width: 32px; height: 32px; user-select: none; -webkit-user-drag: none; border-top: none; border-right: none; border-bottom: 1px solid rgb(226, 226, 226); border-left: none; border-image: initial; border-radius: 3px 3px 3px 3px;"><i class="fa-solid fa-location-crosshairs" style="color: #444444;"></i></button>

@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <meta charset="UTF-8">
+
 <title>약국API(자바, 단순출력)</title>
 <table>
 	<tr><td>rNum = ${rNumValues}</tr>
