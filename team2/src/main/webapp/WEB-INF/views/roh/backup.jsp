@@ -4,10 +4,8 @@
 
 <!-- 카카오맵API와 서비스, 클러스터기능 라이브러리 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f4352b5c75fa4dee61f430ab3f1ff6f4&libraries=services,clusterer"></script>
-
 <!-- Jquery -->
 <script src="//code.jquery.com/jquery-3.7.0.min.js"></script>
-
 <!-- 폰트어썸 아이콘 -->
 <script src="https://kit.fontawesome.com/f507061817.js" crossorigin="anonymous"></script>
 
@@ -25,28 +23,21 @@
 	    	</ul>
 	  	</aside>
 	</div>
-
-<p>지도가 다시 로딩되면 지도 정보가 표출됩니다</p>
-<p id="result"></p>
-<p id="centerAddr"></p>
-
+	
 <select name="sido" id="sido"></select>
 <select name="gugun" id="gugun"></select>
 
-<script>
-// 변수선언
-var a1 = null;
-var a2 = null;
-var markers;
-var sidoSelect = document.getElementById('sido');
-var gugunSelect = document.getElementById('gugun');
-var pharmacies;
-var pharList = document.getElementById('pharmacies-list');
-var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
+<!-- 중심좌표 테스트용 -->
+<!-- <p id="result"></p> -->
+<!-- <p id="centerAddr"></p> -->
 
+<script>
 <!-- Geolocation API -->        
 //GeoLocation(GPS를 받아 내 위치를 표시하는 기능)
 //크롬에선 HTTPS환경에서만 작동함
+
+var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
+
 if (navigator.geolocation) {
 
 	// GeoLocation을 이용해서 접속 위치를 얻어옵니다
@@ -136,12 +127,15 @@ function mapStart(s1, s2){ // --------------------------------------------------
 	queryParams += '&' + encodeURIComponent('QN') + '=' + encodeURIComponent('');
 	queryParams += '&' + encodeURIComponent('ORD') + '=' + encodeURIComponent('NAME');
 	queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1');
-	queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('100');
+	queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('300');
 	xhr.open('GET', url + queryParams);
 	
-	console.log(url+queryParams);
+	// 요청정보 확인용
+	//console.log(url+queryParams);
 	
-	pharmacies = []; // 약국 위치정보를 담기위한 배열
+	var pharmacies = []; // 약국 위치정보를 담기위한 배열
+	
+	var pharList = document.getElementById('pharmacies-list');
 	pharList.innerHTML = '';
 	
 	xhr.onreadystatechange = function () {
@@ -173,9 +167,6 @@ function mapStart(s1, s2){ // --------------------------------------------------
 				var dutyTime7sElement = pharmacy.getElementsByTagName('dutyTime7s')[0];
 				var dutyTime8sElement = pharmacy.getElementsByTagName('dutyTime8s')[0];
 				
-				// var lat2 = parseFloat(pharmacy.getElementsByTagName('wgs84Lat')[0].textContent);
-				// var lng2 = parseFloat(pharmacy.getElementsByTagName('wgs84Lon')[0].textContent);
-				
 				// 약국 API의 좌표길이가 너무 길면 오류가 발생하여 처리한 부분
 				var latElement = pharmacy.getElementsByTagName('wgs84Lat')[0];
 				var latValue = latElement ? parseFloat(latElement.textContent) : 0;
@@ -184,7 +175,6 @@ function mapStart(s1, s2){ // --------------------------------------------------
 				var lngElement = pharmacy.getElementsByTagName('wgs84Lon')[0];
 				var lngValue = lngElement ? parseFloat(lngElement.textContent) : 0;
 				var lng2 = lngValue.toFixed(14);
-
 
 				// 널체크
 				var dutyAddr2 = dutyAddrElement ? dutyAddrElement.textContent : '';
@@ -237,7 +227,7 @@ function mapStart(s1, s2){ // --------------------------------------------------
 			
 			// 카카오맵 API 마커와 클러스터 생성 부분
 			// 반복문으로 pharmacies의 위치정보를 이용해 마커객체 생성
-			markers = pharmacies.map(function(pharmacy) {
+			var markers = pharmacies.map(function(pharmacy) {
 			var pharmacyMarker = new kakao.maps.Marker({
 				position: new kakao.maps.LatLng(pharmacy.lat, pharmacy.lng)
 			});
@@ -250,6 +240,7 @@ function mapStart(s1, s2){ // --------------------------------------------------
 				'<font size=2>대표전화 : ' + pharmacy.dutyTel + '</font><br />' +
 				'<font size=2>주소 : ' + pharmacy.dutyAddr + '</font><br />' +
 				'<hr />';
+				
 			if (pharmacy.dutyTime1s !== '') {
 				infoContent += '<font size=2>월요일 ' + pharmacy.dutyTime1s + ' ~ ' + pharmacy.dutyTime1c + '</font><br />';
 			}
@@ -304,25 +295,33 @@ function mapStart(s1, s2){ // --------------------------------------------------
 			
 			// 기존의 마커와 클러스터러를 전부 지웁니다
 			clusterer.clear();
+			
 			// 마커와 마커클러스터러 생성
 			clusterer.addMarkers(markers);
 			
+			// 약국 정보배열을 거리순으로 정렬
+			pharmacies.sort((a, b) => a.distance - b.distance);
+			
 			// 사이드바에 목록추가
 			pharmacies.forEach(function(pharmacy) {
-				  var listItem = document.createElement('li');
-				  listItem.innerHTML = '<hr />' +
-				  pharmacy.dutyName + '<br />' +
-				  pharmacy.dutyAddr + '<br />' +
-				  pharmacy.dutyTel + '<br />' +
-				  pharmacy.distance + 'm' + '<hr />';
-				  pharList.appendChild(listItem);
+				var listItem = document.createElement('li');
+					listItem.innerHTML = '<hr />' +
+					pharmacy.dutyName + '<br />' +
+					pharmacy.dutyAddr + '<br />' +
+					pharmacy.dutyTel + '<br />' +
+					pharmacy.distance + 'm' + '<hr />';
+					pharList.appendChild(listItem);
 			});
 		}
 	};
 	xhr.send('');
 } // mapStart(); ------------------------------------------------------------------------------------------------------------------------------------------
+var a1 = null, a2 = null;
 
 mapStart(a1, a2);
+
+var sidoSelect = document.getElementById('sido');
+var gugunSelect = document.getElementById('gugun');
 
 // select문 sido와, gugun이 선택되어 변화될때 해당하는 지역으로 이동하는 기능
 sidoSelect.addEventListener('change', handleSelectChange);
@@ -366,14 +365,16 @@ function searchAddrFromCoords(coords, callback) {
 	geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
 }
 
-// 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+// 지도 중심좌표에 대한 주소정보를 표출하는 메서드
 function displayCenterInfo(result, status) {
 	if (status === kakao.maps.services.Status.OK) {
-		var infoDiv = document.getElementById('centerAddr');
+		// 테스트용
+		// var infoDiv = document.getElementById('centerAddr');
         for(var i = 0; i < result.length; i++) {
             // 행정동의 region_type 값은 'H' 이므로
             if (result[i].region_type === 'H') {
-               infoDiv.innerHTML = result[i].address_name;
+               // 테스트용
+               // infoDiv.innerHTML = result[i].address_name;
                 a1 = result[i].address_name.split(" ")[0];
                 a2 = result[i].address_name.split(" ")[1];     
                 mapStart(a1, a2);
