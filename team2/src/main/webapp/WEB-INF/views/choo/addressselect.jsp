@@ -201,68 +201,55 @@ function panTo() {
 }
 </script>
 
-
-
-<hr>
-<hr>
+<br>
+<br>
 
 <form method = "post" name="hosselect" action="/hos/choo/hosapiresult">
-	<table width="600" height="400" border="1" cellspacing="0" cellpadding="0" align="center">
-		<tr width="400" colspan="3">
-			<td width="300" height="150" align="center">시/도</td>
-			<td width="100"><input type="text" size="50" maxlength="50" name="Q0"></td>
-		</tr>
-		<tr width="400" colspan="3">
-			<td width="300" height="150" align="center">시/군/구</td>
-			<td width="100"><input type="text" size="50" maxlength="50" name="Q1"></td>
-		</tr>
-		<tr width="400" colspan="3">
-			<td width="300" height="100" align="center">진료과선택</td>
-			<td width="100"><input type="text" size="50" maxlength="50" name="QD" id="QDInput"></td>
-			<td width="100">
-			<select name="selectOption" id="selectOption" onchange="assignValue()">
-				<option value="">진료과선택</option>
-				<option value="D001">내 과</option>
-				<option value="D002">소아과</option>
-				<option value="D003">신경과</option>
-				<option value="D004">정신건강의학과</option>
-				<option value="D005">피부과</option>
-				<option value="D006">외 과</option>
-				<option value="D007">흉부외과</option>
-				<option value="D008">정형외과</option>
-				<option value="D009">신경외과</option>
-				<option value="D010">성형외과</option>
-				<option value="D011">산부인과</option>
-				<option value="D012">안 과</option>
-				<option value="D013">이비인후과</option>
-				<option value="D014">비뇨기과</option>
-				<option value="D016">재활의학과</option>
-				<option value="D017">마취통증의학과</option>
-				<option value="D018">영상의학과</option>
-				<option value="D019">치료방사선과</option>
-				<option value="D020">임상병리과</option>
-				<option value="D021">해부병리과</option>
-				<option value="D022">가정의학과</option>
-				<option value="D023">핵의학과</option>
-				<option value="D024">응급의학과</option>
-				<option value="D026">치 과</option>
-				<option value="D034">구강악안면외과</option>
-			</select>
-			</td>
-		</tr>
-	<tr>
-		<td width="100" height="50" colspan="3" align="center"><input type="submit" value="검색"></td></tr>	
-	</table>
-	<script>
-			//위에 select의 option값을 선택했을 때 QD에 자동으로 들어가게 하는 곳
-			function assignValue(){
-				var selectElement = document.getElementById("selectOption");
-				var selectedValue = selectElement.value;
-				document.getElementById("QDInput").value = selectedValue;
-			}
-	</script>
+	<label for="selectOption"></label>
+	<select name="selectOption" id="selectOption" onchange="assignValue()">
+		<option value="">진료과선택</option>
+		<option value="D001">내 과</option>
+		<option value="D002">소아과</option>
+		<option value="D003">신경과</option>
+		<option value="D004">정신건강의학과</option>
+		<option value="D005">피부과</option>
+		<option value="D006">외 과</option>
+		<option value="D007">흉부외과</option>
+		<option value="D008">정형외과</option>
+		<option value="D009">신경외과</option>
+		<option value="D010">성형외과</option>
+		<option value="D011">산부인과</option>
+		<option value="D012">안 과</option>
+		<option value="D013">이비인후과</option>
+		<option value="D014">비뇨기과</option>
+		<option value="D016">재활의학과</option>
+		<option value="D017">마취통증의학과</option>
+		<option value="D018">영상의학과</option>
+		<option value="D019">치료방사선과</option>
+		<option value="D020">임상병리과</option>
+		<option value="D021">해부병리과</option>
+		<option value="D022">가정의학과</option>
+		<option value="D023">핵의학과</option>
+		<option value="D024">응급의학과</option>
+		<option value="D026">치 과</option>
+		<option value="D034">구강악안면외과</option>
+	</select>
 	
+	<input type="hidden" id="Q0" name="Q0" value="">
+	<input type="hidden" id="Q1" name="Q1" value="">
+	<input type="hidden" id="selectedjinryo" name="QD" value="">
+			
+	<input type="submit" value="검 색">
 </form>
+	
+<script>
+	//위에 select의 option값을 선택했을 때 QD에 자동으로 들어가게 하는 곳
+	function assignValue(){
+	var selectElement = document.getElementById("selectOption");
+	var selectedValue = selectElement.value;
+	document.getElementById("selectedjinryo").value = selectedValue;
+}
+</script>
 
 <button onclick="panTo()">내 위치로 이동</button>
 

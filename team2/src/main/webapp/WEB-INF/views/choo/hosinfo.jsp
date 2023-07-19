@@ -4,6 +4,8 @@
 <head>
     <meta charset="utf-8">
     <title>병원이름으로 검색한 페이지</title>
+    
+    <script src="https://kit.fontawesome.com/c99caed150.js" crossorigin="anonymous"></script>
 </head>
 
 
@@ -29,14 +31,20 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
     };
 
 // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-var map = new kakao.maps.Map(mapContainer, mapOption); 
-		
-		//마커가 표시될 위치입니다 
-		var markerPosition  = new kakao.maps.LatLng(${dto.wgs84Lat},${dto.wgs84Lon});
+var map = new kakao.maps.Map(mapContainer, mapOption);
+
+		var imageSrc = '/hos/resources/img/hosmark.jpg', // 마커이미지의 주소입니다    
+			imageSize = new kakao.maps.Size(29, 34), // 마커이미지의 크기입니다
+			imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+  
+		//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+		var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+			markerPosition = new kakao.maps.LatLng(${dto.wgs84Lat},${dto.wgs84Lon}); // 마커가 표시될 위치입니다
 		
 		// 마커를 생성합니다
 		var marker = new kakao.maps.Marker({
-		    position: markerPosition
+		    position: markerPosition,
+		    image: markerImage
 		});
 		
 		// 마커가 지도 위에 표시되도록 설정합니다

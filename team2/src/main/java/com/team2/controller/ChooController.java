@@ -69,7 +69,7 @@ public class ChooController {
 		return "/choo/addressselect";
 	}
 	
-	@RequestMapping("hosapiresult")			//시도군을 입력받아서 api를 이용해서 검색하는 곳
+	@RequestMapping("hosapiresult")			//시도군과 진료과를 입력받아서 api를 이용해서 검색하는 곳
 	public String hosapiresult(Model model, String Q0, String Q1, String QD) throws Exception{
 		try {
 			List<String> hpid = api1.hpidlist(Q0,Q1,QD);	 //첫번쪠 api를 써서 기관id를 가져오는 곳
@@ -93,14 +93,20 @@ public class ChooController {
 	}
 	
 	@RequestMapping("GPSresult")			//GPS기준으로 주변 병원 검색결과 보는 페이지
-	public String GPSresult(Model model, double WGS84_LAT, double WGS84_LON, String QD) {
+	public String GPSresult(Model model, double WGS84_LAT, double WGS84_LON, String QD, String Q0, String Q1) {
 		try {
 			List<String> hosname = api3.GPSselect(WGS84_LAT, WGS84_LON);
-			List<String> hpid2 = api1.hosselect(hosname, QD);
-		
-			//for(int a = 0; a < hpid2.size(); a++) {		//값이 넘어오고 있는지 확인
-				//System.out.println(hpid2.get(a));
-			//}
+			List<String> hpid2 = api1.hosselect(hosname, QD, Q0, Q1);
+			
+			//System.out.println(WGS84_LAT);
+			//System.out.println(WGS84_LON);
+			//System.out.println(Q0);
+			//System.out.println(Q1);
+			System.out.println(QD);
+			
+			for(int a = 0; a < hpid2.size(); a++) {		//값이 넘어오고 있는지 확인
+				System.out.println(hpid2.get(a));
+			}
 			
 		if(hpid2.size() != 0) {
 			List<ChooDTO> hosresult2 = api2.hosselect(hpid2);
