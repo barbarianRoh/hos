@@ -234,7 +234,7 @@ function mapStart(s1, s2){ // --------------------------------------------------
 			
 			// 인포윈도우 내용
 			// 컨텐츠 안에 공백이 들어있으면 해당 한 줄을 안보여주도록 처리함
-			var infoContent = '<div style="padding:10px;">' +
+			var clickWindowContent = '<div style="padding:10px;">' +
 				'<center>'+ pharmacy.dutyName + '</center>' +
 				'<hr />' +
 				'<font size=2>대표전화 : ' + pharmacy.dutyTel + '</font><br />' +
@@ -242,42 +242,42 @@ function mapStart(s1, s2){ // --------------------------------------------------
 				'<hr />';
 				
 			if (pharmacy.dutyTime1s !== '') {
-				infoContent += '<font size=2>월요일 ' + pharmacy.dutyTime1s + ' ~ ' + pharmacy.dutyTime1c + '</font><br />';
+				clickWindowContent += '<font size=2>월요일 ' + pharmacy.dutyTime1s + ' ~ ' + pharmacy.dutyTime1c + '</font><br />';
 			}
  			if (pharmacy.dutyTime2s !== '') {
-    			infoContent += '<font size=2>화요일 ' + pharmacy.dutyTime2s + ' ~ ' + pharmacy.dutyTime2c + '</font><br />';
+ 				clickWindowContent += '<font size=2>화요일 ' + pharmacy.dutyTime2s + ' ~ ' + pharmacy.dutyTime2c + '</font><br />';
 			}
  			if (pharmacy.dutyTime3s !== '') {
-    			infoContent += '<font size=2>수요일 ' + pharmacy.dutyTime3s + ' ~ ' + pharmacy.dutyTime3c + '</font><br />';
+ 				clickWindowContent += '<font size=2>수요일 ' + pharmacy.dutyTime3s + ' ~ ' + pharmacy.dutyTime3c + '</font><br />';
 			}
  			if (pharmacy.dutyTime4s !== '') {
-    			infoContent += '<font size=2>목요일 ' + pharmacy.dutyTime4s + ' ~ ' + pharmacy.dutyTime4c + '</font><br />';
+ 				clickWindowContent += '<font size=2>목요일 ' + pharmacy.dutyTime4s + ' ~ ' + pharmacy.dutyTime4c + '</font><br />';
 			}
 			if (pharmacy.dutyTime5s !== '') {
-			    infoContent += '<font size=2>금요일 ' + pharmacy.dutyTime5s + ' ~ ' + pharmacy.dutyTime5c + '</font><br />';
+				clickWindowContent += '<font size=2>금요일 ' + pharmacy.dutyTime5s + ' ~ ' + pharmacy.dutyTime5c + '</font><br />';
 			}
 			if (pharmacy.dutyTime6s !== '') {
-			    infoContent += '<font size=2>토요일 ' + pharmacy.dutyTime6s + ' ~ ' + pharmacy.dutyTime6c + '</font><br />';
+				clickWindowContent += '<font size=2>토요일 ' + pharmacy.dutyTime6s + ' ~ ' + pharmacy.dutyTime6c + '</font><br />';
 			}
 			if (pharmacy.dutyTime7s !== '') {
-			    infoContent += '<font size=2>일요일 ' + pharmacy.dutyTime7s + ' ~ ' + pharmacy.dutyTime7c + '</font><br />';
+				clickWindowContent += '<font size=2>일요일 ' + pharmacy.dutyTime7s + ' ~ ' + pharmacy.dutyTime7c + '</font><br />';
 			}
 			if (pharmacy.dutyTime8s !== '') {
-			    infoContent += '<font size=2>공휴일 ' + pharmacy.dutyTime8s + ' ~ ' + pharmacy.dutyTime8c + '</font><br />';
+				clickWindowContent += '<font size=2>공휴일 ' + pharmacy.dutyTime8s + ' ~ ' + pharmacy.dutyTime8c + '</font><br />';
 			}
-			infoContent += '<hr /><br />' + 
+			clickWindowContent += '<hr /><br />' + 
 			'</div>',
-			infoRemoveable = true;
+			removeable = true;
                
-			// 인포윈도우 생성
-			var infoWindow = new kakao.maps.InfoWindow({
-				content: infoContent,
-				removable : infoRemoveable
+			// 인포윈도우 객체 생성
+			var clickWindow = new kakao.maps.InfoWindow({
+				content: clickWindowContent,
+				removable : removeable
 			});
 
 			// 마커에 마우스클릭 이벤트 발생시 인포윈도우 생성
 			kakao.maps.event.addListener(pharmacyMarker, 'click', function() {
-				infoWindow.open(map, pharmacyMarker);   
+				clickWindow.open(map, pharmacyMarker);   
 			});
 			
 			/* // 마커에 마우스오버 이벤트 발생시 인포윈도우 생성
@@ -389,7 +389,7 @@ var zoomControl = new kakao.maps.ZoomControl();
 
 // 지도의 우측에 확대 축소 컨트롤을 추가한다
 map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
-//지오자리
+
 // 지도에 마커와 인포윈도우를 표시하는 함수입니다
 function displayMarker(locPosition, message) {
 
@@ -403,13 +403,13 @@ function displayMarker(locPosition, message) {
         iwRemoveable = true;
 
     // 인포윈도우를 생성합니다
-    var infowindow = new kakao.maps.InfoWindow({
+    var clickwindow = new kakao.maps.InfoWindow({
         content : iwContent,
         removable : iwRemoveable
     });
     
     // 인포윈도우를 마커위에 표시합니다 
-    infowindow.open(map, marker);
+    clickwindow.open(map, marker);
     
     // 지도 중심좌표를 접속위치로 변경합니다
     map.setCenter(locPosition);
