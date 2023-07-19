@@ -15,17 +15,12 @@ public class KimRestController {
 	@Autowired
 	private KimServiceImpl chatbotService;
 	
-	@RequestMapping("/kim/chatbotSend")
+	@RequestMapping("/kim/chatbotArtineer")
     public String chatbotSend(@RequestParam("inputText") String inputText,Model model) {
         
-        model.addAttribute("message",chatbotService.main(inputText));
+        model.addAttribute("message",chatbotService.chatbotArtineer(inputText));
         return "kim/message"; 
     }
 	
-	@RequestMapping("/kim/chatbotArtineer")
-    public String chatbotArtineer(@RequestParam("inputText") String inputText,Model model) {
-        
-        model.addAttribute("message",chatbotService.main(inputText));
-        return "kim/message"; 
-    }
+
 } 
