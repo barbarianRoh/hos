@@ -22,7 +22,8 @@ import java.io.StringReader;
 @Service
 public class Choohosapi {
 	// UZHnvSBw7ESYEUBtz%2BH9YHocdwfx3wFhm54v1fiXwk9pj4Wv3pY5%2F4uhCj9YTxYd1gtqHkhlP9vC9tMQh6CulA%3D%3D : 서비스키
-	//시/도/군/진료과 검색값을 받아서 해당 병원의 기관ID를 검색하는 메소드
+	
+	 //시/도/군/진료과 검색값을 받아서 해당 병원의 기관ID를 검색하는 메소드
 	 public List<String> hpidlist(String Q0, String Q1, String QD) throws Exception {
 		 	List<String> idlist = new ArrayList<>();
 		 	
@@ -67,8 +68,6 @@ public class Choohosapi {
 	        conn.disconnect();
 	        // System.out.println(sb.toString());
 	        
-	        // ���⼭���� �߰��� �κ�
-	        ChooDTO dto = new ChooDTO();
 	        String tag = sb.toString();
 			
 			DocumentBuilderFactory factory  =  DocumentBuilderFactory.newInstance();
@@ -84,14 +83,7 @@ public class Choohosapi {
 			
 				   String value = idforhos.getNodeValue();				//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
 				   String stringValue = value != null ? value : "";		//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
-				   idlist.add(stringValue);								//값을 for문을 사용해서 dto에 저장을 해야하기에 사용
-			
-			  //값이 제대로 들어오고 있는지 확인하는 곳	   
-			  //for(int a = 0 ; a < idlist.size() ; a++) {
-				   //dto.setHpid(idlist.get(i));
-			  //}
-			  //System.out.println(idforhos.getNodeName()+"==="+idforhos.getNodeValue());
-			  //System.out.println(dto.getHpid());
+				   idlist.add(stringValue);								//값을 리스트에 저장
 		}
 			return idlist;
 	}
@@ -136,8 +128,6 @@ public class Choohosapi {
 	        conn.disconnect();
 	        // System.out.println(sb.toString());
 	        
-	        
-	        ChooDTO dto = new ChooDTO();
 	        String tag = sb.toString();
 			
 			DocumentBuilderFactory factory  =  DocumentBuilderFactory.newInstance();
@@ -153,14 +143,7 @@ public class Choohosapi {
 			
 				   String value = idforhos.getNodeValue();				//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
 				   String stringValue = value != null ? value : "";		//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
-				   idlist.add(stringValue);								//값을 for문을 사용해서 dto에 저장을 해야하기에 사용
-			
-			  //값이 제대로 들어오고 있는지 확인하는 곳	   
-			  //for(int a = 0 ; a < idlist.size() ; a++) {
-				   //dto.setHpid(idlist.get(i));
-			  //}
-			  //System.out.println(idforhos.getNodeName()+"==="+idforhos.getNodeValue());
-			  //System.out.println(dto.getHpid());
+				   idlist.add(stringValue);								//값을 리스트에 저장
 		}
 			return idlist;
 	}
@@ -214,20 +197,14 @@ public class Choohosapi {
 			
 				   String value = idforhos.getNodeValue();				//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
 				   String stringValue = value != null ? value : "";		//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
-				   dto.setHpid(stringValue);								//값을 for문을 사용해서 dto에 저장을 해야하기에 사용
-			
-			  //값이 제대로 들어오고 있는지 확인하는 곳	   
-			  //for(int a = 0 ; a < idlist.size() ; a++) {
-				   //dto.setHpid(idlist.get(i));
-			  //}
-			  //System.out.println(idforhos.getNodeName()+"==="+idforhos.getNodeValue());
-			  //System.out.println(dto.getHpid());
+				   dto.setHpid(stringValue);							//값을 for문을 사용해서 dto에 저장을 해야하기에 사용
+
 			return dto;
 	}
 	 
 	 //UZHnvSBw7ESYEUBtz%2BH9YHocdwfx3wFhm54v1fiXwk9pj4Wv3pY5%2F4uhCj9YTxYd1gtqHkhlP9vC9tMQh6CulA%3D%3D
-	 //GPS 기반 좌표로 검색한 병원 이름과 입력받은 진료과를 넣고 해당 과에 해당하는 병원 검색
-	 public List<String> hosselect(List<String> hosname, String QD) throws Exception {
+	 //GPS 기반 좌표로 검색한 병원 이름과 입력받은 진료과를 넣고 해당 과에 해당하는 병원 분류
+	 public List<String> hosselect(List<String> hosname, String QD, String Q0, String Q1) throws Exception {
 		 	List<String> idlist = new ArrayList<>();
 		 	
 		 	for(int i = 0; i < hosname.size(); i++) {
@@ -239,11 +216,31 @@ public class Choohosapi {
 	        	urlBuilder.append("&" + URLEncoder.encode("QN","UTF-8") + "=" + URLEncoder.encode(hosname.get(i), "UTF-8")); /*기관명*/
 	        }
 	        
+	        //System.out.println(hosname.get(i));
+	        
+	        if(Q0 == null) {
+	        	urlBuilder.append("&" + URLEncoder.encode("Q0","UTF-8") + "=" + URLEncoder.encode("","UTF-8"));		//시도
+	        }else {
+	        	urlBuilder.append("&" + URLEncoder.encode("Q0","UTF-8") + "=" + URLEncoder.encode(Q0,"UTF-8"));
+	        }
+	        
+	        //System.out.println(Q0);
+	        
+	        if(Q1 == null) {
+	        	urlBuilder.append("&" + URLEncoder.encode("Q1","UTF-8") + "=" + URLEncoder.encode("","UTF-8"));		//구
+	        }else {
+	        	urlBuilder.append("&" + URLEncoder.encode("Q1","UTF-8") + "=" + URLEncoder.encode(Q1,"UTF-8"));
+	        }
+	        
+	        //System.out.println(Q1);
+	        
 	        if(QD == null) {
 	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*진료과*/
 	        }else {
 	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode(QD, "UTF-8")); /*진료과*/
 	        }
+	        
+	        //System.out.println(QD);
 	        
 	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("20", "UTF-8")); /*결과로 가져올 갯수*/
 	        
@@ -283,9 +280,20 @@ public class Choohosapi {
 					   Node idforhos =  idforhoslist.item(0).getChildNodes().item(0);
 					   String value = idforhos.getNodeValue();				//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
 					   String stringValue = value != null ? value : "";		//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
-					   //System.out.println(stringValue);
+					   System.out.println(stringValue);
 					   idlist.add(stringValue);								//값을 for문을 사용해서 dto에 저장을 해야하기에 사용
 				   }
+				   
+			NodeList hosaddr = document.getElementsByTagName("dutyAddr");
+			
+				if(hosaddr.getLength() == 0) {
+					
+				}else if(hosaddr.getLength() == 1) {
+					Node hosaddress = hosaddr.item(0).getChildNodes().item(0);
+					String value = hosaddress.getNodeValue();
+					String stringValue = value != null ? value : "";
+					System.out.println(stringValue);
+				}
 		 	}
 	  return idlist;
 	}

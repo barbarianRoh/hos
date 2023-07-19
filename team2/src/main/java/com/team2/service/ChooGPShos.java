@@ -25,7 +25,7 @@ import java.io.IOException;
 @Service
 public class ChooGPShos {
 	
-	//GPS좌표를 받아서 검색해서 주변 병원 검색
+	//GPS좌표를 받아서 검색해서 주변 병원 검색해서 병원 이름만 리스트에 넣음
 	public List GPSselect(double WGS84_LAT, double WGS84_LON) throws Exception{
 		List<String> hpidselect = new ArrayList<String>();
 		

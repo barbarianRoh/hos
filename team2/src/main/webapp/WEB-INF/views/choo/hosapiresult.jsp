@@ -9,7 +9,7 @@
 
 <!-- 지도를 표시할 div 입니다 -->
 <div id="map" style="width:1200px;height:650px;"></div>
-
+	
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449"></script>
 <script>
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -19,7 +19,14 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
     };
 
 // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-var map = new kakao.maps.Map(mapContainer, mapOption); 
+var map = new kakao.maps.Map(mapContainer, mapOption);
+
+var imageSrc = '/hos/resources/img/hosmark.jpg',		//마커이미지 주소
+	imageSize = new kakao.maps.Size(29, 34),												//마커이미지 크기
+	imageOption = {offset: new kakao.maps.Point(27,69)};								//마커이미지 옵션
+
+//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다.
+var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
 //마커를 표시할 위치와 내용을 가지고 있는 객체 배열입니다 
 var positions=[
@@ -42,6 +49,7 @@ for (var i = 0; i < positions.length; i ++) {
         map: map, // 마커를 표시할 지도
         position: positions[i].latlng, 	// 마커를 표시할 위치
         title : positions[i].title, 	// 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+        image: markerImage				//마커이미지 설정
     });
     
     var infowindow = new kakao.maps.InfoWindow({

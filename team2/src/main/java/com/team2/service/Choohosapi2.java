@@ -24,6 +24,8 @@ import java.io.StringReader;
 @Service
 public class Choohosapi2 {
 // UZHnvSBw7ESYEUBtz%2BH9YHocdwfx3wFhm54v1fiXwk9pj4Wv3pY5%2F4uhCj9YTxYd1gtqHkhlP9vC9tMQh6CulA%3D%3D : 서비스키
+	
+	//시/도/구와 진료과를 입력받아서 해당 병원의 기관ID가지고 해당 병원의 정보를 검색
 	public List hpidselect(List<String> hpid) throws Exception {
 		List<ChooDTO> resultlist = new ArrayList<ChooDTO>();
 		
@@ -39,16 +41,19 @@ public class Choohosapi2 {
 	        conn.setRequestProperty("Content-type", "application/json");
 	        // System.out.println("Response code: " + conn.getResponseCode());
 	        BufferedReader rd;
-	        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-	            rd = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
-	        } else {
-	            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream(),"UTF-8"));
-	        }
+	    
+	    if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+	        rd = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
+	    }else{
+	        rd = new BufferedReader(new InputStreamReader(conn.getErrorStream(),"UTF-8"));
+	    }
+	        
 	        StringBuilder sb = new StringBuilder();
 	        String line;
-	        while ((line = rd.readLine()) != null) {
-	            sb.append(line);
-	        }
+	    
+	    while ((line = rd.readLine()) != null) {
+	        sb.append(line);
+	    }
 	        rd.close();
 	        conn.disconnect();
         
@@ -62,58 +67,56 @@ public class Choohosapi2 {
 			NodeList namelist = document.getElementsByTagName("dutyName"); // dutyName 병원이름
 			Node hosname =  namelist.item(0).getChildNodes().item(0);
 		  
-			if(hosname != null) {
-				String value = hosname.getNodeValue();			//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
-				   String name = value != null ? value : "";	//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
-				   //resultlist.add(name);
-				   dto.setDutyName(name);
-			}
+		if(hosname != null) {
+			String value = hosname.getNodeValue();			//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
+			String name = value != null ? value : "";	//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
+			dto.setDutyName(name);
+		}
 			NodeList addresslist = document.getElementsByTagName("dutyAddr"); // dutyAddr 주소
 			Node hosaddr =  addresslist.item(0).getChildNodes().item(0);
 		  
-			if(hosaddr != null) {
-				String value = hosaddr.getNodeValue();		//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
-				String addr = value != null ? value : "";	//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
-				dto.setDutyAddr(addr);
-		   }
-		  
-		  //List<String> tel = new ArrayList<String>();
+		if(hosaddr != null) {
+			String value = hosaddr.getNodeValue();		//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
+			String addr = value != null ? value : "";	//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
+			dto.setDutyAddr(addr);
+		}
+		 
 		  
 		  NodeList tellist = document.getElementsByTagName("dutyTel1"); // dutyTel1 전화번호
 		  Node hostel =  tellist.item(0).getChildNodes().item(0);
 		  
-		  if(hostel != null) {
-			  String value = hostel.getNodeValue();				//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
-			  String tel = value != null ? value : "";			//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
-			  dto.setDutyTel1(tel);
-		   }
+		if(hostel != null) {
+			String value = hostel.getNodeValue();				//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
+			String tel = value != null ? value : "";			//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
+			dto.setDutyTel1(tel);
+		}
 
 		  NodeList classlist = document.getElementsByTagName("dgidIdName"); // dgidIdName 진료과
 		  
-		  if(classlist.getLength() == 0) {
-			  dto.setDgidIdName("현재 업데이트 진행중입니다.");
-		  }else if(classlist.getLength() == 1){
-			  Node hosclass =  classlist.item(0).getChildNodes().item(0);
-			  String value = hosclass.getNodeValue();			//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
-			  String jinryo = value != null ? value : "";		//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
-			  dto.setDgidIdName(jinryo);					
-		   }
+		if(classlist.getLength() == 0) {
+			dto.setDgidIdName("현재 업데이트 진행중입니다.");
+		}else if(classlist.getLength() == 1){
+			Node hosclass =  classlist.item(0).getChildNodes().item(0);
+			String value = hosclass.getNodeValue();			//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
+			String jinryo = value != null ? value : "";		//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
+			dto.setDgidIdName(jinryo);					
+		 }
 		  
 		  NodeList gyodo = document.getElementsByTagName("wgs84Lon");		//병원경도
 		  Node hosgyodo = gyodo.item(0).getChildNodes().item(0);
 		  
-		  if(hosgyodo != null) {
-			  double gdovalue = Double.parseDouble(hosgyodo.getNodeValue());
-			  dto.setWgs84Lon(gdovalue);
-		  }
+		if(hosgyodo != null) {
+			double gdovalue = Double.parseDouble(hosgyodo.getNodeValue());
+			dto.setWgs84Lon(gdovalue);
+		}
 		  
 		  NodeList widolist = document.getElementsByTagName("wgs84Lat");	//병원위도
 		  Node hoswido = widolist.item(0).getChildNodes().item(0);
 		  
-		  if(hoswido != null) {
-			  double wido = Double.parseDouble(hoswido.getNodeValue());
-			  dto.setWgs84Lat(wido);
-		  }
+		if(hoswido != null) {
+			double wido = Double.parseDouble(hoswido.getNodeValue());
+			dto.setWgs84Lat(wido);
+		}
 		  resultlist.add(dto);
 		}
 		return resultlist;
@@ -136,16 +139,18 @@ public class Choohosapi2 {
 	        conn.setRequestProperty("Content-type", "application/json");
 	        // System.out.println("Response code: " + conn.getResponseCode());
 	        BufferedReader rd;
-	        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+	        
+	     if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
 	            rd = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
-	        } else {
+	     } else {
 	            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream(),"UTF-8"));
-	        }
+	     }
 	        StringBuilder sb = new StringBuilder();
 	        String line;
-	        while ((line = rd.readLine()) != null) {
+	       
+	     while ((line = rd.readLine()) != null) {
 	            sb.append(line);
-	        }
+	     }
 	        rd.close();
 	        conn.disconnect();
         
@@ -159,58 +164,56 @@ public class Choohosapi2 {
 			NodeList namelist = document.getElementsByTagName("dutyName"); // dutyName 병원이름
 			Node hosname =  namelist.item(0).getChildNodes().item(0);
 		  
-			if(hosname != null) {
+		if(hosname != null) {
 				String value = hosname.getNodeValue();			//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
 				   String name = value != null ? value : "";	//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
-				   //resultlist.add(name);
 				   dto.setDutyName(name);
-			}
+		}
 			NodeList addresslist = document.getElementsByTagName("dutyAddr"); // dutyAddr 주소
 			Node hosaddr =  addresslist.item(0).getChildNodes().item(0);
 		  
-			if(hosaddr != null) {
+		if(hosaddr != null) {
 				String value = hosaddr.getNodeValue();		//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
 				String addr = value != null ? value : "";	//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
 				dto.setDutyAddr(addr);
-		   }
+		}
 		  
-		  //List<String> tel = new ArrayList<String>();
 		  
 		  NodeList tellist = document.getElementsByTagName("dutyTel1"); // dutyTel1 전화번호
 		  Node hostel =  tellist.item(0).getChildNodes().item(0);
 		  
-		  if(hostel != null) {
+		if(hostel != null) {
 			  String value = hostel.getNodeValue();				//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
 			  String tel = value != null ? value : "";			//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
 			  dto.setDutyTel1(tel);
-		   }
+		}
 
 		  NodeList classlist = document.getElementsByTagName("dgidIdName"); // dgidIdName 진료과
 		  
-		  if(classlist.getLength() == 0) {
+		if(classlist.getLength() == 0) {
 			  dto.setDgidIdName("현재 업데이트 진행중입니다.");
-		  }else if(classlist.getLength() == 1){
+		}else if(classlist.getLength() == 1){
 			  Node hosclass =  classlist.item(0).getChildNodes().item(0);
 			  String value = hosclass.getNodeValue();			//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
 			  String jinryo = value != null ? value : "";		//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
 			  dto.setDgidIdName(jinryo);					
-		   }
+		}
 		  
 		  NodeList gyodo = document.getElementsByTagName("wgs84Lon");		//병원경도
 		  Node hosgyodo = gyodo.item(0).getChildNodes().item(0);
 		  
-		  if(hosgyodo != null) {
+		if(hosgyodo != null) {
 			  double gdovalue = Double.parseDouble(hosgyodo.getNodeValue());
 			  dto.setWgs84Lon(gdovalue);
-		  }
+		}
 		  
 		  NodeList widolist = document.getElementsByTagName("wgs84Lat");	//병원위도
 		  Node hoswido = widolist.item(0).getChildNodes().item(0);
 		  
-		  if(hoswido != null) {
+		if(hoswido != null) {
 			  double wido = Double.parseDouble(hoswido.getNodeValue());
 			  dto.setWgs84Lat(wido);
-		  }
+		}
 		  resultlist.add(dto);
 		}
 		return resultlist;
@@ -230,16 +233,18 @@ public class Choohosapi2 {
 	        conn.setRequestProperty("Content-type", "application/json");
 	        // System.out.println("Response code: " + conn.getResponseCode());
 	        BufferedReader rd;
-	        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+	        
+	     if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
 	            rd = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
-	        } else {
+	     }else{
 	            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream(),"UTF-8"));
-	        }
+	     }
 	        StringBuilder sb = new StringBuilder();
 	        String line;
-	        while ((line = rd.readLine()) != null) {
+	       
+	     while ((line = rd.readLine()) != null) {
 	            sb.append(line);
-	        }
+	     }
 	        rd.close();
 	        conn.disconnect();
         
@@ -253,62 +258,59 @@ public class Choohosapi2 {
 			NodeList namelist = document.getElementsByTagName("dutyName"); // dutyName 병원이름
 			Node hosname =  namelist.item(0).getChildNodes().item(0);
 		  
-			if(hosname != null) {
-				String value = hosname.getNodeValue();			//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
-				   String name = value != null ? value : "";	//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
-				   //resultlist.add(name);
-				   dto.setDutyName(name);
-			}
+		if(hosname != null) {
+			String value = hosname.getNodeValue();			//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
+			String name = value != null ? value : "";	//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
+			dto.setDutyName(name);
+		}
 			NodeList addresslist = document.getElementsByTagName("dutyAddr"); // dutyAddr 주소
 			Node hosaddr =  addresslist.item(0).getChildNodes().item(0);
 		  
-			if(hosaddr != null) {
-				String value = hosaddr.getNodeValue();		//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
-				String addr = value != null ? value : "";	//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
-				dto.setDutyAddr(addr);
-		   }
-		  
-		  //List<String> tel = new ArrayList<String>();
+		if(hosaddr != null) {
+			String value = hosaddr.getNodeValue();		//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
+			String addr = value != null ? value : "";	//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
+			dto.setDutyAddr(addr);
+		}
 		  
 		  NodeList tellist = document.getElementsByTagName("dutyTel1"); // dutyTel1 전화번호
 		  Node hostel =  tellist.item(0).getChildNodes().item(0);
 		  
-		  if(hostel != null) {
-			  String value = hostel.getNodeValue();				//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
-			  String tel = value != null ? value : "";			//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
-			  dto.setDutyTel1(tel);
-		   }
+	   if(hostel != null) {
+			String value = hostel.getNodeValue();				//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
+			String tel = value != null ? value : "";			//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
+			dto.setDutyTel1(tel);
+	   }
 
 		  NodeList classlist = document.getElementsByTagName("dgidIdName"); // dgidIdName 진료과
 		  
-		  if(classlist.getLength() == 0) {
-			  dto.setDgidIdName("현재 업데이트 진행중입니다.");
-		  }else if(classlist.getLength() == 1){
-			  Node hosclass =  classlist.item(0).getChildNodes().item(0);
-			  String value = hosclass.getNodeValue();			//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
-			  String jinryo = value != null ? value : "";		//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
-			  dto.setDgidIdName(jinryo);					
-		   }
+	   if(classlist.getLength() == 0) {
+			dto.setDgidIdName("현재 업데이트 진행중입니다.");
+	   }else if(classlist.getLength() == 1){
+			Node hosclass =  classlist.item(0).getChildNodes().item(0);
+			String value = hosclass.getNodeValue();			//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
+			String jinryo = value != null ? value : "";		//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
+			dto.setDgidIdName(jinryo);					
+	   }
 		  
 		  NodeList gyodo = document.getElementsByTagName("wgs84Lon");		//병원경도
 		  Node hosgyodo = gyodo.item(0).getChildNodes().item(0);
 		  
-		  if(hosgyodo != null) {
-			  double gdovalue = Double.parseDouble(hosgyodo.getNodeValue());
-			  dto.setWgs84Lon(gdovalue);
-		  }
+	   if(hosgyodo != null) {
+			double gdovalue = Double.parseDouble(hosgyodo.getNodeValue());
+			dto.setWgs84Lon(gdovalue);
+	   }
 		  
 		  NodeList widolist = document.getElementsByTagName("wgs84Lat");	//병원위도
 		  Node hoswido = widolist.item(0).getChildNodes().item(0);
 		  
-		  if(hoswido != null) {
-			  double wido = Double.parseDouble(hoswido.getNodeValue());
-			  dto.setWgs84Lat(wido);
-		  }
+	   if(hoswido != null) {
+			double wido = Double.parseDouble(hoswido.getNodeValue());
+			dto.setWgs84Lat(wido);
+	   }
 		return dto;
 	}
 	
-	//GPS기반 검색한 병원 정보
+	//GPS기반으로 병원과 진료과로 검색해서 분류한 병원의 기관ID를 가지고 와서 해당 병원의 정보를 리스트에 저장
 	public List hosselect(List<String> hpid2) throws Exception {
 		List<ChooDTO> resultlist = new ArrayList<ChooDTO>();
 		
@@ -325,16 +327,18 @@ public class Choohosapi2 {
 	        conn.setRequestProperty("Content-type", "application/json");
 	        // System.out.println("Response code: " + conn.getResponseCode());
 	        BufferedReader rd;
-	        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+	        
+	    if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
 	            rd = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
-	        } else {
+	    }else{
 	            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream(),"UTF-8"));
-	        }
+	    }
 	        StringBuilder sb = new StringBuilder();
 	        String line;
-	        while ((line = rd.readLine()) != null) {
+	        
+	    while ((line = rd.readLine()) != null) {
 	            sb.append(line);
-	        }
+	    }
 	        rd.close();
 	        conn.disconnect();
         
