@@ -12,7 +12,7 @@ public class AppConfig {
         return new RestTemplate();
     }
 
-    @Bean
+    @Bean(name = "dataApiClient")
     public DataApiClient dataApiClient(RestTemplate restTemplate) {
         return new DataApiClient();
     }
