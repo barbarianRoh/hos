@@ -1,0 +1,28 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Final Page</title>
+</head>
+<body>
+    <h1>Final Page</h1>
+    
+    <!-- Display the medicines for the final page -->
+    <table>
+        <c:forEach items="${medicines}" var="medicine">
+            <tr>
+                <td>${medicine.entpName}</td>
+                <td>${medicine.itemName}</td>
+            </tr>
+        </c:forEach>
+    </table>
+    
+    <!-- Add pagination controls if needed -->
+    <div class="pagination">
+    	<c:if test="${currentPage > 1}">
+        	<a href="${pageUrl}?page=${currentPage - 1}">이전</a>
+        </c:if>
+    </div>
+</body>
+</html>
