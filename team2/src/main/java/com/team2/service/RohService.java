@@ -1,5 +1,9 @@
 package com.team2.service;
 
+import com.team2.component.RohDTO;
+
 public interface RohService {
-	public int countContent();
+	
+	public int signup(RohDTO dto);
+	public int signin(RohDTO dto);
 }

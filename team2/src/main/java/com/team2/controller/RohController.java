@@ -10,6 +10,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -24,6 +25,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.team2.component.RohDTO;
 import com.team2.service.RohService;
 
 @Controller
@@ -32,6 +34,12 @@ public class RohController {
 	
 	@Autowired
 	private RohService service;
+	
+	// http://localhost:8080/hos/
+	@RequestMapping("/")
+	public String home() {
+		return "/roh/home";
+	}
 	
 	// 카카오맵 API+약국 javascript로 만듬
 	@RequestMapping("kakaophar")
@@ -209,6 +217,7 @@ public class RohController {
 		return "/roh/test";
 	}
 	
+	// 부트스트랩 테스트 
 	@RequestMapping("components")
 	public String contactPage() {
 		return "/roh/components";
@@ -217,5 +226,45 @@ public class RohController {
 	@RequestMapping("index")
 	public String index() {
 		return "/roh/index";
+	}
+	
+	// 회원가입 폼
+	@RequestMapping("signupForm")
+	public String signupForm() {
+		return "/roh/signupForm";
+	}
+	
+	// 회원가입 프로
+	@RequestMapping("signupPro")
+	@ResponseBody
+	public String signupPro(RohDTO dto, Model model) {
+		int result = service.signup(dto);
+		String message = "";
+		
+		if(result == 1) {
+    		message = "ok";
+    	} else {
+    		message = "실패";
+    	}
+		
+		// 파라미터 전달확인용
+		// model.addAttribute("id", dto.getId());
+		// model.addAttribute("pw", dto.getPw());
+		// model.addAttribute("name", dto.getName());
+		
+		return message;
+	}
+	
+	@RequestMapping("signinPro")
+	public String signinPro(RohDTO dto, Model model) {
+		model.addAttribute("result", service.signin(dto));
+		
+		return "/roh/home";
+	}
+	
+	@RequestMapping("signout")
+	public String signout(HttpSession session) {
+		session.invalidate();
+		return "/roh/home";
 	}
 }
