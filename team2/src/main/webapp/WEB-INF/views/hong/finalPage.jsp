@@ -12,8 +12,8 @@
     <table>
         <c:forEach items="${medicines}" var="medicine">
             <tr>
-                <td>${medicine.entpName}</td>
-                <td>${medicine.itemName}</td>
+                <th>제품명</th>
+                <td><a href="/hos/hong/search?keyword=${medicine.itemName}">${medicine.itemName}</a></td>
             </tr>
         </c:forEach>
     </table>

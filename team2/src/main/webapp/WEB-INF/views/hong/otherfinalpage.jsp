@@ -10,18 +10,18 @@
     
     <!-- Display the medicines for the final page -->
     <table>
-        <c:forEach items="${medicines}" var="medicine">
+        <c:forEach items="${ITEM_NAME_VALUES}" var="medicine">
             <tr>
-                <td>${medicine.entpName}</td>
-                <td>${medicine.itemName}</td>
+                <th>제품명</th>
+                <td><a href="/hos/hong/otherresult?keyword=${medicine}">${medicine}</a></td>
             </tr>
         </c:forEach>
     </table>
     
     <!-- Add pagination controls if needed -->
     <div class="pagination">
-    	<c:if test="${currentPage > 1}">
-        	<a href="${pageUrl}?page=${currentPage - 1}">이전</a>
+        <c:if test="${currentPage > 1}">
+            <a href="${pageUrl}?page=${currentPage - 1}">이전</a>
         </c:if>
     </div>
 </body>
