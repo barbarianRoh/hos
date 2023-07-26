@@ -10,6 +10,8 @@ public class RohDTO {
 	private int num;
 	private String id;
 	private String pw;
+	private String pw2;
+	private String pw3;
 	private String name;
 	private String memberType;
 	private String ip;

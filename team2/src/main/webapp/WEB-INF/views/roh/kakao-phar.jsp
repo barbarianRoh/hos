@@ -2,6 +2,8 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
 
+<title>약국찾기</title>
+
 <!-- 카카오맵API와 서비스, 클러스터기능 라이브러리 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f4352b5c75fa4dee61f430ab3f1ff6f4&libraries=services,clusterer"></script>
 <!-- Jquery -->

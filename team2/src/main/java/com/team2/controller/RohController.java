@@ -10,6 +10,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -37,7 +38,9 @@ public class RohController {
 	
 	// http://localhost:8080/hos/
 	@RequestMapping("/")
-	public String home() {
+	public String home(HttpSession session, Model model) {
+		String sid = (String)session.getAttribute("id");
+		model.addAttribute("sid", sid);
 		return "/roh/home";
 	}
 	
@@ -247,18 +250,19 @@ public class RohController {
     		message = "실패";
     	}
 		
-		// 파라미터 전달확인용
-		// model.addAttribute("id", dto.getId());
-		// model.addAttribute("pw", dto.getPw());
-		// model.addAttribute("name", dto.getName());
-		
 		return message;
 	}
 	
 	@RequestMapping("signinPro")
-	public String signinPro(RohDTO dto, Model model) {
-		model.addAttribute("result", service.signin(dto));
-		
+	public String signinPro(RohDTO dto, Model model, HttpSession session) {
+		int result = service.signin(dto);
+		if(result == 1) {
+			dto = service.myinfo(dto);
+			session.setAttribute("dto", dto);
+			session.setAttribute("sid", dto.getId());
+			session.setAttribute("spw", dto.getPw());
+		}
+		model.addAttribute(result);
 		return "/roh/home";
 	}
 	
@@ -266,5 +270,67 @@ public class RohController {
 	public String signout(HttpSession session) {
 		session.invalidate();
 		return "/roh/home";
+	}
+	
+	@RequestMapping("withdrawalForm")
+	public String withdrawalForm(HttpSession session) {
+		session.getAttribute("sid");
+		return "/roh/withdrawalForm";
+	}
+	
+	@RequestMapping("withdrawalPro")
+	public String withdrawalPro(HttpSession session, RohDTO dto, Model model) {
+		int result = 0;
+		String sessionPw = (String)session.getAttribute("spw");
+		String dtoPw = dto.getPw();
+		
+		if(sessionPw == null || !sessionPw.equals(dtoPw)) {
+			model.addAttribute("error", "비밀번호가 다릅니다");
+		} else {
+			result = service.withdrawal(dto);
+			if(result == 1) {
+				model.addAttribute("withdrawalSuccess", true);
+				session.invalidate();
+			} else {
+				model.addAttribute("withdrawalError", "삭제 실패");
+			}
+		}
+		return "roh/withdrawalForm";
+	}
+	
+	@RequestMapping("myProfileForm")
+	public String myProfile(HttpSession session, Model model) {
+		RohDTO sdto = (RohDTO)session.getAttribute("dto");
+		
+		
+		model.addAttribute("dto", service.myinfo(sdto));
+		return "roh/myProfileForm";
+	}
+	
+	@RequestMapping("myProfilePro")
+	public String myProfilePro(HttpSession session, RohDTO dto, Model model) {
+		String sid = (String)session.getAttribute("sid");
+		String password = (String)session.getAttribute("spw");
+		String pw = (String)dto.getPw(); // 기존
+		String pw2 = (String)dto.getPw2(); // 바1
+		String pw3 = (String)dto.getPw3(); // 바2
+		// 세션 비밀번호와 기존 비밀번호 입력값이 같으면
+		if(password.equals(pw)) {
+			if(pw2.equals(pw3)) {
+				dto.setId(sid);
+				System.out.println(dto.getId());
+				dto.setPw(dto.getPw2());
+				System.out.println(dto.getPw());
+				service.myinfoUpdate(dto);
+			} else {
+				model.addAttribute("error", "2");
+				System.out.println("실패2");
+			}
+		} else {
+			model.addAttribute("error", "1");
+			System.out.println("실패1");
+		}
+		
+		return "redirect:/roh/";
 	}
 }

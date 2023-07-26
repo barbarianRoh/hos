@@ -21,5 +21,19 @@ public class RohServiceImpl implements RohService {
 	public int signin(RohDTO dto) {
 		return mapper.signin(dto);
 	}
-
+	
+	@Override
+	public int withdrawal(RohDTO dto) {
+		return mapper.withdrawal(dto);
+	}
+	
+	@Override
+	public RohDTO myinfo(RohDTO dto) {
+		return mapper.myinfo(dto);
+	}
+	
+	@Override
+	public void myinfoUpdate(RohDTO dto) {
+		mapper.myinfoUpdate(dto);
+	}
 }

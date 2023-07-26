@@ -12,4 +12,22 @@
 	<select id="signin" resultType="int">
 		select count(*) from p2_member where id=#{id} and pw=#{pw}
 	</select>
+	
+	<delete id="withdrawal">
+		delete from p2_member where id=#{id} and pw=#{pw} 
+	</delete>
+	
+	<select id="myinfo" resultType="RohDTO">
+		select * from p2_member where id=#{id} and pw=#{pw}
+	</select>
+	
+	<update id="myinfoUpdate">
+		update p2_member
+		<set>
+			<if test="pw != null">pw=#{pw}</if>
+		</set>
+		where id=#{id} and pw=#{pw}
+	</update>
+	<update id="myinfoUpdate">
+	</update>
 </mapper>
