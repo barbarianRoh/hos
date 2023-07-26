@@ -1,20 +1,95 @@
 @charset "UTF-8";
 
-#wrap { margin:0 auto; width: 500px;     height: 800px; }
+#wrap {
+  margin: 0 auto;
+  width: 500px;
+  height: 800px;
+}
 
-#chatHeader {padding: 10px 15px; border-bottom: 1px solid #95a6b4;}
-#btnClose {border: none; background: none; float: right;}
+#chatHeader {
+  padding: 10px 15px;
+  border-bottom: 1px solid #95a6b4;
+}
 
-#chatBox {height: 600px; width: 500px; overflow-y:scroll; padding:10px 15px; background:#9bbbd4;}
+#btnClose {
+  border: none;
+  background: none;
+  float: right;
+}
 
-#message {width: 440px;}
+#chatBox {
+  height: 600px;
+  width: 500px;
+  overflow-y: scroll;
+  padding: 10px 15px;
+  background: #9bbbd4;
+}
 
-#btnSubmit {float: right; background:#eeeeee; height: 28px; padding-right:0;}
+#message {
+  width: 440px;
+}
 
-.msgBox  span {padding:3px 5px; word-break:break-all; display:block;
-    max-width:300px; margin-bottom: 10px; border-radius: 10px;}
+#btnSubmit {
+  float: right;
+  background: #eeeeee;
+  height: 28px;
+  padding-right: 0;
+}
 
-.msgBox.send  span {background:#fef01b; float:right; }
+.msgBox span {
+  padding: 3px 5px;
+  word-break: break-all;
+  display: block;
+  max-width: 300px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
 
-.msgBox #in {width:480px; background:#9bbbd4;}
-.msgBox.receive  span {background:#ffffff; float:left; }
+.msgBox.send span {
+  background: #fef01b;
+  float: right;
+}
+
+.msgBox #in {
+  width: 480px;
+  background: #9bbbd4;
+}
+
+.msgBox.receive span {
+  background: #ffffff;
+  float: left;
+}
+
+a.button-link {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+a.button-link:hover {
+  background-color: #0056b3;
+}
+
+a.button-link,
+button.button-link {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+a.button-link:hover,
+button.button-link:hover {
+  background-color: #0056b3;
+}

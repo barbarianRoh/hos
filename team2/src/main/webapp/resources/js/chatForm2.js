@@ -1,13 +1,13 @@
 $(function() {
-  // 환영 메시지를 받으려면, 먼저 빈 값으로 서버에 요청하여 환영 메시지를 받은 뒤 메시지를 입력할 때까지 기다립니다.
+  // To receive a welcome message, first make a request to the server with an empty value to receive a welcome message, then wait for a message to be entered.
   callAjax();
 
-  // 질문을 물어보고 음성 응답을 받습니다 (text)
+  // Ask a question and get an audio response (text)
   $('#chatForm').on('submit', function(event) {
     event.preventDefault();
     if ($('#message').val() == "") {
-      // 질문을 입력하지 않고 전송 버튼을 클릭하면 환영 메시지가 표시되는 것을 방지합니다.
-      alert("질문을 입력해주세요.");
+      // Prevent the welcome message from being displayed when the submit button is clicked without entering a question.
+      alert("Please enter a question");
       return false;
     }
     if ($('#message').val() != "") {
@@ -15,11 +15,11 @@ $(function() {
         $('#message').val() + '</span></span></div><br>');
     }
     callAjax();
-    /* 필드 초기화 */
+    /* Initialize fields */
     $('#message').val('');
-  }); // 전송 버튼 이벤트 종료
+  }); // end send button event
 
-  // 별도의 ajax 함수를 생성합니다.
+  // Create a separate ajax function.
   function callAjax(postbackFullValue) {
     $.ajax({
       type: "post",
@@ -30,80 +30,96 @@ $(function() {
       dataType: 'json',
       success: function(result) {
         if (result && result.bubbles && Array.isArray(result.bubbles)) {
-          // JSON 형식으로 반환값을 받습니다.
+          // Get the return value in JSON format.
           var bubbles = result.bubbles;
           for (var b in bubbles) {
-            if (bubbles[b].type == 'text') { // 기본 답변일 경우
-              /* 받은 메시지를 chatBox에 추가합니다. */
+            if (bubbles[b].type == 'text') { // if this is the default answer
+              /* Add the received message to the chatBox. */
               $('#chatBox').append('<div class="msgBox receive"><span id="in"><span>챗봇</span><br><span>' +
                 bubbles[b].data.description + '</span></span></div><br><br>');
 
-              // 음성 변환을 위해 TTS를 호출합니다.
+              // Call TTS for voice conversion.
               callAjaxTTS(bubbles[b].data.description);
-            } else if (bubbles[b].type == 'template') { // 이미지 응답 또는 다중 링크 응답
-              if (bubbles[b].data.cover.type == "image") { // 이미지인 경우
+            } else if (bubbles[b].type == 'template') { // image response or multilink response
+              if (bubbles[b].data.cover.type == "image") { // if it is an image
                 $("#chatBox").append("<img src='" + bubbles[b].data.cover.data.imageUrl +
-                  "' alt='이미지 없음'>");
+                  "' alt='No Image'>");
                 if (bubbles[b].data.contentTable == null) {
-                  $("#chatBox").append
-                  ("<a href='" + bubbles[b].data.cover.data.action.data.url + "' target='_blank'>" +
-                    bubbles[b].data.cover.data.action.data.url + "</a><br>");
+                  $("#chatBox").append("<a href='" + bubbles[b].data.cover.data.action.data.url + "' target='_blank'>" +
+                    bubbles[b].data.cover.data.action.data.displayText + "</a><br>");
                 } else {
-                  $("#chatBox").append("<div class=\"msgBox receive\"><span id=\"in\"><span>챗봇</span><br><span>" + bubbles[b].data.cover.data.description + "</p>");
-                  // 음성 변환을 위해 TTS를 호출합니다.
+                  $("#chatBox").append("<div class=\"msgBox receive\"><span id=\"in\"><span>Chatbot</span><br><span>" + bubbles[b].data.cover.data.description + "</p>");
+                  // Call TTS for voice conversion.
                   callAjaxTTS(bubbles[b].data.cover.data.description);
                 }
-              } else if (bubbles[b].data.cover.type == "text") { // 다중 링크 응답인 경우
-                $("#chatBox").append("<div class=\"msgBox receive\"><span id=\"in\"><span>챗봇</span><br><span>" + bubbles[b].data.cover.data.description + "</p>");
-                // 음성 변환을 위해 TTS를 호출합니다.
+              } else if (bubbles[b].data.cover.type == "text") { // In case of multi-link response
+                $("#chatBox").append("<div class=\"msgBox receive\"><span id=\"in\"><span>Chatbot</span><br><span>" + bubbles[b].data.cover.data.description + "</p>");
+                // Call TTS for voice conversion.
                 callAjaxTTS(bubbles[b].data.cover.data.description);
               }
 
-              // 이미지 / 다중 링크 응답 공통 (contentTable 포함)
+              // image / multi-link response common (with contentTable)
               for (var ct in bubbles[b].data.contentTable) {
                 var ct_data = bubbles[b].data.contentTable[ct];
                 for (var ct_d in ct_data) {
-                  // 각 링크의 postback 값을 가져옵니다.
+                  // Get the postback value of each link.
                   var postbackValue = ct_data[ct_d].data.data.action.data.postback;
                   var displayText = ct_data[ct_d].data.data.action.data.displayText;
 
-                  // "displayText"를 링크 텍스트로 사용하여 링크를 생성합니다.
+                  // Generates a link using "displayText" as the link text.
                   var link = $("<a></a>")
-                    .attr("href", "#") // 링크를 클릭하면 페이지가 리디렉션되지 않도록 "#"를 사용합니다.
-                    .data("postbackfull", ct_data[ct_d].data.data.action.data.postbackFull) // 전체 postback 값을 가져오기 위해 "postbackFull" 사용
-                    .text(displayText); // "formName" 대신 "displayText"를 사용합니다.
+                    .attr("href", "#") // Use "#" to avoid redirecting the page when the link is clicked.
+                    .data("postbackfull", ct_data[ct_d].data.data.action.data.postbackFull) // use "postbackFull" to get the full postback value
+                    .text(displayText); // use "displayText" instead of "formName"
 
-                  // 링크를 chatBox에 추가합니다.
-                  $("#chatBox").append(link).append("<br><br>");
+                  // Add the link to the chatBox as if the chatbot entered it.
+					var msgBox = $('<div class="msgBox receive"></div>');
+					var linkContainer = $('<span id="in"><span>Chatbot</span><br></span>');
+					linkContainer.append(link).append('<br><br>');
+					msgBox.append(linkContainer);
+					$("#chatBox").append(msgBox);
+
+
+                  // Call TTS for voice conversion.
+                  callAjaxTTS(displayText);
                 }
-              } // contentTable for 문 종료
-            } // template 종료
-          } // bubbles for 문 종료
+              } // End of contentTable for statement
+            } // end template
+          }
 
-          // 스크롤 업
+          // Scroll to the bottom of the chatBox
           $("#chatBox").scrollTop($("#chatBox").prop("scrollHeight"));
         } else {
-          console.error('서버에서 잘못된 또는 비어있는 응답을 받았습니다.');
+          console.error('Received an invalid or empty response from the server.');
         }
       },
       error: function(data) {
-        alert("오류가 발생했습니다.");
+        alert("An error has occurred");
       }
     });
   }
 
-  // chatBox 내부의 링크에 클릭 이벤트 리스너를 추가합니다.
+  // Add a click event listener to the link inside the chatBox.
   $("#chatBox").on("click", "a", function(event) {
-    event.preventDefault(); // 링크의 기본 동작(링크 URL로 이동)을 방지합니다.
+    event.preventDefault(); // Prevent the link's default action (go to the link URL).
 
-    // 데이터 속성을 사용하여 클릭한 링크의 "postbackfull" 값을 추출합니다.
+    // Use the data attribute to extract the "postbackfull" value of the clicked link.
     var postbackFullValue = $(this).data("postbackfull");
 
-    // postbackFullValue를 기반으로 다음 대화로 이동하는 함수를 호출합니다.
+    // Append the clicked link's display text to the chatBox as if the chatbot entered it.
+    var clickedLinkText = $(this).text();
+    var msgBox = $('<div class="msgBox receive"></div>');
+    msgBox.html('<span id="in"><span>Chatbot</span><br><span>' + clickedLinkText + '</span></span><br><br>');
+    $("#chatBox").append(msgBox);
+
+    // Call a function that moves to the next conversation based on postbackFullValue.
     callAjax(postbackFullValue);
+
+    // Scroll to the bottom of the chatBox
+    $("#chatBox").scrollTop($("#chatBox")[0].scrollHeight);
   });
 
-  // TTS를 위해 ajax 함수를 호출합니다.
+  // Call the ajax function for TTS.
   function callAjaxTTS(result) {
     $.ajax({
       type: "post",
@@ -113,7 +129,7 @@ $(function() {
       },
       dataType: 'text',
       success: function(result) {
-        // 오디오 파일 이름을 받습니다.
+        // Get the audio file name.
       },
       error: function(data) {}
     });

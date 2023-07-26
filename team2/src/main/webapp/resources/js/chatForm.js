@@ -1,3 +1,5 @@
+// chatbot.js
+
 $(function() {
   // To receive a welcome message, first make a request to the server with an empty value to receive a welcome message, then wait for a message to be entered.
   callAjax();
@@ -66,19 +68,36 @@ $(function() {
                   var postbackValue = ct_data[ct_d].data.data.action.data.postback;
                   var displayText = ct_data[ct_d].data.data.action.data.displayText;
 
-                  // Generates a link using "displayText" as the link text.
-                  var link = $("<a></a>")
-                    .attr("href", "#") // Use "#" to avoid redirecting the page when the link is clicked.
-                    .data("postbackfull", ct_data[ct_d].data.data.action.data.postbackFull) // use "postbackFull" to get the full postback value
-                    .text(displayText); // use "displayText" instead of "formName"
+                  // Create a button and use "displayText" for the text.
+                  var button = $("<button></button>")
+                    .attr("type", "button")
+                    .data("postbackfull", ct_data[ct_d].data.data.action.data.postbackFull) // Use "postbackFull" to get the full postback value.
+                    .addClass("button-link") // Add the "button-link" class to the button to style it.
+                    .text(displayText) // use "displayText" instead of "formName"
+                    .click((function(displayText) {
+                      // Assign the displayText value to each click handler using a closure.
+                      return function() {
+                        // When the button is clicked, go to the corresponding URL.
+                        var postbackValue = $(this).data("postbackfull");
 
-                  // Add the link to the chatBox as if the chatbot entered it.
+                        // Add "displayText" to the new message window as typed by the user.
+                        var userMsgBox = $('<div class="msgBox send"><span id="in"><span>' + displayText + '</span></span></div><br><br>');
+                        $("#chatBox").append(userMsgBox);
+
+                        // Call TTS for voice conversion.
+                        callAjaxTTS(displayText);
+
+                        callAjax(postbackValue); // Print the new question.
+                        // window.location.href = postbackValue; // Comment out this line to print a new question instead of move.
+                      };
+                    })(displayText));
+
+                  // Add a button to the chatBox as entered by the chatbot.
                   var msgBox = $('<div class="msgBox receive"></div>');
-                  msgBox.append('<span id="in"><span>Chatbot</span><br>').append(link).append('</span><br><br>');
+                  var buttonContainer = $('<span id="in"><span>Chatbot</span><br></span>');
+                  buttonContainer.append(button).append('<br><br>');
+                  msgBox.append(buttonContainer);
                   $("#chatBox").append(msgBox);
-
-                  // Call TTS for voice conversion.
-                  callAjaxTTS(displayText);
                 }
               } // End of contentTable for statement
             } // end template
@@ -106,14 +125,14 @@ $(function() {
     // Append the clicked link's display text to the chatBox as if the chatbot entered it.
     var clickedLinkText = $(this).text();
     var msgBox = $('<div class="msgBox receive"></div>');
-    msgBox.append('<span id="in"><span>Chatbot</span><br>').append(clickedLinkText).append('</span><br><br>');
-    $('#chatBox').append(msgBox);
+    msgBox.html('<span id="in"><span>Chatbot</span><br><span>' + clickedLinkText + '</span></span><br><br>');
+    $("#chatBox").append(msgBox);
 
     // Call a function that moves to the next conversation based on postbackFullValue.
     callAjax(postbackFullValue);
 
     // Scroll to the bottom of the chatBox
-    $("#chatBox").scrollTop($("#chatBox").prop("scrollHeight"));
+    $("#chatBox").scrollTop($("#chatBox")[0].scrollHeight);
   });
 
   // Call the ajax function for TTS.
