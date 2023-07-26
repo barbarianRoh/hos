@@ -7,14 +7,10 @@
 </head>
 <body>
     <table>
-        <c:forEach items="${medicines}" var="medicine" begin="1" end="10">
-            <tr>
-                <th>업체명</th>
-                <td>${medicine.entpName}</td>
-            </tr>
+        <c:forEach items="${medicines}" var="medicine" begin="1" end="20">
             <tr>
                 <th>제품명</th>
-                <td>${medicine.itemName}</td>
+                <td><a href="/hos/hong/search?keyword=${medicine.itemName}">${medicine.itemName}</a></td>
             </tr>
         </c:forEach>
     </table>
@@ -54,7 +50,6 @@
         <c:if test="${endPage < totalPages}">
             <a href="${pageUrl}?page=${totalPages}">끝</a>
         </c:if>
-
     </div>
 </body>
 </html>

@@ -55,10 +55,6 @@
                 <th>보관법</th>
                 <td>${depositMethodQesitmValues[status.index]}</td>
             </tr>
-            <tr>
-                <th>수정일자</th>
-                <td>${updateDeValues[status.index]}</td>
-            </tr>
         </c:forEach>
     </table>
 </body>

@@ -9,16 +9,28 @@
     <title>Search page</title>
 </head>
 <body>
-    <h1>Search page</h1>
-
-    <h2>제품 이름 검색</h2>
-    <form method="GET" action="search">
+    <h2>의약품 이름 검색</h2>
+    <form method="GET" action="result">
         <input type="text" name="keyword" placeholder="제품명을 입력 하세요" />
         <input type="submit" value="Search" />
     </form>
 
-    <h2>업체 이름 검색</h2>
-    <form method="GET" action="searchByBusiness">
+    <h2>의약품 업체 이름 검색</h2>
+    <form method="GET" action="resultByBusiness">
+        <input type="text" name="businessName" placeholder="업체명을 입력하세요" />
+        <input type="submit" value="Search" />
+    </form>
+    
+    <br>
+    
+    <h2>의약외품 이름 검색</h2>
+    <form method="GET" action="otherresult">
+        <input type="text" name="keyword" placeholder="제품명을 입력 하세요" />
+        <input type="submit" value="Search" />
+    </form>
+
+    <h2>다른 업체 이름 검색</h2>
+    <form method="GET" action="test">
         <input type="text" name="businessName" placeholder="업체명을 입력하세요" />
         <input type="submit" value="Search" />
     </form>
