@@ -1,5 +1,12 @@
 package com.team2.mapper;
 
+import com.team2.component.RohDTO;
+
 public interface RohMapper {
-	public int countContent();
+	
+	public int signup(RohDTO dto);
+	public int signin(RohDTO dto);
+	public int withdrawal(RohDTO dto);
+	public RohDTO myinfo(RohDTO dto);
+	public void myinfoUpdate(RohDTO dto);
 }

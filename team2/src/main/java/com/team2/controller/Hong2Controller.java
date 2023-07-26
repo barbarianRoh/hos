@@ -103,10 +103,10 @@ public class Hong2Controller {
 		return "/hong/othersearch";
 	}
 
-	@RequestMapping("data1")
-	public String data1() {
-		return "redirect:/hong/data1.xml";
-	}
+//	@RequestMapping("data1")
+//	public String data1() {
+//		return "redirect:/hong/data1.xml";
+//	}
 
 	
     @RequestMapping("othersearch")
@@ -119,32 +119,16 @@ public class Hong2Controller {
         model.addAttribute("searchResult", searchResult);
      
 /* http://apis.data.go.kr/1471000/QdrgPrdtPrmsnInfoService01/getQdrgPrdtPrmsnInfoInq01?serviceKey=MMbncKBwZqOh19KQELbd%2FeILVFSsR6IbbxB7%2BNF3Oz1uxb5VmjB9p%2BQ1LFZyk2F8RZ6QWiTXrf%2BhNb6G%2BiDWVw%3D%3D&numOfRows=10&pageNo=1&type=xml */ 
-        
-        String url = "http://localhost:8080/data/data1.xml";
-        String url2 = "http://localhost:8080/data/data2.xml";
-        String url3 = "http://localhost:8080/data/data3.xml";
-        String url4 = "http://localhost:8080/data/data4.xml";
-        String url5 = "http://localhost:8080/data/data5.xml";
-        String url6 = "http://localhost:8080/data/data6.xml";
-        String url7 = "http://localhost:8080/data/data7.xml";
-        String url8 = "http://localhost:8080/data/data8.xml";
-        String url9 = "http://localhost:8080/data/data9.xml";
-        String url10 = "http://localhost:8080/data/data10.xml";
+     //   http://localhost:8080/data/data1.xml
+        String url = "http://apis.data.go.kr/1471000/QdrgPrdtPrmsnInfoService01/getQdrgPrdtPrmsnInfoInq01?serviceKey=MMbncKBwZqOh19KQELbd%2FeILVFSsR6IbbxB7%2BNF3Oz1uxb5VmjB9p%2BQ1LFZyk2F8RZ6QWiTXrf%2BhNb6G%2BiDWVw%3D%3D&numOfRows=10&pageNo=1&type=xml";
+
      
         try {
         	// XML 파서생성
     		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
     		DocumentBuilder builder = factory.newDocumentBuilder();
     		Document document = builder.parse(new URL(url).openStream());
-    		Document document2 = builder.parse(new URL(url2).openStream());
-    		Document document3 = builder.parse(new URL(url3).openStream());
-    		Document document4 = builder.parse(new URL(url4).openStream());
-    		Document document5 = builder.parse(new URL(url5).openStream());
-    		Document document6 = builder.parse(new URL(url6).openStream());
-    		Document document7 = builder.parse(new URL(url7).openStream());
-    		Document document8 = builder.parse(new URL(url8).openStream());
-    		Document document9 = builder.parse(new URL(url9).openStream());
-    		Document document10 = builder.parse(new URL(url10).openStream());
+
     		
 
         // Retrieve data from the API and populate the lists
@@ -153,12 +137,9 @@ public class Hong2Controller {
     	NodeList numOfRowsList = document.getElementsByTagName("numOfRows");
     	NodeList entpNameList = document.getElementsByTagName("ENTP_NAME"); /*업체명*/
     	NodeList itemNameList = document.getElementsByTagName("ITEM_NAME");  /*제품명*/
-    	NodeList itemSeqList =	document.getElementsByTagName("ITEM_SEQ");    /*품목기준코드*/
     	NodeList efcyQesitmList = document.getElementsByTagName("EE_DOC_DATA"); /*이 약의 효능은 무엇입니까?*/
     	NodeList atpnWarnQesitmList = document.getElementsByTagName("UD_DOC_DATA"); /* 용법용량*/
     	NodeList atpnQesitmList = document.getElementsByTagName("NB_DOC_DATA"); /*이 약의 사용상 주의사항은 무엇입니까?*/
-    	NodeList intrcQesitmList = document.getElementsByTagName("CLASS_NO"); /* 품목 코드 */
-    	NodeList seQesitmList = document.getElementsByTagName("CLASS_NO_NAME"); /* 품목코드명 */
 
     	
     	List<String> resultCodeValues = new ArrayList<String>();
@@ -166,76 +147,57 @@ public class Hong2Controller {
     	List<String> numOfRowsValues = new ArrayList<String>();
     	List<String> entpNameValues = new ArrayList<String>();
     	List<String> itemNameValues = new ArrayList<String>();
-    	List<String> itemSeqValues = new ArrayList<String>();
     	List<String> efcyQesitmValues = new ArrayList<String>();
     	List<String> atpnWarnQesitmValues = new ArrayList<String>();
     	List<String> atpnQesitmValues = new ArrayList<String>();
-    	List<String> intrcQesitmValues = new ArrayList<String>();
-    	List<String> seQesitmValues = new ArrayList<String>();
+
     	
 
-    	// 	if(entpNameList.getLength() > 0) {
-    	// 		System.out.println("약 찾음-=="+resultCodeList.getLength());
-    	
-    		for (int i = 0; i < itemNameList.getLength(); i++) {
-    			Element resultCodeElement = (Element)resultCodeList.item(i);
-    			String resultCode = resultCodeElement != null ? resultCodeElement.getTextContent() : "";
-    			resultCodeValues.add(resultCode);
-    			
-    			Element pageNoElement = (Element)pageNoList.item(i);
-    			String pageNo = pageNoElement != null ? pageNoElement.getTextContent() : "";
-    			pageNoValues.add(pageNo);
-    			
-    			Element numOfRowsElement = (Element)numOfRowsList.item(i);
-    			String numOfRows = numOfRowsElement != null ? numOfRowsElement.getTextContent() : "";
-    			numOfRowsValues.add(numOfRows);
-    			
-    			Element entpNameElement = (Element)entpNameList.item(i);
-    			String entpName = entpNameElement != null ? entpNameElement.getTextContent() : "";
-    			entpNameValues.add(entpName);
-    			
-    			Element  itemNameElement = (Element)itemNameList.item(i);
-    			String  itemName =  itemNameElement != null ?  itemNameElement.getTextContent() : "";
-    			itemNameValues.add(itemName);
-    			
-    			Element itemSeqElement = (Element)itemSeqList.item(i);
-    			String itemSeq = itemSeqElement != null ? itemSeqElement.getTextContent() : "";
-    			itemSeqValues.add(itemSeq);
-    			
-    			Element useMethodQesitmElement = (Element)atpnWarnQesitmList.item(i);
-    			String useMethodQesitm = useMethodQesitmElement != null ? useMethodQesitmElement.getTextContent() : "";
-    			atpnWarnQesitmValues.add(useMethodQesitm);
-    			
-    			Element atpnWarnQesitmElement = (Element)efcyQesitmList.item(i);
-    			String atpnWarnQesitm = atpnWarnQesitmElement != null ? atpnWarnQesitmElement.getTextContent() : "";
-    			efcyQesitmValues.add(atpnWarnQesitm);
-    			
-    			Element atpnQesitmElement = (Element)atpnQesitmList.item(i);
-    			String atpnQesitm = atpnQesitmElement != null ? atpnQesitmElement.getTextContent() : "";
-    			atpnQesitmValues.add(atpnQesitm);
-    			
-    			Element intrcQesitmElement = (Element)intrcQesitmList.item(i);
-    			String intrcQesitm = intrcQesitmElement != null ? intrcQesitmElement.getTextContent() : "";
-    			intrcQesitmValues.add(intrcQesitm);
-    			
-    			Element seQesitmElement = (Element)seQesitmList.item(i);
-    			String seQesitm = seQesitmElement != null ? seQesitmElement.getTextContent() : "";
-    			seQesitmValues.add(seQesitm);
+    	if (entpNameList.getLength() > 0) {
+    	    for (int i = 0; i < entpNameList.getLength(); i++) {
+    	        Element resultCodeElement = (Element) resultCodeList.item(i);
+    	        String resultCode = resultCodeElement != null ? resultCodeElement.getTextContent() : "";
+    	        resultCodeValues.add(resultCode);
 
-    			
-    		}
+    	        Element pageNoElement = (Element) pageNoList.item(i);
+    	        String pageNo = pageNoElement != null ? pageNoElement.getTextContent() : "";
+    	        pageNoValues.add(pageNo);
+
+    	        Element numOfRowsElement = (Element) numOfRowsList.item(i);
+    	        String numOfRows = numOfRowsElement != null ? numOfRowsElement.getTextContent() : "";
+    	        numOfRowsValues.add(numOfRows);
+
+    	        Element entpNameElement = (Element) entpNameList.item(i);
+    	        String entpName = entpNameElement != null ? entpNameElement.getTextContent() : "";
+    	        entpNameValues.add(entpName);
+
+    	        Element itemNameElement = (Element) itemNameList.item(i);
+    	        String itemName = itemNameElement != null ? itemNameElement.getTextContent() : "";
+    	        itemNameValues.add(itemName);
+
+    	        Element useMethodQesitmElement = (Element) atpnWarnQesitmList.item(i);
+    	        String useMethodQesitm = useMethodQesitmElement != null ? useMethodQesitmElement.getTextContent() : "";
+    	        atpnWarnQesitmValues.add(useMethodQesitm);
+
+    	        Element atpnWarnQesitmElement = (Element) efcyQesitmList.item(i);
+    	        String atpnWarnQesitm = atpnWarnQesitmElement != null ? atpnWarnQesitmElement.getTextContent() : "";
+    	        efcyQesitmValues.add(atpnWarnQesitm);
+
+    	        Element atpnQesitmElement = (Element) atpnQesitmList.item(i);
+    	        String atpnQesitm = atpnQesitmElement != null ? atpnQesitmElement.getTextContent() : "";
+    	        atpnQesitmValues.add(atpnQesitm);
+    	    }
+    	}
     		
     		model.addAttribute("resultCodeValues", resultCodeValues); 
     		model.addAttribute("pageNoValues" , pageNoValues);
     		model.addAttribute("numOfRowsValues", numOfRowsValues);
     		model.addAttribute("entpNameValues", entpNameValues);	// 업체명
     		model.addAttribute("itemNameValues", itemNameValues);	// 제품명
-    		model.addAttribute("itemSeqValues", itemSeqValues);		// 품목기준코드
     		model.addAttribute("efcyQesitmValues", efcyQesitmValues);	// 효능이뭐야
     		model.addAttribute("atpnWarnQesitmValues", atpnWarnQesitmValues);	// 복용방법!
     		model.addAttribute("atpnQesitmValues", atpnQesitmValues);		// 주의사항
-    		model.addAttribute("intrcQesitmValues", intrcQesitmValues);	// 주의할 약또는 음식
-    		model.addAttribute("seQesitmValues", seQesitmValues);	// 이상반응
+    	
 
         } catch(IOException e) {
     	e.printStackTrace();
