@@ -3,14 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <meta charset="utf-8">
-	<title>본인주변 병원표시</title>
+	<title>증상으로 병원찾기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
 <!-- 카카오맵API와 서비스, 클러스터기능 라이브러리 불러옴 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449&libraries=services,clusterer"></script>
 
 <!-- 지도를 표시할 div 입니다 -->
-<div id="map" style="width:1200px;height:650px;"></div>
+<div id="map" style="width:2000px;height:800px;"></div>
 
 <script>
 
@@ -22,7 +22,58 @@ var mapOption = {
     
 //지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
 var map = new kakao.maps.Map(mapContainer, mapOption);
+</script>
 
+<select name="where1" id="where1"></select>
+<select name="apa1" id="apa1"></select>
+
+<script>
+$('document').ready(function(){
+	var area0 = ["아픈부위","머리","얼굴","목","가슴","배","골격계","피부","비뇨기"];
+	var area1 = ["두통","어지럼증","얼굴떨림","편두통","손떨림"];
+	var area2 = ["눈충혈","저시력","눈간지럼","귀통증","이명","난청","이통증","이시림","잇몸출혈","코막힘"];
+	var area3 = ["목통증","가래"]
+	var area4 = ["객혈","호흡곤란","흉통","기침","가슴쓰림"];
+	var area5 = ["구역질/구토","복통","설사","변비","속쓰림"];
+	var area6 = ["골다공증","관절통증","허리통증","근육통증","저림"];
+	var area7 = ["고름","두드러기"];
+	var area8 = ["통증","혈뇨","요실금"];
+	
+	$("select[name^=where]").each(function(){
+		$selwhere = $(this);
+		$.each(eval(area0), function(){
+			$selwhere.append("<option value='"+this+"'>"+this+"</option>");
+		});
+		$selwhere.next().append("<option value=''>증상선택</option>");
+	});
+	
+	$("select[name^=where]").change(function(){
+		var area = "area"+$("option",$(this)).index($("option:selected",$(this)));
+		var $apa = $(this).next();			//선택영역 증상선택 객체
+		$("option",$apa).remove();			//증상선택 초기화
+		
+		if(area == "area0"){
+			$apa.append("<option value=''>증상선택</option>");
+		}else{
+			$.each(eval(area), function(){
+			$apa.append("<option value='"+this+"'>"+this+"</option>");
+			});
+		}
+		
+		//부위가 선택되면 해당 부위의 값과 증상의 선택값이 들어가는 곳
+		var whereValue = $("select[name=where1]").val();
+		$("input[name=W0]").val(whereValue);
+		var apaValue = $("select[name=apa1]").val();
+		$("input[name=W1]").val(apaValue);
+	});
+		
+		//증상 select를 변경시 해당 변경값이 대입
+		$("select[name=apa1]").change(function(){
+			apaValue = $(this).val();
+		$("input[name=W1]").val(apaValue);
+		});
+		console.log(apaValue);
+});
 
 <!-- Geolocation API -->        
 var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
@@ -46,7 +97,7 @@ var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
 		document.getElementsByName("WGS84_LAT")[0].value = geolat;
 		document.getElementsByName("WGS84_LON")[0].value = geolon;	
 		});
-		
+	
 		//좌표를 주소로 변경하기 위한 코드
 		var options = {
   		enableHighAccuracy: true,
@@ -133,56 +184,17 @@ var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
 	        console.log('좌표를 사용할 수 없습니다.');
 	    }    
 	}
+
 </script>
 
-<button onclick="panTo()">내 위치로 이동</button>
-
-
-<form method = "post" name="GPSselect" action="/hos/choo/GPSresult">
-	<label for="selectOption"></label>
-	<select name="selectOption" id="selectOption" onchange="assignValue()">
-		<option value="">진료과선택</option>
-		<option value="D001">내 과</option>
-		<option value="D002">소아과</option>
-		<option value="D003">신경과</option>
-		<option value="D004">정신건강의학과</option>
-		<option value="D005">피부과</option>
-		<option value="D006">외 과</option>
-		<option value="D007">흉부외과</option>			
-		<option value="D008">정형외과</option>
-		<option value="D009">신경외과</option>
-		<option value="D010">성형외과</option>
-		<option value="D011">산부인과</option>
-		<option value="D012">안 과</option>
-		<option value="D013">이비인후과</option>
-		<option value="D014">비뇨기과</option>
-		<option value="D016">재활의학과</option>
-		<option value="D017">마취통증의학과</option>
-		<option value="D018">영상의학과</option>
-		<option value="D019">치료방사선과</option>
-		<option value="D020">임상병리과</option>
-		<option value="D021">해부병리과</option>
-		<option value="D022">가정의학과</option>
-		<option value="D023">핵의학과</option>
-		<option value="D024">응급의학과</option>
-		<option value="D026">치 과</option>
-		<option value="D034">구강악안면외과</option>
-	</select>
-			
+<!-- W0은 선택된 부위의 값 W1 선택된 증상의 값 -->
+<form method="get" name="selectHos" action="/hos/choo/resultHos">
+	<input type="hidden" id="W0" name="W0" value="">
+	<input type="hidden" id="W1" name="W1" vlaue="">
 	<input type="hidden" id="Q0" name="Q0" value="">
 	<input type="hidden" id="Q1" name="Q1" value="">
-	<input type="hidden" id="WGS84_LAT" name="WGS84_LAT" value="">
-	<input type="hidden" id="WGS84_LON" name="WGS84_LON" value="">
-	<input type="hidden" id="selectedjinryo" name="QD" value="">
 	
 	<input type="submit" value="검색">
 </form>
-	
-<script>
-	//위에 select의 option값을 선택했을 때 QD에 자동으로 들어가게 하는 곳
-	function assignValue(){
-		var selectElement = document.getElementById("selectOption");
-		var selectedValue = selectElement.value;
-		document.getElementById("selectedjinryo").value = selectedValue;
-	}
-	</script>
+
+<button onclick="panTo()">내 위치로 이동</button>

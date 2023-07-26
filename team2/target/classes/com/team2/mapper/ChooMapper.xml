@@ -4,12 +4,67 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.team2.mapper.ChooMapper">
 
-<select id="hospitalselect" resultType="ChooTestDTO">
-	select * from hospital where name=#{name}
+<select id="hosCheck" resultType="int">
+	select count(*) from hosgrade where name=#{name} and addr=#{addr} 
 </select>
 
-<select id="nameCheck" resultType="int">
-	select count(*) from hospital where name=#{name}
+<select id="gradeList" resultType="ChooTestDTO">
+	(<![CDATA[select * from(select e.*, rownum r from(select * from hosgrade order by reg desc)e) where name=#{name} and addr=#{addr} and r >=#{startRow} and r <=#{endRow}]]>)
 </select>
+
+<insert id="insert">
+	insert into hosgrade(num,name,id,title,addr,con,pw,reg) values(hos_seq.NEXTVAL, #{name}, #{id}, #{title}, #{addr}, #{con}, #{pw}, sysdate)
+</insert>
+
+<select id="gradeselect" resultType="ChooTestDTO">
+	select * from hosgrade where name=#{name} and addr=#{addr}
+</select>
+
+<select id="gradecon" resultType="ChooTestDTO">
+	select * from hosgrade where num=#{num} and addr=#{addr}
+</select>
+
+<select id="goodCheck" resultType="int">
+	select good from hosgrade where num=#{num} and name=#{name} and addr=#{addr} and id=#{id}
+</select>
+
+<select id="badCheck" resultType="int">
+	select bad from hosgrade where num=#{num} and name=#{name} and addr=#{addr} and id#{id}
+</select>
+
+<update id="goodinsert">
+	update hosgrade
+	<set>
+		good=+1,
+		total=+1 
+	</set>
+	where num=#{num} and name=#{name} and addr=#{addr} and id=#{id}
+</update> 
+
+<update id="goodupdate">
+	update hosgrade
+	<set>
+		good=-1,
+		total=-1
+	</set>
+	where num=#{num} and name=#{name} and addr=#{addr} and id=#{id}
+</update>
+
+<select id="pwCheck" resultType="int">
+	select count(*) from hosgrade where num=#{num} and pw=#{pw}
+</select>
+
+<update id="gradeUpdate">
+	update hosgrade
+	<set>
+		<if test="title != null">title=#{title},</if>
+		<if test="con != null">con=#{con}</if>
+	</set>
+	where num=#{num} and addr=#{addr}
+</update>
+
+<delete id="gradedelect">
+	delete from hosgrade where num=#{num} and addr=#{addr}
+</delete>
 
 </mapper>

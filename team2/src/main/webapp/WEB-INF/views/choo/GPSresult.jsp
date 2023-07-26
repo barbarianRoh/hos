@@ -12,6 +12,8 @@
 </c:if>
 <style>
 html, body {width:100%;height:100%;margin:0;padding:0;} 
+.map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
 .map_wrap {position:relative;overflow:hidden;width:100%;height:800px;}
 .radius_border{border:1px solid #919191;border-radius:5px;}     
 .custom_typecontrol {position:absolute;top:10px;right:10px;overflow:hidden;width:130px;height:30px;margin:0;padding:0;z-index:1;font-size:12px;font-family:'Malgun Gothic', '맑은 고딕', sans-serif;}
@@ -25,11 +27,45 @@ html, body {width:100%;height:100%;margin:0;padding:0;}
 .custom_zoomcontrol span {display:block;width:36px;height:40px;text-align:center;cursor:pointer;}     
 .custom_zoomcontrol span img {width:15px;height:15px;padding:12px 0;border:none;}             
 .custom_zoomcontrol span:first-child{border-bottom:1px solid #bfbfbf;}
+#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
+.bg_white {background:#fff;}
+#menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
+#menu_wrap .option{text-align: center;}
+#menu_wrap .option p {margin:10px 0;}  
+#menu_wrap .option button {margin-left:5px;}
+#placesList li {list-style: none;}
+#placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
+#placesList .item span {display: block;margin-top:4px;}
+#placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+#placesList .item .info{padding:10px 0 10px 55px;}
+#placesList .info .gray {color:#8a8a8a;}
+#placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
+#placesList .info .tel {color:#009900;}
+#placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+#placesList .item .marker_1 {background-position: 0 -10px;}
+#placesList .item .marker_2 {background-position: 0 -56px;}
+#placesList .item .marker_3 {background-position: 0 -102px}
+#placesList .item .marker_4 {background-position: 0 -148px;}
+#placesList .item .marker_5 {background-position: 0 -194px;}
+#placesList .item .marker_6 {background-position: 0 -240px;}
+#placesList .item .marker_7 {background-position: 0 -286px;}
+#placesList .item .marker_8 {background-position: 0 -332px;}
+#placesList .item .marker_9 {background-position: 0 -378px;}
+#placesList .item .marker_10 {background-position: 0 -423px;}
+#placesList .item .marker_11 {background-position: 0 -470px;}
+#placesList .item .marker_12 {background-position: 0 -516px;}
+#placesList .item .marker_13 {background-position: 0 -562px;}
+#placesList .item .marker_14 {background-position: 0 -608px;}
+#placesList .item .marker_15 {background-position: 0 -654px;}
+#pagination {margin:10px auto;text-align: center;}
+#pagination a {display:inline-block;margin-right:10px;}
+#pagination .on {font-weight: bold; cursor: default;color:#777;}
+
 </style>
 	
 <div class="map_wrap">
 	<!-- 지도를 표시할 div 입니다 -->
-	<div id="map" style="width:1200px;height:650px;position:relative;overflow:hidden;"></div>
+	<div id="map" style="width:2000px;height:800px;position:relative;overflow:hidden;"></div>
 	
 	<!--  지도타입 컨트롤 div 입니다 -->
 	<div class="custom_typecontrol radius_border">
@@ -44,7 +80,7 @@ html, body {width:100%;height:100%;margin:0;padding:0;}
 	</div>
 </div>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449&libraries=services,clusterer"></script>
 <script>
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = { 
@@ -80,8 +116,8 @@ function zoomOut(){
 	map.setLevel(map.getLevel() + 1);
 }
 
-var imageSrc = '/hos/resources/img/hosmark.jpg',		//마커이미지 주소
-	imageSize = new kakao.maps.Size(29, 34),												//마커이미지 크기
+var imageSrc = '/hos/resources/img/hosmark.png',		//마커이미지 주소
+	imageSize = new kakao.maps.Size(29, 34),											//마커이미지 크기
 	imageOption = {offset: new kakao.maps.Point(27,69)};								//마커이미지 옵션
 
 //마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다.
@@ -91,9 +127,12 @@ var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 var positions=[
 				<c:forEach var="dto" items="${hos}">
 					{
-						content: '<div style="padding:5px;">${dto.dutyName}<br>' + 
+						content: '<div style="width: 300px; height: 80px; padding:5px;">${dto.dutyName}<br>' + 
 						'<font size = 2> 전화번호 : ${dto.dutyTel1} </font><br>' + 
-						'<font size = 2> 주소 : ${dto.dutyAddr} </font><br></div>',
+						'<font size = 2> 주소 : ${dto.dutyAddr} </font><br>' + 
+						'<a href="https://map.kakao.com/link/map/ ${dto.dutyName} , ${dto.wgs84Lat} , ${dto.wgs84Lon} " style="color:blue" target="_blank">큰지도보기</a>&nbsp;' + 
+						'<a href="https://map.kakao.com/link/to/  ${dto.dutyName} , ${dto.wgs84Lat} , ${dto.wgs84Lon} " style="color:blue" target="_blank">길찾기</a>&nbsp;' + 
+						'<a href="/hos/choo/hosgrade?name=${dto.dutyName}&addr=${dto.dutyAddr}" style="color:blue" target="_blank">병원평점</a></div>',
 						title: '${dto.dutyName}',
 						latlng: new kakao.maps.LatLng(${dto.wgs84Lat},${dto.wgs84Lon})
 					},
@@ -108,50 +147,48 @@ for (var i = 0; i < positions.length; i ++) {
         map: map, // 마커를 표시할 지도
         position: positions[i].latlng, 	// 마커를 표시할 위치
         title : positions[i].title, 	// 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-        image: markerImage				//마커이미지 설정
+        image: markerImage,				// 마커이미지 설정
     });
     
-    var infowindow = new kakao.maps.InfoWindow({
-    	content: positions[i].content			//인포윈도우에 표시할 내용
-    });
-    
- 	// 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
-    // 이벤트 리스너로는 클로저를 만들어 등록합니다 
-    // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
-    kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
-   	kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-    
-    //마커를 지도에 표시
+  	//마커를 지도에 표시
     marker.setMap(map);
+    
+//마커에 클릭이벤트 코드
+   (function(marker, content){
+   var infowindow = new kakao.maps.InfoWindow({
+    	content: content,			//인포윈도우에 표시할 내용
+    	removable: true
+    });
+    
+    // 마커에 클릭이벤트를 등록합니다
+    kakao.maps.event.addListener(marker, 'click', function() {
+    	     // 마커 위에 인포윈도우를 표시합니다
+    	     infowindow.open(map, marker);
+     });
+   })(marker, positions[i].content);
 }
 
-	//인포윈도우를 표시하는 클로저를 만드는 함수입니다 
-	function makeOverListener(map, marker, infowindow) {
-    	return function() {
-        	infowindow.open(map, marker);
-    	};	
-	}
-
-	//인포윈도우를 닫는 클로저를 만드는 함수입니다 
-	function makeOutListener(infowindow) {
-    	return function() {
-        	infowindow.close();
-    	};
-	} 
 </script>
+
+<style>
+.gps-icon{
+ 	position:absolute;
+ 	top: 22%;
+ 	right: 0.65%;
+ 	z-index:1;
+}
+</style>
 
 <table width="1400" border="1" cellspacing="0" cellpadding="0" align="center">
 	<tr height="20">
 		<td align="center" width="220">병원이름</td>
 		<td align="center" width="480">주 소</td>
-		<td align="center" width="550">진료과</td>
 		<td align="center" width="150">전화번호</td>
 	</tr>
 	<c:forEach var="dto" items="${hos}">
 	<tr height="20">
 		<td align="center" width="220">${dto.dutyName}</td>
 		<td align="center" width="480">${dto.dutyAddr}</td>
-		<td align="center" width="550">${dto.dgidIdName}</td>
 		<td align="center" width="150">${dto.dutyTel1}</td>
 	</tr>
 	</c:forEach>

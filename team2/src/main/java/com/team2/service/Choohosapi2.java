@@ -68,8 +68,8 @@ public class Choohosapi2 {
 			Node hosname =  namelist.item(0).getChildNodes().item(0);
 		  
 		if(hosname != null) {
-			String value = hosname.getNodeValue();			//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
-			String name = value != null ? value : "";	//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
+			String value = hosname.getNodeValue();				//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
+			String name = value != null ? value : "";			//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
 			dto.setDutyName(name);
 		}
 			NodeList addresslist = document.getElementsByTagName("dutyAddr"); // dutyAddr 주소
@@ -225,7 +225,7 @@ public class Choohosapi2 {
 	        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlBassInfoInqire"); /*URL*/
 	        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=UZHnvSBw7ESYEUBtz%2BH9YHocdwfx3wFhm54v1fiXwk9pj4Wv3pY5%2F4uhCj9YTxYd1gtqHkhlP9vC9tMQh6CulA%3D%3D"); /*Service Key*/
 	        urlBuilder.append("&" + URLEncoder.encode("HPID","UTF-8") + "=" + URLEncoder.encode(dto.getHpid(), "UTF-8")); /*기관ID*/
-	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("100", "UTF-8")); /*목록 건수*/
+	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*목록 건수*/
 	        
 	        URL url = new URL(urlBuilder.toString());
 	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();

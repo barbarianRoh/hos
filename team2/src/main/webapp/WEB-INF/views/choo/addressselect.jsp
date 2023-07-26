@@ -29,33 +29,6 @@ var mapOption = {
 
 //지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
 var map = new kakao.maps.Map(mapContainer, mapOption);
-
-var positions = [
-	<c:forEach var="dto" items="${hos}">
-		{
-			title: '${dto.dutyName}',
-			"lat": ${dto.wgs84Lat},
-			"lng": ${dto.wgs84Lon}
-		},
-	</c:forEach>
-];
-	
-	//데이터에 좌표 값을 가지고 마커를 표시
-	//마커 클러스터러로 관리할 마커 객체를 생성할 때 지도 객체를 설정하지 않습니다.
-	var markers = positions.map(function(position) {  // 마커를 배열 단위로 묶음
-        return new kakao.maps.Marker({
-            position : new kakao.maps.LatLng(position.lat, position.lng),
-        	title: positions.title
-        });
-    });
-	
-	//마커 클러스터러를 생성합니다
-	var clusterer = new kakao.maps.MarkerClusterer({
-        map: map, 				// 마커들을 클러스터로 관리하고 표시할 지도 객체 
-        averageCenter: true, 	// 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정 
-        minLevel: 5, 			// 클러스터 할 최소 지도 레벨
-        markers: markers		// 클러스터에 마커 추가
-	});
 </script>
 
 <select name="sido1" id="sido1"></select>
@@ -63,6 +36,7 @@ var positions = [
 
 <!-- Jquery를 이용한 지역선택기능 -->
 <script>
+var s1="";
 // 8은 세종시라서 없음
 $('document').ready(function() {
 	var area0 = ["시/도 선택","서울특별시","부산광역시","대구광역시","인천광역시","광주광역시","대전광역시","울산광역시","세종특별자치시","경기도","강원특별자치도","충청북도","충청남도","전라북도","전라남도","경상북도","경상남도","제주특별자치도"];
@@ -226,18 +200,26 @@ function panTo() {
 		<option value="D017">마취통증의학과</option>
 		<option value="D018">영상의학과</option>
 		<option value="D019">치료방사선과</option>
-		<option value="D020">임상병리과</option>
-		<option value="D021">해부병리과</option>
 		<option value="D022">가정의학과</option>
-		<option value="D023">핵의학과</option>
-		<option value="D024">응급의학과</option>
 		<option value="D026">치 과</option>
-		<option value="D034">구강악안면외과</option>
+	</select>
+	
+	<label for="hosType"></label>
+	<select name="hosType" id="hosType" onchange="TypeValue()">
+		<option value="">병원분류</option>
+		<option value="A">상급/종합병원</option>
+		<option value="B">병원</option>
+		<option value="C">의원</option>
+		<option value="E">한방병원</option>
+		<option value="G">한의원</option>
+		<option value="M">치과병원</option>
+		<option value="N">치과의원</option>
 	</select>
 	
 	<input type="hidden" id="Q0" name="Q0" value="">
 	<input type="hidden" id="Q1" name="Q1" value="">
 	<input type="hidden" id="selectedjinryo" name="QD" value="">
+	<input type="hidden" id="selecthos" name="QZ" value="">
 			
 	<input type="submit" value="검 색">
 </form>
@@ -248,7 +230,47 @@ function panTo() {
 	var selectElement = document.getElementById("selectOption");
 	var selectedValue = selectElement.value;
 	document.getElementById("selectedjinryo").value = selectedValue;
+	
+	//선택한 진료과가 치과일 경우 병원분류에 치과병원 혹은 치과의원을 select에 보이게 하는 곳
+	if(selectedValue === "D026"){
+		showDentalOptions();
+	}else{
+		hideDentalOptions();
+	}
 }
+	
+	function TypeValue(){
+		var selectElement = document.getElementById("hosType");
+		var selectedValue = selectElement.value;
+		document.getElementById("selecthos").value = selectedValue;
+	}
+	
+	//진료과를 치과로 선택했을 경우
+	function showDentalOptions() {
+	    var hosType = document.getElementById("hosType");
+	    for (var i = 0; i < hosType.options.length; i++) {
+	        var optionValue = hosType.options[i].value;
+	        if (optionValue === "M" || optionValue === "N") {
+	            hosType.options[i].style.display = "block"; 	//병원분류를 보여주는 옵션
+	        }
+	    }
+	}
+	
+	//진료과가 치과가 아닐 경우
+	function hideDentalOptions() {
+	    var hosType = document.getElementById("hosType");
+	    for (var i = 0; i < hosType.options.length; i++) {
+	        var optionValue = hosType.options[i].value;
+	        if (optionValue === "M" || optionValue === "N") {
+	            hosType.options[i].style.display = "none"; 		//병원 분류를 감추는 옵션
+	        }
+	    }
+	}
+
+	//초기설정부분이며 처음에 진료과가 선택되지 않는 경우 치과 옵션 숨기는 곳
+	document.addEventListener("DOMContentLoaded", function () {
+	    assignValue();
+	});
 </script>
 
 <button onclick="panTo()">내 위치로 이동</button>

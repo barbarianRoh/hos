@@ -23,9 +23,9 @@ import java.io.StringReader;
 public class Choohosapi {
 	// UZHnvSBw7ESYEUBtz%2BH9YHocdwfx3wFhm54v1fiXwk9pj4Wv3pY5%2F4uhCj9YTxYd1gtqHkhlP9vC9tMQh6CulA%3D%3D : 서비스키
 	
-	 //시/도/군/진료과 검색값을 받아서 해당 병원의 기관ID를 검색하는 메소드
-	 public List<String> hpidlist(String Q0, String Q1, String QD) throws Exception {
-		 	List<String> idlist = new ArrayList<>();
+	 //시/도/군/진료과/병원분류 검색값을 받아서 해당 병원의 기관ID를 검색하는 메소드
+	 public List hpidlist(String Q0, String Q1, String QD, String QZ) throws Exception {
+		 	List<ChooDTO> idlist = new ArrayList<>();
 		 	
 		 	StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire"); /*URL*/
 	        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=UZHnvSBw7ESYEUBtz%2BH9YHocdwfx3wFhm54v1fiXwk9pj4Wv3pY5%2F4uhCj9YTxYd1gtqHkhlP9vC9tMQh6CulA%3D%3D"); /*Service Key*/
@@ -45,6 +45,12 @@ public class Choohosapi {
 	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*진료과*/
 	        }else {
 	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode(QD, "UTF-8")); /*진료과*/
+	        }
+	        
+	        if(QZ == null) {
+	        	urlBuilder.append("&" + URLEncoder.encode("QZ","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); //병원분류
+	        }else {
+	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode(QZ, "UTF-8")); //병원분류
 	        }
 	        
 	        // urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*결과로 가져올 갯수*/
@@ -76,15 +82,42 @@ public class Choohosapi {
 			  
 			  
 			
-			NodeList idforhoslist = document.getElementsByTagName("hpid"); // XML에선 hpid태그안에 있는 값이며 즉 불러낼 것 : 기관ID
-			  
-			  for(int i = 0 ; i < idforhoslist.getLength(); i++) {
-				   Node idforhos =  idforhoslist.item(i).getChildNodes().item(0);
+			NodeList hosaddr = document.getElementsByTagName("dutyAddr");		//주소
+			NodeList name = document.getElementsByTagName("dutyName");			//병원병
+			NodeList hosTel = document.getElementsByTagName("dutyTel1");		//전화번호
+			NodeList gyodo = document.getElementsByTagName("wgs84Lon");			//병원경도	
+			NodeList widolist = document.getElementsByTagName("wgs84Lat");		//병원위도
 			
-				   String value = idforhos.getNodeValue();				//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
-				   String stringValue = value != null ? value : "";		//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
-				   idlist.add(stringValue);								//값을 리스트에 저장
-		}
+			
+			for(int a = 0; a < hosaddr.getLength(); a++) {						//주소
+				ChooDTO dto = new ChooDTO();
+				
+				Node hosaddress = hosaddr.item(a).getChildNodes().item(0);
+				Node hosname = name.item(a).getChildNodes().item(0);
+				Node Tel = hosTel.item(a).getChildNodes().item(0);
+				Node hosgyodo = gyodo.item(a).getChildNodes().item(0);
+				Node hoswido = widolist.item(a).getChildNodes().item(0);
+				
+				String value = hosaddress.getNodeValue();
+				String addrValue = value != null ? value : "";
+				dto.setDutyAddr(addrValue);
+				
+				String value1 = hosname.getNodeValue();
+				String nameValue = value1 != null ? value1 : "";
+				dto.setDutyName(nameValue);
+				
+				String value2 = Tel.getNodeValue();
+				String telValue = value2 != null ? value2 : "";
+				dto.setDutyTel1(telValue);
+				
+				double gdovalue = Double.parseDouble(hosgyodo.getNodeValue());
+				dto.setWgs84Lon(gdovalue);
+				
+				double wido = Double.parseDouble(hoswido.getNodeValue());
+				dto.setWgs84Lat(wido);
+				
+				idlist.add(dto);
+			}	
 			return idlist;
 	}
 	 
@@ -204,27 +237,18 @@ public class Choohosapi {
 	 
 	 //UZHnvSBw7ESYEUBtz%2BH9YHocdwfx3wFhm54v1fiXwk9pj4Wv3pY5%2F4uhCj9YTxYd1gtqHkhlP9vC9tMQh6CulA%3D%3D
 	 //GPS 기반 좌표로 검색한 병원 이름과 입력받은 진료과를 넣고 해당 과에 해당하는 병원 분류
-	 public List<String> hosselect(List<String> hosname, String QD, String Q0, String Q1) throws Exception {
-		 	List<String> idlist = new ArrayList<>();
+	 public List hosselect(String QD, String Q0, String Q1) throws Exception {
+		 	List<ChooDTO> idlist = new ArrayList<>();
 		 	
-		 	for(int i = 0; i < hosname.size(); i++) {
 		 	StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire"); /*URL*/
 	        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=UZHnvSBw7ESYEUBtz%2BH9YHocdwfx3wFhm54v1fiXwk9pj4Wv3pY5%2F4uhCj9YTxYd1gtqHkhlP9vC9tMQh6CulA%3D%3D"); /*Service Key*/
-	        if(hosname.size() == 0) {
-	        	urlBuilder.append("&" + URLEncoder.encode("QN","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*기관명*/
-	        }else {
-	        	urlBuilder.append("&" + URLEncoder.encode("QN","UTF-8") + "=" + URLEncoder.encode(hosname.get(i), "UTF-8")); /*기관명*/
-	        }
-	        
-	        //System.out.println(hosname.get(i));
-	        
+
 	        if(Q0 == null) {
 	        	urlBuilder.append("&" + URLEncoder.encode("Q0","UTF-8") + "=" + URLEncoder.encode("","UTF-8"));		//시도
 	        }else {
 	        	urlBuilder.append("&" + URLEncoder.encode("Q0","UTF-8") + "=" + URLEncoder.encode(Q0,"UTF-8"));
 	        }
 	        
-	        //System.out.println(Q0);
 	        
 	        if(Q1 == null) {
 	        	urlBuilder.append("&" + URLEncoder.encode("Q1","UTF-8") + "=" + URLEncoder.encode("","UTF-8"));		//구
@@ -232,15 +256,13 @@ public class Choohosapi {
 	        	urlBuilder.append("&" + URLEncoder.encode("Q1","UTF-8") + "=" + URLEncoder.encode(Q1,"UTF-8"));
 	        }
 	        
-	        //System.out.println(Q1);
 	        
 	        if(QD == null) {
-	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*진료과*/
+	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); 	/*진료과*/
 	        }else {
-	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode(QD, "UTF-8")); /*진료과*/
+	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode(QD, "UTF-8")); 	/*진료과*/
 	        }
 	        
-	        //System.out.println(QD);
 	        
 	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("20", "UTF-8")); /*결과로 가져올 갯수*/
 	        
@@ -269,33 +291,140 @@ public class Choohosapi {
 			DocumentBuilderFactory factory  =  DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder    =  factory.newDocumentBuilder();
 			Document document     =  builder.parse(new InputSource(new StringReader(tag)));
-			  
-			  
+			  	   
+		
+			NodeList hosaddr = document.getElementsByTagName("dutyAddr");		//주소
+			NodeList name = document.getElementsByTagName("dutyName");			//병원병
+			NodeList hosTel = document.getElementsByTagName("dutyTel1");		//전화번호
+			NodeList gyodo = document.getElementsByTagName("wgs84Lon");			//병원경도	
+			NodeList widolist = document.getElementsByTagName("wgs84Lat");		//병원위도
 			
-			NodeList idforhoslist = document.getElementsByTagName("hpid"); // XML에선 hpid태그안에 있는 값이며 즉 불러낼 것 : 기관ID
-			  			
-				   if(idforhoslist.getLength() == 0) {
-					   
-				   }else if(idforhoslist.getLength() == 1) {
-					   Node idforhos =  idforhoslist.item(0).getChildNodes().item(0);
-					   String value = idforhos.getNodeValue();				//getNodeValue는 해당 노드의 값을 추출하고 String타입 변수에 저장함
-					   String stringValue = value != null ? value : "";		//위에서 저장한 값을 stringValue에 값을 할당하고 value값이 null인지 아닌지 확인함
-					   System.out.println(stringValue);
-					   idlist.add(stringValue);								//값을 for문을 사용해서 dto에 저장을 해야하기에 사용
-				   }
-				   
-			NodeList hosaddr = document.getElementsByTagName("dutyAddr");
 			
-				if(hosaddr.getLength() == 0) {
-					
-				}else if(hosaddr.getLength() == 1) {
-					Node hosaddress = hosaddr.item(0).getChildNodes().item(0);
-					String value = hosaddress.getNodeValue();
-					String stringValue = value != null ? value : "";
-					System.out.println(stringValue);
-				}
-		 	}
-	  return idlist;
+			for(int a = 0; a < hosaddr.getLength(); a++) {						//주소
+				ChooDTO dto = new ChooDTO();
+				
+				Node hosaddress = hosaddr.item(a).getChildNodes().item(0);
+				Node hosname = name.item(a).getChildNodes().item(0);
+				Node Tel = hosTel.item(a).getChildNodes().item(0);
+				Node hosgyodo = gyodo.item(a).getChildNodes().item(0);
+				Node hoswido = widolist.item(a).getChildNodes().item(0);
+				
+				String value = hosaddress.getNodeValue();
+				String addrValue = value != null ? value : "";
+				dto.setDutyAddr(addrValue);
+				
+				String value1 = hosname.getNodeValue();
+				String nameValue = value1 != null ? value1 : "";
+				dto.setDutyName(nameValue);
+				
+				String value2 = Tel.getNodeValue();
+				String telValue = value2 != null ? value2 : "";
+				dto.setDutyTel1(telValue);
+				
+				double gdovalue = Double.parseDouble(hosgyodo.getNodeValue());
+				dto.setWgs84Lon(gdovalue);
+				
+				double wido = Double.parseDouble(hoswido.getNodeValue());
+				dto.setWgs84Lat(wido);
+				
+				idlist.add(dto);
+			}	
+		return idlist;
+	}
+	 
+	 public List selectHos(String QD, String Q0, String Q1) throws Exception {
+		 	List<ChooDTO> hoslist = new ArrayList<>();
+		 	
+		 	StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire"); /*URL*/
+	        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=UZHnvSBw7ESYEUBtz%2BH9YHocdwfx3wFhm54v1fiXwk9pj4Wv3pY5%2F4uhCj9YTxYd1gtqHkhlP9vC9tMQh6CulA%3D%3D"); /*Service Key*/
+
+	        if(Q0 == null) {
+	        	urlBuilder.append("&" + URLEncoder.encode("Q0","UTF-8") + "=" + URLEncoder.encode("","UTF-8"));		//시도
+	        }else {
+	        	urlBuilder.append("&" + URLEncoder.encode("Q0","UTF-8") + "=" + URLEncoder.encode(Q0,"UTF-8"));
+	        }
+	        
+	        
+	        if(Q1 == null) {
+	        	urlBuilder.append("&" + URLEncoder.encode("Q1","UTF-8") + "=" + URLEncoder.encode("","UTF-8"));		//구
+	        }else {
+	        	urlBuilder.append("&" + URLEncoder.encode("Q1","UTF-8") + "=" + URLEncoder.encode(Q1,"UTF-8"));
+	        }
+	        
+	        
+	        if(QD == null) {
+	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); 	/*진료과*/
+	        }else {
+	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode(QD, "UTF-8")); 	/*진료과*/
+	        }
+	        
+	        
+	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("20", "UTF-8")); /*결과로 가져올 갯수*/
+	        
+	        URL url = new URL(urlBuilder.toString());
+	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	        conn.setRequestMethod("GET");
+	        conn.setRequestProperty("Content-type", "application/json");
+	        //System.out.println("Response code: " + conn.getResponseCode());
+	        BufferedReader rd;
+	        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {		//200이라면 정상 300이라면 오류
+	            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	        } else {
+	            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+	        }
+	        StringBuilder sb = new StringBuilder();
+	        String line;
+	        while ((line = rd.readLine()) != null) {
+	            sb.append(line);
+	        }
+	        rd.close();
+	        conn.disconnect();
+	        // System.out.println(sb.toString());
+	        
+	        String tag = sb.toString();
+			
+			DocumentBuilderFactory factory  =  DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder    =  factory.newDocumentBuilder();
+			Document document     =  builder.parse(new InputSource(new StringReader(tag)));
+			  	   
+		
+			NodeList hosaddr = document.getElementsByTagName("dutyAddr");		//주소
+			NodeList name = document.getElementsByTagName("dutyName");			//병원병
+			NodeList hosTel = document.getElementsByTagName("dutyTel1");		//전화번호
+			NodeList gyodo = document.getElementsByTagName("wgs84Lon");			//병원경도	
+			NodeList widolist = document.getElementsByTagName("wgs84Lat");		//병원위도
+			
+			
+			for(int a = 0; a < hosaddr.getLength(); a++) {						//주소
+				ChooDTO dto = new ChooDTO();
+				
+				Node hosaddress = hosaddr.item(a).getChildNodes().item(0);
+				Node hosname = name.item(a).getChildNodes().item(0);
+				Node Tel = hosTel.item(a).getChildNodes().item(0);
+				Node hosgyodo = gyodo.item(a).getChildNodes().item(0);
+				Node hoswido = widolist.item(a).getChildNodes().item(0);
+				
+				String value = hosaddress.getNodeValue();
+				String addrValue = value != null ? value : "";
+				dto.setDutyAddr(addrValue);
+				
+				String value1 = hosname.getNodeValue();
+				String nameValue = value1 != null ? value1 : "";
+				dto.setDutyName(nameValue);
+				
+				String value2 = Tel.getNodeValue();
+				String telValue = value2 != null ? value2 : "";
+				dto.setDutyTel1(telValue);
+				
+				double gdovalue = Double.parseDouble(hosgyodo.getNodeValue());
+				dto.setWgs84Lon(gdovalue);
+				
+				double wido = Double.parseDouble(hoswido.getNodeValue());
+				dto.setWgs84Lat(wido);
+				
+				hoslist.add(dto);
+			}	
+		return hoslist;
 	}
 }
 

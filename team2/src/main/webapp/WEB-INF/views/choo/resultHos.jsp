@@ -2,17 +2,15 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<meta charset="utf-8">
+	<title>증상으로 찾은 병원</title>
+
 <c:if test="${hos == null}">
 	<script>
 		alert('병원을 찾을 수 없습니다');
 		history.go(-1);
 	</script>
 </c:if>
-
-<head>
-    <meta charset="utf-8">
-    <title>주소로 검색한 병원정보</title>
-</head>
 
 <style>
 html, body {width:100%;height:100%;margin:0;padding:0;} 
@@ -66,13 +64,14 @@ html, body {width:100%;height:100%;margin:0;padding:0;}
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
 </style>
 
+
 <div class="map_wrap">
 	<!-- 지도를 표시할 div 입니다 -->
 	<div id="map" style="width:2000px;height:800px;position:relative;overflow:hidden;"></div>
 	
-	<!--  지도타입 컨트롤 div 입니다 -->
+	<!-- 지도타입 컨트롤 div입니다 -->
 	<div class="custom_typecontrol radius_border">
-		<span id="btnRoadmap" class="selected_btn" onclick="setMapType('roadmap')">지도</span>
+		<span id="btnRoadmap" class="selected _btn" onclick="setMapType('roadmap')">지도</span>
 		<span id="btnSkyview" class="btn" onclick="setMapType('skyview')">스카이뷰</span>
 	</div>
 	
@@ -83,22 +82,26 @@ html, body {width:100%;height:100%;margin:0;padding:0;}
 	</div>
 </div>
 
+<!-- 카카오맵API와 서비스, 클러스터기능 라이브러리 불러옴 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449&libraries=services,clusterer"></script>
-<script>
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-    mapOption = { 
-        center: new kakao.maps.LatLng(${x}, ${y}), // 지도의 중심좌표
-        level: 7 // 지도의 확대 레벨
-    };
 
-// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+<script>
+//지도를 보여주기 위한 설정
+var mapContainer = document.getElementById('map'),		//지도를 표시할 div
+	mapOption = {
+		center: new kakao.maps.LatLng(${y},${x}),		//해당지도의 중심좌표
+		level: 7										//지도의 확대 레벨
+	};
+
+// 지도를 표시할 div와 지도 옵션으로 지도를 생성합니다
 var map = new kakao.maps.Map(mapContainer, mapOption);
 
-//지도타입 컨트롤의 지도 또는 스카이뷰 버튼을 클릭하면 호출되어 지도타입을 바꾸는 함수
+
+//지도타입의 컨트롤의 지도 또는 스카이뷰 버튼을 클릭하면 호출되어 지도타입을 바꾸는 함수
 function setMapType(maptype){
 	var roadmapControl = document.getElementById("btnRoadmap");
 	var skyviewControl = document.getElementById("btnSkyview");
-	if(maptype === 'roadmap'){
+	if(maptype == 'roadmap'){
 		map.setMapTypeId(kakao.maps.MapTypeId.ROADMAP);
 		roadmapControl.className = 'selected_btn';
 		skyviewControl.className = 'btn';
@@ -109,30 +112,36 @@ function setMapType(maptype){
 	}
 }
 
-//지도 확대 및 축소 컨트롤에 확대 버튼을 누르면 호출되어 지도를 확대
+
+//지도 확대 및 축소 컨트롤에 확대버튼을 누르면 호출되어 지도를 확대
 function zoomIn(){
 	map.setLevel(map.getLevel() - 1);
 }
 
-//지도 확대 및 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 축소
+
+//지도 확대 및 축소 컨트롤에 축소버튼을 누리면 호출되어 지도를 축소
 function zoomOut(){
 	map.setLevel(map.getLevel() + 1);
 }
 
-var imageSrc = '/hos/resources/img/hosmark.png',				//마커이미지 주소
-	imageSize = new kakao.maps.Size(29, 34),					//마커이미지 크기
-	imageOption = {offset: new kakao.maps.Point(27,69)};		//마커이미지 옵션
 
-//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다.
+//지도에 커스텀마커를 띄워주기 위해 설정하는 곳
+var imageSrc = '/hos/resources/img/hosmark.png',
+	imageSize = new kakao.maps.Size(29, 34),
+	imageOption = {offset: new kakao.maps.Point(27,69)};
+	
+
+//마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
-//마커를 표시할 위치와 내용을 가지고 있는 객체 배열입니다 
+
+//마커의 표시할 위치와 내용을 가지고 있는 객체 배열입니다.
 var positions=[
 				<c:forEach var="dto" items="${hos}">
 					{
 						content: '<div style="width: 300px; height: 80px; padding:5px;">${dto.dutyName}<br>' + 
-						'<font size = 3> 전화번호 : ${dto.dutyTel1} </font><br>' + 
-						'<font size = 3> 주소 : ${dto.dutyAddr} </font><br>' + 
+						'<font size = 2> 전화번호 : ${dto.dutyTel1} </font><br>' + 
+						'<font size = 2> 주소 : ${dto.dutyAddr} </font><br>' + 
 						'<a href="https://map.kakao.com/link/map/ ${dto.dutyName} , ${dto.wgs84Lat} , ${dto.wgs84Lon} " style="color:blue" target="_blank">큰지도보기</a>&nbsp;' + 
 						'<a href="https://map.kakao.com/link/to/  ${dto.dutyName} , ${dto.wgs84Lat} , ${dto.wgs84Lon} " style="color:blue" target="_blank">길찾기</a>&nbsp;' + 
 						'<a href="/hos/choo/hosgrade?name=${dto.dutyName}&addr=${dto.dutyAddr}" style="color:blue" target="_blank">병원평점</a></div>',
@@ -141,46 +150,53 @@ var positions=[
 					},
 				</c:forEach>
 			];
-
-for (var i = 0; i < positions.length; i ++) {
-    
-    // 마커를 생성합니다
-    var marker = new kakao.maps.Marker({
-        map: map, // 마커를 표시할 지도
-        position: positions[i].latlng, 	// 마커를 표시할 위치
-        title : positions[i].title, 	// 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-        image: markerImage				//마커이미지 설정
-    });
-    
-  	//마커를 지도에 표시
-    marker.setMap(map);
-    
-    //마커에 클릭이벤트 등록코드
-    (function(marker, content){
-  	var infowindow = new kakao.maps.InfoWindow({
-    	content: content,			//인포윈도우에 표시할 내용
-    	removable: true
-    });
-    
- // 마커에 클릭이벤트를 등록합니다
-    kakao.maps.event.addListener(marker, 'click', function() {
-    	     // 마커 위에 인포윈도우를 표시합니다
-    	     infowindow.open(map, marker);
-     });
-   })(marker, positions[i].content); 
+			
+for(var i = 0; i < positions.length; i++){
+	
+	//마커를 생성합니다
+	var marker = new kakao.maps.Marker({
+		map: map,
+		position: positions[i].latlng,		//마커를 표시할 위치
+		title: positions[i].title,			//마커의 타이틀이고 마커를 클릭하면 병원정보가 출력
+		image: markerImage,					//커스텀 마커로 설정
+	});
+	
+	marker.setMap(map);
+	
+	//마커에 클릭이벤트 코드
+	(function(marker, content){
+		var infowindow = new kakao.maps.InfoWindow({
+			content: content,
+			removable: true
+		});
+	
+	//마커에 클릭이벤트를 등록합니다
+	kakao.maps.event.addListener(marker, 'click', function(){
+			//마커위에 인포윈도우를 표시합니다
+			infowindow.open(map,marker);
+		});
+	})(marker, positions[i].content);
 }
-
 </script>
+
+<style>
+.gps-icon{
+ 	position:absolute;
+ 	top: 22%;
+ 	right: 0.65%;
+ 	z-index:1;
+}
+</style>
 
 <table width="1400" border="1" cellspacing="0" cellpadding="0" align="center">
 	<tr height="20">
-		<td align="center" width="220">병원이름</td>
+		<td align="center" width="300">병원이름</td>
 		<td align="center" width="480">주 소</td>
 		<td align="center" width="150">전화번호</td>
 	</tr>
 	<c:forEach var="dto" items="${hos}">
 	<tr height="20">
-		<td align="center" width="220">${dto.dutyName}</td>
+		<td align="center" width="300">${dto.dutyName}</td>
 		<td align="center" width="480">${dto.dutyAddr}</td>
 		<td align="center" width="150">${dto.dutyTel1}</td>
 	</tr>
