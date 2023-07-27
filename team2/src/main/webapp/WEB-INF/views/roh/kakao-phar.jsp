@@ -40,9 +40,6 @@
 
 <script>
 <!-- Geolocation API -->        
-//GeoLocation(GPS를 받아 내 위치를 표시하는 기능)
-//크롬에선 HTTPS환경에서만 작동함
-
 var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
 
 if (navigator.geolocation) {
@@ -114,7 +111,7 @@ function panTo() {
 var container = document.getElementById('map'); // 지도를 표시할 div
 var options = {
     center: new kakao.maps.LatLng(geolat, geolon), // 지도 중심좌표 위도, 경도 순으로 입력
-   level: 4
+   	level: 4
 };
 
 // 지도 생성

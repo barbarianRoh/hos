@@ -36,7 +36,7 @@ public class RohController {
 	@Autowired
 	private RohService service;
 	
-	// http://localhost:8080/hos/
+	// 홈페이지
 	@RequestMapping("/")
 	public String home(HttpSession session, Model model) {
 		String sid = (String)session.getAttribute("id");
@@ -44,180 +44,10 @@ public class RohController {
 		return "/roh/home";
 	}
 	
-	// 카카오맵 API+약국 javascript로 만듬
+	// 카카오맵 API+약국
 	@RequestMapping("kakaophar")
 	public String kakaophar(Model model) {
 		return "/roh/kakao-phar";
-	}
-	
-	// 약국 API 자바로 출력테스트
-	@RequestMapping("apitest")
-	public String apitest(Model model) {
-		String url = null;
-		
-		try {
-			StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyListInfoInqire");
-		    urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=4c%2BBa%2BaPJxSbLQnLM24kicpVPXAEBmsK1V5nqbo7d6AJ4VRKUVVz8vKzYaRLTJFVaHWJ9IUKmf9L01QnZeCEig%3D%3D");
-		    urlBuilder.append("&" + URLEncoder.encode("Q0","UTF-8") + "=" + URLEncoder.encode("서울특별시", "UTF-8")); // 주소(시도)
-	        urlBuilder.append("&" + URLEncoder.encode("Q1","UTF-8") + "=" + URLEncoder.encode("강남구", "UTF-8")); // 주소(시군구)
-	        urlBuilder.append("&" + URLEncoder.encode("QT","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); // 월~일요일, 공휴일: 1~8
-	        urlBuilder.append("&" + URLEncoder.encode("QN","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); // 기관명
-	        urlBuilder.append("&" + URLEncoder.encode("ORD","UTF-8") + "=" + URLEncoder.encode("NAME", "UTF-8")); // 순서
-	        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); // 페이지 번호
-	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); // 목록 건수
-			
-		    url = urlBuilder.toString();
-		} catch(UnsupportedEncodingException e) {
-		    e.printStackTrace();
-		}
-		
-	    List<String> rNumValues = new ArrayList<>();
-	    List<String> dutyAddrValues = new ArrayList<>();
-	    List<String> dutyMapimgValues = new ArrayList<>();
-	    List<String> dutyNameValues = new ArrayList<>();
-	    List<String> dutyTelValues = new ArrayList<>();
-	    List<String> dutyTime1sValues = new ArrayList<>();
-	    List<String> dutyTime2sValues = new ArrayList<>();
-	    List<String> dutyTime3sValues = new ArrayList<>();
-	    List<String> dutyTime4sValues = new ArrayList<>();
-	    List<String> dutyTime5sValues = new ArrayList<>();
-	    List<String> dutyTime6sValues = new ArrayList<>();
-	    List<String> dutyTime7sValues = new ArrayList<>();
-	    List<String> dutyTime8sValues = new ArrayList<>();
-	    List<String> dutyTime1cValues = new ArrayList<>();
-	    List<String> dutyTime2cValues = new ArrayList<>();
-	    List<String> dutyTime3cValues = new ArrayList<>();
-	    List<String> dutyTime4cValues = new ArrayList<>();
-	    List<String> dutyTime5cValues = new ArrayList<>();
-	    List<String> dutyTime6cValues = new ArrayList<>();
-	    List<String> dutyTime7cValues = new ArrayList<>();
-	    List<String> dutyTime8cValues = new ArrayList<>();
-	    List<String> wgs84LonValues = new ArrayList<>();
-	    List<String> wgs84LatValues = new ArrayList<>();
-
-	    try {
-	        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	        DocumentBuilder builder = factory.newDocumentBuilder();
-	        Document document = builder.parse(new URL(url).openStream());
-
-	        Element root = document.getDocumentElement();
-	        NodeList itemNodeList = root.getElementsByTagName("item");
-	        for (int i = 0; i < itemNodeList.getLength(); i++) {
-	            Element itemElement = (Element) itemNodeList.item(i);
-
-	            String rNum = getTextContent(itemElement, "rnum");
-	            rNumValues.add(rNum);
-
-	            String dutyAddr = getTextContent(itemElement, "dutyAddr");
-	            dutyAddrValues.add(dutyAddr);
-	            
-	            String dutyMapimg = getTextContent(itemElement, "dutyMapimg");
-	            dutyMapimgValues.add(dutyMapimg);
-	            
-	            String dutyName = getTextContent(itemElement, "dutyName");
-	            dutyNameValues.add(dutyName);
-
-	            String dutyTel = getTextContent(itemElement, "dutyTel1");
-	            dutyTelValues.add(dutyTel);
-
-	            String dutyTime1s = getTextContent(itemElement, "dutyTime1s");
-	            dutyTime1sValues.add(dutyTime1s);
-
-	            String dutyTime2s = getTextContent(itemElement, "dutyTime2s");
-	            dutyTime2sValues.add(dutyTime2s);
-
-	            String dutyTime3s = getTextContent(itemElement, "dutyTime3s");
-	            dutyTime3sValues.add(dutyTime3s);
-
-	            String dutyTime4s = getTextContent(itemElement, "dutyTime4s");
-	            dutyTime4sValues.add(dutyTime4s);
-
-	            String dutyTime5s = getTextContent(itemElement, "dutyTime5s");
-	            dutyTime5sValues.add(dutyTime5s);
-
-	            String dutyTime6s = getTextContent(itemElement, "dutyTime6s");
-	            dutyTime6sValues.add(dutyTime6s);
-
-	            String dutyTime7s = getTextContent(itemElement, "dutyTime7s");
-	            dutyTime7sValues.add(dutyTime7s);
-
-	            String dutyTime8s = getTextContent(itemElement, "dutyTime8s");
-	            dutyTime8sValues.add(dutyTime8s);
-
-	            String dutyTime1c = getTextContent(itemElement, "dutyTime1c");
-	            dutyTime1cValues.add(dutyTime1c);
-
-	            String dutyTime2c = getTextContent(itemElement, "dutyTime2c");
-	            dutyTime2cValues.add(dutyTime2c);
-
-	            String dutyTime3c = getTextContent(itemElement, "dutyTime3c");
-	            dutyTime3cValues.add(dutyTime3c);
-
-	            String dutyTime4c = getTextContent(itemElement, "dutyTime4c");
-	            dutyTime4cValues.add(dutyTime4c);
-
-	            String dutyTime5c = getTextContent(itemElement, "dutyTime5c");
-	            dutyTime5cValues.add(dutyTime5c);
-
-	            String dutyTime6c = getTextContent(itemElement, "dutyTime6c");
-	            dutyTime6cValues.add(dutyTime6c);
-
-	            String dutyTime7c = getTextContent(itemElement, "dutyTime7c");
-	            dutyTime7cValues.add(dutyTime7c);
-
-	            String dutyTime8c = getTextContent(itemElement, "dutyTime8c");
-	            dutyTime8cValues.add(dutyTime8c);
-
-	            String wgs84Lon = getTextContent(itemElement, "wgs84Lon");
-	            wgs84LonValues.add(wgs84Lon);
-
-	            String wgs84Lat = getTextContent(itemElement, "wgs84Lat");
-	            wgs84LatValues.add(wgs84Lat);
-	        }
-	    } catch (ParserConfigurationException | SAXException | IOException e) {
-	        e.printStackTrace();
-	    }
-
-	    // 모델에 결과 리스트 추가
-	    model.addAttribute("rNumValues", rNumValues);
-	    model.addAttribute("dutyAddrValues", dutyAddrValues);
-	    model.addAttribute("dutyMapimgValues", dutyMapimgValues);
-	    model.addAttribute("dutyNameValues", dutyNameValues);
-	    model.addAttribute("dutyTelValues", dutyTelValues);
-	    model.addAttribute("dutyTime1sValues", dutyTime1sValues);
-	    model.addAttribute("dutyTime2sValues", dutyTime2sValues);
-	    model.addAttribute("dutyTime3sValues", dutyTime3sValues);
-	    model.addAttribute("dutyTime4sValues", dutyTime4sValues);
-	    model.addAttribute("dutyTime5sValues", dutyTime5sValues);
-	    model.addAttribute("dutyTime6sValues", dutyTime6sValues);
-	    model.addAttribute("dutyTime7sValues", dutyTime7sValues);
-	    model.addAttribute("dutyTime8sValues", dutyTime8sValues);
-	    model.addAttribute("dutyTime1cValues", dutyTime1cValues);
-	    model.addAttribute("dutyTime2cValues", dutyTime2cValues);
-	    model.addAttribute("dutyTime3cValues", dutyTime3cValues);
-	    model.addAttribute("dutyTime4cValues", dutyTime4cValues);
-	    model.addAttribute("dutyTime5cValues", dutyTime5cValues);
-	    model.addAttribute("dutyTime6cValues", dutyTime6cValues);
-	    model.addAttribute("dutyTime7cValues", dutyTime7cValues);
-	    model.addAttribute("dutyTime8cValues", dutyTime8cValues);
-	    model.addAttribute("wgs84LonValues", wgs84LonValues);
-	    model.addAttribute("wgs84LatValues", wgs84LatValues);
-
-	    return "/roh/apitest";
-	}
-	// 약국api 내 중복 줄이는 메서드
-	private String getTextContent(Element element, String tagName) {
-	    NodeList nodeList = element.getElementsByTagName(tagName);
-	    if (nodeList.getLength() > 0) {
-	        Element tagElement = (Element) nodeList.item(0);
-	        return tagElement != null ? tagElement.getTextContent() : "";
-	    }
-	    return "";
-	}
-	
-	@RequestMapping("test")
-	public String test() {
-		return "/roh/test";
 	}
 	
 	// 부트스트랩 테스트 
@@ -255,20 +85,22 @@ public class RohController {
 	
 	@RequestMapping("signinPro")
 	public String signinPro(RohDTO dto, Model model, HttpSession session) {
+		System.out.println(dto);
+		
 		int result = service.signin(dto);
 		if(result == 1) {
 			dto = service.myinfo(dto);
-			session.setAttribute("dto", dto);
 			session.setAttribute("sid", dto.getId());
-			session.setAttribute("spw", dto.getPw());
+		} else { 
+			model.addAttribute("loginFailed", true);
 		}
-		model.addAttribute(result);
 		return "/roh/home";
 	}
 	
 	@RequestMapping("signout")
-	public String signout(HttpSession session) {
+	public String signout(HttpSession session, Model model) {
 		session.invalidate();
+		model.addAttribute("logout", true);
 		return "/roh/home";
 	}
 	
@@ -280,57 +112,61 @@ public class RohController {
 	
 	@RequestMapping("withdrawalPro")
 	public String withdrawalPro(HttpSession session, RohDTO dto, Model model) {
-		int result = 0;
-		String sessionPw = (String)session.getAttribute("spw");
+		String formPw = dto.getPw();
+		dto = service.myinfo(dto);
 		String dtoPw = dto.getPw();
 		
-		if(sessionPw == null || !sessionPw.equals(dtoPw)) {
-			model.addAttribute("error", "비밀번호가 다릅니다");
+		if(formPw == null || !formPw.equals(dtoPw)) {
+			model.addAttribute("pwError", true);
 		} else {
-			result = service.withdrawal(dto);
+			int result = service.withdrawal(dto);
 			if(result == 1) {
 				model.addAttribute("withdrawalSuccess", true);
 				session.invalidate();
 			} else {
-				model.addAttribute("withdrawalError", "삭제 실패");
+				model.addAttribute("withdrawalError", true);
 			}
 		}
 		return "roh/withdrawalForm";
 	}
 	
 	@RequestMapping("myProfileForm")
-	public String myProfile(HttpSession session, Model model) {
-		RohDTO sdto = (RohDTO)session.getAttribute("dto");
+	public String myProfile(RohDTO dto, Model model, HttpSession session) {
+		String sid = (String)session.getAttribute("sid");
+		String spw = (String)session.getAttribute("spw");
+		dto.setId(sid);
+		dto.setPw(spw);
+		dto = service.myinfo(dto);
+		model.addAttribute("dto", dto);
 		
-		
-		model.addAttribute("dto", service.myinfo(sdto));
 		return "roh/myProfileForm";
 	}
 	
 	@RequestMapping("myProfilePro")
-	public String myProfilePro(HttpSession session, RohDTO dto, Model model) {
-		String sid = (String)session.getAttribute("sid");
-		String password = (String)session.getAttribute("spw");
-		String pw = (String)dto.getPw(); // 기존
-		String pw2 = (String)dto.getPw2(); // 바1
-		String pw3 = (String)dto.getPw3(); // 바2
-		// 세션 비밀번호와 기존 비밀번호 입력값이 같으면
-		if(password.equals(pw)) {
+	public String myProfilePro(RohDTO dto, Model model, HttpSession session) {
+		String id = dto.getId();
+		String formPw = (String)dto.getPw(); // 폼에서 입력한 기존 비밀번호
+		String pw2 = (String)dto.getPw2(); // 바꿀 비밀번호
+		String pw3 = (String)dto.getPw3(); // 확인
+		
+		if (pw2 == null && pw3 == null) {
+	        model.addAttribute("nullError", true);
+	        return "roh/myProfileForm";
+	    }
+		
+		RohDTO dto2 = service.myinfo(dto);
+		String dtoPw = dto2.getPw();
+		
+		if(dtoPw.equals(formPw)) {
 			if(pw2.equals(pw3)) {
-				dto.setId(sid);
-				System.out.println(dto.getId());
-				dto.setPw(dto.getPw2());
-				System.out.println(dto.getPw());
 				service.myinfoUpdate(dto);
+				model.addAttribute("infoUpdate", true);
 			} else {
-				model.addAttribute("error", "2");
-				System.out.println("실패2");
+				model.addAttribute("pwError2", true);
 			}
 		} else {
-			model.addAttribute("error", "1");
-			System.out.println("실패1");
+			model.addAttribute("pwError", true);
 		}
-		
-		return "redirect:/roh/";
+		return "roh/myProfileForm";
 	}
 }

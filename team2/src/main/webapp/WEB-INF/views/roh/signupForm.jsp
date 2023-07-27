@@ -28,10 +28,16 @@ function regName(name) {
 	return regExp.test(name);
 }
 
+function regBirth(birth) {
+	var regExp = /^\d{8}$/;
+	return regExp.test(birth);
+}
+
 var idCheck = false;
 var pwCheck = false;
 var pw2Check = false;
 var nameCheck = false;
+var birthCheck = false;
 	
 // 입력한 값이 정규식에 부합하면 true
 function checkId() {
@@ -59,9 +65,15 @@ function checkName() {
 	$("#name").css("background-color", nameCheck ? "#b0f6ac" : "#ffcece");
 	activateSignupbtn();
 }
+function checkBirth() {
+	var birth = $.trim($("#birth").val());
+	birthCheck = regBirth(birth);
+	$("#birth").css("background-color", birthCheck ? "#b0f6ac" : "#ffcece");
+	activateSignupbtn();
+}
 // 4개 체크가 통과되면 가입하기 버튼이 활성화됨
 function activateSignupbtn() {
-	if(idCheck == 1 && pwCheck == 1 && pw2Check == 1 && nameCheck == 1) {
+	if(idCheck == 1 && pwCheck == 1 && pw2Check == 1 && nameCheck == 1 && birthCheck == 1) {
 		$("#signupbtn").prop("disabled", false);
 		$("#signupbtn").css("background-color", "#b0f6ac");
 	} else {
@@ -71,11 +83,18 @@ function activateSignupbtn() {
 }
 
 $(function() {
-	$("#id, #pw, #pw2, #name").on("input", function() {
+	$("#id").on("input", function() {
 		checkId();
+	});
+	$("#pw, #pw2").on("input", function() {
 		checkPw();
 		checkPw2();
+	});
+	$("#name").on("input", function() {
 		checkName();
+	});
+	$("#Birth").on("input", function() {
+		checkBirth();
 	});
 		
 	$("#signupbtn").click(function() {
@@ -83,41 +102,47 @@ $(function() {
         var pw = $.trim($("#pw").val());
         var pw2 = $.trim($("#pw2").val());
         var name = $.trim($("#name").val());
+        var birth = $.trim($("#birth").val());
 		
-		if (id === "" || pw === "" || pw2 === "" || name === "") {
+		if (id === "" || pw === "" || pw2 === "" || name === "" || birth === "") {
 			alert("입력사항을 전부 입력해주세요");
 			return false;
 		}
 	
 		if(!regId(id)) {
-			alert("아이디경고");
+			alert("아이디 경고");
 			$("#id").focus();
 			return false;
 		}
 		
 		if(!regPw(pw)) {
-			alert("비번경고");
+			alert("비밀번호 경고");
 			$("#pw").focus();
 			return false;
 		}
 		
 		if(pw !== pw2) {
-			alert("비번2경고");
+			alert("비밀번호 확인 경고");
 			$("#pw2").focus();
 			return false;
 		}
 		
 		if (!regName(name)) {
-			alert("이름경고")
+			alert("이름 경고")
 			$("#name").focus();
 			return false;
+		}
+		
+		if (!regBirth(birth)) {
+			alert("생년월일 경고")
 		}
 		
 		$("#id").val(id);
 		$("#pw").val(pw);
 		$("#name").val(name);
+		$("#birth").val(birth);
 	
-	// serialize는 폼 안의 데이터를 한 번에 전송가능한 데이터로 만들어줌
+		// serialize는 폼 안의 데이터를 한 번에 전송가능한 데이터로 만들어줌
 		var formData = $("#frm").serialize();
 		$.ajax({
 			// 전송전 세팅
@@ -151,11 +176,14 @@ $(function() {
 	<font color="red" id = "fail" style="display : none">5~15자의 영문자 혹은 숫자로 작성해주세요</font>
 	<font color="red" id = "fail2" style="display : none">이미 존재하는 아이디입니다</font><br />
 	<label for="pw">비밀번호 : </label>
-	<input type="password" id="pw" name="pw" placeholder="비밀번호" oninput="checkPw(), checkPw2()" autocomplete='off' /> <br />
+	<input type="password" id="pw" name="pw" placeholder="비밀번호" oninput="checkPw(), checkPw2()" autocomplete='off' /><br />
 	<label for="pw2">비밀번호 확인 : </label>
-	<input type="password" id="pw2" name="pw2" placeholder="비밀번호 확인" oninput="checkPw2()" autocomplete='off' /> <br />
+	<input type="password" id="pw2" name="pw2" placeholder="비밀번호 확인" oninput="checkPw2()" autocomplete='off' /><br />
 	<label for="name">이름 : </label>
-	<input type="text" id="name" name="name" placeholder="이름" oninput="checkName()" autocomplete='off' /> <br />
+	<input type="text" id="name" name="name" placeholder="이름" oninput="checkName()" autocomplete='off' /><br />
+	<label for="birth">생년월일 : </label>
+	<input type="text" id="birth" name="birth" placeholder="ex)19960331" oninput="checkBirth()" autocomplete='off' /><br />
+	
 	<input type="hidden" id="memberType" name="memberType" value="1" />
 	<input type="hidden" id="ip" name="ip" value="ip" />
 	<input type="hidden" id="enabled" name="enabled" value="1" />

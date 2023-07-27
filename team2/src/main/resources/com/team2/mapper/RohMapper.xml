@@ -6,7 +6,7 @@
 <mapper namespace="com.team2.mapper.RohMapper">
 
 	<insert id="signup">
-		insert into p2_member values(#{id},#{pw},#{name},#{memberType},#{ip},sysdate,#{enabled},#{etc1},#{etc2})
+		insert into p2_member values(#{id},#{pw},#{name},#{birth},#{memberType},#{ip},sysdate,#{enabled},#{etc1},#{etc2})
 	</insert>
 
 	<select id="signin" resultType="int">
@@ -18,16 +18,16 @@
 	</delete>
 	
 	<select id="myinfo" resultType="RohDTO">
-		select * from p2_member where id=#{id} and pw=#{pw}
+		select * from p2_member where id=#{id}
 	</select>
 	
+	<!-- 추후에 더 늘어날 수 있어서 동적 쿼리문으로 작성함 -->
 	<update id="myinfoUpdate">
 		update p2_member
 		<set>
-			<if test="pw != null">pw=#{pw}</if>
+			<if test="pw != null">pw=#{pw2}</if>
 		</set>
 		where id=#{id} and pw=#{pw}
 	</update>
-	<update id="myinfoUpdate">
-	</update>
+	
 </mapper>

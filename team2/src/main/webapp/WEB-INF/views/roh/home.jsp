@@ -7,6 +7,18 @@
 
 <h1>홈페이지</h1>
 
+<c:if test="${loginFailed}">
+	<script>
+		alert("아이디 혹은 비밀번호를 확인하세요");
+	</script>
+</c:if>
+
+<c:if test="${logout}">
+	<script>
+		alert("로그아웃 되었습니다")
+	</script>
+</c:if>
+
 <c:if test="${not empty sid}">
 	${sid}님
 	<a href="/hos/roh/myProfileForm">내정보</a>

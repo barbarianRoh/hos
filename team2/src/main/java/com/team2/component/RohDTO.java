@@ -13,6 +13,7 @@ public class RohDTO {
 	private String pw2;
 	private String pw3;
 	private String name;
+	private String birth;
 	private String memberType;
 	private String ip;
 	private Date reg;

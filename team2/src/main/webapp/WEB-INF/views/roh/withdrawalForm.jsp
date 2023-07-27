@@ -5,6 +5,25 @@
 
 <title>회원탈퇴</title>
 
+<c:if test="${withdrawalSuccess == true}">
+	<script>
+		alert("탈퇴되었습니다");
+		window.location.href='http://localhost:8080/hos/roh/';
+	</script>
+</c:if>
+
+<c:if test="${withdrawalError == true}">
+	<script>
+		alert("관리자에게 문의해주세요");
+	</script>
+</c:if>
+
+<c:if test="${pwError == true}">
+    <script>
+    	alert("비밀번호가 다릅니다");
+    </script>
+</c:if>
+
 <h1>회원탈퇴</h1>
 <form action="withdrawalPro" method="post">
 	<label for="id">아이디</label>
@@ -15,15 +34,4 @@
 	<input type="submit" value="회원탈퇴" />
 </form>
 
-<c:if test="${withdrawalSuccess == true}">
-	<script>
-		alert("탈퇴되었습니다");
-		window.location.href='http://localhost:8080/hos/roh/';
-	</script>
-</c:if>
-<c:if test="${not empty error}">
-    <script>
-    	alert("비밀번호가 다릅니다");
-    </script>
-</c:if>
 <a href="/hos/roh/">돌아가기</a>
