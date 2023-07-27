@@ -8,8 +8,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/hos/resources/css/symptom.css">
 <title>증상체크</title>
+
+
 </head>
-	<!-- 버튼 디자인 -->
 
 
 <body>
@@ -26,152 +27,255 @@
 					<p>증상을 보이는 신체부위를 선택하세요</p>
 				</div>
 				<div class="body-search">
-					<div id="body-image" class="body-imaege">
+					<div id="body-image" class="body-imaege"style="
+						margin-left: 100px;
+						margin-right: 100px;
+						
+					">
 						<button class="ghost-button">.</button>
-						<button id="head" class="ghost-button" onclick="loadNewButton()">머리</button>
-						<div id="buttonContainer-head" class="add-Hbutton">
-						    <!-- 새로운 버튼이 여기에 추가됩니다. -->
-						</div>
-							<script>
-							document.getElementById("head").addEventListener("click", function createNewButton() {
-							    // Create a new button element.
-							    var newHButton = document.createElement("button");
-							    var newHButton2 = document.createElement("button");
-							    var newHButton3 = document.createElement("button");
-							    var newHButton4 = document.createElement("button");
-							    var newHButton5 = document.createElement("button");
-							    
-							    newHButton.className = "new-Hbutton";
-							    newHButton2.className = "new-Hbutton2";
-							    newHButton3.className = "new-Hbutton3";
-							    newHButton4.className = "new-Hbutton4";
-							    newHButton5.className = "new-Hbutton5";
-							    
-							
-							    // Set the button's text.
-							    newHButton.innerHTML = "두통";
-							    newHButton2.innerHTML = "어지럼증";
-							    newHButton3.innerHTML = "얼굴떨림";
-							    newHButton4.innerHTML = "편두통";
-							    newHButton5.innerHTML = "손떨림";
-							
-							    // You can add a class or other properties to the new button as needed.
-							    // newButton.className = "custom-button";
-							    // newButton.setAttribute("data-action", "something");
-							
-							    // You can add an event listener to the new button if needed.
-							    // newButton.addEventListener("click", function() {
-							    //     // Write the logic that operates when the button is clicked.
-							    // });
-							
-							    // Add the new button to the button container.
-							    document.getElementById("buttonContainer-head").appendChild(newHButton);
-							    document.getElementById("buttonContainer-head").appendChild(newHButton2);
-							    document.getElementById("buttonContainer-head").appendChild(newHButton3);
-							    document.getElementById("buttonContainer-head").appendChild(newHButton4);
-							    document.getElementById("buttonContainer-head").appendChild(newHButton5);
-							    
-							
-							    // Remove the event listener so the button is only created once.
-							    document.getElementById("head").removeEventListener("click", createNewButton);
-							});
-							</script>					
+						<button id="head" class="ghost-button" onclick="createNewButton('head')">머리</button>
 
+							<script>
+							    let headButtonClicked = false;
+							    let abdomenButtonClicked = false;
+							    let faceButtonClicked = false;
+							    let urologyButtonClicked = false;
+								
+							    
+							    function applyCustomStyleToButton(newButton) {
+							        // 여기에 새로운 버튼에 원하는 스타일을 적용하는 코드를 작성합니다.
+							        newButton.style.backgroundColor = '#4CAF50'; // 녹색 배경색
+							        newButton.style.border = 'none'; // 테두리 없음
+							        newButton.style.color = 'white'; // 흰색 텍스트 색상
+							        newButton.style.padding = '10px 20px'; // 패딩 추가
+							        newButton.style.textAlign = 'center'; // 가운데 정렬
+							        newButton.style.textDecoration = 'none'; // 밑줄 제거
+							        newButton.style.display = 'inline-block'; // 블록 요소로 표시
+							        newButton.style.margin = '4px 2px'; // 마진 추가
+							        newButton.style.cursor = 'pointer'; // 커서를 포인터로 변경하여 호버 효과 생성
+							        newButton.style.borderRadius = '4px'; // 둥근 모서리
+
+							        // 버튼 호버 효과
+							        newButton.addEventListener('mouseover', function () {
+							            newButton.style.backgroundColor = '#45a049'; // 호버 시 어두운 녹색 배경색
+							        });
+
+							        newButton.addEventListener('mouseout', function () {
+							            newButton.style.backgroundColor = '#4CAF50'; // 호버 해제 시 다시 원래 배경색으로
+							        });
+							    }
+							    
+							    function toggleButton(buttonType) {
+							        if (buttonType === 'Urology' && !urologyButtonClicked) {
+							            createNewButton('Urology');
+							            urologyButtonClicked = true;
+							        } else if (buttonType === 'head' && !headButtonClicked) {
+							            createNewButton('head');
+							            headButtonClicked = true;
+							        } else if (buttonType === 'abdomen' && !abdomenButtonClicked) {
+							            createNewButton('abdomen');
+							            abdomenButtonClicked = true;
+							        } else if (buttonType === 'face' && !faceButtonClicked) {
+							            createNewButton('face');
+							            faceButtonClicked = true;
+							        } else if (buttonType === 'chest' && !chestButtonClicked) {
+							            createNewButton('chest');
+							            chestButtonClicked = true;
+							        }  else if (buttonType === 'neck' && !neckButtonClicked) {
+							            createNewButton('neck');
+							            neckButtonClicked = true;
+							        }  else {
+							            // Remove event listeners for all buttons
+							            document.getElementById('Urology').removeEventListener('click', function () {
+							                toggleButton('Urology');
+							            });
+							            document.getElementById('head').removeEventListener('click', function () {
+							                toggleButton('head');
+							            });
+							            document.getElementById('abdomen').removeEventListener('click', function () {
+							                toggleButton('abdomen');
+							            });
+							            document.getElementById('face').removeEventListener('click', function () {
+							                toggleButton('face');
+							            });
+							            document.getElementById('chest').removeEventListener('click', function () {
+							                toggleButton('chest');
+							            });
+							            document.getElementById('neck').removeEventListener('click', function () {
+							                toggleButton('neck');
+							            });							            
+							        }
+							    }
+							
+							    function createNewButton(buttonType) {
+							        let containerId;
+							        let newButtonClassName;
+							        let newButtonData = [];
+									var hos1 = 'http://localhost:8080/hos/choo/resultHos';
+									var hos2 = 'http://localhost:8080/hos/choo/resultHos';
+							        if (buttonType === 'Urology') {
+							            containerId = 'buttonContainer-Urology';
+							            newButtonClassName = 'new-Ubutton';
+							            newButtonData = [
+							                { label: '통증', link: 'https://www.naver.com' },
+							                { label: '혈뇨', link: 'https://www.google.com' },
+							                { label: '요실금', link: '/hos/kim/chatForm' }
+							            ];
+							
+							            clearContainers(['buttonContainer-head', 'buttonContainer-abdomen', 'buttonContainer-face','buttonContainer-chest','buttonContainer-neck']);
+							            headButtonClicked = false;
+							            abdomenButtonClicked = false;
+							            faceButtonClicked = false;
+							            chestButtonClicked = false;
+							            neckButtonClicked = false;							            
+							        } else if (buttonType === 'head') {
+							            containerId = 'buttonContainer-head';
+							            newButtonClassName = 'new-Hbutton';
+							            newButtonData = [
+							                { label: '두통', link: 'https://www.example.com/headache' },
+							                { label: '어지러움', link: 'https://www.example.com/dizziness' },
+							                { label: '얼굴떨림', link: 'https://www.example.com/shake-face' },
+							                { label: '편두통', link: 'https://www.example.com/migraine' },
+							                { label: '손떨림', link: 'https://www.example.com/hand-shake' }
+							            ];
+							
+							            clearContainers(['buttonContainer-Urology', 'buttonContainer-abdomen', 'buttonContainer-face','buttonContainer-chest','buttonContainer-neck']);
+							            urologyButtonClicked = false;
+							            abdomenButtonClicked = false;
+							            faceButtonClicked = false;
+							            chestButtonClicked = false;
+							            neckButtonClicked = false;							            
+							        } else if (buttonType === 'abdomen') {
+							            containerId = 'buttonContainer-abdomen';
+							            newButtonClassName = 'new-Abutton';
+							            newButtonData = [
+							                { label: '구토', link: 'https://www.example.com/headache' },
+							                { label: '복통', link: 'https://www.example.com/dizziness' },
+							                { label: '설사', link: 'https://www.example.com/shake-face' },
+							                { label: '변비', link: 'https://www.example.com/migraine' },
+							                { label: '속쓰림', link: 'https://www.example.com/hand-shake' }
+							            ];
+							
+							            clearContainers(['buttonContainer-Urology', 'buttonContainer-head', 'buttonContainer-face','buttonContainer-chest','buttonContainer-neck']);
+							            urologyButtonClicked = false;
+							            headButtonClicked = false;
+							            faceButtonClicked = false;
+							            chestButtonClicked = false;
+							            neckButtonClicked = false;							            
+							        } else if (buttonType === 'face') {
+							            containerId = 'buttonContainer-face';
+							            newButtonClassName = 'new-Fbutton';
+							            newButtonData = [
+							                { label: '눈 충혈', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('눈충혈')},
+							                { label: '저시력', link: 'https://www.example.com/dizziness' },
+							                { label: '눈 가지럼', link: hos2 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('눈간지럼') },
+							                { label: '귀 통증', link: hos2 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('귀통증') },
+							                { label: '이명', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('이명') },
+							                { label: '난청', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('난청') },
+							                { label: '이 통증', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('이통증')},
+							                { label: '이 시림', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('이시림')},
+							                { label: '잇몸 출혈', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('잇몸출혈')},
+							                { label: '코 막힘', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('코막힘')}
+							            ];
+							
+							            clearContainers(['buttonContainer-Urology', 'buttonContainer-head', 'buttonContainer-abdomen','buttonContainer-chest','buttonContainer-neck']);
+							            urologyButtonClicked = false;
+							            headButtonClicked = false;
+							            abdomenButtonClicked = false;
+							            chestButtonClicked = false;
+							            neckButtonClicked = false;
+							        } else if (buttonType === 'chest') {
+							            containerId = 'buttonContainer-chest';
+							            newButtonClassName = 'new-Cbutton';
+							            newButtonData = [
+							                { label: '객혈', link: 'https://www.example.com/headache' },
+							                { label: '호흡곤란', link: 'https://www.example.com/dizziness' },
+							                { label: '흉통', link: 'https://www.example.com/shake-face' },
+							                { label: '기침', link: 'https://www.example.com/migraine' },
+							                { label: '가슴쓰림', link: 'https://www.example.com/hand-shake' }
+							            ];
+							
+							            clearContainers(['buttonContainer-Urology', 'buttonContainer-head', 'buttonContainer-abdomen','buttonContainer-neck','buttonContainer-face']);
+							            urologyButtonClicked = false;
+							            headButtonClicked = false;
+							            abdomenButtonClicked = false;
+							            neckButtonClicked = false;
+							            faceButtonClicked = false;
+							        } else if (buttonType === 'neck') {
+							            containerId = 'buttonContainer-neck';
+							            newButtonClassName = 'new-Nbutton';
+							            newButtonData = [
+							                { label: '목 통증', link: 'https://www.example.com/headache' },
+							                { label: '가래', link: 'https://www.example.com/dizziness' }
+							            ];
+							
+							            clearContainers(['buttonContainer-Urology', 'buttonContainer-head', 'buttonContainer-abdomen','buttonContainer-face','buttonContainer-chest']);
+							            urologyButtonClicked = false;
+							            headButtonClicked = false;
+							            abdomenButtonClicked = false;
+							            faceButtonClicked = false;
+							            chestButtonClicked = false;
+							        }
+							
+							        let container = document.getElementById(containerId);
+							        newButtonData.forEach((data) => {
+							            let newButton = document.createElement('a');
+							            newButton.className = newButtonClassName;
+							            newButton.innerHTML = data.label;
+							            newButton.href = data.link;
+							            newButton.target = '_blank'; // 새 창에서 링크 열기
+							            container.appendChild(newButton);
+							        });
+							    }
+							
+							    // 각 섹션 버튼에 대한 이벤트 리스너
+							    document.getElementById('head').addEventListener('click', function () {
+							        toggleButton('head');
+							    });
+							
+							    document.getElementById('abdomen').addEventListener('click', function () {
+							        toggleButton('abdomen');
+							    });
+							
+							    document.getElementById('face').addEventListener('click', function () {
+							        toggleButton('face');
+							    });
+							
+							    document.getElementById('Urology').addEventListener('click', function () {
+							        toggleButton('Urology');
+							    });
+							    
+							    document.getElementById('chest').addEventListener('click', function () {
+							        toggleButton('chest');
+							    });
+							    
+							    document.getElementById('neck').addEventListener('click', function () {
+							        toggleButton('neck');
+							    });
+							
+							    function clearContainers(containerIds) {
+							        containerIds.forEach((id) => {
+							            let container = document.getElementById(id);
+							            while (container.firstChild) {
+							                container.removeChild(container.firstChild);
+							            }
+							        });
+							    }
+							</script>
 												
 						<button class="ghost-button2">.</button>
 						<button class="ghost-button2">.</button>
 						<button class="ghost-button2">.</button>
 						<button class="ghost-button2">.</button>
 						<button class="ghost-button2">.</button>																	
-						<button id="chest" class="ghost-button2" onclick="loadNewButton()">가슴</button>
-						<div id="buttonContainer-chest" class="add-Hbutton">
-						    <!-- 새로운 버튼이 여기에 추가됩니다. -->
-						</div>
-							<script>
-							document.getElementById("chest").addEventListener("click", function createNewButton() {
-							    // Create a new button element.
-							    var newCButton = document.createElement("button");
-							    var newCButton2 = document.createElement("button");
-							    var newCButton3 = document.createElement("button");
-							    var newCButton4 = document.createElement("button");
-							    var newCButton5 = document.createElement("button");
-							    
-							    newCButton.className = "new-Cbutton";
-							    newCButton2.className = "new-Cbutton2";
-							    newCButton3.className = "new-Cbutton3";
-							    newCButton4.className = "new-Cbutton4";
-							    newCButton5.className = "new-Cbutton5";
-							    
-							
-							    // Set the button's text.
-							    newCButton.innerHTML = "객혈";
-							    newCButton2.innerHTML = "호흡곤란";
-							    newCButton3.innerHTML = "흉통";
-							    newCButton4.innerHTML = "기침";
-							    newCButton5.innerHTML = "가슴쓰림";
-							
-							    // You can add a class or other properties to the new button as needed.
-							    // newButton.className = "custom-button";
-							    // newButton.setAttribute("data-action", "something");
-							
-							    // You can add an event listener to the new button if needed.
-							    // newButton.addEventListener("click", function() {
-							    //     // Write the logic that operates when the button is clicked.
-							    // });
-							
-							    // Add the new button to the button container.
-							    document.getElementById("buttonContainer-head").appendChild(newCButton);
-							    document.getElementById("buttonContainer-head").appendChild(newCButton2);
-							    document.getElementById("buttonContainer-head").appendChild(newCButton3);
-							    document.getElementById("buttonContainer-head").appendChild(newCButton4);
-							    document.getElementById("buttonContainer-head").appendChild(newCButton5);
-							    
-							
-							    // Remove the event listener so the button is only created once.
-							    document.getElementById("chest").removeEventListener("click", createNewButton);
-							});
-							</script>
+						<button id="chest" class="ghost-button2" onclick="createNewButton('chest')">가슴</button>
+
 						
 						<button class="ghost-button3">.</button>
 						<button class="ghost-button3">.</button>
 						<button class="ghost-button3">.</button>																								
 						<button class="ghost-button3">.</button>
-						<button id="neck" class="ghost-button3" onclick="loadNewButton()">목</button>
-						<div id="buttonContainer-neck" class="add-Hbutton">
-						    <!-- 새로운 버튼이 여기에 추가됩니다. -->
-						</div>
-							<script>
-							document.getElementById("neck").addEventListener("click", function createNewButton() {
-							    // Create a new button element.
-							    var newNButton = document.createElement("button");
-							    var newNButton2 = document.createElement("button");
-							    
-							    newNButton.className = "new-Hbutton";
-							    newNButton2.className = "new-Hbutton2";
-							    
-							
-							    // Set the button's text.
-							    newNButton.innerHTML = "목통증";
-							    newNButton2.innerHTML = "가래";
-							
-							    // You can add a class or other properties to the new button as needed.
-							    // newButton.className = "custom-button";
-							    // newButton.setAttribute("data-action", "something");
-							
-							    // You can add an event listener to the new button if needed.
-							    // newButton.addEventListener("click", function() {
-							    //     // Write the logic that operates when the button is clicked.
-							    // });
-							
-							    // Add the new button to the button container.
-							    document.getElementById("buttonContainer-neck").appendChild(newNButton);
-							    document.getElementById("buttonContainer-neck").appendChild(newNButton2);
-							    
-							
-							    // Remove the event listener so the button is only created once.
-							    document.getElementById("neck").removeEventListener("click", createNewButton);
-							});
-							</script>	
+						<button id="neck" class="ghost-button3" onclick="createNewButton('neck')">목</button>
 						
 						<button class="ghost-button4"></button>
 						<button class="ghost-button4"></button>
@@ -179,54 +283,8 @@
 						<button class="ghost-button4"></button>
 						<button class="ghost-button4"></button>
 						<button class="ghost-button4"></button>
-						<button id="abdomen" class="ghost-button4" onclick="loadNewButton()">복부</button>
-						<div id="buttonContainer-abdomen" class="add-Hbutton">
-						    <!-- 새로운 버튼이 여기에 추가됩니다. -->
-						</div>
-							<script>
-							document.getElementById("abdomen").addEventListener("click", function createNewButton() {
-							    // Create a new button element.
-							    var newAButton = document.createElement("button");
-							    var newAButton2 = document.createElement("button");
-							    var newAButton3 = document.createElement("button");
-							    var newAButton4 = document.createElement("button");
-							    var newAButton5 = document.createElement("button");
-							    
-							    newAButton.className = "new-Abutton";
-							    newAButton2.className = "new-Abutton2";
-							    newAButton3.className = "new-Abutton3";
-							    newAButton4.className = "new-Abutton4";
-							    newAButton5.className = "new-Abutton5";
-							    
-							
-							    // Set the button's text.
-							    newAButton.innerHTML = "구토";
-							    newAButton2.innerHTML = "복통";
-							    newAButton3.innerHTML = "설사";
-							    newAButton4.innerHTML = "변비";
-							    newAButton5.innerHTML = "속쓰림";
-							
-							    // You can add a class or other properties to the new button as needed.
-							    // newButton.className = "custom-button";
-							    // newButton.setAttribute("data-action", "something");
-							
-							    // You can add an event listener to the new button if needed.
-							    // newButton.addEventListener("click", function() {
-							    //     // Write the logic that operates when the button is clicked.
-							    // });
-							
-							    // Add the new button to the button container.
-							    document.getElementById("buttonContainer-abdomen").appendChild(newAButton);
-							    document.getElementById("buttonContainer-abdomen").appendChild(newAButton2);
-							    document.getElementById("buttonContainer-abdomen").appendChild(newAButton3);
-							    document.getElementById("buttonContainer-abdomen").appendChild(newAButton4);
-							    document.getElementById("buttonContainer-abdomen").appendChild(newAButton5);
-							    
-							
-							    // Remove the event listener so the button is only created once.
-							    document.getElementById("abdomen").removeEventListener("click", createNewButton);
-							});
-							</script>
+						<button id="abdomen" class="ghost-button4" onclick="createNewButton('abdomen')">복부</button>
+
 						
 						<button class="ghost-button5"></button>
 						<button class="ghost-button5"></button>
@@ -235,46 +293,8 @@
 						<button class="ghost-button5"></button>
 						<button class="ghost-button5"></button>
 						<button class="ghost-button5"></button>
-						<button id="Urology" class="ghost-button5" onclick="loadNewButton()">비뇨기</button>
-						<div id="buttonContainer-Urology" class="add-Hbutton">
-						    <!-- 새로운 버튼이 여기에 추가됩니다. -->
-						</div>
-							<script>
-							document.getElementById("Urology").addEventListener("click", function createNewButton() {
-							    // Create a new button element.
-							    var newUButton = document.createElement("button");
-							    var newUButton2 = document.createElement("button");
-							    var newUButton3 = document.createElement("button");
-							    
-							    newUButton.className = "new-Ubutton";
-							    newUButton2.className = "new-Ubutton2";
-							    newUButton3.className = "new-Ubutton3";
-							    
-							
-							    // Set the button's text.
-							    newUButton.innerHTML = "통증";
-							    newUButton2.innerHTML = "혈뇨";
-							    newUButton3.innerHTML = "요실금";
-							
-							    // You can add a class or other properties to the new button as needed.
-							    // newButton.className = "custom-button";
-							    // newButton.setAttribute("data-action", "something");
-							
-							    // You can add an event listener to the new button if needed.
-							    // newButton.addEventListener("click", function() {
-							    //     // Write the logic that operates when the button is clicked.
-							    // });
-							
-							    // Add the new button to the button container.
-							    document.getElementById("buttonContainer-Urology").appendChild(newUButton);
-							    document.getElementById("buttonContainer-Urology").appendChild(newUButton2);
-							    document.getElementById("buttonContainer-Urology").appendChild(newUButton3);
-							    
-							
-							    // Remove the event listener so the button is only created once.
-							    document.getElementById("Urology").removeEventListener("click", createNewButton);
-							});
-							</script>
+						<button id="Urology" class="ghost-button5" onclick="createNewButton('Urology')">비뇨기</button>
+
 						
 						<button class="ghost-button6">.</button>
 						<button class="ghost-button6">.</button>
@@ -291,29 +311,17 @@
 						
 						    <script>
 						        document.getElementById("armHandButton").addEventListener("click", function createNewButton() {
-						            // 새로운 버튼 요소를 생성합니다.
 						            var newButton = document.createElement("button");
 						            var newButton2 = document.createElement("button");
 						            newButton.className = "new-button";
 						            newButton2.className = "new-button2";
 						            
-						            // 버튼의 텍스트를 설정합니다.
 						            newButton.innerHTML = "새로운 버튼";
 									newButton2.innerHTML ="새로우 버튼2"
-						            // 필요에 따라 새로운 버튼에 클래스나 다른 속성을 추가할 수 있습니다.
-						            // newButton.className = "custom-button";
-						            // newButton.setAttribute("data-action", "something");
-						
-						            // 필요한 경우 새로운 버튼에 이벤트 리스너를 추가할 수 있습니다.
-						            // newButton.addEventListener("click", function() {
-						            //     // 버튼 클릭 시 동작하는 로직을 작성합니다.
-						            // });
-						
-						            // 새로운 버튼을 버튼 컨테이너에 추가합니다.
-						            document.getElementById("buttonContainer").appendChild(newButton);
+						            
+									document.getElementById("buttonContainer").appendChild(newButton);
 						            document.getElementById("buttonContainer").appendChild(newButton2);
 						
-						            // 이벤트 리스너를 제거하여 버튼이 한 번만 생성되도록 합니다.
 						            document.getElementById("armHandButton").removeEventListener("click", createNewButton);
 						        });
 						    </script>
@@ -395,82 +403,8 @@
 						<button class="ghost-button14"></button>
 						<button class="ghost-button14"></button>
 						<button class="ghost-button14"></button>
-						<button id="face" class="ghost-button14" onclick="loadNewButton()">얼굴</button>
-						<div id="buttonContainer-face" class="add-Hbutton">
-						    <!-- 새로운 버튼이 여기에 추가됩니다. -->
-						</div>
-							<script>
-							document.getElementById("face").addEventListener("click", function createNewButton() {
-							    // Create a new button element.
-							    var newFButton = document.createElement("button");
-							    var newFButton2 = document.createElement("button");
-							    var newFButton3 = document.createElement("button");
-							    var newFButton4 = document.createElement("button");
-							    var newFButton5 = document.createElement("button");
-							    var newFButton6 = document.createElement("button");
-							    var newFButton7 = document.createElement("button");
-							    var newFButton8 = document.createElement("button");
-							    var newFButton9 = document.createElement("button");
-							    var newFButton10 = document.createElement("button");
-							    
-							    newFButton.className = "new-Fbutton";
-							    newFButton2.className = "new-Fbutton2";
-							    newFButton3.className = "new-Fbutton3";
-							    newFButton4.className = "new-Fbutton4";
-							    newFButton5.className = "new-Fbutton5";
-							    newFButton6.className = "new-Fbutton6";
-							    newFButton7.className = "new-Fbutton7";
-							    newFButton8.className = "new-Fbutton8";
-							    newFButton9.className = "new-Fbutton9";
-							    newFButton10.className = "new-Fbutton10";
-							    
-							    
-							
-							    // Set the button's text.
-							    newFButton.innerHTML = "눈충혈";
-							    newFButton2.innerHTML = "저시력";
-							    newFButton3.innerHTML = "눈간지럼증";
-							    newFButton4.innerHTML = "귀통증";
-							    newFButton5.innerHTML = "이명";
-							    newFButton6.innerHTML = "난청";
-							    newFButton7.innerHTML = "이통증";
-							    newFButton8.innerHTML = "이시림";
-							    newFButton9.innerHTML = "잇몸출혈";
-							    newFButton10.innerHTML = "코막힘";
-							
-							    // You can add a class or other properties to the new button as needed.
-							    // newButton.className = "custom-button";
-							    // newButton.setAttribute("data-action", "something");
-							
-							    // You can add an event listener to the new button if needed.
-							    // newButton.addEventListener("click", function() {
-							    //     // Write the logic that operates when the button is clicked.
-							    // });
-							
-							    // Add the new button to the button container.
-							    document.getElementById("buttonContainer-face").appendChild(newFButton);
-							    document.getElementById("buttonContainer-face").appendChild(newFButton2);
-							    document.getElementById("buttonContainer-face").appendChild(newFButton3);
-							    document.getElementById("buttonContainer-face").appendChild(newFButton4);
-							    document.getElementById("buttonContainer-face").appendChild(newFButton5);
-							    document.getElementById("buttonContainer-face").appendChild(newFButton6);
-							    document.getElementById("buttonContainer-face").appendChild(newFButton7);
-							    document.getElementById("buttonContainer-face").appendChild(newFButton8);
-							    document.getElementById("buttonContainer-face").appendChild(newFButton9);
-							    document.getElementById("buttonContainer-face").appendChild(newFButton10);
-							    
-							    
-							
-							    // Remove the event listener so the button is only created once.
-							    document.getElementById("head").removeEventListener("click", createNewButton);
-							});
-							</script>							
-																																																																																						
+						<button id="face" class="ghost-button14" onclick="createNewButton('face')">얼굴</button>
 						
-					</div>
-					
-										
-      
 			        	<form action="#" class="body-menu">
 			        		<fieldset>
 			        			<legend class="d-up-lg">증상을 보이는 신체부위를 선택하세요</legend>
@@ -559,11 +493,40 @@
 			        					</label>
 			        				</li>			        				        				        				        				        				        				        				        				       				        				        				        				
 			        			</ul>
+			        			<div class="btn-area">
+			        				<button class="btn_search btn btn-lg btn-round btn-primary" type="button">검색</button>
+				        			<script>
+										$(function(){
+											$(".btn_search").click(function(){
+												//var codeTable = [53,54,55,56,57,58,59,60,61,62,63,64];
+												var codeTable = [279,280,281,282,283,284,285,286,287,288,289,290];
+												var category = codeTable[0];
+												$(".body_type").each(function(index, item){
+													if(item.checked) {
+														category = codeTable[index];
+													}
+												}
+																	);
+												window.open("/health/encyclopedia/disease/body_board.do?srBodyCategoryId=" + category + "&mode=list&srSearchKey=&srSearchVal=","_blank");
+											}
+																  );
+										}
+										 );
+				        			</script>
+			        			</div>			        			
 			        		</fieldset>       	
         				</form> 
+        				</div>
 					</div>
 				</div>            
 		</article>
 	</div>
+	<div id="buttonContainer-head" class="add-Hbutton"></div>
+	<div id="buttonContainer-face" class="add-Fbutton"></div>
+	<div id="buttonContainer-neck" class="add-Nbutton"></div>	
+	<div id="buttonContainer-Urology" class="add-Ubutton"></div>		
+	<div id="buttonContainer-abdomen" class="add-Hbutton"></div>
+	<div id="buttonContainer-chest" class="add-Cbutton"></div>
+	
 </body>
 </html>

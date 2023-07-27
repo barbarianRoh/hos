@@ -28,6 +28,4 @@
 		</set>
 		where id=#{id} and pw=#{pw}
 	</update>
-	<update id="myinfoUpdate">
-	</update>
 </mapper>

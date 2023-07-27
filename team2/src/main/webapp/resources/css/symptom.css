@@ -125,7 +125,7 @@
   }
   .body-search #body-image {
     float: left;
-    width: 50%;
+    width: 100%;
     height: 697px;
     border-right: 1px solid #e6e6e6;
   }
@@ -248,8 +248,8 @@
 
   .ghost-button {
     position: absolute;
-    top: 18%;
-    left: 50.25%;
+    top: 23%;
+    left: 29.24%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
@@ -267,8 +267,8 @@
 
   .ghost-button2 {
     position: absolute;
-    top: 25%;
-    left: 50%;
+    top: 35%;
+    left: 29.24%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
@@ -286,8 +286,8 @@
 
   .ghost-button3 {
     position: absolute;
-    top: 22.2%;
-    left: 50.25%;
+    top: 30%;
+    left: 29.24%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
@@ -304,8 +304,8 @@
 
   .ghost-button4 {
     position: absolute;
-    top: 28%;
-    left: 50.25%;
+    top: 42%;
+    left: 29.24%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
@@ -323,8 +323,8 @@
 
   .ghost-button5 {
     position: absolute;
-    top: 31%;
-    left: 50.25%;
+    top: 49.7%;
+    left: 29.24%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
@@ -342,8 +342,8 @@
 
   .ghost-button6 {
     position: absolute;
-    top: 32%;
-    left: 45.4%;
+    top: 52%;
+    left: 24.6%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
@@ -361,8 +361,8 @@
 
   .ghost-button7 {
     position: absolute;
-    top: 27%;
-    left: 46.5%;
+    top: 40%;
+    left: 25.6%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
@@ -380,8 +380,8 @@
 
   .ghost-button8 {
     position: absolute;
-    top: 27%;
-    left: 54%;
+    top: 52%;
+    left: 34%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
@@ -399,8 +399,8 @@
 
   .ghost-button9 {
     position: absolute;
-    top: 32%;
-    left: 55%;
+    top: 40%;
+    left: 32.8%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
@@ -417,8 +417,8 @@
 
   .ghost-button10 {
     position: absolute;
-    top: 47%;
-    left: 48.4%;
+    top: 80%;
+    left: 27.6%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
@@ -435,8 +435,8 @@
 
   .ghost-button11 {
     position: absolute;
-    top: 47%;
-    left: 52.3%;
+    top: 80%;
+    left: 30.7%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
@@ -453,8 +453,8 @@
 
   .ghost-button12 {
     position: absolute;
-    top: 38%;
-    left: 48.7%;
+    top: 60%;
+    left: 28%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
@@ -471,8 +471,8 @@
 
   .ghost-button13 {
     position: absolute;
-    top: 38%;
-    left: 52%;
+    top: 60%;
+    left: 30.5%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
@@ -489,8 +489,8 @@
 
   .ghost-button14 {
     position: absolute;
-    top: 20%;
-    left: 50.25%;
+    top: 26.5%;
+    left: 29.24%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
