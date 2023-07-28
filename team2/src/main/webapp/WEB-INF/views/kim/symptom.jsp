@@ -113,13 +113,24 @@
 							        let newButtonData = [];
 									var hos1 = 'http://localhost:8080/hos/choo/resultHos';
 									var hos2 = 'http://localhost:8080/hos/choo/resultHos';
+									var hos3 = 'http://localhost:8080/hos/choo/resultHos';
+									var hos4 = 'http://localhost:8080/hos/choo/resultHos';
+									var hos5 = 'http://localhost:8080/hos/choo/resultHos';
+									var hos6 = 'http://localhost:8080/hos/choo/resultHos';
+									var hos7 = 'http://localhost:8080/hos/choo/resultHos';
+									var hos8 = 'http://localhost:8080/hos/choo/resultHos';
+									var hos9 = 'http://localhost:8080/hos/choo/resultHos';
+									var hos10 = 'http://localhost:8080/hos/choo/resultHos';
+									var hos11 = 'http://localhost:8080/hos/choo/resultHos';
+									var W0 = W0;
+									var W1 = W1;
 							        if (buttonType === 'Urology') {
 							            containerId = 'buttonContainer-Urology';
 							            newButtonClassName = 'new-Ubutton';
 							            newButtonData = [
-							                { label: '통증', link: 'https://www.naver.com' },
-							                { label: '혈뇨', link: 'https://www.google.com' },
-							                { label: '요실금', link: '/hos/kim/chatForm' }
+							                { label: '통증', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('비뇨기') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('통증') },
+							                { label: '혈뇨', link: hos2 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('비뇨기') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('혈뇨') },
+							                { label: '요실금', link: hos3 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('비뇨기') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('요실금')}
 							            ];
 							
 							            clearContainers(['buttonContainer-head', 'buttonContainer-abdomen', 'buttonContainer-face','buttonContainer-chest','buttonContainer-neck']);
@@ -132,11 +143,10 @@
 							            containerId = 'buttonContainer-head';
 							            newButtonClassName = 'new-Hbutton';
 							            newButtonData = [
-							                { label: '두통', link: 'https://www.example.com/headache' },
-							                { label: '어지러움', link: 'https://www.example.com/dizziness' },
-							                { label: '얼굴떨림', link: 'https://www.example.com/shake-face' },
-							                { label: '편두통', link: 'https://www.example.com/migraine' },
-							                { label: '손떨림', link: 'https://www.example.com/hand-shake' }
+							                { label: '두통', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('머리') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('두통') },
+							                { label: '어지러움', link: hos2 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('머리') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('어지러움') },
+							                { label: '편두통', link: hos4 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('머리') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('편두통')},
+							                { label: '손떨림', link: hos5 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('머리') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('손떨림')}
 							            ];
 							
 							            clearContainers(['buttonContainer-Urology', 'buttonContainer-abdomen', 'buttonContainer-face','buttonContainer-chest','buttonContainer-neck']);
@@ -149,11 +159,11 @@
 							            containerId = 'buttonContainer-abdomen';
 							            newButtonClassName = 'new-Abutton';
 							            newButtonData = [
-							                { label: '구토', link: 'https://www.example.com/headache' },
-							                { label: '복통', link: 'https://www.example.com/dizziness' },
-							                { label: '설사', link: 'https://www.example.com/shake-face' },
-							                { label: '변비', link: 'https://www.example.com/migraine' },
-							                { label: '속쓰림', link: 'https://www.example.com/hand-shake' }
+							                { label: '구토', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('배') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('구역질/구토') },
+							                { label: '복통', link: hos2 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('배') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('복통')},
+							                { label: '설사', link: hos3 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('배') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('설사')},
+							                { label: '변비', link: hos4 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('배') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('변비')},
+							                { label: '속쓰림', link: hos5 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('배') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('속쓰림')}
 							            ];
 							
 							            clearContainers(['buttonContainer-Urology', 'buttonContainer-head', 'buttonContainer-face','buttonContainer-chest','buttonContainer-neck']);
@@ -167,15 +177,16 @@
 							            newButtonClassName = 'new-Fbutton';
 							            newButtonData = [
 							                { label: '눈 충혈', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('눈충혈')},
-							                { label: '저시력', link: 'https://www.example.com/dizziness' },
+							                { label: '저시력', link: hos6 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('저시력')},
 							                { label: '눈 가지럼', link: hos2 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('눈간지럼') },
-							                { label: '귀 통증', link: hos2 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('귀통증') },
-							                { label: '이명', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('이명') },
-							                { label: '난청', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('난청') },
-							                { label: '이 통증', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('이통증')},
-							                { label: '이 시림', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('이시림')},
-							                { label: '잇몸 출혈', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('잇몸출혈')},
-							                { label: '코 막힘', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('코막힘')}
+							                { label: '귀 통증', link: hos3 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('귀통증') },
+							                { label: '이명', link: hos4 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('이명') },
+							                { label: '난청', link: hos5 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('난청') },
+							                { label: '이 통증', link: hos7 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('이통증')},
+							                { label: '이 시림', link: hos8 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('이시림')},
+							                { label: '잇몸 출혈', link: hos9 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('잇몸출혈')},
+							                { label: '코 막힘', link: hos10 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('코막힘')},
+							                { label: '얼굴 떨림', link: hos11 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('얼굴떨림')}
 							            ];
 							
 							            clearContainers(['buttonContainer-Urology', 'buttonContainer-head', 'buttonContainer-abdomen','buttonContainer-chest','buttonContainer-neck']);
@@ -188,11 +199,11 @@
 							            containerId = 'buttonContainer-chest';
 							            newButtonClassName = 'new-Cbutton';
 							            newButtonData = [
-							                { label: '객혈', link: 'https://www.example.com/headache' },
-							                { label: '호흡곤란', link: 'https://www.example.com/dizziness' },
-							                { label: '흉통', link: 'https://www.example.com/shake-face' },
-							                { label: '기침', link: 'https://www.example.com/migraine' },
-							                { label: '가슴쓰림', link: 'https://www.example.com/hand-shake' }
+							                { label: '객혈', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('객혈')},
+							                { label: '호흡곤란', link: hos2 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('호흡곤란')},
+							                { label: '흉통', link: hos3 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('흉통')},
+							                { label: '기침', link: hos4 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('기침')},
+							                { label: '가슴쓰림', link: hos5 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('가슴쓰림')}
 							            ];
 							
 							            clearContainers(['buttonContainer-Urology', 'buttonContainer-head', 'buttonContainer-abdomen','buttonContainer-neck','buttonContainer-face']);
@@ -205,8 +216,8 @@
 							            containerId = 'buttonContainer-neck';
 							            newButtonClassName = 'new-Nbutton';
 							            newButtonData = [
-							                { label: '목 통증', link: 'https://www.example.com/headache' },
-							                { label: '가래', link: 'https://www.example.com/dizziness' }
+							                { label: '목 통증', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('목') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('목 통증') },
+							                { label: '가래', link: hos2 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('목') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('가래')}
 							            ];
 							
 							            clearContainers(['buttonContainer-Urology', 'buttonContainer-head', 'buttonContainer-abdomen','buttonContainer-face','buttonContainer-chest']);
@@ -496,22 +507,35 @@
 			        			<div class="btn-area">
 			        				<button class="btn_search btn btn-lg btn-round btn-primary" type="button">검색</button>
 				        			<script>
-										$(function(){
-											$(".btn_search").click(function(){
-												//var codeTable = [53,54,55,56,57,58,59,60,61,62,63,64];
-												var codeTable = [279,280,281,282,283,284,285,286,287,288,289,290];
-												var category = codeTable[0];
-												$(".body_type").each(function(index, item){
-													if(item.checked) {
-														category = codeTable[index];
-													}
-												}
-																	);
-												window.open("/health/encyclopedia/disease/body_board.do?srBodyCategoryId=" + category + "&mode=list&srSearchKey=&srSearchVal=","_blank");
-											}
-																  );
-										}
-										 );
+					        			$(function() {
+					        				  var urlTable = [
+					        				    "https://www.naver.com",
+					        				    "https://example.com/link2",
+					        				    "https://example.com/link3",
+					        				    "https://example.com/link3",
+					        				    "https://example.com/link3",
+					        				    "https://example.com/link3",
+					        				    "https://example.com/link3",
+					        				    "https://example.com/link3",
+					        				    "https://example.com/link3",
+					        				    "https://example.com/link3",
+					        				    "https://example.com/link3",
+					        				    "https://www.google.com",
+					        				    //링크 변경 시키기
+					        				  ];
+	
+					        				  var selectedUrl = urlTable[0];
+	
+					        				  $(".body_type").click(function() {
+					        				    var selectedIndex = $(".body_type").index(this);
+					        				    selectedUrl = urlTable[selectedIndex];
+					        				  });
+	
+					        				  $(".btn_search").click(function() {
+					        				    window.open(selectedUrl, "_blank");
+					        				  });
+					        				});
+
 				        			</script>
 			        			</div>			        			
 			        		</fieldset>       	

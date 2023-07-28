@@ -1,94 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<!-- CSS only -->
 <!DOCTYPE html>
-<html>
 <head>
-    <title>Dynamic Button Creation</title>
-    <style>
-        /* Style for the new buttons */
-        .new-button {
-            background-color: #4CAF50; /* Green background color */
-            border: none; /* Remove the border */
-            color: white; /* White text color */
-            padding: 10px 20px; /* Add padding */
-            text-align: center; /* Center-align text */
-            text-decoration: none; /* Remove underline */
-            display: inline-block; /* Make it display as a block */
-            margin: 4px 2px; /* Add margin */
-            cursor: pointer; /* Add cursor pointer on hover */
-            border-radius: 4px; /* Rounded corners */
-        }
-
-        /* Style for the new buttons on hover */
-        .new-button:hover {
-            background-color: #45a049; /* Dark green background color on hover */
-        }
-    </style>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content = "IE=edge">
+	<title>오프캔버스</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">    
+	<!-- JavaScript Bundle with Popper -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>    
+	<script src="/hos/resources/js/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<script src="/hos/resources/js/chatForm2.js"></script>
+	<link rel="stylesheet" type="text/css" href="/hos/resources/css/chatbot.css">
 </head>
 <body>
-    <button id="Urology" class="ghost-button5" onclick="createNewButton('Urology')">Urology</button>
-    <div id="buttonContainer-Urology" class="add-Ubutton"></div>
 
-    <button id="head" class="ghost-button" onclick="createNewButton('head')">Head</button>
-    <div id="buttonContainer-head" class="add-Hbutton"></div>
+<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
 
-    <script>
-        function createNewButton(buttonType) {
-            let containerId;
-            let newButtonClassName;
-            let newButtonLabels = [];
-
-            if (buttonType === 'Urology') {
-                containerId = 'buttonContainer-Urology';
-                newButtonClassName = 'new-Ubutton';
-                newButtonLabels = [
-                    { label: 'Pain', link: 'https://www.example.com/pain' },
-                    { label: 'Hematuria', link: 'https://www.example.com/hematuria' },
-                    { label: 'Incontinence', link: 'https://www.example.com/incontinence' }
-                ];
-
-                // Delete the buttons created in "buttonContainer-head"
-                let containerHead = document.getElementById('buttonContainer-head');
-                while (containerHead.firstChild) {
-                    containerHead.removeChild(containerHead.firstChild);
-                }
-            } else if (buttonType === 'head') {
-                containerId = 'buttonContainer-head';
-                newButtonClassName = 'new-Hbutton';
-                newButtonLabels = [
-                    { label: 'Headache', link: 'https://www.example.com/headache' },
-                    { label: 'Dizziness', link: 'https://www.example.com/dizziness' },
-                    { label: 'Facial tremor', link: 'https://www.example.com/facial-tremor' },
-                    { label: 'Migraine', link: 'https://www.example.com/migraine' },
-                    { label: 'Hand tremor', link: 'https://www.example.com/hand-tremor' }
-                ];
-
-                // Delete buttons created in "buttonContainer-Urology"
-                let containerUrology = document.getElementById('buttonContainer-Urology');
-                while (containerUrology.firstChild) {
-                    containerUrology.removeChild(containerUrology.firstChild);
-                }
-            }
-
-            let container = document.getElementById(containerId);
-            newButtonLabels.forEach((buttonData) => {
-                let newButton = document.createElement('button');
-                newButton.className = `new-button ${newButtonClassName}`; // Add the "new-button" class
-                newButton.innerHTML = buttonData.label;
-
-                // Add a click event listener to the new button
-                newButton.addEventListener('click', function () {
-                    window.location.href = buttonData.link;
-                });
-
-                container.appendChild(newButton);
-            });
-
-            // Remove the click event listener of the current button
-            document.getElementById(buttonType).removeEventListener('click', function () {
-                createNewButton(buttonType);
-            });
-        }
-    </script>
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h3 id="offcanvasRightLabel">챗봇 서비스</h3>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <body>
+	  <div id="wrap">
+	
+	    <!-- 응답 메시지 표시 -->
+	    <div id="chatBox"></div><br>
+	
+	    <!-- 질문 메시지 입력 폼 -->
+	    <form id="chatForm">
+	      <input type="text" id="message" name="message" size="30" placeholder="질문을 입력하세요">
+	      <input type="submit" value="제출">
+	    </form>
+	  </div>
+	</body>
+  </div>
+</div>
 </body>
-</html>

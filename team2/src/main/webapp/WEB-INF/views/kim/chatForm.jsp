@@ -6,13 +6,13 @@
   <title>챗봇 폼</title>
   <script src="/hos/resources/js/jquery.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-  <script src="/hos/resources/js/chatForm.js"></script>
+  <script src="/hos/resources/js/chatForm2.js"></script>
   <link rel="stylesheet" type="text/css" href="/hos/resources/css/chatbot.css">
 </head>
 <body>
   <div id="wrap">
     <!-- 헤더 -->
-    <div id="chatHeader">
+    <div id="chatHeader" style="margin-right:125px">
       <span>챗봇</span>
       <button id="btnClose">X</button>
     </div>
