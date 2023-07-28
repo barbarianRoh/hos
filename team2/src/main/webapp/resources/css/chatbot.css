@@ -9,6 +9,7 @@
 #chatHeader {
   padding: 10px 15px;
   border-bottom: 1px solid #95a6b4;
+  
 }
 
 #btnClose {
@@ -18,15 +19,15 @@
 }
 
 #chatBox {
-  height: 600px;
-  width: 500px;
+  height: 750px;
+  width: 380px;
   overflow-y: scroll;
   padding: 10px 15px;
   background: #9bbbd4;
 }
 
 #message {
-  width: 440px;
+  width: 330px;
 }
 
 #btnSubmit {
@@ -92,4 +93,8 @@ button.button-link {
 a.button-link:hover,
 button.button-link:hover {
   background-color: #0056b3;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
