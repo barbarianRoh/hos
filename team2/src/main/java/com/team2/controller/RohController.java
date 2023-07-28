@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -169,4 +170,60 @@ public class RohController {
 		}
 		return "roh/myProfileForm";
 	}
+	
+	@RequestMapping("findMyIdForm")
+	public String findMyIdForm() {
+		return "roh/findMyIdForm";
+	}
+	
+	@RequestMapping("findMyIdPro")
+	public String findMyIdPro(RohDTO dto, Model model) {
+		if(dto != null) {
+			RohDTO resultId = service.findMyId(dto);
+			
+			if(resultId.getId() != null) {
+				model.addAttribute("findMyId", resultId.getId());
+			}
+		}
+		return "roh/findMyIdForm";
+	}
+	
+	@RequestMapping("findMyPwForm")
+	public String findMyPwForm() {
+		return "roh/findMyPwForm";
+	}
+	
+	@RequestMapping("findMyPwPro")
+	public String findMyPwPro(RohDTO dto, Model model) {
+		if(dto != null) {
+			RohDTO resultId = service.findMyId(dto);
+			
+			if(resultId.getPw() != null) {
+				model.addAttribute("findMyPw", resultId.getPw());
+			}
+		}
+		return "roh/findMyPwForm";
+	}
+	
+	@RequestMapping("kakaoSignin")
+	public String kakaoSignin() {
+		return "roh/kakaoSignin";
+	}
+	
+	@RequestMapping("kakaoSigninPro")
+	   public String kakaoSigninPro(HttpSession session, @RequestParam("id") String id, @RequestParam("nick") String nick, @RequestParam("email") String email, @RequestParam("gender") String gender, @RequestParam("age_range") String age_range) {
+	      String k_id = id; 
+	      String k_nick = nick;
+	      String k_email = email;
+	      String k_gender = gender;
+	      String k_range = age_range;
+	      int count = kakaoservice.countkakao(k_id);
+	      if(count==0) {
+	         kakaoservice.kakaoLogin(k_id, k_nick, k_email, k_gender, k_range);
+	      }
+	      session.setAttribute("kakaoid", k_nick);
+	      session.setAttribute("kakaonick", k_id);
+	      return "/member/member_login";
+	   }
+	
 }

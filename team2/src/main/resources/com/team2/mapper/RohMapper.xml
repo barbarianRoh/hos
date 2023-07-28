@@ -30,4 +30,11 @@
 		where id=#{id} and pw=#{pw}
 	</update>
 	
+	<select id="findMyId" resultType="RohDTO">
+		select * from p2_member where name=#{name} and birth=#{birth}
+	</select>
+	
+	<select id="findMyPw" resultType="RohDTO">
+		select * from p2_member where id=#{id} and name=#{name} and birth=#{birth}
+	</select>
 </mapper>

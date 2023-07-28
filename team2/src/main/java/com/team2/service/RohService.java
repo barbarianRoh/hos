@@ -9,4 +9,6 @@ public interface RohService {
 	public int withdrawal(RohDTO dto);
 	public RohDTO myinfo(RohDTO dto);
 	public void myinfoUpdate(RohDTO dto);
+	public RohDTO findMyId(RohDTO dto);
+	public RohDTO findMyPw(RohDTO dto);
 }
