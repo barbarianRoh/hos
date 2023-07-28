@@ -119,7 +119,7 @@ function zoomIn(){
 }
 
 
-//지도 확대 및 축소 컨트롤에 축소버튼을 누리면 호출되어 지도를 축소
+//지도 확대 및 축소 컨트롤에 축소버튼을 누르면 호출되어 지도를 축소
 function zoomOut(){
 	map.setLevel(map.getLevel() + 1);
 }
@@ -139,9 +139,10 @@ var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 var positions=[
 				<c:forEach var="dto" items="${hos}">
 					{
-						content: '<div style="width: 300px; height: 80px; padding:5px;">${dto.dutyName}<br>' + 
+						content: '<div style="width: 300px; height: 100px; padding:5px;">${dto.dutyName}<br>' + 
 						'<font size = 2> 전화번호 : ${dto.dutyTel1} </font><br>' + 
 						'<font size = 2> 주소 : ${dto.dutyAddr} </font><br>' + 
+						'<font size= 2> 거리 : ${dto.ban}m </font><br>' +
 						'<a href="https://map.kakao.com/link/map/ ${dto.dutyName} , ${dto.wgs84Lat} , ${dto.wgs84Lon} " style="color:blue" target="_blank">큰지도보기</a>&nbsp;' + 
 						'<a href="https://map.kakao.com/link/to/  ${dto.dutyName} , ${dto.wgs84Lat} , ${dto.wgs84Lon} " style="color:blue" target="_blank">길찾기</a>&nbsp;' + 
 						'<a href="/hos/choo/hosgrade?name=${dto.dutyName}&addr=${dto.dutyAddr}" style="color:blue" target="_blank">병원평점</a></div>',
@@ -193,12 +194,14 @@ for(var i = 0; i < positions.length; i++){
 		<td align="center" width="300">병원이름</td>
 		<td align="center" width="480">주 소</td>
 		<td align="center" width="150">전화번호</td>
+		<td align="center" width="150">거 리</td>
 	</tr>
 	<c:forEach var="dto" items="${hos}">
 	<tr height="20">
 		<td align="center" width="300">${dto.dutyName}</td>
 		<td align="center" width="480">${dto.dutyAddr}</td>
 		<td align="center" width="150">${dto.dutyTel1}</td>
+		<td align="center" width="150">${dto.ban}m</td>
 	</tr>
 	</c:forEach>
 </table>

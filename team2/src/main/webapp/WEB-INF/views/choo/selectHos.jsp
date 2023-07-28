@@ -30,8 +30,8 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 <script>
 $('document').ready(function(){
 	var area0 = ["아픈부위","머리","얼굴","목","가슴","배","골격계","피부","비뇨기"];
-	var area1 = ["두통","어지럼증","얼굴떨림","편두통","손떨림"];
-	var area2 = ["눈충혈","저시력","눈간지럼","귀통증","이명","난청","이통증","이시림","잇몸출혈","코막힘"];
+	var area1 = ["두통","어지럼증","편두통","손떨림"];
+	var area2 = ["눈충혈","저시력","눈간지럼","귀통증","이명","난청","이통증","이시림","잇몸출혈","코막힘","얼굴떨림"];
 	var area3 = ["목통증","가래"]
 	var area4 = ["객혈","호흡곤란","흉통","기침","가슴쓰림"];
 	var area5 = ["구역질/구토","복통","설사","변비","속쓰림"];
@@ -193,6 +193,8 @@ var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
 	<input type="hidden" id="W1" name="W1" vlaue="">
 	<input type="hidden" id="Q0" name="Q0" value="">
 	<input type="hidden" id="Q1" name="Q1" value="">
+	<input type="hidden" id="WGS84_LAT" name="WGS84_LAT" value="">
+	<input type="hidden" id="WGS84_LON" name="WGS84_LON" value="">
 	
 	<input type="submit" value="검색">
 </form>

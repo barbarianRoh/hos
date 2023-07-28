@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 //import lombok.Data;
 
+//병원평가게시판 DTO
 public class ChooTestDTO {
 	private int num;
 	private String name;

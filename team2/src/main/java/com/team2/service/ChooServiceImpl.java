@@ -3,7 +3,11 @@ package com.team2.service;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.team2.component.ChooGesipan;
+import com.team2.component.ChooRecon;
 import com.team2.component.ChooTestDTO;
+import com.team2.component.RohDTO;
 import com.team2.mapper.ChooMapper;
 
 @Service
@@ -48,6 +52,11 @@ public class ChooServiceImpl implements ChooService {
 	}
 	
 	@Override
+	public int badCheck(int num, String name, String addr, String id) {
+		return mapper.badCheck(num, name, addr, id);
+	}
+	
+	@Override
 	public void goodinsert(int num, String name, String addr, String id) {
 		mapper.goodinsert(num, name, addr, id);
 	}
@@ -70,5 +79,65 @@ public class ChooServiceImpl implements ChooService {
 	@Override
 	public void gradedelect(int num, String addr) {
 		mapper.gradedelect(num, addr);
+	}
+	
+	@Override
+	public int gesipancount() {
+		return mapper.gesipancount();
+	}
+	
+	@Override
+	public List<ChooGesipan> gesipanList(int startRow, int endRow){
+		return mapper.gesipanList(startRow, endRow);
+	}
+	
+	@Override
+	public void gesipaninsert(ChooGesipan dto) {
+		mapper.gesipaninsert(dto);
+	}
+	
+	@Override
+	public ChooGesipan gesipancon(int num) {
+		return mapper.gesipancon(num);
+	}
+	
+	@Override
+	public void reconinsert(ChooRecon dto) {
+		mapper.reconinsert(dto);
+	}
+	
+	@Override
+	public List<ChooRecon> reconlist(int num){
+		return mapper.reconlist(num);
+	}
+	
+	@Override
+	public RohDTO memtype(String id) {
+		return mapper.memtype(id);
+	}
+	
+	@Override
+	public int pwcheck(int num, String pw) {
+		return mapper.pwcheck(num, pw);
+	}
+	
+	@Override
+	public void gesipanupdate(ChooGesipan dto) {
+		mapper.gesipanupdate(dto);
+	}
+	
+	@Override
+	public void gesipandelect(int num) {
+		mapper.gesipandelect(num);
+	}
+	
+	@Override
+	public int conCheck(String id) {
+		return mapper.conCheck(id);
+	}
+	
+	@Override
+	public List<ChooGesipan> mycon(String id){
+		return mapper.mycon(id);
 	}
 }

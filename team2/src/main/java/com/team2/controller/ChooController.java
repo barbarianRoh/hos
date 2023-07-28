@@ -15,11 +15,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 
 import com.team2.component.ChooDTO;
+import com.team2.component.ChooGesipan;
+import com.team2.component.ChooRecon;
 import com.team2.component.ChooTestDTO;
+import com.team2.component.RohDTO;
 import com.team2.service.ChooGPShos;
 import com.team2.service.ChooService;
 import com.team2.service.Choohosapi;
@@ -28,7 +33,7 @@ import com.team2.service.Choohosapi2;
 @Controller
 @RequestMapping("/choo/*")
 public class ChooController {
-	
+	// 1 사용자 2 운영자 0 미회원유저
 	@Autowired
 	private ChooService service;
 	@Autowired
@@ -155,8 +160,20 @@ public class ChooController {
 				model.addAttribute("x", b);
 				model.addAttribute("y", a);
 				model.addAttribute("hos", resultlist);
+				
+			}else if(W0.equals("얼굴") && W1.equals("얼굴떨림")){
+				QD = "D001";		//내과
+				List<ChooDTO> resultlist = api1.selectHos(QD, Q0, Q1);
+				
+				double a = resultlist.get(0).getWgs84Lat();
+				double b = resultlist.get(0).getWgs84Lon();
+				
+				
+				model.addAttribute("x", b);
+				model.addAttribute("y", a);
+				model.addAttribute("hos", resultlist);
 			
-			}else if(W0.equals("얼굴") && W1.equals("눈충혈") || W1.equals("눈간지럼")) {
+			}else if(W0.equals("얼굴") && W1.equals("눈충혈") || W1.equals("눈간지럼") || W1.equals("저시력")) {
 				QD = "D012";		//안과
 				List<ChooDTO> resultlist = api1.selectHos(QD, Q0, Q1);
 				
@@ -178,7 +195,7 @@ public class ChooController {
 				model.addAttribute("y", a);
 				model.addAttribute("hos", resultlist);
 			
-			}else if(W0.equals("얼굴") && W1.equals("귀통증") || W1.equals("이명") || W1.equals("난청")) {
+			}else if(W0.equals("얼굴") && W1.equals("귀통증") || W1.equals("이명") || W1.equals("난청") || W1.equals("코막힘")) {
 				QD = "D013";		//이비인후과
 				List<ChooDTO> resultlist = api1.selectHos(QD, Q0, Q1);
 				
@@ -274,7 +291,7 @@ public class ChooController {
 	
 	//게시판 메인페이지
 	@RequestMapping("hosgrade")
-	public String hosgrade(Model model, @RequestParam("name") String name, @RequestParam("addr") String addr, ChooTestDTO dto,String pageNum) {
+	public String hosgrade(Model model, @RequestParam("name") String name, @RequestParam("addr") String addr, ChooTestDTO dto, String pageNum, HttpSession session) {
 		
 		int pageSize = 10;
 		model.addAttribute("pageSize",pageSize);
@@ -316,13 +333,19 @@ public class ChooController {
 		
 		model.addAttribute("name",name);
 		model.addAttribute("addr",addr);
+		
+		String id = (String)session.getAttribute("sid");
+		model.addAttribute("memId", id);
 
 		return "choo/hosgrade";
 	}
 	
 	//글작성
 	@RequestMapping("gradeWrite")
-	public String gradeWrite(Model model, @RequestParam("name") String name, @RequestParam("addr") String addr, String pageNum) {
+	public String gradeWrite(Model model, @RequestParam("name") String name, @RequestParam("addr") String addr, String pageNum, HttpSession session) {
+		String id = (String)session.getAttribute("memId");
+		model.addAttribute("memId", id);
+		
 		model.addAttribute("name", name);
 		model.addAttribute("addr", addr);
 		model.addAttribute("pageNum", pageNum);
@@ -380,7 +403,10 @@ public class ChooController {
 	
 	//글보는곳
 	@RequestMapping("gradecon")
-	public String gradecon(Model model, int num, @RequestParam("name") String name, @RequestParam("addr") String addr, @RequestParam("pageNum") String pageNum) {
+	public String gradecon(Model model, int num, @RequestParam("name") String name, @RequestParam("addr") String addr, @RequestParam("pageNum") String pageNum, HttpSession session) {
+		String id = (String)session.getAttribute("memId");
+		model.addAttribute("memId", id);
+		
 		model.addAttribute("dto",service.gradecon(num, addr));
 		model.addAttribute("name",name);
 		model.addAttribute("addr",addr);
@@ -389,29 +415,31 @@ public class ChooController {
 		return "choo/gradecon";
 	}
 	
-	//병원 평점 기능 좋아요 페이지
-	@RequestMapping("hosgood")
-	public String hosgood(Model model, int num, @RequestParam("name") String name, @RequestParam("addr") String addr, String id) {
-		int count = service.goodCheck(num, name, addr, id);
-				
-		if(count == 0) {
-			model.addAttribute("check",count);
-			service.goodinsert(num, name, addr, id);
-		}else {
-			model.addAttribute("check",count);
-			service.goodupdate(num, name, addr, id);
-		}
-		
-		return "choo/hosgood";
-	}
-	
-	//병원 평점기능 싫어요 페이지
-	@RequestMapping("hosbad")
-	public String hosbad(Model model, int num, @RequestParam("name") String name, @RequestParam("addr") String addr, String id) {
-		
-		
-		return "choo/hosbad";
-	}
+	/*
+	 * //병원 평점 기능 좋아요 페이지
+	 * 
+	 * @RequestMapping("hosgood") public String hosgood(Model model, int
+	 * num, @RequestParam("name") String name, @RequestParam("addr") String addr,
+	 * String id) { int count = service.goodCheck(num, name, addr, id); int count1 =
+	 * service.badCheck(num, name, addr, id);
+	 * 
+	 * if(count == 0) { model.addAttribute("check",count); service.goodinsert(num,
+	 * name, addr, id); }else if(count1 == 1){
+	 * 
+	 * }else { model.addAttribute("check",count); service.goodupdate(num, name,
+	 * addr, id); }
+	 * 
+	 * return "choo/hosgood"; }
+	 * 
+	 * //병원 평점기능 싫어요 페이지
+	 * 
+	 * @RequestMapping("hosbad") public String hosbad(Model model, int
+	 * num, @RequestParam("name") String name, @RequestParam("addr") String addr,
+	 * String id) {
+	 * 
+	 * 
+	 * return "choo/hosbad"; }
+	 */
 	
 	//글수정
 	@RequestMapping("updategrade")
@@ -469,5 +497,179 @@ public class ChooController {
 		}
 		
 		return "choo/gradedelectPro";
+	}
+	
+	
+	//고객센터 게시판
+	@RequestMapping("gesipanmain")
+	public String gesipanmain(Model model, String pageNum, HttpSession session) {
+		
+		int pageSize = 1;
+		model.addAttribute("pageSize",pageSize);
+		
+		if(pageNum == null) {
+			pageNum = "1";
+		}
+		model.addAttribute("pageNum",pageNum);
+		
+		int currentPage = Integer.parseInt(pageNum);
+		int startRow = (currentPage - 1) * pageSize+1;
+		int endRow = currentPage * pageSize;
+		int count = service.gesipancount();
+		int number = 0;
+		
+		model.addAttribute("currentPage",currentPage);
+		
+		List<ChooGesipan> dtolist = service.gesipanList(startRow, endRow);
+		model.addAttribute("list", dtolist);
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yy.MM.dd HH:mm:ss");
+		
+		number = dtolist.size() - (currentPage - 1) * pageSize;
+		model.addAttribute("number",number);
+		
+		if(count > 0) {
+			int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);						
+			int startPage = (int)(currentPage / 10) * 10 + 1;										
+			int pageBlock = 10;
+			int endPage = startPage + pageBlock -1;													
+			if(endPage > pageCount) endPage = pageCount;											
+			
+			model.addAttribute("pageCount", pageCount);
+			model.addAttribute("startPage", startPage);
+			model.addAttribute("pageBlock", pageBlock);
+			model.addAttribute("endPage", endPage);
+			
+			String id = (String)session.getAttribute("sid");
+			model.addAttribute("memId", id);
+		}
+		return "choo/gesipanmain";
+	}
+	
+	//고객센터 게시판 글작성
+	@RequestMapping("gesipanWrite")
+	public String gesipanWrite(Model model, String pageNum, HttpSession session) {
+		String id = (String)session.getAttribute("memId");
+		model.addAttribute("memId",id);
+		model.addAttribute("pageNum", pageNum);
+		return "choo/gesipanWrite";
+	}
+	
+	//고객센터 게시판 글작성
+	@RequestMapping("gesipanWritePro")
+	public String gesipanWritePro(Model model, String pageNum, ChooGesipan dto) {
+		service.gesipaninsert(dto);
+		model.addAttribute("pageNum", pageNum);
+		return "choo/gesipanWritePro";
+	}
+	
+	//답글작성페이지
+	@RequestMapping("reconWrite")
+	public String gesipanReWrite(Model model, ChooRecon dto, int num, HttpSession session) {
+		service.reconinsert(dto);
+		
+		String id = (String)session.getAttribute("memId");
+		model.addAttribute("memId", id);
+		model.addAttribute(num);
+		return "choo/reconWrite";
+	}
+	
+	
+	//고객센터 글작성보기
+	@RequestMapping("gesipancon")
+	public String gesipancon(Model model, String pageNum, int num, ChooGesipan dto, RohDTO dto1, HttpSession session) {
+		List<ChooRecon> reconlist = service.reconlist(num);
+		
+		String id = (String)session.getAttribute("memId");
+			
+		dto = service.gesipancon(num);
+		
+		if(id != null) {
+			dto1 = service.memtype(id);
+		}
+		
+		model.addAttribute("dto", dto);
+		model.addAttribute("dto1", dto1);
+		model.addAttribute("list", reconlist);
+		model.addAttribute("memId", id);
+		model.addAttribute("pageNum",pageNum);
+		return "choo/gesipancon";
+	}
+	
+	//고객센터 작성글 수정
+	@RequestMapping("gesipanupdate")
+	public String gesipanupdate(Model model, int num, String pageNum) {
+		model.addAttribute("dto", service.gesipancon(num));
+		model.addAttribute("pageNum",pageNum);
+		
+		return "choo/gesipanupdate";
+	}
+	
+	//고객센터 작성글 수정
+	@RequestMapping("gesipanupdatePro")
+	public String gesipanupdatePro(int num, String pw, String pageNum, Model model, ChooGesipan dto) {
+		int check = service.pwcheck(num, pw);
+		
+		if(check == 1) {
+			service.gesipanupdate(dto);
+			model.addAttribute("count",check);
+			model.addAttribute("pageNum",pageNum);
+		}else {
+			model.addAttribute("count",check);
+		}
+		
+		return "choo/gesipanupdatePro";
+	}
+	
+	
+	//고객센터 작성글 삭제
+	@RequestMapping("gesipandelect")
+	public String gesipandelect(Model model, int num, String pageNum) {
+		model.addAttribute("num",num);
+		model.addAttribute("pageNum",pageNum);
+		
+		return "choo/gesipandelect";
+	}
+	
+	
+	//고객센터 작성글 삭제
+	@RequestMapping("gesipandelectPro")
+	public String gesipandelectPro(Model model, int num, String pageNum, String pw) {
+		int check = service.pwcheck(num, pw);
+		
+		if(check == 1) {
+			service.gesipandelect(num);
+			model.addAttribute("count",check);
+			model.addAttribute("pageNum", pageNum);
+		}else {
+			model.addAttribute("count",check);
+		}
+		
+		return "choo/gesipandelectPro";
+	}
+	
+	//고객센터 본인이 쓴 글 리스트로 표기
+	@RequestMapping("gesipanMylist")
+	public String gesipanMylist(Model model, String id, HttpSession session, String pageNum) {
+		id = (String)session.getAttribute("memId");
+		int count = 0;
+		
+		if(id == null) {
+			count = 0;
+		}else {
+			count = service.conCheck(id);
+		}
+		
+		if(count != 0) {
+			model.addAttribute("check", count);
+			model.addAttribute("pageNum", pageNum);
+			
+			List<ChooGesipan> mylist = service.mycon(id);
+			model.addAttribute("dto", mylist);
+		}else {
+			model.addAttribute("check", count);
+			model.addAttribute("pageNum", pageNum);
+		}
+		return "choo/gesipanMylist";
 	}
 }

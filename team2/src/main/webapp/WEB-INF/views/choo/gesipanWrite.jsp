@@ -1,12 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<head>
-	<meta charset="UTF-8">
-	<title>병원평점작성</title>
-</head>
 
-<form method="post" name="gradeWrite" action="/hos/choo/gradeWritePro?pageNum=${pageNum}">
+<title>의견글 작성</title>
+
+<form method="post" name="gesipanWrite" action="/hos/choo/gesipanWritePro?pageNum=${pageNum}">
 	<table width="1000" border="1" cellspacing="0" cellpadding="0">
 		<tr height="30">
 			<td align="center" width="100">글제목</td>
@@ -14,22 +12,13 @@
 		</tr>
 		<tr height="30">
 			<td align="center" width="100">작성자</td>
-			
 			<c:if test="${memId == null}">
-				<td width="100"><input type="text" size="100" maxlength="30" name="id"></td>
+				<td width="100"><input type="text" size="100" maxlength="50" name="id"></td>
 			</c:if>
 			
-			<c:if test="${memId != null}">
-				<td width="100">${memid}<input type="hidden" value="${memId}" name="id"></td>
+			<c:if test="${memid != null}">
+				<td width="100">${memId}<input type="hidden" value="${memId}" name="id"></td>
 			</c:if>
-		</tr>
-		<tr height="30">
-			<td align="center" width="100">병원명</td>
-			<td width="100">${name}<input type="hidden" value="${name}" name="name" /></td>
-		</tr>
-		<tr height="30">
-			<td align="center" width="100">주 소</td>
-			<td width="100">${addr}<input type="hidden" value="${addr}" name="addr" /></td>		
 		</tr>
 		<tr height="30">
 			<td align="center" width="300">글내용</td>
@@ -43,7 +32,7 @@
 			<td colspan="4" align="center">
 				<input type="submit" value="글작성">
 				<input type="reset" value="다시작성">
-				<input type="button" value="작성취소" onclick="location='hosgrade'">
+				<input type="button" value="작성취소" onclick="location='gesipanmain?pageNum=${pageNum}'">
 			</td>
 		</tr>
 	</table>

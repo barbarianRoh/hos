@@ -6,7 +6,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.io.BufferedReader;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -22,6 +25,16 @@ import java.io.StringReader;
 @Service
 public class Choohosapi {
 	// UZHnvSBw7ESYEUBtz%2BH9YHocdwfx3wFhm54v1fiXwk9pj4Wv3pY5%2F4uhCj9YTxYd1gtqHkhlP9vC9tMQh6CulA%3D%3D : 서비스키
+	
+	//10진수를 radian(라디안)으로 변환
+	private static double deg2rad(double deg) {
+		return(deg * Math.PI/180.0);
+	}
+	
+	//radian(라디안)을 10진수로 변환
+	private static double rad2deg(double red) {
+		return(red * 180 / Math.PI);
+	}
 	
 	 //시/도/군/진료과/병원분류 검색값을 받아서 해당 병원의 기관ID를 검색하는 메소드
 	 public List hpidlist(String Q0, String Q1, String QD, String QZ) throws Exception {
@@ -332,8 +345,12 @@ public class Choohosapi {
 		return idlist;
 	}
 	 
+	 //증상으로 병원 검색하는 메소드
 	 public List selectHos(String QD, String Q0, String Q1) throws Exception {
 		 	List<ChooDTO> hoslist = new ArrayList<>();
+		 	
+		 	double x = 37.480890;
+		 	double y = 126.952290;
 		 	
 		 	StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire"); /*URL*/
 	        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=UZHnvSBw7ESYEUBtz%2BH9YHocdwfx3wFhm54v1fiXwk9pj4Wv3pY5%2F4uhCj9YTxYd1gtqHkhlP9vC9tMQh6CulA%3D%3D"); /*Service Key*/
@@ -359,7 +376,7 @@ public class Choohosapi {
 	        }
 	        
 	        
-	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("20", "UTF-8")); /*결과로 가져올 갯수*/
+	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("500", "UTF-8")); /*결과로 가져올 갯수*/
 	        
 	        URL url = new URL(urlBuilder.toString());
 	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -417,14 +434,36 @@ public class Choohosapi {
 				dto.setDutyTel1(telValue);
 				
 				double gdovalue = Double.parseDouble(hosgyodo.getNodeValue());
-				dto.setWgs84Lon(gdovalue);
+				dto.setWgs84Lon(gdovalue);										//x
+				//System.out.println(gdovalue);
 				
 				double wido = Double.parseDouble(hoswido.getNodeValue());
-				dto.setWgs84Lat(wido);
+				dto.setWgs84Lat(wido);											//y
+				//System.out.println(wido);
 				
-				hoslist.add(dto);
-			}	
-		return hoslist;
+				//병원 위도 경도와 받아온 위도 경도를 넣고 거리 계산을 해서 반경내에 있는 병원만 넣는 곳
+				double theta = y - gdovalue;
+				double dist = Math.sin(deg2rad(wido)) * Math.sin(deg2rad(x)) + Math.cos(deg2rad(wido)) * Math.cos(deg2rad(x)) * Math.cos(deg2rad(theta));
+				
+				dist = Math.acos(dist);
+				dist = rad2deg(dist);
+				dist = dist * 60 * 1.1515 * 1609.344;
+				int nodegre = (int)dist;
+				//System.out.println(nodegre + "m" + "소수점 제거");
+				
+				dto.setBan(nodegre);						//단위는 미터로 들어간다고 되어있음
+				
+				int selectlength = 500; 					//특정 거리 반경 설정 값 (단위 : meter)
+				int resulthos = nodegre - selectlength; 	// 거리 조건 식
+				
+				if(resulthos < 0) {
+					hoslist.add(dto);
+				}
+			}
+			
+			List<ChooDTO> reverlist = hoslist.stream().sorted(Comparator.comparing(ChooDTO::getBan)).collect(Collectors.toList());
+		// return hoslist;
+			return reverlist;	
 	}
 }
 

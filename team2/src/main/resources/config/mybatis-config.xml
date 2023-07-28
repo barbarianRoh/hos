@@ -10,5 +10,7 @@
 		<typeAlias type="com.team2.component.KimDTO" alias="KimDTO" />
 		<typeAlias type="com.team2.component.ChooDTO" alias="ChooDTO" />
 		<typeAlias type="com.team2.component.ChooTestDTO" alias="ChooTestDTO" />
+		<typeAlias type="com.team2.component.ChooGesipan" alias="ChooGesipan" />
+		<typeAlias type="com.team2.component.ChooRecon" alias="ChooRecon" />
 	</typeAliases>
 </configuration>
