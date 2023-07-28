@@ -15,7 +15,7 @@
             </tr>
             <tr>
                 <th>제품명</th>
-                <td><a href="/hos/hong/search?keyword=${medicine.itemName}">${medicine.itemName}</a></td>
+                <td><a href="/hos/hong/result?keyword=${medicine.itemName}">${medicine.itemName}</a></td>
             </tr>
         </c:forEach>
     </table>

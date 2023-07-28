@@ -8,11 +8,12 @@ import com.team2.component.HongDTO;
 import com.team2.controller.DataApiClient;
 
 public interface HongService {
-
-	static List<HongDTO> search(Model model) {
-		return null;
-	}
-	static List<HongDTO> Medicine(Model model) {
-		return null;
-	}
+	public String Search(HongDTO dto);
+	
+	public String Medicine(HongDTO dto);
+	
+	public List<HongDTO> safe();
+	
+	public List<HongDTO> data();
+	
 }

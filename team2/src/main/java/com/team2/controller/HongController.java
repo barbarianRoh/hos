@@ -11,14 +11,20 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import com.team2.component.HongDTO;
 import com.team2.component.Medicine;
+import com.team2.service.HongService;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 
@@ -27,6 +33,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HongController {
 
 	private static final int ROWS_PER_PAGE = 21;	// 한페이지당 보여줄 행의 수
+
+	private static final String HongDTO = null;
 	
     @Autowired
     private DataApiClient dataApiClient;
@@ -322,16 +330,20 @@ public class HongController {
         return medicines;
     } 
     
-    
+
 	@RequestMapping("othertotal")
 	public String othertotal(@RequestParam(defaultValue = "1") int page, Model model, String keyword) throws ParserConfigurationException, SAXException, MalformedURLException, IOException {
+		
+		final int rowpages = 21;	// 한페이지당 보여줄 행의 수
+       
 		String url = null;
 		
 		// keyword 가 null 이면 빈 문자열로 설정
 		if(keyword == null) {
 			keyword = "";
 		}
-		
+	    int totalPages = 0;
+	    
 		// api 의 요청을 위한 url 구조 디버깅을 위해 url이 문자열로 변환되고 인쇄
 		try {
 			StringBuilder urlBuilder = new StringBuilder("https://apis.data.go.kr/1471000/QdrgPrdtPrmsnInfoService02/getQdrgPrdtPrmsnInfoInq02");
@@ -340,8 +352,13 @@ public class HongController {
 	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("20", "UTF-8")); // 보여줄 제품의 갯수
 	        urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(page), "UTF-8"));
 	        
+	        int totalRows = otherTotalRows(urlBuilder); // 총 행 수 가져오기
+	        
+	        totalPages = (int) Math.ceil((double) totalRows / rowpages);
+
 		    url = urlBuilder.toString();
 		    System.out.println(url);
+		    
 		} catch(UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -352,7 +369,7 @@ public class HongController {
 	    List<String> NB_DOC_DATA_VALUES = new ArrayList<>();
 	    List<String> ENTP_NAME_VALUES = new ArrayList<>();
 	    
-	    
+
 	    try {	// xml 파싱을 위한 객체를 생성
 	        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 	        DocumentBuilder builder = factory.newDocumentBuilder();
@@ -393,6 +410,8 @@ public class HongController {
 	    model.addAttribute("UD_DOC_DATA_VALUES", UD_DOC_DATA_VALUES);
 	    model.addAttribute("NB_DOC_DATA_VALUES", NB_DOC_DATA_VALUES);
 	    model.addAttribute("ENTP_NAME_VALUES", ENTP_NAME_VALUES);
+	    model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", totalPages);
 
 	    return "/hong/othernextPage";
 		} catch(UnsupportedEncodingException e) {
@@ -400,6 +419,70 @@ public class HongController {
 			return "/hong/error";
 		}
 	}
+	    private int otherTotalRows(StringBuilder urlBuilder) throws IOException, ParserConfigurationException, SAXException {
+	    	// 파서 생성을 위한 새로운 객체 생성
+	        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder builder = factory.newDocumentBuilder();
+
+	        // 요청할 API의 주소를 가져옴
+	        String url = urlBuilder.toString();
+	        
+	        // API 요청을 보내고 XML 응답을 받아와서 document 객체로 파싱
+	        Document document = builder.parse(new URL(url).openStream());
+
+	        // 파싱된 데이터를 가지고 totalCount를 NodeList로 가져옴
+	        NodeList totalCountList = document.getElementsByTagName("totalCount");
+	        
+	        // totalCount 의 첫번째 인덱스 번호를 가져옴
+	        Element totalCountElement = (Element) totalCountList.item(0);
+	        
+	        // totalCount 의 텍스트 내용을 가져옴
+	        String totalCountStr = totalCountElement.getTextContent();
+	        
+	        // 가져온 총행수를 int 형으로 변환
+	        int totalCount = Integer.parseInt(totalCountStr);
+
+	        // 총행수 반환
+	        return totalCount;
+	    }
+
+	    // 3가지 매개변수 사용s
+	    private List<Medicine> otherMedicines(String baseUrl, String serviceKey, int page) throws IOException, ParserConfigurationException, SAXException {
+	    	
+	    	// 새로운 builder 생성
+	        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder builder = factory.newDocumentBuilder();
+
+	        // api에서 정보를 가져오기 위한 시작 행
+	        int startRow = (page - 1) * ROWS_PER_PAGE + 1;
+	        
+	        //데이터 가져오는 url 구성
+	        String url = baseUrl + "?serviceKey=" + serviceKey + "&itemName=&pageNo=" + page + "&startPage=" + startRow + "&numOfRows=" + ROWS_PER_PAGE;
+	        // 그 데이터를 document에 구성
+	        Document document = builder.parse(new URL(url).openStream());
+
+	        // xml 응답에서 두가지 요소를 검색
+	        NodeList itemNameList = document.getElementsByTagName("itemName");
+	        NodeList entpNameList = document.getElementsByTagName("entpName");
+
+	        List<Medicine> medicines = new ArrayList<>();
+
+	        // 두가지 요소를 반복 검색, 추출
+	        for (int i = 0; i < itemNameList.getLength(); i++) {
+	            Element itemNameElement = (Element) itemNameList.item(i);
+	            Element entpNameElement = (Element) entpNameList.item(i);
+
+	            String itemName = itemNameElement != null ? itemNameElement.getTextContent() : "";
+	            String entpName = entpNameElement != null ? entpNameElement.getTextContent() : "";
+
+	            // 각각 새로운 medicine 객체를 생성하고 목록에 추가
+	            Medicine medicine = new Medicine(entpName, itemName);
+	            medicines.add(medicine);
+	        }
+
+	        return medicines;
+	    }
+	
 	
 	// api 내 중복 줄이는 메서드
 	private String getTextContent(Element element, String tagName) {
@@ -423,10 +506,8 @@ public class HongController {
 	
 	// 의약품 정보 가져오는곳, 결과 페이지
     @RequestMapping("otherresult")
-    public String otherresult(@RequestParam(defaultValue = "1") int page, String keyword, Model model) {
-    	
-    	int itemsPerPage = 20;
-    	
+    public String otherresult (@RequestParam(defaultValue = "1") int page, String keyword, Model model) {
+
     	String url = null;
     	
 		if(keyword == null) {
@@ -438,6 +519,7 @@ public class HongController {
 		    urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=MMbncKBwZqOh19KQELbd%2FeILVFSsR6IbbxB7%2BNF3Oz1uxb5VmjB9p%2BQ1LFZyk2F8RZ6QWiTXrf%2BhNb6G%2BiDWVw%3D%3D");
 	        urlBuilder.append("&" + URLEncoder.encode("item_name","UTF-8") + "=" + URLEncoder.encode(keyword, "UTF-8")); // 제품명
 	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("20", "UTF-8")); // 보여줄 제품의 갯수
+	        urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(page), "UTF-8")); // current page
 	        
 		    url = urlBuilder.toString();
 		    
@@ -494,8 +576,7 @@ public class HongController {
          model.addAttribute("UD_DOC_DATA_VALUES", UD_DOC_DATA_VALUES);
          model.addAttribute("NB_DOC_DATA_VALUES", NB_DOC_DATA_VALUES);
          model.addAttribute("ENTP_NAME_VALUES", ENTP_NAME_VALUES);
-         model.addAttribute("currentPage", page);
-         model.addAttribute("totalPages",(int) Math.ceil((double) ITEM_NAME_VALUES.size() / itemsPerPage));
+       
     
          return "/hong/otheritemName";
          
@@ -503,5 +584,45 @@ public class HongController {
             e.printStackTrace();
             return "/hong/error";
         }
+    }
+    	
+    @Autowired
+    private HongService hongService;
+    
+    @RequestMapping("safe")
+    public String safe(Model model) {
+    	List<HongDTO> lists = hongService.data();
+    	List<HongDTO> medicine = new ArrayList<>();
+    	
+    for(HongDTO list : lists) {
+    	HongDTO hongDTO = new HongDTO();
+    	hongDTO.setPageno(list.getPageno());
+    	hongDTO.setNumofrows(list.getNumofrows());
+    	hongDTO.setEntpname(list.getEntpname());
+    	hongDTO.setItemname(list.getItemname());
+    	hongDTO.setEfcyqesitm(list.getEfcyqesitm());
+    	hongDTO.setUsemethodquesitm(list.getUsemethodquesitm());
+    	hongDTO.setAtpnwarnqesitm(list.getAtpnwarnqesitm());
+    	hongDTO.setAtpnqesitm(list.getAtpnqesitm());
+    	hongDTO.setIntrcqesitm(list.getIntrcqesitm());
+    	hongDTO.setSeqesitm(list.getSeqesitm());
+    	hongDTO.setDepositmethodqesitm(list.getDepositmethodqesitm());
+    	
+    	medicine.add(hongDTO);
+    }
+//    	System.out.println("hongdtos = " + hongDTO);
+    	
+    	model.addAttribute("medicine",medicine);
+		return "/hong/homesafe";
+    	}
+    
+    
+    @RequestMapping("home")
+    public String HongList(Model model) {
+    	List<HongDTO> list = hongService.safe();
+    	model.addAttribute("list", hongService.safe());
+//    	System.out.println("hongDTOList = " + hongDTOList);	// null
+		return "/hong/homesafe";
+    	
     }
 }
