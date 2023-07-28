@@ -4,7 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.team2.component.ChooGesipan;
+import com.team2.component.ChooRecon;
 import com.team2.component.ChooTestDTO;
+import com.team2.component.RohDTO;
 
 public interface ChooMapper {
 	
@@ -33,4 +36,28 @@ public interface ChooMapper {
 	public void gradeUpdate(ChooTestDTO dto);
 	
 	public void gradedelect(@Param("num")int num,@Param("addr") String addr);
+	
+	public int gesipancount();
+	
+	public List<ChooGesipan> gesipanList(@Param("startRow") int startRow, @Param("endRow") int endRow);
+	
+	public void gesipaninsert(ChooGesipan dto);
+	
+	public ChooGesipan gesipancon(int num);
+	
+	public void reconinsert(ChooRecon dto);
+	
+	public List<ChooRecon> reconlist(int num);
+	
+	public RohDTO memtype(String id);
+	
+	public int pwcheck(@Param("num") int num, @Param("pw") String pw);
+	
+	public void gesipanupdate(ChooGesipan dto);
+	
+	public void gesipandelect(int num);
+	
+	public int conCheck(String id);
+	
+	public List<ChooGesipan> mycon(String id);
 }

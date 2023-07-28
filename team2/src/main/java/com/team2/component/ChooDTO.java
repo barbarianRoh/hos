@@ -32,7 +32,11 @@ public class ChooDTO {
 	private String hpid;			//기관ID
 	private double wgs84Lon;		//병원경도	여기가 100으로 시작하는 곳 X
 	private double wgs84Lat;		//병원위도 Y
+	private double ban;				//반경
 	
+	
+	public double getBan() {return ban;}
+	public void setBan(double ban) {this.ban = ban;}
 	
 	public int getRnum() {
 		return rnum;

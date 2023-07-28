@@ -62,13 +62,12 @@ html, body {width:100%;height:100%;margin:0;padding:0;}
 #pagination {margin:10px auto;text-align: center;}
 #pagination a {display:inline-block;margin-right:10px;}
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
-.gps-icon{position:absolute;top: 22%;right: 0.65%;z-index:1;}
 </style>
 
 
 <div class="map_wrap">
 	<!-- 지도를 표시할 div 입니다 -->
-	<div id="map" style="width:100%;height:800px;position:relative;overflow:hidden;"></div>
+	<div id="map" style="width:2000px;height:800px;position:relative;overflow:hidden;"></div>
 	
 	<!-- 지도타입 컨트롤 div입니다 -->
 	<div class="custom_typecontrol radius_border">
@@ -87,66 +86,16 @@ html, body {width:100%;height:100%;margin:0;padding:0;}
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449&libraries=services,clusterer"></script>
 
 <script>
-//추가부분 ----------------------------------------------------------------------------------------------------------
-var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
-
-if (navigator.geolocation) {
-
-	// GeoLocation을 이용해서 접속 위치를 얻어옵니다
-	navigator.geolocation.getCurrentPosition(function(position) {
-		geolat = position.coords.latitude, // 위도
-		geolon = position.coords.longitude; // 경도
-   
-		var locPosition = new kakao.maps.LatLng(geolat, geolon), // 마커가 표시될 위치를 Geolocation으로 얻어온 좌표로 생성합니다
-		message = '<div style="padding:5px; width:9rem; text-align:center; display:inline-block;">접속위치</div>'; // 인포윈도우에 표시될 내용입니다
-   
-		// 마커와 인포윈도우를 표시합니다
-		displayMarker(locPosition, message);
-	});
-
-} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
- 	// Geolocation 사용이 불가능할 때 기본좌표 지정
-	var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),    
-	message = 'Geolocation을 사용할수 없습니다'
-	displayMarker(locPosition, message);
-}
-
-// 지도에 마커와 인포윈도우를 표시하는 함수
-function displayMarker(locPosition, message) {
-
-	// 마커를 생성합니다
-	var marker = new kakao.maps.Marker({  
-        map: map, 
-        position: locPosition
-	}); 
-    
-    var geoInfoContent = message, // 인포윈도우에 표시할 내용
-        removeable = true;
-
-    // 인포윈도우를 생성합니다
-    var geoInfowindow = new kakao.maps.InfoWindow({
-        content: geoInfoContent,
-        removable: removeable,
-        zIndex: 1
-    });
-    
-    // 인포윈도우를 마커위에 표시합니다 
-    geoInfowindow.open(map, marker);
-    
-    // 지도 중심좌표를 접속위치로 변경합니다
-    map.setCenter(locPosition);
-}
-// 추가부분 ----------------------------------------------------------------------------------------------------------
-
 //지도를 보여주기 위한 설정
 var mapContainer = document.getElementById('map'),		//지도를 표시할 div
 	mapOption = {
-		center: new kakao.maps.LatLng(geolat, geolon),	//해당지도의 중심좌표 //수정* ${y},${x}
+		center: new kakao.maps.LatLng(${y},${x}),		//해당지도의 중심좌표
 		level: 7										//지도의 확대 레벨
 	};
 
 // 지도를 표시할 div와 지도 옵션으로 지도를 생성합니다
 var map = new kakao.maps.Map(mapContainer, mapOption);
+
 
 //지도타입의 컨트롤의 지도 또는 스카이뷰 버튼을 클릭하면 호출되어 지도타입을 바꾸는 함수
 function setMapType(maptype){
@@ -170,7 +119,7 @@ function zoomIn(){
 }
 
 
-//지도 확대 및 축소 컨트롤에 축소버튼을 누리면 호출되어 지도를 축소
+//지도 확대 및 축소 컨트롤에 축소버튼을 누르면 호출되어 지도를 축소
 function zoomOut(){
 	map.setLevel(map.getLevel() + 1);
 }
@@ -185,51 +134,20 @@ var imageSrc = '/hos/resources/img/hosmark.png',
 //마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
-// 추가 ------------------------------------------------------------------------------------------------------------------
-//현재위치, 약국위치 비교 메서드
-function calculateDistance(mylat, mylon, hoslat, hoslon) {
-	
-	const earthRadius = 6371; // 지구의 반지름 km
-
-	// 각도를 라디안으로 변환
-	const toRadians = (degrees) => (degrees * Math.PI) / 180;
-
-	// 위도와 경도 차이계산
-	const dLat = toRadians(hoslat - mylat);
-	const dLon = toRadians(hoslon - mylon);
-
-	// 하버사인 공식 적용
-	const a =
-		Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-		Math.cos(toRadians(mylat)) *
-		Math.cos(toRadians(hoslat)) *
-		Math.sin(dLon / 2) *
-		Math.sin(dLon / 2);
-
-	const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-	// 거리계산
-	const distanceKm = earthRadius * c;
-	// km -> m로 변환
-	const distance = Math.round(distanceKm * 1000);
-	
-	return distance;
-} // 추가 ------------------------------------------------------------------------------------------------------------------ 
-
-var distance;
 
 //마커의 표시할 위치와 내용을 가지고 있는 객체 배열입니다.
 var positions=[
 				<c:forEach var="dto" items="${hos}">
 					{
-						content: '<div style="width: 300px; height: 80px; padding:5px;">${dto.dutyName}<br>' + 
+						content: '<div style="width: 300px; height: 100px; padding:5px;">${dto.dutyName}<br>' + 
 						'<font size = 2> 전화번호 : ${dto.dutyTel1} </font><br>' + 
 						'<font size = 2> 주소 : ${dto.dutyAddr} </font><br>' + 
+						'<font size= 2> 거리 : ${dto.ban}m </font><br>' +
 						'<a href="https://map.kakao.com/link/map/ ${dto.dutyName} , ${dto.wgs84Lat} , ${dto.wgs84Lon} " style="color:blue" target="_blank">큰지도보기</a>&nbsp;' + 
 						'<a href="https://map.kakao.com/link/to/  ${dto.dutyName} , ${dto.wgs84Lat} , ${dto.wgs84Lon} " style="color:blue" target="_blank">길찾기</a>&nbsp;' + 
 						'<a href="/hos/choo/hosgrade?name=${dto.dutyName}&addr=${dto.dutyAddr}" style="color:blue" target="_blank">병원평점</a></div>',
 						title: '${dto.dutyName}',
-						latlng: new kakao.maps.LatLng(${dto.wgs84Lat},${dto.wgs84Lon}),
+						latlng: new kakao.maps.LatLng(${dto.wgs84Lat},${dto.wgs84Lon})
 					},
 				</c:forEach>
 			];
@@ -262,20 +180,28 @@ for(var i = 0; i < positions.length; i++){
 }
 </script>
 
+<style>
+.gps-icon{
+ 	position:absolute;
+ 	top: 22%;
+ 	right: 0.65%;
+ 	z-index:1;
+}
+</style>
+
 <table width="1400" border="1" cellspacing="0" cellpadding="0" align="center">
 	<tr height="20">
 		<td align="center" width="300">병원이름</td>
 		<td align="center" width="480">주 소</td>
 		<td align="center" width="150">전화번호</td>
-		<td align="center">거리</td>
+		<td align="center" width="150">거 리</td>
 	</tr>
 	<c:forEach var="dto" items="${hos}">
 	<tr height="20">
 		<td align="center" width="300">${dto.dutyName}</td>
 		<td align="center" width="480">${dto.dutyAddr}</td>
 		<td align="center" width="150">${dto.dutyTel1}</td>
-		<td align="center" class="distanceCell"><script>distance = calculateDistance(geolat, geolon, ${dto.wgs84Lat}, ${dto.wgs84Lon});
-		document.currentScript.parentNode.textContent = distance;</script></td>
+		<td align="center" width="150">${dto.ban}m</td>
 	</tr>
 	</c:forEach>
 </table>
