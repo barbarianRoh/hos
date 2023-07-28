@@ -11,7 +11,7 @@
             </tr>
             <tr> 
                 <th>제품명</th>
-                <td><a href="/hos/hong/otherresult?keyword=${ITEM_NAME_VALUES}">${ITEM_NAME_VALUES[status.index]}</a></td>
+                <td>${ITEM_NAME_VALUES[status.index]}</td>
             </tr>
             <tr>
                 <th>효능 효과</th>

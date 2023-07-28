@@ -7,34 +7,27 @@
 </head>
 <body>
     <table>
-        <c:forEach items="${ITEM_NAME_VALUES}" var="medicine" begin="1" end="20">
+        <c:forEach items="${ITEM_NAME_VALUES}" var="medicine">
             <tr>
                 <th>제품명</th>
                 <td><a href="/hos/hong/otherresult?keyword=${medicine}">${medicine}</a></td>
             </tr>
         </c:forEach>
     </table>
+    
     <br>
 
-
 <div class="pagination">
-    <c:set var="itemsPerPage" value="100" /> 
-    <c:set var="startPage" value="${((currentPage - 1) / 10) * 10 + 1}" />
+    <c:if test="${currentPage > 1}">
+        <a href="${pageUrl}?page=1">First</a>
+        <a href="${pageUrl}?page=${currentPage - 1}">Previous</a>
+    </c:if>
+    
+    <c:set var="startPage" value="${(currentPage - 1) / 10 * 10 + 1}" />
     <c:set var="endPage" value="${startPage + 9}" />
     <c:if test="${endPage > totalPages}">
         <c:set var="endPage" value="${totalPages}" />
     </c:if>
-
-    
-    <c:if test="${currentPage > 1}">
-        <a href="${pageUrl}?page=1">처음</a>
-    </c:if>
-
-  
-    <c:if test="${currentPage > 1}">
-        <a href="${pageUrl}?page=${currentPage - 1}">이전</a>
-    </c:if>
-
     
     <c:forEach begin="${startPage}" end="${endPage}" var="pageNumber">
         <c:choose>
@@ -46,14 +39,10 @@
             </c:otherwise>
         </c:choose>
     </c:forEach>
-
-
+    
     <c:if test="${currentPage < totalPages}">
-        <a href="${pageUrl}?page=${currentPage + 1}">다음</a>
-    </c:if>
-
-    <c:if test="${currentPage != totalPages}">
-        <a href="${pageUrl}?page=${totalPages}">끝</a>
+        <a href="${pageUrl}?page=${currentPage + 1}">Next</a>
+        <a href="${pageUrl}?page=${totalPages}">Load</a>
     </c:if>
 </div>
 </body>

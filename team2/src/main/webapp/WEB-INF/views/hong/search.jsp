@@ -29,10 +29,5 @@
         <input type="submit" value="Search" />
     </form>
 
-    <h2>다른 업체 이름 검색</h2>
-    <form method="GET" action="test">
-        <input type="text" name="businessName" placeholder="업체명을 입력하세요" />
-        <input type="submit" value="Search" />
-    </form>
 </body>
 </html>

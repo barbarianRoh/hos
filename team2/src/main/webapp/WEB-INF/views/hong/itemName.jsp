@@ -12,7 +12,7 @@
         <c:forEach items="${itemNameValues}" var="itemName" varStatus="status">
             <tr>
             	<td>
-            		<img src="${itemImageValues[status.index]}" alt="Image" width="500" height="400" place="center">
+            		<img src="${itemImageValues[status.index]}" alt="Image" width="500" height="400">
             	</td>
             </tr> 
             <tr>
