@@ -36,4 +36,14 @@ public class RohServiceImpl implements RohService {
 	public void myinfoUpdate(RohDTO dto) {
 		mapper.myinfoUpdate(dto);
 	}
+	
+	@Override
+	public RohDTO findMyId(RohDTO dto) {
+		return mapper.findMyId(dto);
+	}
+	
+	@Override
+	public RohDTO findMyPw(RohDTO dto) {
+		return mapper.findMyPw(dto);
+	}
 }

@@ -35,5 +35,5 @@
 		<input type="submit" value="로그인" />
 	</form>
 	
-	<a href="/hos/roh/signupForm">회원가입</a>
+	<a href="/hos/roh/findMyIdForm">ID찾기</a><a href="/hos/roh/findMyPwForm">PW찾기</a><a href="/hos/roh/signupForm">회원가입</a>
 </c:if>

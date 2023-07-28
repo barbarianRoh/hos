@@ -5,19 +5,6 @@
 
 <title>내정보</title>
 
-<c:if test="${dto.getId() eq null}">
-	<script>
-		alert("비정상1 비정상적인 접근입니다");
-		window.location.href='http://localhost:8080/hos/roh/';
-	</script>
-</c:if>
-<c:if test="${empty dto.getId()}">
-	<script>
-		alert("비정상2 비정상적인 접근입니다");
-		window.location.href='http://localhost:8080/hos/roh/';
-	</script>
-</c:if>
-
 <c:if test="${pwError}">
 	<script>
 		alert("기존 비밀번호를 확인해주세요");
@@ -62,6 +49,9 @@
 	
 	<label for="name">이름 : </label>
 	${dto.getName()}<br />
+	
+	<label for="name">생년월일 : </label>
+	${dto.getBirth()}<br />
 	
 	<input type="submit" value="수정" />
 </form>
