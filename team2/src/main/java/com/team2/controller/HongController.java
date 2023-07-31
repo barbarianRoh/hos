@@ -6,6 +6,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -589,40 +590,26 @@ public class HongController {
     @Autowired
     private HongService hongService;
     
-    @RequestMapping("safe")
-    public String safe(Model model) {
-    	List<HongDTO> lists = hongService.data();
-    	List<HongDTO> medicine = new ArrayList<>();
-    	
-    for(HongDTO list : lists) {
-    	HongDTO hongDTO = new HongDTO();
-    	hongDTO.setPageno(list.getPageno());
-    	hongDTO.setNumofrows(list.getNumofrows());
-    	hongDTO.setEntpname(list.getEntpname());
-    	hongDTO.setItemname(list.getItemname());
-    	hongDTO.setEfcyqesitm(list.getEfcyqesitm());
-    	hongDTO.setUsemethodquesitm(list.getUsemethodquesitm());
-    	hongDTO.setAtpnwarnqesitm(list.getAtpnwarnqesitm());
-    	hongDTO.setAtpnqesitm(list.getAtpnqesitm());
-    	hongDTO.setIntrcqesitm(list.getIntrcqesitm());
-    	hongDTO.setSeqesitm(list.getSeqesitm());
-    	hongDTO.setDepositmethodqesitm(list.getDepositmethodqesitm());
-    	
-    	medicine.add(hongDTO);
+    @RequestMapping("safe")   
+    public String safe(Model model, HongDTO dto) { // model객체와 dto 객체를 파라미터로 받음
+       dto = hongService.getcontent(dto);   // hongservice를 통해 dto를 호출하며 dto에 넣고
+       model.addAttribute("dto" , dto);   // model에 dto를 "dto" 라는 이름으로 저장해서 
+       return "/hong/homesafe";   // homesafe 의 view 페이지로 전달
     }
-//    	System.out.println("hongdtos = " + hongDTO);
-    	
-    	model.addAttribute("medicine",medicine);
-		return "/hong/homesafe";
-    	}
     
+    @RequestMapping("data")
+    public String data(Model model) {     
+       List<HongDTO> list = hongService.safe();   // safe 메서드를 호출해서 dto 객체의 list를 가져옴
+       
+       // list 내부의 객체들을 getNum을 기준으로 오름차순으로 정렬
+       list.sort((dto1, dto2) -> Integer.compare(dto1.getNum(), dto2.getNum()));
+       // model 에 list를 "list" 의 이름으로 추가해서 dbsafe 로 전달
+       model.addAttribute("list",list);
+       return "/hong/dbsafe";
+    }
     
-    @RequestMapping("home")
-    public String HongList(Model model) {
-    	List<HongDTO> list = hongService.safe();
-    	model.addAttribute("list", hongService.safe());
-//    	System.out.println("hongDTOList = " + hongDTOList);	// null
-		return "/hong/homesafe";
-    	
+    @RequestMapping("main")
+    public String main(Model model) {
+    	return "/hong/index.pug";
     }
 }

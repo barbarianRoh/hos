@@ -5,10 +5,14 @@
 
 <mapper namespace="com.team2.mapper.HongMapper">
 	<select id="safe" resultType="com.team2.component.HongDTO">
-		select * from medicine
+		select * from medicine 
+	</select>
+
+	<select id="data" resultType="com.team2.component.HongDTO">
+		SELECT * FROM medicine
 	</select>
 	
-	<select id="data" resultType="com.team2.component.HongDTO">
-		select * from medicine
+	<select id="getcontent" resultType="com.team2.component.HongDTO">
+		select * from medicine where num = #{num}
 	</select>
 </mapper>

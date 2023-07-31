@@ -29,5 +29,8 @@
         <input type="submit" value="Search" />
     </form>
 
+	<form method="GET" action="data">
+		<input type="button" value="안전상비약" onclick="location.href='data'"> 
+	</form>
 </body>
 </html>

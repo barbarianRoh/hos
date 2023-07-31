@@ -7,8 +7,10 @@
     <title>Medicine Information</title>
 </head>
 <body>    
-    <table>
+<table>
+    <!-- medicine이라는 컬렉션을 반복해서 medicine이라는 변수에 각 요소를 할당시킴 -->
         <c:forEach items="${medicines}" var="medicine">
+        <!-- medicine의 entpname, itemname 값을 보여줌 -->
             <tr>
                 <th>업체명</th>
                 <td>${medicine.entpName}</td>
