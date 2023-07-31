@@ -453,7 +453,7 @@ public class Choohosapi {
 				
 				dto.setBan(nodegre);						//단위는 미터로 들어간다고 되어있음
 				
-				int selectlength = 500; 					//특정 거리 반경 설정 값 (단위 : meter)
+				int selectlength = 3000; 					//특정 거리 반경 설정 값 (단위 : meter)
 				int resulthos = nodegre - selectlength; 	// 거리 조건 식
 				
 				if(resulthos < 0) {

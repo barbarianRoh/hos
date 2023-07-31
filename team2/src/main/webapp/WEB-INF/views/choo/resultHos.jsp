@@ -5,12 +5,6 @@
 <meta charset="utf-8">
 	<title>증상으로 찾은 병원</title>
 
-<c:if test="${hos == null}">
-	<script>
-		alert('병원을 찾을 수 없습니다');
-		history.go(-1);
-	</script>
-</c:if>
 
 <style>
 html, body {width:100%;height:100%;margin:0;padding:0;} 
@@ -204,4 +198,12 @@ for(var i = 0; i < positions.length; i++){
 		<td align="center" width="150">${dto.ban}m</td>
 	</tr>
 	</c:forEach>
+	
 </table>
+
+<c:if test="${hos == null}">
+	<script>
+		alert('병원을 찾을 수 없습니다');
+		history.go(-1);
+	</script>
+</c:if>
