@@ -193,8 +193,6 @@ var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
 	<input type="hidden" id="W1" name="W1" vlaue="">
 	<input type="hidden" id="Q0" name="Q0" value="">
 	<input type="hidden" id="Q1" name="Q1" value="">
-	<input type="hidden" id="WGS84_LAT" name="WGS84_LAT" value="">
-	<input type="hidden" id="WGS84_LON" name="WGS84_LON" value="">
 	
 	<input type="submit" value="검색">
 </form>

@@ -29,7 +29,7 @@ html, body {width:100%;height:100%;margin:0;padding:0;}
 .custom_zoomcontrol span {display:block;width:36px;height:40px;text-align:center;cursor:pointer;}     
 .custom_zoomcontrol span img {width:15px;height:15px;padding:12px 0;border:none;}             
 .custom_zoomcontrol span:first-child{border-bottom:1px solid #bfbfbf;}
-#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
+#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:441px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
 .bg_white {background:#fff;}
 #menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
 #menu_wrap .option{text-align: center;}
@@ -150,10 +150,11 @@ var positions=[
 						latlng: new kakao.maps.LatLng(${dto.wgs84Lat},${dto.wgs84Lon})
 					},
 				</c:forEach>
-			];
-			
-for(var i = 0; i < positions.length; i++){
-	
+			];		
+
+marker2 = [];
+infowindow2 = [];
+for(var i = 0; i < positions.length; i++){	
 	//마커를 생성합니다
 	var marker = new kakao.maps.Marker({
 		map: map,
@@ -161,12 +162,11 @@ for(var i = 0; i < positions.length; i++){
 		title: positions[i].title,			//마커의 타이틀이고 마커를 클릭하면 병원정보가 출력
 		image: markerImage,					//커스텀 마커로 설정
 	});
-	
 	marker.setMap(map);
-	
+	var infowindow;
 	//마커에 클릭이벤트 코드
 	(function(marker, content){
-		var infowindow = new kakao.maps.InfoWindow({
+		infowindow = new kakao.maps.InfoWindow({
 			content: content,
 			removable: true
 		});
@@ -177,7 +177,17 @@ for(var i = 0; i < positions.length; i++){
 			infowindow.open(map,marker);
 		});
 	})(marker, positions[i].content);
+	
+	infowindow2[i]=infowindow;
+	marker2[i] = marker;
 }
+
+//사이드바의 각 병원을 클릭했을 때 해당 병원의 마커 인포윈도우를 출력하게 함
+function showme(i){
+	console.log(marker2[i]);
+	infowindow2[i].open(map,marker2[i]);
+}
+
 </script>
 
 <style>
@@ -189,19 +199,17 @@ for(var i = 0; i < positions.length; i++){
 }
 </style>
 
-<table width="1400" border="1" cellspacing="0" cellpadding="0" align="center">
-	<tr height="20">
-		<td align="center" width="300">병원이름</td>
-		<td align="center" width="480">주 소</td>
-		<td align="center" width="150">전화번호</td>
-		<td align="center" width="150">거 리</td>
-	</tr>
-	<c:forEach var="dto" items="${hos}">
-	<tr height="20">
-		<td align="center" width="300">${dto.dutyName}</td>
-		<td align="center" width="480">${dto.dutyAddr}</td>
-		<td align="center" width="150">${dto.dutyTel1}</td>
-		<td align="center" width="150">${dto.ban}m</td>
-	</tr>
-	</c:forEach>
-</table>
+<div id="menu_wrap" class="bg_white">
+
+<c:forEach var="dto" items="${hos}" varStatus="i">
+
+	<div id="" style="border: 1px solid gray;margin: 15px 0px 15px 0px;">
+	<a href="javascript:showme('${i.index}')">
+	병원이름 : ${dto.dutyName} <br />
+	주 소 : ${dto.dutyAddr} <br />
+	전화번호 : ${dto.dutyTel1} <br />
+	</a>
+	</div>
+	
+</c:forEach> 
+</div>

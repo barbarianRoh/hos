@@ -23,7 +23,7 @@
 		<c:forEach var="dto" items="${dto}">
 		<tr height="30">
 			<td align="center" width="50">${dto.num}</td>
-			<td align="center" width="500"><a href="gesipancon?num=${dto.num}"></a></td>
+			<td align="center" width="500"><a href="gesipancon?num=${dto.num}">${dto.title}</a></td>
 			<td align="center" width="150">${dto.id}</td>
 			<td align="center" width="250">${dto.reg}</td>
 		</tr>

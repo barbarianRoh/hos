@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>병원이름으로 검색한 페이지</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" >
 </head>
 
 <c:if test="${dto.dutyName == null}">
@@ -14,6 +15,16 @@
 </c:if>
 
 <style>
+.b-example-vr {
+flex-shrink: 0;
+height: 100vh;
+width: 1.5rem;
+}
+.bi {
+vertical-align: -.125em;
+fill: currentColor;
+}
+
 html, body {width:100%;height:100%;margin:0;padding:0;} 
 .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
@@ -66,6 +77,11 @@ html, body {width:100%;height:100%;margin:0;padding:0;}
 </style>
 
 <c:if test="${dto.dutyName != null}">
+
+<div id="menu_wrap" class="bg_white">
+	<ul id = "hosList"></ul>
+</div>
+
 <div class="map_wrap">
 	<!-- 지도를 표시할 div 입니다 -->
 	<div id="map" style="width:2000px;height:800px;position:relative;overflow:hidden;"></div>

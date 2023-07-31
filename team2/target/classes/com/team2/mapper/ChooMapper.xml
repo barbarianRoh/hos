@@ -67,4 +67,57 @@
 	delete from hosgrade where num=#{num} and addr=#{addr}
 </delete>
 
+<select id="gesipancount" resultType="int">
+	select count(*) from gesipan
+</select>
+
+<select id="gesipanList" resultType="ChooGesipan">
+	(<![CDATA[select * from(select e.*, rownum r from(select * from gesipan order by reg desc)e) where r >=#{startRow} and r <=#{endRow}]]>)
+</select>
+
+<insert id="gesipaninsert">
+	insert into gesipan(num,id,pw,title,con,reg) values(gesi_seq.NEXTVAL, #{id}, #{pw}, #{title}, #{con}, sysdate)
+</insert>
+
+<select id="gesipancon" resultType="ChooGesipan">
+	select * from gesipan where num=#{num}
+</select>
+
+<insert id="reconinsert">
+	insert into recon(num,renum,id,con,reg) values(#{num}, recon_seq.NEXTVAL, #{id}, #{con}, sysdate)
+</insert>
+
+<select id="reconlist" resultType="ChooRecon">
+	select * from recon where num=#{num}
+</select>
+
+<select id="memtype" resultType="RohDTO">
+	select * from p2_member where id=#{id}
+</select>
+
+<select id="pwcheck" resultType="int">
+	select count(*) from gesipan where num=#{num} and pw=#{pw}
+</select>
+
+<update id="gesipanupdate">
+	update gesipan
+	<set>
+		<if test="title != null">title=#{title},</if>
+		<if test="con != null">con=#{con}</if>
+	</set>
+	where num=#{num}
+</update>
+
+<delete id="gesipandelect">
+	delete from gesipan where num=#{num}
+</delete>
+
+<select id="conCheck" resultType="int">
+	select count(*) from gesipan where id=#{id}
+</select>
+
+<select id="mycon" resultType="ChooGesipan">
+	select * from gesipan where id=#{id}
+</select>
+
 </mapper>

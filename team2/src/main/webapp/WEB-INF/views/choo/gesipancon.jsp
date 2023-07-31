@@ -63,14 +63,14 @@
 	</c:if>
 	
 	<c:if test="${dto1.id != null}">
-		<c:if test="${dto1.membertype == 2}">
+		<c:if test="${dto1.memberType == 2}">
 		<%-- 댓글 작성하는 창 --%>
-		<table align="center" width="1000" border="1" cellspacing="0" cellpadding="0">
+		<table align="center" width="400" border="1" cellspacing="0" cellpadding="0">
 			<tr height="30">
 				<td align="center" width="100">작성자</td>
 				<td width="100">${memId}<input type="hidden" value="${memId}" name="id"></td>
 			
-				<td width="300"><textarea name="con" rows="44" cols="127"></textarea></td>
+				<td width="200"><textarea name="con" rows="8" cols="127"></textarea></td>
 				<td align="center">
 					<input type="button" value="작 성" onclick="location.href='reconWrite?num=${dto.num}'"></td>
 			</tr>

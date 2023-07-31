@@ -16,7 +16,7 @@
 				<td width="100"><input type="text" size="100" maxlength="50" name="id"></td>
 			</c:if>
 			
-			<c:if test="${memid != null}">
+			<c:if test="${memId != null}">
 				<td width="100">${memId}<input type="hidden" value="${memId}" name="id"></td>
 			</c:if>
 		</tr>
