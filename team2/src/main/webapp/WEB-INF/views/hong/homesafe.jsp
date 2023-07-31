@@ -10,34 +10,33 @@
 			<tr height="30">
 				<td align="center" colspan="3">안전상비약</td>
 			</tr>
-				<tr height="20">
-				<tr>
-					<td align="center" width="300">업체명 : ${dto.entpname}</td>
-				</tr>
-				<tr>	
-					<td align="center" width="300">제품명 : ${dto.itemname}</td>
-				</tr>
-				<tr>
-					<td align="center" width="300">효능효과 : ${dto.efcyqesitm}</td>
-				</tr>
-				<tr>	
-					<td align="center" width="300">사용법 : ${dto.usemethodquesitm}</td>
-				</tr>	
-				<tr>
-					<td align="center" width="300">알아야할 내용 : ${dto.atpnwarnqesitm}</td>
-				</tr>
-				<tr>	
-					<td align="center" width="300">주의사항 : ${dto.atpnqesitm}</td>
-				</tr>
-				<tr>
-					<td align="center" width="300">주의할 약또는 음식 : ${dto.intrcqesitm}</td>
-				</tr>
-				<tr>
-					<td align="center" width="300">이상반응 : ${dto.seqesitm}</td>
-				</tr>
-				<tr>
-					<td align="center" width="300">보관법 : ${dto.depositmethodqesitm}</td>
-				</tr>		
+			<tr>
+				<td align="center" width="300">업체명 : ${dto.entpname}</td>
+			</tr>
+			<tr>	
+				<td align="center" width="300">제품명 : ${dto.itemname}</td>
+			</tr>
+			<tr>
+				<td align="center" width="300">효능효과 : ${dto.efcyqesitm}</td>
+			</tr>
+			<tr>	
+				<td align="center" width="300">사용법 : ${dto.usemethodquesitm}</td>
+			</tr>	
+			<tr>
+				<td align="center" width="300">알아야할 내용 : ${dto.atpnwarnqesitm}</td>
+			</tr>
+			<tr>	
+				<td align="center" width="300">주의사항 : ${dto.atpnqesitm}</td>
+			</tr>
+			<tr>
+				<td align="center" width="300">주의할 약또는 음식 : ${dto.intrcqesitm}</td>
+			</tr>
+			<tr>
+				<td align="center" width="300">이상반응 : ${dto.seqesitm}</td>
+			</tr>
+			<tr>
+				<td align="center" width="300">보관법 : ${dto.depositmethodqesitm}</td>
+			</tr>		
 		</table>
 	</body>
 </html>

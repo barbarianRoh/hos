@@ -598,11 +598,13 @@ public class HongController {
     }
     
     @RequestMapping("data")
-    public String data(Model model) {     
-       List<HongDTO> list = hongService.safe();   // safe 메서드를 호출해서 dto 객체의 list를 가져옴
+    public String data(Model model) {
+       // safe 메서드를 호출해서 dto 객체의 list를 가져옴
+       List<HongDTO> list = hongService.safe();   
        
        // list 내부의 객체들을 getNum을 기준으로 오름차순으로 정렬
        list.sort((dto1, dto2) -> Integer.compare(dto1.getNum(), dto2.getNum()));
+       
        // model 에 list를 "list" 의 이름으로 추가해서 dbsafe 로 전달
        model.addAttribute("list",list);
        return "/hong/dbsafe";
@@ -610,6 +612,6 @@ public class HongController {
     
     @RequestMapping("main")
     public String main(Model model) {
-    	return "/hong/index.pug";
+    	return "/hong/index";
     }
 }
