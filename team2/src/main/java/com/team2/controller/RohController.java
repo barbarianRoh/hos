@@ -210,20 +210,5 @@ public class RohController {
 		return "roh/kakaoSignin";
 	}
 	
-	@RequestMapping("kakaoSigninPro")
-	   public String kakaoSigninPro(HttpSession session, @RequestParam("id") String id, @RequestParam("nick") String nick, @RequestParam("email") String email, @RequestParam("gender") String gender, @RequestParam("age_range") String age_range) {
-	      String k_id = id; 
-	      String k_nick = nick;
-	      String k_email = email;
-	      String k_gender = gender;
-	      String k_range = age_range;
-	      int count = kakaoservice.countkakao(k_id);
-	      if(count==0) {
-	         kakaoservice.kakaoLogin(k_id, k_nick, k_email, k_gender, k_range);
-	      }
-	      session.setAttribute("kakaoid", k_nick);
-	      session.setAttribute("kakaonick", k_id);
-	      return "/member/member_login";
-	   }
 	
 }
