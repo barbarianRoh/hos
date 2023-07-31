@@ -1,5 +1,7 @@
 package com.team2.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,5 +67,15 @@ public class RohServiceImpl implements RohService {
 	@Override
 	public int findTest(RohDTO dto) {
 		return mapper.findTest(dto);
+	}
+	
+	@Override
+	public List<RohDTO> memberList(int startRow, int endRow) {
+		return mapper.memberList(startRow, endRow);
+	}
+	
+	@Override
+	public int memberCount() {
+		return mapper.memberCount();
 	}
 }

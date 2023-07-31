@@ -14,12 +14,12 @@
 <h1>비밀번호 찾기</h1>
 <form action="findMyPwPro" method="get">
 	<label for="id">아이디 : </label>
-	<input type="text" id="id" name="id" />
+	<input type="text" id="id" name="id" placeholder="아이디" /><br />
 	<label for="name">이름 : </label>
-	<input type="text" id="name" name="name" />
+	<input type="text" id="name" name="name" placeholder="이름" /><br />
 	<label for="birth">생년월일 : </label>
-	<input type="text" id="birth" name="birth" />
-	<input type="submit" value="찾기" />
+	<input type="text" id="birth" name="birth" placeholder="생년월일" /><br />
+	<input type="submit" value="비밀번호 찾기" />
 </form>
 
 ${findMyPw}<br />

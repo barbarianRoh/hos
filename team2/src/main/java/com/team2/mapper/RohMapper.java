@@ -1,5 +1,7 @@
 package com.team2.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.team2.component.RohDTO;
@@ -17,4 +19,6 @@ public interface RohMapper {
 	public int kSignin(@Param("kId")String kId);
 	public RohDTO kMyinfo(@Param("kId")String kId);
 	public int findTest(RohDTO dto);
+	public List<RohDTO> memberList(@Param("startRow")int startRow, @Param("endRow")int endRow);
+	public int memberCount();
 }

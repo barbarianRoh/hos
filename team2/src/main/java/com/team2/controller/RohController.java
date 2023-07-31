@@ -17,6 +17,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,15 +40,13 @@ public class RohController {
 	
 	// 홈페이지
 	@RequestMapping("/")
-	public String home(HttpSession session, Model model) {
-		String sid = (String)session.getAttribute("id");
-		model.addAttribute("sid", sid);
+	public String home() {
 		return "/roh/home";
 	}
 	
 	// 카카오맵 API+약국
 	@RequestMapping("pharmacyMap")
-	public String pharmacyMap(Model model) {
+	public String pharmacyMap() {
 		return "/roh/pharmacyMap";
 	}
 	
@@ -56,7 +55,7 @@ public class RohController {
 	public String contactPage() {
 		return "/roh/components";
 	}
-	// 부스트랩 테스트2
+	// 부트스트랩 테스트2
 	@RequestMapping("index")
 	public String index() {
 		return "/roh/index";
@@ -72,14 +71,17 @@ public class RohController {
 	@RequestMapping("signupPro")
 	@ResponseBody
 	public String signupPro(RohDTO dto, Model model) {
-		int result = service.signup(dto);
 		String message = "";
-		
-		if(result == 1) {
-    		message = "ok";
-    	} else {
-    		message = "실패";
-    	}
+		try {
+			int result = service.signup(dto);
+			if(result == 1) {
+				message = "ok";
+			} else {
+				message = "failed";
+			}
+		} catch(DataIntegrityViolationException e) {
+			message = "failed2";
+		}
 		
 		return message;
 	}
@@ -87,12 +89,20 @@ public class RohController {
 	// 로그인 프로
 	@RequestMapping("signinPro")
 	public String signinPro(RohDTO dto, Model model, HttpSession session) {
-		System.out.println(dto);
 		
 		int result = service.signin(dto);
 		if(result == 1) {
 			dto = service.myinfo(dto);
 			session.setAttribute("sid", dto.getId());
+			session.setAttribute("sname", dto.getName());
+			session.setAttribute("sbirth", dto.getBirth());
+			session.setAttribute("smembertype", dto.getMemberType());
+			session.setAttribute("senabled", dto.getEnabled());
+			System.out.println(dto.getEnabled());
+			if(dto.getEnabled().equals("0")) {
+				model.addAttribute("enabledFailed", true);
+				session.invalidate();
+			}
 		} else { 
 			model.addAttribute("loginFailed", true);
 		}
@@ -137,21 +147,13 @@ public class RohController {
 	
 	// 내정보 폼
 	@RequestMapping("myProfileForm")
-	public String myProfile(RohDTO dto, Model model, HttpSession session) {
-		String sid = (String)session.getAttribute("sid");
-		String spw = (String)session.getAttribute("spw");
-		dto.setId(sid);
-		dto.setPw(spw);
-		dto = service.myinfo(dto);
-		model.addAttribute("dto", dto);
-		
+	public String myProfile() {
 		return "roh/myProfileForm";
 	}
 	
 	// 내정보 프로
 	@RequestMapping("myProfilePro")
 	public String myProfilePro(RohDTO dto, Model model, HttpSession session) {
-		String id = dto.getId();
 		String formPw = (String)dto.getPw(); // 폼에서 입력한 기존 비밀번호
 		String pw2 = (String)dto.getPw2(); // 바꿀 비밀번호
 		String pw3 = (String)dto.getPw3(); // 확인
@@ -247,7 +249,41 @@ public class RohController {
 		}
 		session.setAttribute("kid", kId);
 		session.setAttribute("knick", kNick);
-		return "/member/member_login";
+		session.setAttribute("kgender", kGender);
+		session.setAttribute("kage", kAge);
+		
+		return "roh/home";
+	}
+	
+	@RequestMapping("adminForm")
+	public String adminForm(Model model, String pageNum) {
+		int pageSize = 10;
+		if(pageNum == null) {pageNum = "1";}
+		int currentPage = Integer.parseInt(pageNum);
+		
+		int startRow = (currentPage - 1) * pageSize + 1;
+		int endRow = currentPage * pageSize;
+		List<RohDTO> list = service.memberList(startRow, endRow);
+		System.out.println(list);
+		
+		int count = service.memberCount();
+		System.out.println(count);
+		
+		if(count > 0) {
+			int pageCount = count / pageSize + (count % pageSize == 0? 0:1);
+			int startPage = (int)(currentPage / 10) * 10 + 1;
+			int pageBlock = 10;
+			int endPage = startPage + pageBlock -1;
+			
+			if(endPage > pageCount) {endPage = pageCount;}
+			model.addAttribute("pageCount", pageCount);
+			model.addAttribute("startPage", startPage);
+			model.addAttribute("pageBlock", pageBlock);
+			model.addAttribute("endPage", endPage);
+		}
+		
+		model.addAttribute("list", list);
+		return "roh/adminForm";
 	}
 	
 }

@@ -14,10 +14,10 @@
 <h1>아이디 찾기</h1>
 <form action="findMyIdPro" method="get">
 	<label for="name">이름 : </label>
-	<input type="text" id="name" name="name" />
+	<input type="text" id="name" name="name" placeholder="이름" /><br />
 	<label for="birth">생년월일 : </label>
-	<input type="text" id="birth" name="birth" />
-	<input type="submit" value="아이디찾기" />
+	<input type="text" id="birth" name="birth" placeholder="생년월일"/><br />
+	<input type="submit" value="아이디 찾기" />
 </form>
 
 ${findMyId}<br />
