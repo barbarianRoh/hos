@@ -504,7 +504,7 @@ public class ChooController {
 	@RequestMapping("gesipanmain")
 	public String gesipanmain(Model model, String pageNum, HttpSession session) {
 		
-		int pageSize = 1;
+		int pageSize = 10;
 		model.addAttribute("pageSize",pageSize);
 		
 		if(pageNum == null) {
@@ -549,7 +549,7 @@ public class ChooController {
 	//고객센터 게시판 글작성
 	@RequestMapping("gesipanWrite")
 	public String gesipanWrite(Model model, String pageNum, HttpSession session) {
-		String id = (String)session.getAttribute("memId");
+		String id = (String)session.getAttribute("sid");
 		model.addAttribute("memId",id);
 		model.addAttribute("pageNum", pageNum);
 		return "choo/gesipanWrite";
@@ -565,10 +565,16 @@ public class ChooController {
 	
 	//답글작성페이지
 	@RequestMapping("reconWrite")
-	public String gesipanReWrite(Model model, ChooRecon dto, int num, HttpSession session) {
+	public String gesipanReWrite(Model model, ChooRecon dto, int num, HttpSession session, String con) {
+		String id = (String)session.getAttribute("sid");
+		
+		System.out.println(con);
+		
+		dto.setId(id);
+		dto.setCon(con);
 		service.reconinsert(dto);
 		
-		String id = (String)session.getAttribute("memId");
+		
 		model.addAttribute("memId", id);
 		model.addAttribute(num);
 		return "choo/reconWrite";
@@ -580,7 +586,7 @@ public class ChooController {
 	public String gesipancon(Model model, String pageNum, int num, ChooGesipan dto, RohDTO dto1, HttpSession session) {
 		List<ChooRecon> reconlist = service.reconlist(num);
 		
-		String id = (String)session.getAttribute("memId");
+		String id = (String)session.getAttribute("sid");
 			
 		dto = service.gesipancon(num);
 		
@@ -651,7 +657,7 @@ public class ChooController {
 	//고객센터 본인이 쓴 글 리스트로 표기
 	@RequestMapping("gesipanMylist")
 	public String gesipanMylist(Model model, String id, HttpSession session, String pageNum) {
-		id = (String)session.getAttribute("memId");
+		id = (String)session.getAttribute("sid");
 		int count = 0;
 		
 		if(id == null) {

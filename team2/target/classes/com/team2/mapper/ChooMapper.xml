@@ -68,7 +68,7 @@
 </delete>
 
 <select id="gesipancount" resultType="int">
-	select count(*) from gesipan 
+	select count(*) from gesipan
 </select>
 
 <select id="gesipanList" resultType="ChooGesipan">

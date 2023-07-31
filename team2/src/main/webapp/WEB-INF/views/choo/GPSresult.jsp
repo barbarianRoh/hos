@@ -138,7 +138,8 @@ var positions=[
 					},
 				</c:forEach>
 			];
-
+marker2 = [];
+infowindow2 = [];
     
 for (var i = 0; i < positions.length; i ++) {
     
@@ -152,10 +153,11 @@ for (var i = 0; i < positions.length; i ++) {
     
   	//마커를 지도에 표시
     marker.setMap(map);
-    
+    var infowindow;
+  	
 //마커에 클릭이벤트 코드
    (function(marker, content){
-   var infowindow = new kakao.maps.InfoWindow({
+   	  infowindow = new kakao.maps.InfoWindow({
     	content: content,			//인포윈도우에 표시할 내용
     	removable: true
     });
@@ -166,6 +168,15 @@ for (var i = 0; i < positions.length; i ++) {
     	     infowindow.open(map, marker);
      });
    })(marker, positions[i].content);
+   
+   infowindows2[i] = infowindow;
+   marker2[i] = marker;
+}
+
+//사이드바의 각 병원을 클릭했을 때 해당 병원의 마커 인포윈도우를 출력하게 함
+function showme(i){
+	console.log(marker2[i]);
+	infowindow2[i].open(map,marker2[i]);
 }
 
 </script>
@@ -179,17 +190,17 @@ for (var i = 0; i < positions.length; i ++) {
 }
 </style>
 
-<table width="1400" border="1" cellspacing="0" cellpadding="0" align="center">
-	<tr height="20">
-		<td align="center" width="220">병원이름</td>
-		<td align="center" width="480">주 소</td>
-		<td align="center" width="150">전화번호</td>
-	</tr>
-	<c:forEach var="dto" items="${hos}">
-	<tr height="20">
-		<td align="center" width="220">${dto.dutyName}</td>
-		<td align="center" width="480">${dto.dutyAddr}</td>
-		<td align="center" width="150">${dto.dutyTel1}</td>
-	</tr>
-	</c:forEach>
-</table>
+<div id="menu_wrap" class="bg_white">
+
+<c:forEach var="dto" items="${hos}" varStatus="i">
+
+	<div id="" style="border: 1px solid gray;margin: 15px 0px 15px 0px;">
+	<a href="javascript:showme('${i.index}')">
+	병원이름 : ${dto.dutyName} <br />
+	주 소 : ${dto.dutyAddr} <br />
+	전화번호 : ${dto.dutyTel1} <br />
+	</a>
+	</div>
+	
+</c:forEach> 
+</div>
