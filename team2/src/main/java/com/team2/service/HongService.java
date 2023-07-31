@@ -13,7 +13,8 @@ public interface HongService {
 	public String Medicine(HongDTO dto);
 	
 	public List<HongDTO> safe();
-	
+
 	public List<HongDTO> data();
 	
+	public HongDTO getcontent(HongDTO dto);
 }

@@ -38,4 +38,9 @@ public class HongServiceImpl implements HongService {
 	public List<HongDTO> data() {
 		return mapper.data();
 	}
+
+	@Override
+	public HongDTO getcontent(HongDTO dto) {
+		return mapper.getcontent(dto);
+	}
 }

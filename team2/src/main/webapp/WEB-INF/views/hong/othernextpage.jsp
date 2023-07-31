@@ -6,9 +6,11 @@
     <title>Medical Information</title>
 </head>
 <body>
-    <table>
+<table>
+    <!-- ITEM_NAME_VALUES 라는 컬렉션을 반복해서 medicine 이라는 변수에 각 요소를 할당 -->
         <c:forEach items="${ITEM_NAME_VALUES}" var="medicine">
             <tr>
+            <!-- 하이퍼링크로 medicine변수에 할당된 medicine을 표시하고 이 값을 검색결과 페이지로 전달하는 링크를 생성 -->
                 <th>제품명</th>
                 <td><a href="/hos/hong/otherresult?keyword=${medicine}">${medicine}</a></td>
             </tr>

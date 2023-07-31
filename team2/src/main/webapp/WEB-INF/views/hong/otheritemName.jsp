@@ -4,6 +4,8 @@
 <!-- view.jsp -->  
 <body> 
 	<table>
+   <!-- ITEM_NAME_VALUES라는 컬렉션을 반복해서 itemname 이라는 변수에 각 요소를 할당하고
+   						varStatus라는 상태용변수를 사용해서 반복 인덱스에 접근하도록-->
         <c:forEach items="${ITEM_NAME_VALUES}" var="itemName" varStatus="status">
             <tr>
                 <th>업체명</th>

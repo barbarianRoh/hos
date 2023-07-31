@@ -9,11 +9,13 @@
 
 <body>    
     <table>
-        <c:forEach items="${itemNameValues}" var="itemName" varStatus="status">
+    <!-- itemNameValues라는 컬렉션을 반복해서 itemname 이라는 변수에 각 요소를 할당하고 varStatus라는 상태용변수를 사용해서 반복 인덱스에 접근하도록-->
+        <c:forEach items="${itemNameValues}" var="itemName" varStatus="status"> 
             <tr>
-            	<td>
-            		<img src="${itemImageValues[status.index]}" alt="Image" width="500" height="400">
-            	</td>
+               <td>
+               <!-- 현재 반복 인덱스인 status.index에 해당하는 이미지 경로를 가져옴 -->
+                  <img src="${itemImageValues[status.index]}" alt="Image" width="500" height="400">
+               </td>
             </tr> 
             <tr>
                 <th>업체명</th>

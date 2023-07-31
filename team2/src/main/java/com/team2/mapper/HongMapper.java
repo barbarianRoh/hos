@@ -12,6 +12,7 @@ public interface HongMapper {
 	public List<HongDTO> safe();
 	
 	public List<HongDTO> data();
-		
+	
+	public HongDTO getcontent(HongDTO dto);
 	}
 	

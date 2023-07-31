@@ -4,47 +4,40 @@
 <head>
     <title>Safe Medicine List</title>
 </head>
-<body>
-    <h1>안전 상비약</h1>
-    <table>
-    	<c:forEach var="item" items="${medicine}">
-	        <tr>
-	        	<th>제품명</th>
-	            <td>${item.itemname}</td>
-	        </tr>
-	        <tr>
-	        	<th>업체명</th>
-	            <td>${item.entpname}</td>
-	        </tr>
-	        <tr>
-	        	<th>효능 효과</th>
-	            <td>${item.efcyqesitm}</td>
-	        </tr>
-	        <tr>
-	     		<th>사용법</th>
-	            <td>${item.usemethodquesitm}</td>
-	   		</tr>
-	   		<tr>
-	        	<th>약 사용전 알아야할 내용</th>
-	            <td>${item.atpnwarnqesitm}</td>
-	        </tr>
-	        <tr>
-	        	<th>주의사항</th>
-	            <td>${item.atpnqesitm}</td>
-	        </tr>
-	        <tr>
-	        	<th>주의할 약 또는 음식</th>
-	            <td>${item.intrcqesitm}</td>
-	        </tr>
-	        <tr>
-	        	<th>이상반응</th>
-	            <td>${item.seqesitm}</td>
-	        </tr>
-	        <tr>
-	        	<th>보관법</th>
-	            <td>${item.depositmethodqesitm}</td>
-	        </tr>      
-    </c:forEach>
-    </table>
-</body>
+	<body>
+	    <h1>안전 상비약</h1>
+		<table align="center" width="900" border="1" cellspacing="0">
+			<tr height="30">
+				<td align="center" colspan="3">안전상비약</td>
+			</tr>
+				<tr height="20">
+				<tr>
+					<td align="center" width="300">업체명 : ${dto.entpname}</td>
+				</tr>
+				<tr>	
+					<td align="center" width="300">제품명 : ${dto.itemname}</td>
+				</tr>
+				<tr>
+					<td align="center" width="300">효능효과 : ${dto.efcyqesitm}</td>
+				</tr>
+				<tr>	
+					<td align="center" width="300">사용법 : ${dto.usemethodquesitm}</td>
+				</tr>	
+				<tr>
+					<td align="center" width="300">알아야할 내용 : ${dto.atpnwarnqesitm}</td>
+				</tr>
+				<tr>	
+					<td align="center" width="300">주의사항 : ${dto.atpnqesitm}</td>
+				</tr>
+				<tr>
+					<td align="center" width="300">주의할 약또는 음식 : ${dto.intrcqesitm}</td>
+				</tr>
+				<tr>
+					<td align="center" width="300">이상반응 : ${dto.seqesitm}</td>
+				</tr>
+				<tr>
+					<td align="center" width="300">보관법 : ${dto.depositmethodqesitm}</td>
+				</tr>		
+		</table>
+	</body>
 </html>
