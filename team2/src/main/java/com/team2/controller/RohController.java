@@ -46,9 +46,9 @@ public class RohController {
 	}
 	
 	// 카카오맵 API+약국
-	@RequestMapping("kakaophar")
-	public String kakaophar(Model model) {
-		return "/roh/kakao-phar";
+	@RequestMapping("pharmacyMap")
+	public String pharmacyMap(Model model) {
+		return "/roh/pharmacyMap";
 	}
 	
 	// 부트스트랩 테스트 
@@ -56,7 +56,7 @@ public class RohController {
 	public String contactPage() {
 		return "/roh/components";
 	}
-	
+	// 부스트랩 테스트2
 	@RequestMapping("index")
 	public String index() {
 		return "/roh/index";
@@ -84,6 +84,7 @@ public class RohController {
 		return message;
 	}
 	
+	// 로그인 프로
 	@RequestMapping("signinPro")
 	public String signinPro(RohDTO dto, Model model, HttpSession session) {
 		System.out.println(dto);
@@ -98,6 +99,7 @@ public class RohController {
 		return "/roh/home";
 	}
 	
+	//로그아웃
 	@RequestMapping("signout")
 	public String signout(HttpSession session, Model model) {
 		session.invalidate();
@@ -105,12 +107,14 @@ public class RohController {
 		return "/roh/home";
 	}
 	
+	// 회원탈퇴 폼
 	@RequestMapping("withdrawalForm")
 	public String withdrawalForm(HttpSession session) {
 		session.getAttribute("sid");
 		return "/roh/withdrawalForm";
 	}
 	
+	// 회원탈퇴 프로
 	@RequestMapping("withdrawalPro")
 	public String withdrawalPro(HttpSession session, RohDTO dto, Model model) {
 		String formPw = dto.getPw();
@@ -131,6 +135,7 @@ public class RohController {
 		return "roh/withdrawalForm";
 	}
 	
+	// 내정보 폼
 	@RequestMapping("myProfileForm")
 	public String myProfile(RohDTO dto, Model model, HttpSession session) {
 		String sid = (String)session.getAttribute("sid");
@@ -143,6 +148,7 @@ public class RohController {
 		return "roh/myProfileForm";
 	}
 	
+	// 내정보 프로
 	@RequestMapping("myProfilePro")
 	public String myProfilePro(RohDTO dto, Model model, HttpSession session) {
 		String id = dto.getId();
@@ -171,14 +177,19 @@ public class RohController {
 		return "roh/myProfileForm";
 	}
 	
+	// 아이디 찾기 폼
 	@RequestMapping("findMyIdForm")
 	public String findMyIdForm() {
 		return "roh/findMyIdForm";
 	}
 	
+	// 아이디찾기 프로
 	@RequestMapping("findMyIdPro")
 	public String findMyIdPro(RohDTO dto, Model model) {
-		if(dto != null) {
+		int result = 0;
+		result = service.findTest(dto);
+		
+		if(result == 1) {
 			RohDTO resultId = service.findMyId(dto);
 			
 			if(resultId.getId() != null) {
@@ -188,42 +199,55 @@ public class RohController {
 		return "roh/findMyIdForm";
 	}
 	
+	// 비밀번호 찾기 폼
 	@RequestMapping("findMyPwForm")
 	public String findMyPwForm() {
 		return "roh/findMyPwForm";
 	}
 	
+	// 비밀번호 찾기 프로
 	@RequestMapping("findMyPwPro")
 	public String findMyPwPro(RohDTO dto, Model model) {
-		if(dto != null) {
+		int result = 0;
+		result = service.findTest(dto);
+		
+		if(result == 1) {
 			RohDTO resultId = service.findMyId(dto);
 			
-			if(resultId.getPw() != null) {
+			if(resultId.getId() != null) {
 				model.addAttribute("findMyPw", resultId.getPw());
 			}
 		}
 		return "roh/findMyPwForm";
 	}
 	
-	@RequestMapping("kakaoSignin")
-	public String kakaoSignin() {
-		return "roh/kakaoSignin";
+	// 카카오 로그인 폼(테스트용)
+	@RequestMapping("kakaoSigninForm")
+	public String kakaoSigninForm() {
+		return "roh/kakaoSigninForm";
 	}
 	
+	// 카카오 로그인 프로
 	@RequestMapping("kakaoSigninPro")
-	   public String kakaoSigninPro(HttpSession session, @RequestParam("id") String id, @RequestParam("nick") String nick, @RequestParam("email") String email, @RequestParam("gender") String gender, @RequestParam("age_range") String age_range) {
-	      String k_id = id; 
-	      String k_nick = nick;
-	      String k_email = email;
-	      String k_gender = gender;
-	      String k_range = age_range;
-	      int count = kakaoservice.countkakao(k_id);
-	      if(count==0) {
-	         kakaoservice.kakaoLogin(k_id, k_nick, k_email, k_gender, k_range);
-	      }
-	      session.setAttribute("kakaoid", k_nick);
-	      session.setAttribute("kakaonick", k_id);
-	      return "/member/member_login";
-	   }
+	public String kakaoSigninPro(HttpSession session,
+			@RequestParam String id,
+			@RequestParam String nick,
+			@RequestParam String gender,
+			@RequestParam String age_range) {
+		
+		String kId = id; 
+		String kNick = nick;
+		String kGender = gender;
+		String kAge = age_range;
+	      
+		int count = service.kSignin(kId);
+	      
+		if(count == 0) {
+			service.kSignup(kId, kNick, kGender, kAge);
+		}
+		session.setAttribute("kid", kId);
+		session.setAttribute("knick", kNick);
+		return "/member/member_login";
+	}
 	
 }

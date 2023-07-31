@@ -46,4 +46,24 @@ public class RohServiceImpl implements RohService {
 	public RohDTO findMyPw(RohDTO dto) {
 		return mapper.findMyPw(dto);
 	}
+	
+	@Override
+	public int kSignup(String kId, String kNick, String kGender, String kAge) {
+		return mapper.kSignup(kId, kNick, kGender, kAge);
+	}
+	
+	@Override
+	public int kSignin(String kId) {
+		return mapper.kSignin(kId);
+	}
+	
+	@Override
+	public RohDTO kMyinfo(String kId) {
+		return mapper.kMyinfo(kId);
+	}
+	
+	@Override
+	public int findTest(RohDTO dto) {
+		return mapper.findTest(dto);
+	}
 }

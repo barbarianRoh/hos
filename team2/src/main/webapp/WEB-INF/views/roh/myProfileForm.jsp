@@ -5,6 +5,80 @@
 
 <title>내정보</title>
 
+<h1>내정보</h1>
+
+<script src="//code.jquery.com/jquery-3.7.0.min.js"></script>
+
+<script>
+//8~16자 영문, 숫자 반드시 포함 특문 사용가능
+function regPw(pw) {
+	var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*()_\-+=\[\]{}|;:,.<>?]{8,16}$/;
+	return regExp.test(pw);
+}
+
+var pwCheck =false;
+var pw2Check = false;
+var pw3Check = false;
+
+function checkPw1() {
+	var pw = $.trim($("#pw").val());
+	pwCheck = regPw(pw);
+	$("#pw").css("background-color", pwCheck ? "#b0f6ac" : "#ffcece");
+	activateUpdatebtn();
+}
+function checkPw2() {
+	var pw2 = $.trim($("#pw2").val());
+	pw2Check = regPw(pw2);
+	$("#pw2").css("background-color", pw2Check ? "#b0f6ac" : "#ffcece");
+	activateUpdatebtn();
+}
+function checkPw3() {
+	var pw2 = $.trim($("#pw2").val());
+	var pw3 = $.trim($("#pw3").val());
+	pw3Check = pw2 === pw3;
+	$("#pw3").css("background-color", pw3Check ? "#b0f6ac" : "#ffcece");
+	activateUpdatebtn();
+}
+
+function activateUpdatebtn() {
+	if(pwCheck == 1 && pw2Check == 1 && pw3Check == 1) {
+		$("#updatebtn").prop("disabled", false);
+		$("#updatebtn").css("background-color", "#b0f6ac");
+	} else {
+		$("#updatebtn").css("background-color", "#aaaaaa");
+		$("#updatebtn").prop("disabled", true);
+	}
+}
+
+$(function() {
+	$("#pw").on("input", function() {
+		checkPw1();
+	});
+	
+	$("#pw2, #pw3").on("input", function() {
+		checkPw2();
+		checkPw3();
+	});
+	
+	$("#updatebtn").click(function() {
+		var pw = $.trim($("#pw").val());
+		var pw2 = $.trim($("#pw2").val());
+		var pw3 = $.trim($("#pw3").val());
+		
+		if(pw === "" || pw2 === "" || pw3 === "") {
+			alert("입력사항을 전부 입력해주세요");
+			return false;
+		}
+		
+		if(!regPw(pw)) {
+			alert("비밀번호 경고");
+			$("#pw").focus();
+			return false;
+		}
+	});
+});
+</script>
+
 <c:if test="${pwError}">
 	<script>
 		alert("기존 비밀번호를 확인해주세요");
@@ -21,7 +95,7 @@
 
 <c:if test="${nullError}">
 	<script>
-		alert("바꿀 비밀번호를 확인해세요");
+		alert("바꿀 비밀번호를 확인해주세요");
 		window.location.href='http://localhost:8080/hos/roh/myProfileForm';
 	</script>
 </c:if>
@@ -33,19 +107,19 @@
 	</script>
 </c:if>
 
-<h1>내정보</h1>
 <form action="/hos/roh/myProfilePro" id="frm" method="post">
 	<input type="hidden" id="id" name="id" value="${dto.getId()}" />
 	<label for="id">아이디 : </label>
 	${dto.getId()}<br />
+	
 	<label for="pw">기존 비밀번호 : </label>
-	<input type="password" id="pw" name="pw" /><br />
+	<input type="password" id="pw" name="pw" placeholder="기존 비밀번호" oninput="checkPw1()" /><br />
 	
 	<label for="pw2">바꿀 비밀번호 : </label>
-	<input type="password" id="pw2" name="pw2" /><br />
+	<input type="password" id="pw2" name="pw2" oninput="checkPw2(), checkPw3()" placeholder="바꿀 비밀번호"/><br />
 	
 	<label for="pw3">바꿀 비밀번호 확인 : </label>
-	<input type="password" id="pw3" name="pw3" /><br />
+	<input type="password" id="pw3" name="pw3" oninput="checkPw3()" placeholder="비밀번호 확인" /><br />
 	
 	<label for="name">이름 : </label>
 	${dto.getName()}<br />
@@ -53,6 +127,6 @@
 	<label for="name">생년월일 : </label>
 	${dto.getBirth()}<br />
 	
-	<input type="submit" value="수정" />
+	<input type="submit" value="수정" id="updatebtn" />
 </form>
 <a href="/hos/roh/">메인으로</a>

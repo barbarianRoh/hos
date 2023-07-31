@@ -7,8 +7,8 @@
 <button class="api-btn" onclick="unlinkApp()">로그아웃</button>
 <div id="result"></div>
 
-<c:if test="${sessionScope.sid != null}">
-	<h1>${sessionScope.sid}</h1>
+<c:if test="${sessionScope.kid != null}">
+	<h1>${sessionScope.kid}</h1>
 </c:if>
 
 <script type="text/javascript">
@@ -28,19 +28,28 @@ Kakao.Auth.createLoginButton({
 				kakao_account = result.kakao_account;
 				$('#result').append(kakao_account);
 				resultdiv = "<h2>로그인 성공 !!";
-				resultdiv += '<h4>id: '+id+'<h4>';
+				resultdiv += '	<h4>id: ' + id + '<h4>';
 				resultdiv += '<h4>connected_at: '+connected_at+'<h4>';
+
 				nick = kakao_account.profile.nickname;
-				resultdiv += '<h4>nick: '+nick+'<h4>';
+				resultdiv += '<h4>nick: ' + nick + '<h4>';
+
+				gender = kakao_account.gender;
+				resultdiv += '<h4>gender: ' + gender + '<h4>';
+
+				age_range = kakao_account.age_range;
+                resultdiv += '<h4>age_range: ' + age_range + '<h4>';
+                
 				$('#result').append(resultdiv);
-				
 				// 서버로 값 전송
 				$.ajax({
 					type : 'POST',
 					url : '/hos/roh/kakaoSigninPro',
 					data : {
 						id : id,
-						nick : nick
+						nick : nick,
+						gender : gender ? gender : 'null',
+                        age_range : age_range ? age_range : 'null'
 						// 필요한경우 추가작성
 					},
 					success : function(response) {
@@ -50,6 +59,7 @@ Kakao.Auth.createLoginButton({
 						// 원하는 작업 수행
 					},
 					error : function(error) {
+						// 오류처리
 						console.log(error);
 					}
 				});

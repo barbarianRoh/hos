@@ -171,24 +171,29 @@ $(function() {
 </script>
 
 <form action="/hos/roh/signupPro" id="frm" method="post">
-	<label for="id">아이디 : </label>
-	<input type="text" id="id" name="id" placeholder="아이디" oninput="checkId()" autocomplete='off' />
-	<font color="red" id = "fail" style="display : none">5~15자의 영문자 혹은 숫자로 작성해주세요</font>
-	<font color="red" id = "fail2" style="display : none">이미 존재하는 아이디입니다</font><br />
-	<label for="pw">비밀번호 : </label>
-	<input type="password" id="pw" name="pw" placeholder="비밀번호" oninput="checkPw(), checkPw2()" autocomplete='off' /><br />
-	<label for="pw2">비밀번호 확인 : </label>
-	<input type="password" id="pw2" name="pw2" placeholder="비밀번호 확인" oninput="checkPw2()" autocomplete='off' /><br />
-	<label for="name">이름 : </label>
-	<input type="text" id="name" name="name" placeholder="이름" oninput="checkName()" autocomplete='off' /><br />
-	<label for="birth">생년월일 : </label>
-	<input type="text" id="birth" name="birth" placeholder="ex)19960331" oninput="checkBirth()" autocomplete='off' /><br />
-	
 	<input type="hidden" id="memberType" name="memberType" value="1" />
 	<input type="hidden" id="ip" name="ip" value="ip" />
 	<input type="hidden" id="enabled" name="enabled" value="1" />
 	<input type="hidden" id="etc1" name="etc1" value="etc1" />
 	<input type="hidden" id="etc2" name="etc2" value="etc2" />
+	
+	<label for="id">아이디 : </label>
+	<input type="text" id="id" name="id" placeholder="아이디" oninput="checkId()" />
+	<font color="red" id = "fail" style="display : none">5~15자의 영문자 혹은 숫자로 작성해주세요</font>
+	<font color="red" id = "fail2" style="display : none">이미 존재하는 아이디입니다</font><br />
+	
+	<label for="pw">비밀번호 : </label>
+	<input type="password" id="pw" name="pw" placeholder="비밀번호" oninput="checkPw(), checkPw2()" /><br />
+	
+	<label for="pw2">비밀번호 확인 : </label>
+	<input type="password" id="pw2" name="pw2" placeholder="비밀번호 확인" oninput="checkPw2()" /><br />
+	
+	<label for="name">이름 : </label>
+	<input type="text" id="name" name="name" placeholder="이름" oninput="checkName()" /><br />
+	
+	<label for="birth">생년월일 : </label>
+	<input type="text" id="birth" name="birth" placeholder="ex)19960331" oninput="checkBirth()" /><br />
+	
 	<input type="button" id="signupbtn" value="회원가입" />
 </form>
 <a href="/hos/roh/">돌아가기</a>

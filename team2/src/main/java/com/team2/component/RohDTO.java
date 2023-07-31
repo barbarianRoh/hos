@@ -20,4 +20,9 @@ public class RohDTO {
 	private String enabled;
 	private String etc1;
 	private String etc2;
+	
+	private String kId;
+	private String kNick;
+	private String kGender;
+	private String kAge;
 }

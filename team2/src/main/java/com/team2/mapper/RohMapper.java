@@ -1,5 +1,7 @@
 package com.team2.mapper;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.team2.component.RohDTO;
 
 public interface RohMapper {
@@ -11,4 +13,8 @@ public interface RohMapper {
 	public void myinfoUpdate(RohDTO dto);
 	public RohDTO findMyId(RohDTO dto);
 	public RohDTO findMyPw(RohDTO dto);
+	public int kSignup(@Param("kId")String kId, @Param("kNick")String kNick, @Param("kGender")String kGender, @Param("kAge")String kAge);
+	public int kSignin(@Param("kId")String kId);
+	public RohDTO kMyinfo(@Param("kId")String kId);
+	public int findTest(RohDTO dto);
 }
