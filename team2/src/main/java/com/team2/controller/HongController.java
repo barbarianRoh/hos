@@ -614,4 +614,9 @@ public class HongController {
     public String main(Model model) {
     	return "/hong/index";
     }
+    
+    @RequestMapping("main2")
+    public String main2(Model model) {
+    	return "/hong/taunt";
+    }
 }
