@@ -79,6 +79,14 @@
 	insert into gesipan(num,id,pw,title,con,reg) values(gesi_seq.NEXTVAL, #{id}, #{pw}, #{title}, #{con}, sysdate)
 </insert>
 
+<select id="kakaomember" resultType="RohDTO">
+	select * from p2_kmember where id=#{id}
+</select>
+
+<select id="kakaomember1" resultType="RohDTO">
+	select * from p2_kmember where id=#{id1}
+</select>
+
 <select id="gesipancon" resultType="ChooGesipan">
 	select * from gesipan where num=#{num}
 </select>
@@ -119,5 +127,13 @@
 <select id="mycon" resultType="ChooGesipan">
 	select * from gesipan where id=#{id}
 </select>
+
+<insert id="userhos">
+	insert into userhos(id,hosname,hosaddr) values(#{id}, #{hosname}, #{hosaddr})
+</insert>
+
+<insert id="kakaouserhos">
+	insert into userhos(id,nick,hosname,hosaddr) values(#{id}, #{nick}, #{hosname}, #{hosaddr})
+</insert>
 
 </mapper>

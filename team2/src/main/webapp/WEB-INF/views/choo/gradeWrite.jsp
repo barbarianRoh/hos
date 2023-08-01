@@ -20,7 +20,7 @@
 			</c:if>
 			
 			<c:if test="${memId != null}">
-				<td width="100">${memid}<input type="hidden" value="${memId}" name="id"></td>
+				<td width="100">${memId}<input type="hidden" value="${memId}" name="id"></td>
 			</c:if>
 		</tr>
 		<tr height="30">

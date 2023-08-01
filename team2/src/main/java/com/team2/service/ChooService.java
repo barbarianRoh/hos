@@ -6,6 +6,7 @@ import com.team2.component.ChooGesipan;
 import com.team2.component.ChooRecon;
 import com.team2.component.ChooTestDTO;
 import com.team2.component.RohDTO;
+import com.team2.component.Userhos;
 
 public interface ChooService {
 
@@ -41,6 +42,10 @@ public interface ChooService {
 	
 	public void gesipaninsert(ChooGesipan dto);
 	
+	public RohDTO kakaomember(String id);
+	
+	public RohDTO kakaomember1(String id1);
+	
 	public ChooGesipan gesipancon(int num);
 	
 	public void reconinsert(ChooRecon dto);
@@ -58,4 +63,8 @@ public interface ChooService {
 	public int conCheck(String id);
 	
 	public List<ChooGesipan> mycon(String id);
+	
+	public void userhos(Userhos hos);
+	
+	public void kakaouserhos(Userhos hos);
 }

@@ -18,7 +18,7 @@
 html, body {width:100%;height:100%;margin:0;padding:0;} 
 .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-.map_wrap {position:relative;overflow:hidden;width:100%;height:800px;}
+.map_wrap {position:relative;overflow:hidden;width:100%;height:1200px;}
 .radius_border{border:1px solid #919191;border-radius:5px;}     
 .custom_typecontrol {position:absolute;top:10px;right:10px;overflow:hidden;width:130px;height:30px;margin:0;padding:0;z-index:1;font-size:12px;font-family:'Malgun Gothic', '맑은 고딕', sans-serif;}
 .custom_typecontrol span {display:block;width:65px;height:30px;float:left;text-align:center;line-height:30px;cursor:pointer;}
@@ -68,7 +68,7 @@ html, body {width:100%;height:100%;margin:0;padding:0;}
 
 <div class="map_wrap">
 	<!-- 지도를 표시할 div 입니다 -->
-	<div id="map" style="width:2000px;height:800px;position:relative;overflow:hidden;"></div>
+	<div id="map" style="width:2000px;height:1000px;position:relative;overflow:hidden;"></div>
 	
 	<!--  지도타입 컨트롤 div 입니다 -->
 	<div class="custom_typecontrol radius_border">
@@ -88,7 +88,7 @@ html, body {width:100%;height:100%;margin:0;padding:0;}
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = { 
         center: new kakao.maps.LatLng(${x}, ${y}), // 지도의 중심좌표
-        level: 7 // 지도의 확대 레벨
+        level: 5 // 지도의 확대 레벨
     };
 
 // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다

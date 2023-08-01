@@ -48,11 +48,13 @@ public class Choohosapi {
 	        	urlBuilder.append("&" + URLEncoder.encode("Q0","UTF-8") + "=" + URLEncoder.encode(Q0, "UTF-8")); /*주소(시도)*/
 	        }
 	        
+	        
 	        if(Q1 == null) {
 	        	urlBuilder.append("&" + URLEncoder.encode("Q1","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*주소(시구군)*/
 	        }else {	
 	        	urlBuilder.append("&" + URLEncoder.encode("Q1","UTF-8") + "=" + URLEncoder.encode(Q1, "UTF-8")); /*주소(시구군)*/
 	        }
+	        
 	        
 	        if(QD == null) {
 	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*진료과*/
@@ -60,11 +62,13 @@ public class Choohosapi {
 	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode(QD, "UTF-8")); /*진료과*/
 	        }
 	        
+	        
 	        if(QZ == null) {
 	        	urlBuilder.append("&" + URLEncoder.encode("QZ","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); //병원분류
 	        }else {
 	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode(QZ, "UTF-8")); //병원분류
 	        }
+	        
 	        
 	        // urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*결과로 가져올 갯수*/
 	        URL url = new URL(urlBuilder.toString());
@@ -376,7 +380,7 @@ public class Choohosapi {
 	        }
 	        
 	        
-	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("500", "UTF-8")); /*결과로 가져올 갯수*/
+	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("30", "UTF-8")); /*결과로 가져올 갯수*/
 	        
 	        URL url = new URL(urlBuilder.toString());
 	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -453,7 +457,7 @@ public class Choohosapi {
 				
 				dto.setBan(nodegre);						//단위는 미터로 들어간다고 되어있음
 				
-				int selectlength = 3000; 					//특정 거리 반경 설정 값 (단위 : meter)
+				int selectlength = 1500; 					//특정 거리 반경 설정 값 (단위 : meter)
 				int resulthos = nodegre - selectlength; 	// 거리 조건 식
 				
 				if(resulthos < 0) {
