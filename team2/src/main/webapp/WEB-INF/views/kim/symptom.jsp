@@ -42,6 +42,7 @@
 							    let urologyButtonClicked = false;
 								
 							    
+							    
 							    function applyCustomStyleToButton(newButton) {
 							        // 여기에 새로운 버튼에 원하는 스타일을 적용하는 코드를 작성합니다.
 							        newButton.style.backgroundColor = '#4CAF50'; // 녹색 배경색
@@ -111,6 +112,7 @@
 							        let containerId;
 							        let newButtonClassName;
 							        let newButtonData = [];
+							        
 									var hos1 = 'http://localhost:8080/hos/choo/resultHos';
 									var hos2 = 'http://localhost:8080/hos/choo/resultHos';
 									var hos3 = 'http://localhost:8080/hos/choo/resultHos';
@@ -238,6 +240,13 @@
 							            container.appendChild(newButton);
 							        });
 							    }
+							    
+							    document.body.addEventListener('click',function(event){
+							    	if(event.target.classList.contains('new-Hbuton')){
+							    		let symptomName = event.target.innerText;
+							    		updateSymptomCount()
+							    	}
+							    })
 							
 							    // 각 섹션 버튼에 대한 이벤트 리스너
 							    document.getElementById('head').addEventListener('click', function () {
