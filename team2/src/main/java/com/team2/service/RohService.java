@@ -21,4 +21,6 @@ public interface RohService {
 	public int findTest(RohDTO dto);
 	public List<RohDTO> memberList(int startRow, int endRow);
 	public int memberCount();
+	public void memberEnabled(RohDTO dto);
+	public void memberDisabled(RohDTO dto);
 }

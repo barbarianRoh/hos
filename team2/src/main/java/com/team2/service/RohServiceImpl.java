@@ -78,4 +78,14 @@ public class RohServiceImpl implements RohService {
 	public int memberCount() {
 		return mapper.memberCount();
 	}
+	
+	@Override
+	public void memberEnabled(RohDTO dto) {
+		mapper.memberEnabled(dto);
+	}
+	
+	@Override
+	public void memberDisabled(RohDTO dto) {
+		mapper.memberDisabled(dto);
+	}
 }

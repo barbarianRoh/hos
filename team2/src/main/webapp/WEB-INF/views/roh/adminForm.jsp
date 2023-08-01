@@ -8,10 +8,19 @@
 
 <h1>회원 상태변경 페이지</h1>
 
+<script>
+	function getPageNumFromUrl() {
+		const urlParams = new URLSearchParams(window.location.search);
+		const pageNum = urlParams.get("pageNum");
+		return pageNum ? parseInt(pageNum) : 1;
+	}
+</script>
+
 <a href="/hos/roh/">메인으로</a>
 
 <table align="center" border="1" cellspacing="0" cellpadding="0">
 	<tr align="center" height="30">
+		<td>고유번호</td>
 		<td>아이디</td>
 		<td>이름</td>
 		<td>생일</td>
@@ -23,12 +32,13 @@
 	</tr>
 	<c:if test="${empty list}">
 		<tr align="center" height="30">
-			<td colspan="6">회원정보가 없습니다</td>
+			<td colspan="8">회원정보가 없습니다</td>
 		</tr>
 	</c:if>
 	<c:if test="${not empty list}">
 		<c:forEach var="dto" items="${list}">
 			<tr align="center" height="30">
+				<td>${dto.num}</td>
 				<td>${dto.id}</td>
 				<td>${dto.name}</td>
 				<td>${dto.birth}</td>
@@ -36,7 +46,10 @@
 				<td>${dto.ip}</td>
 				<td><fmt:formatDate value="${dto.reg}" pattern="yyyy-MM-dd"/></td>
 				<td>${dto.enabled}</td>
-				<td></td>
+				<td>
+					<input type="button" value="활성화" onclick="location='/hos/roh/memberEnabled?id=${dto.getId()}&pageNum=${pageNum}'" />
+					<input type="button" value="비활성화" onclick="location='/hos/roh/memberDisabled?id=${dto.getId()}&pageNum=${pageNum}'" />
+				</td>
 			</tr>
 		</c:forEach>
 	</c:if>
@@ -49,7 +62,7 @@
 	<c:forEach var="i" begin="${startPage}" end="${endPage}">
 		<a href="/hos/roh/adminForm?pageNum=${i}">[${i}]</a>
 	</c:forEach>
-	<c:if test="${endPage > 10}">
+	<c:if test="${endPage > 9}">
 		<a href="/hos/roh/adminForm?pageNum=${startPage + 10}">[다음]</a>
 	</c:if>
 </form>
