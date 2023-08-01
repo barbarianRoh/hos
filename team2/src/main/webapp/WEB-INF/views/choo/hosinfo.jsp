@@ -154,7 +154,7 @@ var marker = new kakao.maps.Marker({
 marker.setMap(map);
 		
 		
-var iwContent = '<div style="padding:5px;">  ${dto.dutyName} <hr>' + 
+var iwContent = '<div style="width: 300px; height: 100px; padding:5px;">  ${dto.dutyName} <hr>' + 
 				'<font size=2> 전화번호 : ${dto.dutyTel1} </font><br>' + 
 				'<font size=2> 주 소 : ${dto.dutyAddr} </font><br>' + 
 				'<a href="https://map.kakao.com/link/map/ ${dto.dutyName}  ,  ${dto.wgs84Lat}  ,  ${dto.wgs84Lon}  " style="color:blue" target="_blank">큰지도보기</a>&nbsp;' + 

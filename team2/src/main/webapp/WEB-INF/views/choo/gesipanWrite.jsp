@@ -19,6 +19,10 @@
 			<c:if test="${memId != null}">
 				<td width="100">${memId}<input type="hidden" value="${memId}" name="id"></td>
 			</c:if>
+			
+			<c:if test="${dto.kNick != null}">
+				<td width="100">${dto.kNick}<input type="hidden" value="${dto.kNick} name="id"></td>
+			</c:if>
 		</tr>
 		<tr height="30">
 			<td align="center" width="300">글내용</td>

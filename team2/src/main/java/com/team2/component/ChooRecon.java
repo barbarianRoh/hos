@@ -2,6 +2,7 @@ package com.team2.component;
 
 import java.sql.Timestamp;
 
+//고객센터 게시글 답글 DTO
 public class ChooRecon {
 	private int num;
 	private int renum;

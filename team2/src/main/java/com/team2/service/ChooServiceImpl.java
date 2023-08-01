@@ -8,6 +8,7 @@ import com.team2.component.ChooGesipan;
 import com.team2.component.ChooRecon;
 import com.team2.component.ChooTestDTO;
 import com.team2.component.RohDTO;
+import com.team2.component.Userhos;
 import com.team2.mapper.ChooMapper;
 
 @Service
@@ -102,6 +103,16 @@ public class ChooServiceImpl implements ChooService {
 	}
 	
 	@Override
+	public RohDTO kakaomember(String id) {
+		return mapper.kakaomember(id);
+	}
+	
+	@Override
+	public RohDTO kakaomember1(String id1) {
+		return mapper.kakaomember(id1);
+	}
+	
+	@Override
 	public void reconinsert(ChooRecon dto) {
 		mapper.reconinsert(dto);
 	}
@@ -139,5 +150,15 @@ public class ChooServiceImpl implements ChooService {
 	@Override
 	public List<ChooGesipan> mycon(String id){
 		return mapper.mycon(id);
+	}
+	
+	@Override
+	public void userhos(Userhos hos) {
+		mapper.userhos(hos);
+	}
+	
+	@Override
+	public void kakaouserhos(Userhos hos) {
+		mapper.kakaouserhos(hos);
 	}
 }

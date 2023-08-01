@@ -15,5 +15,6 @@
 	<beans:bean id="chootestDTO" class="com.team2.component.ChooTestDTO" />
 	<beans:bean id="ChooGesipan" class="com.team2.component.ChooGesipan" />
 	<beans:bean id="ChooRecon" class="com.team2.component.ChooRecon" />
+	<beans:bean id="Userhos" class="com.team2.component.Userhos" />
 	
 </beans:beans>

@@ -8,6 +8,7 @@ import com.team2.component.ChooGesipan;
 import com.team2.component.ChooRecon;
 import com.team2.component.ChooTestDTO;
 import com.team2.component.RohDTO;
+import com.team2.component.Userhos;
 
 public interface ChooMapper {
 	
@@ -43,6 +44,10 @@ public interface ChooMapper {
 	
 	public void gesipaninsert(ChooGesipan dto);
 	
+	public RohDTO kakaomember(String id);
+	
+	public RohDTO kakaomember1(String id1);
+	
 	public ChooGesipan gesipancon(int num);
 	
 	public void reconinsert(ChooRecon dto);
@@ -60,4 +65,8 @@ public interface ChooMapper {
 	public int conCheck(String id);
 	
 	public List<ChooGesipan> mycon(String id);
+	
+	public void userhos(Userhos hos);				//최근 찾은 병원 유저용
+	
+	public void kakaouserhos(Userhos hos);			//최근 찾은 병원 카카오 유저용
 }
