@@ -535,17 +535,17 @@
 					        			$(function() {
 					        				  var urlTable = [
 					        				    "https://www.naver.com",
-					        				    "https://example.com/link2",
-					        				    "https://example.com/link3",
-					        				    "https://example.com/link3",
-					        				    "https://example.com/link3",
-					        				    "https://example.com/link3",
-					        				    "https://example.com/link3",
-					        				    "https://example.com/link3",
-					        				    "https://example.com/link3",
-					        				    "https://example.com/link3",
-					        				    "https://example.com/link3",
-					        				    "https://www.google.com",
+					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D003&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
+					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D004&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
+					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
+					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
+					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
+					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
+					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D014&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
+					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D008&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
+					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D008&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
+					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D016&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
+					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
 					        				    //링크 변경 시키기
 					        				  ];
 	
