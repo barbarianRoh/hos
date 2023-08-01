@@ -21,4 +21,6 @@ public interface RohMapper {
 	public int findTest(RohDTO dto);
 	public List<RohDTO> memberList(@Param("startRow")int startRow, @Param("endRow")int endRow);
 	public int memberCount();
+	public void memberEnabled(RohDTO dto);
+	public void memberDisabled(RohDTO dto);
 }
