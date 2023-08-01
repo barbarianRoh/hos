@@ -1,5 +1,7 @@
 package com.team2.service;
 
+import com.team2.component.KimDTO;
+
 public interface SympotyService {
-	void updateSymptomCount(String symptomName);
+	public void updateSymptomCount(KimDTO dto);
 }

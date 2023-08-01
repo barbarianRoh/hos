@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.team2.component.KimDTO;
 import com.team2.mapper.KimMapper;
 import com.team2.service.SympotyService;
 
@@ -33,10 +35,12 @@ public class KimController {
 		return "kim/newbutton";
 	}
 	
-    @RequestMapping("/updateSymptomCount")
-    public String updateSymptomCount(@RequestParam("symptomName") String symptomName) {
-        service.updateSymptomCount(symptomName);
-        return "redirect:/symptom";
+    @RequestMapping("/increaseCount")
+    @ResponseBody
+    public void updateSymptomCount(@RequestParam("symptomName") String symptomName) {
+        KimDTO kimDTO = new KimDTO();
+        kimDTO.setSymptom_name(symptomName);
+        service.updateSymptomCount(kimDTO);
     }
 
 	
