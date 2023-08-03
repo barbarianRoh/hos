@@ -24,6 +24,20 @@ public class KimController {
 	public String symptom() {
 		return "kim/symptom";
 	}
+	@RequestMapping("/symptomtest")
+	public String symptomtest() {
+		return "kim/symptomtest";
+	}
+	
+	@RequestMapping("/buttonex")
+	public String buttonex() {
+		return "kim/buttonex";
+	}
+	
+	@RequestMapping("/buttonex2")
+	public String buttonex2() {
+		return "kim/buttonex2";
+	}
 	
 	@RequestMapping("/chatForm")
 	public String chatForm() {
