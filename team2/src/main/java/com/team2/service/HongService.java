@@ -17,4 +17,6 @@ public interface HongService {
 	public List<HongDTO> data();
 	
 	public HongDTO getcontent(HongDTO dto);
+
+	public HongDTO getimgfile(HongDTO dto);
 }

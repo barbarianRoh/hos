@@ -23,13 +23,10 @@
 		</tr>
 		<tr>
 			<td colspan="4" align="right">
-		<c:if test="${dto.id != null && memId != null || nick != null}">
-			<c:if test="${dto.id == memId || dto.id == nick}">
+		<c:if test="${dto.id != null && dto1.id != null}">
+			<c:if test="${dto.id == dto1.id}">
 				<input type="button" value="글수정" onclick="location.href='gesipanupdate?num=${dto.num}&pageNum=${pageNum}'">
 				<input type="button" value="글삭제" onclick="location.href='gesipandelect?num=${dto.num}&pageNum=${pageNum}'">
-				<c:if test="${dto1.memberType == 2}">
-				<input type="button" value="답 글" onclick="location.href='reconWrite?num=${dto.num}'">
-				</c:if>
 			</c:if>
 		</c:if>
 				<input type="button" value="돌아가기" onclick="location.href='gesipanmain?pageNum=${pageNum}'">
@@ -51,22 +48,33 @@
 	<%-- 댓글 보여주는 창 --%>
 	<table align="center" width="1000" border="1" cellspacing="0" cellpadding="0">
 		<tr height="30">
-			<td align="center" colspan="5" width="50">답 변</td>
-		</tr>
-		<tr height="30">
-			<td align="center" width="50">답변번호</td>
-			<td align="center" width="80">작성자</td>
-			<td align="center" width="400">답변내용</td>
-			<td align="center" width="150">작성날짜</td>
+			<td align="center" colspan="5" width="50">댓글</td>
 		</tr>
 		<c:forEach var="re" items="${list}">
 		<tr height="30">
-			<td align="center" width="50">${re.renum}</td>
+			<td align="center" width="50">작성자</td>
 			<td align="center" width="80">${re.id}</td>
-			<td align="center" width="425">${re.con}</td>
-			<td align="center" width="125">${re.reg}</td> 
+			
+			<td align="center" width="300">${re.con}</td>
+			<td align="center" width="250">${re.reg}</td> 
 		</tr>
 		</c:forEach>
 	</table>
+	</c:if>
+	
+	<c:if test="${dto1.id != null}">
+		<c:if test="${dto1.memberType == 2}">
+		<%-- 댓글 작성하는 창 --%>
+		<table align="center" width="400" border="1" cellspacing="0" cellpadding="0">
+			<tr height="30">
+				<td align="center" width="100">작성자</td>
+				<td width="100">${memId}<input type="hidden" value="${memId}" name="id"></td>
+			
+				<td width="200"><textarea name="con" rows="8" cols="127"></textarea></td>
+				<td align="center">
+					<input type="button" value="작 성" onclick="location.href='reconWrite?num=${dto.num}'"></td>
+			</tr>
+		</table>
+		</c:if>
 	</c:if>
 </form>

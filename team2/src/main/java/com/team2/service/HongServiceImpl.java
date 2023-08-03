@@ -43,4 +43,9 @@ public class HongServiceImpl implements HongService {
 	public HongDTO getcontent(HongDTO dto) {
 		return mapper.getcontent(dto);
 	}
+
+	@Override
+	public HongDTO getimgfile(HongDTO dto) {
+		return mapper.getimgfile(dto);
+	}
 }

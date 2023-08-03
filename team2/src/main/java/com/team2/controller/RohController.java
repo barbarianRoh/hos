@@ -258,14 +258,16 @@ public class RohController {
 	@RequestMapping("adminForm")
 	public String adminForm(Model model, String pageNum) {
 		int pageSize = 10;
-		if(pageNum == null || pageNum.isEmpty()) {pageNum = "1";}
+		if(pageNum == null) {pageNum = "1";}
 		int currentPage = Integer.parseInt(pageNum);
 		
 		int startRow = (currentPage - 1) * pageSize + 1;
 		int endRow = currentPage * pageSize;
 		List<RohDTO> list = service.memberList(startRow, endRow);
+		System.out.println(list);
 		
 		int count = service.memberCount();
+		System.out.println(count);
 		
 		if(count > 0) {
 			int pageCount = count / pageSize + (count % pageSize == 0? 0:1);
@@ -278,27 +280,10 @@ public class RohController {
 			model.addAttribute("startPage", startPage);
 			model.addAttribute("pageBlock", pageBlock);
 			model.addAttribute("endPage", endPage);
-			model.addAttribute("pageNum", pageNum);
 		}
 		
 		model.addAttribute("list", list);
 		return "roh/adminForm";
-	}
-	
-	@RequestMapping("memberEnabled")
-	public String memberEnabled(RohDTO dto, HttpServletRequest rq) {
-		String pageNum = rq.getParameter("pageNum");
-		if(pageNum == null || pageNum.isEmpty()) {pageNum = "1";}
-		service.memberEnabled(dto);
-		return "redirect:/roh/adminForm?pageNum=" + pageNum;
-	}
-	
-	@RequestMapping("memberDisabled")
-	public String memberDisabled(RohDTO dto, HttpServletRequest rq) {
-		String pageNum = rq.getParameter("pageNum");
-		if(pageNum == null || pageNum.isEmpty()) {pageNum = "1";}
-		service.memberDisabled(dto);
-		return "redirect:/roh/adminForm?pageNum=" + pageNum;
 	}
 	
 }

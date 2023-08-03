@@ -16,7 +16,7 @@
 		return regExp.test(pw);
 	}
 	
-	var pwCheck = false;
+	var pwCheck =false;
 	var pw2Check = false;
 	var pw3Check = false;
 	

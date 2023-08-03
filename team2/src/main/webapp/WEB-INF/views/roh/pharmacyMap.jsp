@@ -22,19 +22,17 @@
 	<aside class="sidebar">
 		<ul id="pharmacies-list"></ul>
 		<div id="pagination">
-			<button id="first-page">처음</button>
-			<button id="prev-page">이전</button>
-			<span id="current-page">1</span> / <span id="total-pages">1</span>
-			<button id="next-page">다음</button>
-			<button id="last-page">마지막</button>
-		</div>
+		<button id="first-page">처음</button>
+		<button id="prev-page">이전</button>
+		<span id="current-page">1</span> / <span id="total-pages">1</span>
+		<button id="next-page">다음</button>
+		<button id="last-page">마지막</button>
+	</div>
 	</aside>
 </div>
 
 <select name="sido" id="sido"></select>
-<select name="gugun" id="gugun"></select><br />
-<input type="text" id="areaKeyword" placeholder="" />
-<button id="moveButton">검색</button>
+<select name="gugun" id="gugun"></select>
 
 <!-- 중심좌표 테스트용 -->
 <!-- <p id="result"></p> -->
@@ -42,9 +40,7 @@
 
 <script>
 <!-- Geolocation API -->        
-var geolat = null, geolon = null; // 현 위치로 이동 기능 변수
-var geoInfoWindow = null; // 줌 변경 이벤트를 위해 미리 선언
-var keyword = null; // 장소검색용 키워드 변수
+var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
 
 if (navigator.geolocation) {
 
@@ -58,12 +54,13 @@ if (navigator.geolocation) {
    
 		// 마커와 인포윈도우를 표시합니다
 		displayMarker(locPosition, message);
+       
 	});
 
 } else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
  	// Geolocation 사용이 불가능할 때 기본좌표 지정
 	var locPosition = new kakao.maps.LatLng(33.450701, 126.570667),    
-	message = 'Geolocation을 사용할 수 없습니다'
+	message = 'Geolocation을 사용할수 없습니다'
 	displayMarker(locPosition, message);
 }
 
@@ -76,12 +73,13 @@ function displayMarker(locPosition, message) {
         position: locPosition
 	}); 
     
-    var geoInfoContent = message // 인포윈도우에 표시할 내용
+    var geoInfoContent = message, // 인포윈도우에 표시할 내용
+        removeable = true;
 
     // 인포윈도우를 생성합니다
-    geoInfowindow = new kakao.maps.InfoWindow({
+    var geoInfowindow = new kakao.maps.InfoWindow({
         content: geoInfoContent,
-        removable: true,
+        removable: removeable,
         zIndex: 1
     });
     
@@ -119,19 +117,14 @@ var options = {
 // 지도 생성
 var map = new kakao.maps.Map(container, options);
 
-
-// 클러스터러 생성
 var clusterer = new kakao.maps.MarkerClusterer({
     map: map,
     averageCenter: true,
     minLevel: 4
 });
 
-// 주소-좌표 변환 객체를 생성합니다
+//주소-좌표 변환 객체를 생성합니다
 var geocoder = new kakao.maps.services.Geocoder();
-
-// 장소검색 객체 생성
-var ps = new kakao.maps.services.Places();
 
 // 현재위치, 약국위치 비교 메서드
 function calculateDistance(mylat, mylon, pharlat, pharlon) {
@@ -162,57 +155,12 @@ function calculateDistance(mylat, mylon, pharlat, pharlon) {
 	return distance;
 }
 
-// 열린 인포윈도우 추적용 변수
-var currentInfoWindow = null;
-
-// 지도 확대, 축소시 인포윈도우를 닫음
-kakao.maps.event.addListener(map, 'zoom_changed', function() {        
-	if(currentInfoWindow) {
-		currentInfoWindow.close();
-	}
-});
-// Geocoder를 이용한 버전
-// 검색한 지역을 좌표로 변환하고 해당 지역으로 이동하는 기능
-function moveMapToArea(areaKeyword) {
-	geocoder.addressSearch(areaKeyword, function(result, status) {
-		if(status === kakao.maps.services.Status.OK) {
-			var areaLat = result[0].y;
-			var areaLng = result[0].x;
-			areaLatLng = new kakao.maps.LatLng(areaLat, areaLng);
-			map.setCenter(areaLatLng);
-		} else {
-			console.log('geocoding service failed: ' + status);
-		}
-	});
-}
-
-// 카카오 플레이스를 이용한 버전
-function moveMapToArea2(areaKeyword) {
-	ps.keywordSearch(areaKeyword, function(result, status) {
-		if(status === kakao.maps.services.Status.OK) {
-			var areaLat = result[0].y;
-			var areaLng = result[0].x;
-			areaLatLng = new kakao.maps.LatLng(areaLat, areaLng);
-			map.setCenter(areaLatLng);
-		} else {
-			console.log('place service failed: ' + status);
-		}
-	});
-}
-
-// 키워드 입력후 검색버튼 이용해 이동기능 작동
-document.getElementById('moveButton').addEventListener('click', function() {
-	var areaKeyword = document.getElementById('areaKeyword').value;
-	moveMapToArea2(areaKeyword);
-});
-	
 // 약국 API 호출 및 지도에 반영
 function mapStart(s1, s2){ // ------------------------------------------------------------------------------------------------------------------------------------------
 	if(s1 == null){
 		a1 = '서울특별시';
 		a2 = '강남구';
 	}
-	
 	var xhr = new XMLHttpRequest();
 	var url = 'http://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyListInfoInqire';
 	var queryParams = '?' + encodeURIComponent('serviceKey') + '=' + '4c%2BBa%2BaPJxSbLQnLM24kicpVPXAEBmsK1V5nqbo7d6AJ4VRKUVVz8vKzYaRLTJFVaHWJ9IUKmf9L01QnZeCEig%3D%3D'; /* Service Key */
@@ -223,7 +171,7 @@ function mapStart(s1, s2){ // --------------------------------------------------
 	queryParams += '&' + encodeURIComponent('QN') + '=' + encodeURIComponent('');
 	queryParams += '&' + encodeURIComponent('ORD') + '=' + encodeURIComponent('NAME');
 	queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1');
-	queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('500');
+	queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('100');
 	xhr.open('GET', url + queryParams);
 	
 	// 요청정보 확인용
@@ -297,118 +245,112 @@ function mapStart(s1, s2){ // --------------------------------------------------
 				
 				// 추출된 요소 pharmacies 배열에 추가
 				pharmacies.push({
-					dutyAddr : dutyAddr2,
-					dutyName : dutyName2,
-					dutyTel : dutyTel2,
-					dutyTime1c : dutyTime1c2,
-					dutyTime2c : dutyTime2c2,
-					dutyTime3c : dutyTime3c2,
-					dutyTime4c : dutyTime4c2,
-					dutyTime5c : dutyTime5c2,
-					dutyTime6c : dutyTime6c2,
-					dutyTime7c : dutyTime7c2,
-					dutyTime8c : dutyTime8c2,
-					dutyTime1s : dutyTime1s2,
-					dutyTime2s : dutyTime2s2,
-					dutyTime3s : dutyTime3s2,
-					dutyTime4s : dutyTime4s2,
-					dutyTime5s : dutyTime5s2,
-					dutyTime6s : dutyTime6s2,
-					dutyTime7s : dutyTime7s2,
-					dutyTime8s : dutyTime8s2,
-					lat : lat2,
-					lng : lng2,
-					distance : distance
+					dutyAddr: dutyAddr2,
+					dutyName: dutyName2,
+					dutyTel: dutyTel2,
+					dutyTime1c: dutyTime1c2,
+					dutyTime2c: dutyTime2c2,
+					dutyTime3c: dutyTime3c2,
+					dutyTime4c: dutyTime4c2,
+					dutyTime5c: dutyTime5c2,
+					dutyTime6c: dutyTime6c2,
+					dutyTime7c: dutyTime7c2,
+					dutyTime8c: dutyTime8c2,
+					dutyTime1s: dutyTime1s2,
+					dutyTime2s: dutyTime2s2,
+					dutyTime3s: dutyTime3s2,
+					dutyTime4s: dutyTime4s2,
+					dutyTime5s: dutyTime5s2,
+					dutyTime6s: dutyTime6s2,
+					dutyTime7s: dutyTime7s2,
+					dutyTime8s: dutyTime8s2,
+					lat: lat2,
+					lng: lng2,
+					distance: distance
 				});
 			}
 			
 			// 카카오맵 API 마커와 클러스터 생성 부분
 			// 반복문으로 pharmacies의 위치정보를 이용해 마커객체 생성
 			var markers = pharmacies.map(function(pharmacy) {
-				var pharmacyMarker = new kakao.maps.Marker({
-					position: new kakao.maps.LatLng(pharmacy.lat, pharmacy.lng)
-				});
+			var pharmacyMarker = new kakao.maps.Marker({
+				position: new kakao.maps.LatLng(pharmacy.lat, pharmacy.lng)
+			});
+			
+			// 마우스오버 인포윈도우 내용 약국 이름만 출력함
+			var mouseInfoContent = '<div style="padding:5px; width:9rem;">' +
+								   '<center>' +
+								   pharmacy.dutyName +
+								   '</center>' +
+								   '</div>',
+								   mouseInfoRemovable = true;
+			
+			// 클릭 인포윈도우 내용
+			// 컨텐츠 안에 공백이 들어있으면 해당 한 줄을 안보여주도록 처리함
+			var clickInfoContent = '<div style="padding:10px;">' +
+				'<center>' + pharmacy.dutyName + '</center>' +
+				'<hr />' +
+				'<font size=2>대표전화 : ' + pharmacy.dutyTel + '</font> <br />' +
+				'<font size=2>주소 : ' + pharmacy.dutyAddr + '</font> <br />' +
+				'<hr />';
 				
-				// 마우스오버 인포윈도우 내용 약국 이름만 출력함
-				var mouseInfoContent = '<div style="padding:5px; width:9rem;">' +
-									   '<center>' +
-									   pharmacy.dutyName +
-									   '</center>' +
-									   '</div>';
-				
-				// 클릭 인포윈도우 내용
-				// 컨텐츠 안에 공백이 들어있으면 해당 한 줄을 안보여주도록 처리함
-				var clickInfoContent = '<div style="padding:10px;">' +
-					'<center>' + pharmacy.dutyName + '</center>' +
-					'<hr />' +
-					'<font size=2>대표전화 : ' + pharmacy.dutyTel + '</font> <br />' +
-					'<font size=2>주소 : ' + pharmacy.dutyAddr + '</font> <br />' +
-					'<hr />';
-					
-				if (pharmacy.dutyTime1s !== '') {
-					clickInfoContent += '<font size=2>월요일 ' + pharmacy.dutyTime1s + ' ~ ' + pharmacy.dutyTime1c + '</font> <br />';
-				}
-	 			if (pharmacy.dutyTime2s !== '') {
-	 				clickInfoContent += '<font size=2>화요일 ' + pharmacy.dutyTime2s + ' ~ ' + pharmacy.dutyTime2c + '</font> <br />';
-				}
-	 			if (pharmacy.dutyTime3s !== '') {
-	 				clickInfoContent += '<font size=2>수요일 ' + pharmacy.dutyTime3s + ' ~ ' + pharmacy.dutyTime3c + '</font> <br />';
-				}
-	 			if (pharmacy.dutyTime4s !== '') {
-	 				clickInfoContent += '<font size=2>목요일 ' + pharmacy.dutyTime4s + ' ~ ' + pharmacy.dutyTime4c + '</font> <br />';
-				}
-				if (pharmacy.dutyTime5s !== '') {
-					clickInfoContent += '<font size=2>금요일 ' + pharmacy.dutyTime5s + ' ~ ' + pharmacy.dutyTime5c + '</font> <br />';
-				}
-				if (pharmacy.dutyTime6s !== '') {
-					clickInfoContent += '<font size=2>토요일 ' + pharmacy.dutyTime6s + ' ~ ' + pharmacy.dutyTime6c + '</font> <br />';
-				}
-				if (pharmacy.dutyTime7s !== '') {
-					clickInfoContent += '<font size=2>일요일 ' + pharmacy.dutyTime7s + ' ~ ' + pharmacy.dutyTime7c + '</font> <br />';
-				}
-				if (pharmacy.dutyTime8s !== '') {
-					clickInfoContent += '<font size=2>공휴일 ' + pharmacy.dutyTime8s + ' ~ ' + pharmacy.dutyTime8c + '</font> <br />';
-				}
-				clickInfoContent += '<hr /> <br />' + 
-				'</div>';
-	            
-				// 마우스오버 인포윈도우 객체 생성
-				var mouseInfoWindow = new kakao.maps.InfoWindow({
-					content: mouseInfoContent,
-					removable: true,
-					zIndex: 1
-				});
-				
-				// 클릭 인포윈도우 객체 생성
-				var clickInfoWindow = new kakao.maps.InfoWindow({
-					content: clickInfoContent,
-					removable: true,
-					zIndex: 1
-				});
-	
-				// 마커에 마우스클릭 이벤트 발생시 인포윈도우 생성
-				kakao.maps.event.addListener(pharmacyMarker, 'click', function() {
-					if(currentInfoWindow) {
-						currentInfoWindow.close();
-					}
-					clickInfoWindow.open(map, pharmacyMarker);
-					currentInfoWindow = clickInfoWindow;
-				});
-				
-				// 마커에 마우스오버 이벤트 발생시 인포윈도우 생성
-				kakao.maps.event.addListener(pharmacyMarker, 'mouseover', function() {
-					if(currentInfoWindow) {
-						currentInfoWindow.close();
-					}
-					mouseInfoWindow.open(map, pharmacyMarker);
-					currentInfoWindow = mouseInfoWindow;
-				});
-				
-				// 마커에 마우스아웃 이벤트 발생시 인포윈도우 제거
-				kakao.maps.event.addListener(pharmacyMarker, 'mouseout', function() {
-					mouseInfoWindow.close();
-				});
-				
+			if (pharmacy.dutyTime1s !== '') {
+				clickInfoContent += '<font size=2>월요일 ' + pharmacy.dutyTime1s + ' ~ ' + pharmacy.dutyTime1c + '</font> <br />';
+			}
+ 			if (pharmacy.dutyTime2s !== '') {
+ 				clickInfoContent += '<font size=2>화요일 ' + pharmacy.dutyTime2s + ' ~ ' + pharmacy.dutyTime2c + '</font> <br />';
+			}
+ 			if (pharmacy.dutyTime3s !== '') {
+ 				clickInfoContent += '<font size=2>수요일 ' + pharmacy.dutyTime3s + ' ~ ' + pharmacy.dutyTime3c + '</font> <br />';
+			}
+ 			if (pharmacy.dutyTime4s !== '') {
+ 				clickInfoContent += '<font size=2>목요일 ' + pharmacy.dutyTime4s + ' ~ ' + pharmacy.dutyTime4c + '</font> <br />';
+			}
+			if (pharmacy.dutyTime5s !== '') {
+				clickInfoContent += '<font size=2>금요일 ' + pharmacy.dutyTime5s + ' ~ ' + pharmacy.dutyTime5c + '</font> <br />';
+			}
+			if (pharmacy.dutyTime6s !== '') {
+				clickInfoContent += '<font size=2>토요일 ' + pharmacy.dutyTime6s + ' ~ ' + pharmacy.dutyTime6c + '</font> <br />';
+			}
+			if (pharmacy.dutyTime7s !== '') {
+				clickInfoContent += '<font size=2>일요일 ' + pharmacy.dutyTime7s + ' ~ ' + pharmacy.dutyTime7c + '</font> <br />';
+			}
+			if (pharmacy.dutyTime8s !== '') {
+				clickInfoContent += '<font size=2>공휴일 ' + pharmacy.dutyTime8s + ' ~ ' + pharmacy.dutyTime8c + '</font> <br />';
+			}
+			clickInfoContent += '<hr /> <br />' + 
+			'</div>',
+			clickInfoRemovable = true;
+            
+			// 마우스오버 인포윈도우 생성
+			var mouseInfoWindow = new kakao.maps.InfoWindow({
+				content: mouseInfoContent,
+				removable: mouseInfoRemovable,
+				zIndex: 1
+			});
+			
+			// 클릭 인포윈도우 생성
+			var clickInfoWindow = new kakao.maps.InfoWindow({
+				content: clickInfoContent,
+				removable: clickInfoRemovable,
+				zIndex: 1
+			});
+
+			// 마커에 마우스클릭 이벤트 발생시 인포윈도우 생성
+			kakao.maps.event.addListener(pharmacyMarker, 'click', function() {
+				clickInfoWindow.open(map, pharmacyMarker);   
+			});
+			
+			// 마커에 마우스오버 이벤트 발생시 인포윈도우 생성
+			kakao.maps.event.addListener(pharmacyMarker, 'mouseover', function() {
+				mouseInfoWindow.open(map, pharmacyMarker);
+			});
+			
+			// 마커에 마우스아웃 이벤트 발생시 인포윈도우 제거
+			kakao.maps.event.addListener(pharmacyMarker, 'mouseout', function() {
+				mouseInfoWindow.close();
+			});
+			 
 			return pharmacyMarker;
 			});
 			
@@ -425,11 +367,11 @@ function mapStart(s1, s2){ // --------------------------------------------------
 			// 사이드바에 목록추가
 			pharmacies.forEach(function(pharmacy) {
 				var listItem = document.createElement('li');
-				listItem.innerHTML = '<hr />' +
-				pharmacy.dutyName + '<br />' +
-				pharmacy.dutyAddr + '<br />' +
-				pharmacy.dutyTel + '<br />' +
-				pharmacy.distance + 'm' + '<hr />';
+					listItem.innerHTML = '<hr />' +
+					pharmacy.dutyName + '<br />' +
+					pharmacy.dutyAddr + '<br />' +
+					pharmacy.dutyTel + '<br />' +
+					pharmacy.distance + 'm' + '<hr />';
 				pharList.appendChild(listItem);
 				
 				// 이벤트에 쓰일 변수
@@ -439,7 +381,8 @@ function mapStart(s1, s2){ // --------------------------------------------------
 									   '<center>' +
 		    						   pharmacy.dutyName +
 									   '</center>' +
-									   '</div>';
+									   '</div>',
+									   mouseInfoRemovable = true;
 									   
 				var clickInfoContent = '<div style="padding:10px;">' +
 				'<center>' + pharmacy.dutyName + '</center>' +
@@ -449,48 +392,44 @@ function mapStart(s1, s2){ // --------------------------------------------------
 				'<hr />';
 				
 				if (pharmacy.dutyTime1s !== '') {
-					clickInfoContent += '<font size=2>월요일 ' + pharmacy.dutyTime1s + ' ~ ' + pharmacy.dutyTime1c + '</font><br />';
+					clickInfoContent += '<font size=2>월요일 ' + pharmacy.dutyTime1s + ' ~ ' + pharmacy.dutyTime1c + '</font> <br />';
 				}
 				if (pharmacy.dutyTime2s !== '') {
-					clickInfoContent += '<font size=2>화요일 ' + pharmacy.dutyTime2s + ' ~ ' + pharmacy.dutyTime2c + '</font><br />';
+					clickInfoContent += '<font size=2>화요일 ' + pharmacy.dutyTime2s + ' ~ ' + pharmacy.dutyTime2c + '</font> <br />';
 				}
 				if (pharmacy.dutyTime3s !== '') {
-					clickInfoContent += '<font size=2>수요일 ' + pharmacy.dutyTime3s + ' ~ ' + pharmacy.dutyTime3c + '</font><br />';
+					clickInfoContent += '<font size=2>수요일 ' + pharmacy.dutyTime3s + ' ~ ' + pharmacy.dutyTime3c + '</font> <br />';
 				}
 				if (pharmacy.dutyTime4s !== '') {
-					clickInfoContent += '<font size=2>목요일 ' + pharmacy.dutyTime4s + ' ~ ' + pharmacy.dutyTime4c + '</font><br />';
+					clickInfoContent += '<font size=2>목요일 ' + pharmacy.dutyTime4s + ' ~ ' + pharmacy.dutyTime4c + '</font> <br />';
 				}
 				if (pharmacy.dutyTime5s !== '') {
-					clickInfoContent += '<font size=2>금요일 ' + pharmacy.dutyTime5s + ' ~ ' + pharmacy.dutyTime5c + '</font><br />';
+					clickInfoContent += '<font size=2>금요일 ' + pharmacy.dutyTime5s + ' ~ ' + pharmacy.dutyTime5c + '</font> <br />';
 				}
 				if (pharmacy.dutyTime6s !== '') {
-					clickInfoContent += '<font size=2>토요일 ' + pharmacy.dutyTime6s + ' ~ ' + pharmacy.dutyTime6c + '</font><br />';
+					clickInfoContent += '<font size=2>토요일 ' + pharmacy.dutyTime6s + ' ~ ' + pharmacy.dutyTime6c + '</font> <br />';
 				}
 				if (pharmacy.dutyTime7s !== '') {
-					clickInfoContent += '<font size=2>일요일 ' + pharmacy.dutyTime7s + ' ~ ' + pharmacy.dutyTime7c + '</font><br />';
+					clickInfoContent += '<font size=2>일요일 ' + pharmacy.dutyTime7s + ' ~ ' + pharmacy.dutyTime7c + '</font> <br />';
 				}
 				if (pharmacy.dutyTime8s !== '') {
-					clickInfoContent += '<font size=2>공휴일 ' + pharmacy.dutyTime8s + ' ~ ' + pharmacy.dutyTime8c + '</font><br />';
+					clickInfoContent += '<font size=2>공휴일 ' + pharmacy.dutyTime8s + ' ~ ' + pharmacy.dutyTime8c + '</font> <br />';
 				}
-				clickInfoContent += '<hr /><br />' + 
-				'</div>';
+				clickInfoContent += '<hr /> <br />' + 
+				'</div>',
+				clickInfoRemovable = true;
 				
 				// 사이드바 마우스오버 이벤트
 				listItem.addEventListener('mouseover', function() {
 					eventPosition = new kakao.maps.LatLng(pharmacy.lat, pharmacy.lng);
-					eventMarker = new kakao.maps.Marker({ position : eventPosition });
+					eventMarker = new kakao.maps.Marker({ position: eventPosition });
 					
-					if(currentInfoWindow) {
-						currentInfoWindow.close();
-					}
 					eventInfoWindow = new kakao.maps.InfoWindow({
 						content: mouseInfoContent,
-						removable: true,
-						disableAutoPan: true,
+						removable: mouseInfoRemovable,
 						zIndex: 1
 					});
 					eventInfoWindow.open(map, eventMarker);
-					currentInfoWindow = eventInfoWindow;
 				});
 				
 				// 사이드바 마우스아웃 이벤트
@@ -504,18 +443,12 @@ function mapStart(s1, s2){ // --------------------------------------------------
 					eventPosition = new kakao.maps.LatLng(pharmacy.lat, pharmacy.lng);
 					eventMarker = new kakao.maps.Marker({ position: eventPosition });
 					
-					if (currentInfoWindow) {
-						currentInfoWindow.close();
-					}
-					
 					var eventInfoWindow2 = new kakao.maps.InfoWindow({
 						content: clickInfoContent,
-						removable: true,
-						disableAutoPan: true,
+						removable: clickInfoRemovable,
 						zIndex: 1
 					});
 					eventInfoWindow2.open(map, eventMarker);
-					currentInfoWindow = eventInfoWindow2;
 				});
 				
 				// 사이드바 약국정보 페이지네이션 기능
@@ -698,10 +631,10 @@ $('document').ready(function() {
 		$("option",$gugun).remove(); // 구군 초기화
    
 		if(area == "area0") {
-			$gugun.append("<option value=''>구/군 선택</option>");
+		$gugun.append("<option value=''>구/군 선택</option>");
 		} else {
 			$.each(eval(area), function() {
-				$gugun.append("<option value='"+this+"'>"+this+"</option>");
+			$gugun.append("<option value='"+this+"'>"+this+"</option>");
 			});
 		}
 	});

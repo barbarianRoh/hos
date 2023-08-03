@@ -178,7 +178,7 @@ function panTo() {
 <br>
 <br>
 
-<form method = "get" name="hosselect" action="/hos/choo/hosapiresult">
+<form method = "post" name="hosselect" action="/hos/choo/hosapiresult">
 	<label for="selectOption"></label>
 	<select name="selectOption" id="selectOption" onchange="assignValue()">
 		<option value="">진료과선택</option>
@@ -210,6 +210,8 @@ function panTo() {
 		<option value="A">상급/종합병원</option>
 		<option value="B">병원</option>
 		<option value="C">의원</option>
+		<option value="E">한방병원</option>
+		<option value="G">한의원</option>
 		<option value="M">치과병원</option>
 		<option value="N">치과의원</option>
 	</select>

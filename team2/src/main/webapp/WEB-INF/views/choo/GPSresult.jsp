@@ -10,13 +10,11 @@
 		history.go(-1);
 	</script>
 </c:if>
-
-
 <style>
 html, body {width:100%;height:100%;margin:0;padding:0;} 
 .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-.map_wrap {position:relative;overflow:hidden;width:100%;height:1000px;}
+.map_wrap {position:relative;overflow:hidden;width:100%;height:800px;}
 .radius_border{border:1px solid #919191;border-radius:5px;}     
 .custom_typecontrol {position:absolute;top:10px;right:10px;overflow:hidden;width:130px;height:30px;margin:0;padding:0;z-index:1;font-size:12px;font-family:'Malgun Gothic', '맑은 고딕', sans-serif;}
 .custom_typecontrol span {display:block;width:65px;height:30px;float:left;text-align:center;line-height:30px;cursor:pointer;}
@@ -29,7 +27,7 @@ html, body {width:100%;height:100%;margin:0;padding:0;}
 .custom_zoomcontrol span {display:block;width:36px;height:40px;text-align:center;cursor:pointer;}     
 .custom_zoomcontrol span img {width:15px;height:15px;padding:12px 0;border:none;}             
 .custom_zoomcontrol span:first-child{border-bottom:1px solid #bfbfbf;}
-#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:441px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
+#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
 .bg_white {background:#fff;}
 #menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
 #menu_wrap .option{text-align: center;}
@@ -62,12 +60,12 @@ html, body {width:100%;height:100%;margin:0;padding:0;}
 #pagination {margin:10px auto;text-align: center;}
 #pagination a {display:inline-block;margin-right:10px;}
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
-#ifhide {position:absolute;top:0;left:0;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;z-index: 1;font-size:25px;border-radius: 10px;font-color:black;}
+
 </style>
 	
 <div class="map_wrap">
 	<!-- 지도를 표시할 div 입니다 -->
-	<div id="map" style="width:2000px;height:1000px;position:relative;overflow:hidden;"></div>
+	<div id="map" style="width:2000px;height:800px;position:relative;overflow:hidden;"></div>
 	
 	<!--  지도타입 컨트롤 div 입니다 -->
 	<div class="custom_typecontrol radius_border">
@@ -87,7 +85,7 @@ html, body {width:100%;height:100%;margin:0;padding:0;}
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
     mapOption = { 
         center: new kakao.maps.LatLng(${y}, ${x}), // 지도의 중심좌표
-        level: 4 // 지도의 확대 레벨
+        level: 7 // 지도의 확대 레벨
     };
 
 // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
@@ -129,10 +127,9 @@ var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 var positions=[
 				<c:forEach var="dto" items="${hos}">
 					{
-						content: '<div style="width: 300px; height: 100px; padding:5px;">${dto.dutyName}<br>' + 
+						content: '<div style="width: 300px; height: 80px; padding:5px;">${dto.dutyName}<br>' + 
 						'<font size = 2> 전화번호 : ${dto.dutyTel1} </font><br>' + 
 						'<font size = 2> 주소 : ${dto.dutyAddr} </font><br>' + 
-						'<font size= 2> 거리 : ${dto.ban}m </font><br>' +
 						'<a href="https://map.kakao.com/link/map/ ${dto.dutyName} , ${dto.wgs84Lat} , ${dto.wgs84Lon} " style="color:blue" target="_blank">큰지도보기</a>&nbsp;' + 
 						'<a href="https://map.kakao.com/link/to/  ${dto.dutyName} , ${dto.wgs84Lat} , ${dto.wgs84Lon} " style="color:blue" target="_blank">길찾기</a>&nbsp;' + 
 						'<a href="/hos/choo/hosgrade?name=${dto.dutyName}&addr=${dto.dutyAddr}" style="color:blue" target="_blank">병원평점</a></div>',
@@ -141,72 +138,45 @@ var positions=[
 					},
 				</c:forEach>
 			];
-
 marker2 = [];
 infowindow2 = [];
-infowindow = [];
-
     
 for (var i = 0; i < positions.length; i ++) {
-	
-	//마커를 생성합니다
-	var marker = new kakao.maps.Marker({
-		map: map,
-		position: positions[i].latlng,		//마커를 표시할 위치
-		title: positions[i].title,			//마커의 타이틀이고 마커를 클릭하면 병원정보가 출력
-		image: markerImage,					//커스텀 마커로 설정
-	});
-
-	marker.setMap(map);
-	
-	
-	//마커에 클릭이벤트 코드
-	(function(marker, content, a){
-		infowindow[i] = new kakao.maps.InfoWindow({
-			content: content,
-			removable: true
-		});
-   	  
-		//인포메세지가 켜져있을 때 다른 인포메세지를 누르면 기존에 켜져있던 인포메세지가 꺼짐
-		function closeInfoWindow(){
-			for(var idx=0; idx < infowindow.length; idx++){
-				infowindow[idx].close();
-			}
-		}
-		
-		
-		//마커에 클릭이벤트를 등록합니다
-		kakao.maps.event.addListener(marker, 'click', function(){
-				closeInfoWindow();
-				//마커위에 인포윈도우를 표시합니다
-				infowindow[a].open(map,marker);
-			});
-		})(marker, positions[i].content, i);
-		
-		infowindow2[i]=infowindow[i];
-		marker2[i] = marker;
-	}
+    
+    // 마커를 생성합니다
+    var marker = new kakao.maps.Marker({
+        map: map, // 마커를 표시할 지도
+        position: positions[i].latlng, 	// 마커를 표시할 위치
+        title : positions[i].title, 	// 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+        image: markerImage,				// 마커이미지 설정
+    });
+    
+  	//마커를 지도에 표시
+    marker.setMap(map);
+    var infowindow;
+  	
+//마커에 클릭이벤트 코드
+   (function(marker, content){
+   	  infowindow = new kakao.maps.InfoWindow({
+    	content: content,			//인포윈도우에 표시할 내용
+    	removable: true
+    });
+    
+    // 마커에 클릭이벤트를 등록합니다
+    kakao.maps.event.addListener(marker, 'click', function() {
+    	     // 마커 위에 인포윈도우를 표시합니다
+    	     infowindow.open(map, marker);
+     });
+   })(marker, positions[i].content);
+   
+   infowindows2[i] = infowindow;
+   marker2[i] = marker;
+}
 
 //사이드바의 각 병원을 클릭했을 때 해당 병원의 마커 인포윈도우를 출력하게 함
 function showme(i){
 	console.log(marker2[i]);
-	for(var idx=0; idx < infowindow2.length; idx++){
-		infowindow2[idx].close();
-	}
 	infowindow2[i].open(map,marker2[i]);
-	map.setCenter(positions[i].latlng);
-}
-
-//사이드바 닫기 기능
-function hidebox(){
-	document.getElementById("menu_wrap").style.display = "none";
-	document.getElementById("ifhide").style.display = "block";
-}
-
-//사이드바 열기 기능
-function ifhidebox(){
-	document.getElementById("menu_wrap").style.display = "block";
-	document.getElementById("ifhide").style.display = "none";
 }
 
 </script>
@@ -220,15 +190,7 @@ function ifhidebox(){
 }
 </style>
 
-<%-- 사이드바 열기 --%>
-<div id="ifhide" style="display: none;">
-<button onclick="javascript:ifhidebox()">병원정보</button>
-</div>
-
 <div id="menu_wrap" class="bg_white">
-
-<%-- 사이드바 닫기 --%>
-<button onclick="javascript:hidebox()" style="float:right;font-size:15px">닫기</button><br />
 
 <c:forEach var="dto" items="${hos}" varStatus="i">
 

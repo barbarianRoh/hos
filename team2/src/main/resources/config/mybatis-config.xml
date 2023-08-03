@@ -12,6 +12,5 @@
 		<typeAlias type="com.team2.component.ChooTestDTO" alias="ChooTestDTO" />
 		<typeAlias type="com.team2.component.ChooGesipan" alias="ChooGesipan" />
 		<typeAlias type="com.team2.component.ChooRecon" alias="ChooRecon" />
-		<typeAlias type="com.team2.component.Userhos" alias="Userhos" />
 	</typeAliases>
 </configuration>

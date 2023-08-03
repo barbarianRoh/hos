@@ -112,13 +112,13 @@
 						},
 						error: function(jqXHR, textStatus, errorThrown) {
 				            // 현재 에러가 나오고는 있으나 DB, 로그인 자체는 정상적으로 진행되는것으로 확인됨
-							console.log(jqXHR);
+				            console.log(jqXHR);
 				            console.log(textStatus);
 				            console.log(errorThrown);
-						},
-						complete: function() {
-							location.reload();
-						}
+				          },
+				          complete: function() {
+				        	  location.reload();
+				          }
 					});
 				},
 				fail: function(error) {
@@ -133,13 +133,3 @@
 	</script>
 
 </c:if>
-<hr />
-노진철<br />
-<a href="/hos/roh/pharmacyMap">약국지도</a> <br /><br />
-김현준<br />
-<a href="/hos/kim/symptom">모형으로 증상찾기</a><br /><a href="/hos/kim/newbutton">챗봇</a><br /><br />
-홍도원<br />
-<a href="/hos/hong/total">모든 의약품 리스트</a><br /><a href="/hos/hong/othertotal">모든 의약외품 리스트</a><br /><a href="/hos/hong/search">약품검색</a><br /><br />
-추수민<br />
-<a href="/hos/choo/hosselect">이름으로 병원검색</a><br /><a href="/hos/choo/addressselect">지역, 과, 병원분류로 검색</a><br />
-<a href="/hos/choo/GPSselect">주변병원 검색</a><br /><a href="/hos/choo/selectHos">증상으로 병원검색</a><br /><a href="/hos/choo/gesipanmain">의견보내기</a>

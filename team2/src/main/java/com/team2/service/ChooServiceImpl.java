@@ -8,7 +8,6 @@ import com.team2.component.ChooGesipan;
 import com.team2.component.ChooRecon;
 import com.team2.component.ChooTestDTO;
 import com.team2.component.RohDTO;
-import com.team2.component.Userhos;
 import com.team2.mapper.ChooMapper;
 
 @Service
@@ -32,14 +31,39 @@ public class ChooServiceImpl implements ChooService {
 		mapper.insert(dto);
 	}
 	
-	/*
-	 * @Override public List<ChooTestDTO> gradeselect(String name, String addr) {
-	 * return mapper.gradeselect(name, addr); }
-	 */
+//	@Override
+//	public ChooTestDTO gradeselect(String name, String addr) {
+//		return mapper.gradeselect(name, addr);
+//	}
+	
+	@Override
+	public List<ChooTestDTO> gradeselect(String name, String addr) {
+		return mapper.gradeselect(name, addr);
+	}
 	
 	@Override
 	public ChooTestDTO gradecon(int num, String addr) {
 		return mapper.gradecon(num, addr);
+	}
+	
+	@Override
+	public int goodCheck(int num, String name, String addr, String id) {
+		return mapper.goodCheck(num, name, addr, id);
+	}
+	
+	@Override
+	public int badCheck(int num, String name, String addr, String id) {
+		return mapper.badCheck(num, name, addr, id);
+	}
+	
+	@Override
+	public void goodinsert(int num, String name, String addr, String id) {
+		mapper.goodinsert(num, name, addr, id);
+	}
+	
+	@Override
+	public void goodupdate(int num, String name, String addr, String id) {
+		mapper.goodupdate(num, name, addr, id);
 	}
 	
 	@Override
@@ -75,16 +99,6 @@ public class ChooServiceImpl implements ChooService {
 	@Override
 	public ChooGesipan gesipancon(int num) {
 		return mapper.gesipancon(num);
-	}
-	
-	@Override
-	public RohDTO kakaomember(String kid) {
-		return mapper.kakaomember(kid);
-	}
-	
-	@Override
-	public RohDTO kakaomember1(String id1) {
-		return mapper.kakaomember(id1);
 	}
 	
 	@Override
@@ -125,20 +139,5 @@ public class ChooServiceImpl implements ChooService {
 	@Override
 	public List<ChooGesipan> mycon(String id){
 		return mapper.mycon(id);
-	}
-	
-	@Override
-	public void userhos(Userhos hos) {
-		mapper.userhos(hos);
-	}
-	
-	@Override
-	public void kakaouserhos(Userhos hos) {
-		mapper.kakaouserhos(hos);
-	}
-	
-	@Override
-	public List<Userhos> userhosselect(String id){
-		return mapper.userhosselect(id);
 	}
 }

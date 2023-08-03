@@ -15,16 +15,12 @@
 		<tr height="30">
 			<td align="center" width="100">작성자</td>
 			
-			<c:if test="${guest.equals(guest)}">
+			<c:if test="${memId == null}">
 				<td width="100"><input type="text" size="100" maxlength="30" name="id"></td>
 			</c:if>
 			
 			<c:if test="${memId != null}">
-				<td width="100">${memId}<input type="hidden" value="${memId}" name="id"></td>
-			</c:if>
-			
-			<c:if test="${nick != null}">
-				<td width="100">${nick}<input type="hidden" value="${nick}" name="id"></td>
+				<td width="100">${memid}<input type="hidden" value="${memId}" name="id"></td>
 			</c:if>
 		</tr>
 		<tr height="30">

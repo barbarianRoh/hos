@@ -21,8 +21,8 @@
 
 <div class="pagination">
     <c:if test="${currentPage > 1}">
-        <a href="${pageUrl}?page=1">First</a>
-        <a href="${pageUrl}?page=${currentPage - 1}">Previous</a>
+        <a href="${pageUrl}?page=1">처음</a>
+        <a href="${pageUrl}?page=${currentPage - 1}">이전</a>
     </c:if>
     
     <c:set var="startPage" value="${(currentPage - 1) / 10 * 10 + 1}" />
@@ -43,8 +43,8 @@
     </c:forEach>
     
     <c:if test="${currentPage < totalPages}">
-        <a href="${pageUrl}?page=${currentPage + 1}">Next</a>
-        <a href="${pageUrl}?page=${totalPages}">Load</a>
+        <a href="${pageUrl}?page=${currentPage + 1}">다음</a>
+        <a href="${pageUrl}?page=${totalPages}">끝</a>
     </c:if>
 </div>
 </body>

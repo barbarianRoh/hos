@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.SessionScope;
 
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -26,7 +25,6 @@ import com.team2.component.ChooGesipan;
 import com.team2.component.ChooRecon;
 import com.team2.component.ChooTestDTO;
 import com.team2.component.RohDTO;
-import com.team2.component.Userhos;
 import com.team2.service.ChooGPShos;
 import com.team2.service.ChooService;
 import com.team2.service.Choohosapi;
@@ -45,49 +43,18 @@ public class ChooController {
 	@Autowired
 	private ChooGPShos api3;
 	
-	//병원이름으로 병원 검색
 	@RequestMapping("hosselect")
 	public String hosselect(ChooTestDTO dto, Model model) {
 		return "/choo/hosselect";
 	}
 	
-	//병원이름으로 병원 검색
 	@RequestMapping("hosinfo")
-	public String hosinfo(Model model, String QN, HttpSession session, Userhos hos) {
-		String id = (String)session.getAttribute("sid");
-		String id1 = (String)session.getAttribute("kid");
-		
+	public String hosinfo(Model model, String QN) {
 		try {
-			if(id != null) {										//로그인한 유저용
-				ChooDTO dto = api1.hpidlist(QN);
-				ChooDTO dto1 = api2.hpidselect1(dto);
-				
-				hos.setId(id);
-				hos.setHosname(dto1.getDutyName());
-				hos.setHosaddr(dto1.getDutyAddr());
-				
-				service.userhos(hos);
+			ChooDTO dto = api1.hpidlist(QN);
+			ChooDTO dto1 = api2.hpidselect1(dto);
 			
-				model.addAttribute("dto", dto1);
-			}else if(id1 != null) {									//카카오로 로그인 유저용
-				String nick = (String)session.getAttribute("knick");
-				ChooDTO dto = api1.hpidlist(QN);
-				ChooDTO dto1 = api2.hpidselect1(dto);
-				
-				hos.setHosname(dto1.getDutyName());
-				hos.setHosaddr(dto1.getDutyAddr());
-				hos.setNick(nick);
-				hos.setId(id1);
-				
-				service.kakaouserhos(hos);
-				
-				model.addAttribute("dto", dto1);
-			}else {													//비회원 유저일 때
-				ChooDTO dto = api1.hpidlist(QN);
-				ChooDTO dto1 = api2.hpidselect1(dto);
-				
-				model.addAttribute("dto", dto1);
-			}
+			model.addAttribute("dto", dto1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -99,96 +66,46 @@ public class ChooController {
 		return "/choo/addressselect";
 	}
 	
-	//Q0 시도 Q1 시구 QD 진료과 QZ 병원분류
 	@RequestMapping("hosapiresult")			//시도군과 진료과를 입력받아서 api를 이용해서 검색하는 곳
-	public String hosapiresult(Model model, HttpSession session, String Q0, String Q1, String QD, String QZ, String pageNum) throws Exception{
-		Userhos hos = new Userhos();
-		String id = (String)session.getAttribute("sid");
-		String id1 = (String)session.getAttribute("kid");
-		
+	public String hosapiresult(Model model, String Q0, String Q1, String QD, String QZ) throws Exception{
 		try {
 			
 			//만약 병원분류에 치과병원이나 치과의원을 선택했을 시 진료과를 초기화 시키고 검색
 			if(QZ == "M" || QZ == "N") {
 				QD = "";
+				
 				List<ChooDTO> hosresult = api1.hpidlist(Q0,Q1,QD,QZ);	 //첫번쪠 api를 써서 기관id를 가져오는 곳
 				
-				if(id != null) {
-					for(int a = 0; a < hosresult.size(); a++) {
-						hos.setId(id);
-						hos.setHosname(hosresult.get(a).getDutyName());
-						hos.setHosaddr(hosresult.get(a).getDutyAddr());
-						
-						service.userhos(hos);
-					}
-					
-				}else if(id1 != null) {
-					String nick = (String)session.getAttribute("knick");
-					
-					for(int a = 0; a < hosresult.size(); a++) {
-						hos.setId(id1);
-						hos.setNick(nick);
-						hos.setHosname(hosresult.get(a).getDutyName());
-						hos.setHosaddr(hosresult.get(a).getDutyAddr());
-						
-						service.kakaouserhos(hos);
-					}
-				}
+				double a = hosresult.get(0).getWgs84Lat();
+				double b = hosresult.get(0).getWgs84Lon();
+			
+				model.addAttribute("x", a);			//검색한 값의 위치로 지도를 이동시키기 위한 경도/위도값
+				model.addAttribute("y", b);			//검색한 값의 위치로 지도를 이동시키기 위한 경도/위도값
+				model.addAttribute("hos", hosresult);
+			
+			//만약 병원분류에 한의원이나 한방병원을 선택했을 때 해당하는 진료과가 없기때문에 진료과를 초기화 시키고 검색
+			}else if(QZ == "E" || QZ == "G") {
+				QD = "";
 				
-				if(hosresult.size() != 0) {
-				
-					double a = hosresult.get(0).getWgs84Lat();
-					double b = hosresult.get(0).getWgs84Lon();
-			
-					model.addAttribute("x", a);			//검색한 값의 위치로 지도를 이동시키기 위한 경도/위도값
-					model.addAttribute("y", b);			//검색한 값의 위치로 지도를 이동시키기 위한 경도/위도값
-					model.addAttribute("hos", hosresult);
-				}
-			
-			
-			}else{
 				List<ChooDTO> hosresult = api1.hpidlist(Q0,Q1,QD,QZ);	 //첫번쪠 api를 써서 기관id를 가져오는 곳
 				
-				//회원가입한 유저
-				if(id != null) {
-					
-					for(int a = 0; a < hosresult.size(); a++) {
-						hos.setId(id);
-						hos.setHosname(hosresult.get(a).getDutyName());
-						hos.setHosaddr(hosresult.get(a).getDutyAddr());
-						
-						service.userhos(hos);
-					}
-				
-				//카카오로 로그인한 유저
-				}else if(id1 != null) {
-					String nick = (String)session.getAttribute("knick");
-					
-					for(int a = 0; a < hosresult.size(); a++) {
-						hos.setId(id1);
-						hos.setNick(nick);
-						hos.setHosname(hosresult.get(a).getDutyName());
-						hos.setHosaddr(hosresult.get(a).getDutyAddr());
-						
-						service.kakaouserhos(hos);
-					}
-				}
-				
-				
-				if(hosresult.size() != 0) {
-					double a = hosresult.get(0).getWgs84Lat();
-					double b = hosresult.get(0).getWgs84Lon();
-				
-					model.addAttribute("x", a);			//검색한 값의 위치로 지도를 이동시키기 위한 경도/위도값
-					model.addAttribute("y", b);			//검색한 값의 위치로 지도를 이동시키기 위한 경도/위도값
-					model.addAttribute("hos", hosresult);
-				
-				}else if(hosresult.size() == 0) {
-					String hos1 = "null";
-					model.addAttribute("hos", hos1);
-				}
-			}
+				double a = hosresult.get(0).getWgs84Lat();
+				double b = hosresult.get(0).getWgs84Lon();
+			
+				model.addAttribute("x", a);			//검색한 값의 위치로 지도를 이동시키기 위한 경도/위도값
+				model.addAttribute("y", b);			//검색한 값의 위치로 지도를 이동시키기 위한 경도/위도값
+				model.addAttribute("hos", hosresult);
+			
+			}else {
+				List<ChooDTO> hosresult = api1.hpidlist(Q0,Q1,QD,QZ);	 //첫번쪠 api를 써서 기관id를 가져오는 곳
 		
+				double a = hosresult.get(0).getWgs84Lat();
+				double b = hosresult.get(0).getWgs84Lon();
+		
+				model.addAttribute("x", a);			//검색한 값의 위치로 지도를 이동시키기 위한 경도/위도값
+				model.addAttribute("y", b);			//검색한 값의 위치로 지도를 이동시키기 위한 경도/위도값
+				model.addAttribute("hos", hosresult);
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -201,38 +118,10 @@ public class ChooController {
 	}
 	
 	@RequestMapping("GPSresult")				//GPS기준으로 주변 병원 검색결과 보는 페이지
-	public String GPSresult(Model model, String QD, String Q0, String Q1, double WGS84_LAT, double WGS84_LON, HttpSession session) {
+	public String GPSresult(Model model, String QD, String Q0, String Q1) {
 		try {
-			List<ChooDTO> hpid2 = api1.hosselect(QD, Q0, Q1, WGS84_LAT, WGS84_LON);
+			List<ChooDTO> hpid2 = api1.hosselect(QD, Q0, Q1);
 			
-			Userhos hos = new Userhos();
-			String id = (String)session.getAttribute("sid");
-			String id1 = (String)session.getAttribute("kid");
-			
-		
-			if(id != null) {
-				for(int a = 0; a < hpid2.size(); a++) {
-					hos.setId(id);
-					hos.setHosname(hpid2.get(a).getDutyName());
-					hos.setHosaddr(hpid2.get(a).getDutyAddr());
-					
-					service.userhos(hos);
-				}
-				
-			
-			}else if(id1 != null) {
-				String nick = (String)session.getAttribute("knick");
-				for(int a = 0; a < hpid2.size(); a++) {
-					hos.setId(id1);
-					hos.setNick(nick);
-					hos.setHosname(hpid2.get(a).getDutyName());
-					hos.setHosaddr(hpid2.get(a).getDutyAddr());
-					
-					service.kakaouserhos(hos);
-				}
-				
-			}	
-		
 		if(hpid2.size() != 0) {
 			
 			double a = hpid2.get(0).getWgs84Lat();
@@ -241,8 +130,7 @@ public class ChooController {
 			model.addAttribute("x", b);			//검색한 값의 위치로 지도를 이동시키기 위한 경도/위도값
 			model.addAttribute("y", a);			//검색한 값의 위치로 지도를 이동시키기 위한 경도/위도값
 			model.addAttribute("hos", hpid2);
-		}
-		
+		}	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -257,38 +145,13 @@ public class ChooController {
 	
 	//부위와 증상을 선택했을 시 관련된 과를 선택하여 해당 과를 입력하고 병원을 검색해서 출력
 	@RequestMapping("resultHos")
-	public String resultHos(Model model, String W0, String W1, String Q0, String Q1, HttpSession session) {
+	public String resultHos(Model model, String W0, String W1, String Q0, String Q1) {
 		try {
 			String QD = "";
-			String id = (String)session.getAttribute("sid");
-			String id1 = (String)session.getAttribute("kid");
-			Userhos hos = new Userhos();
 			
 			if(W0.equals("머리")) {
 				QD = "D001";		//내과
 				List<ChooDTO> resultlist = api1.selectHos(QD, Q0, Q1);
-				
-				if(id != null) {
-					for(int a = 0; a < resultlist.size(); a++) {
-						hos.setId(id);
-						hos.setHosname(resultlist.get(a).getDutyName());
-						hos.setHosaddr(resultlist.get(a).getDutyAddr());
-						
-						service.userhos(hos);
-					}
-					
-				}else if(id1 != null) {
-					String nick = (String)session.getAttribute("knick");
-					for(int b = 0; b < resultlist.size(); b++) {
-						hos.setId(id1);
-						hos.setNick(nick);
-						hos.setHosname(resultlist.get(b).getDutyName());
-						hos.setHosaddr(resultlist.get(b).getDutyAddr());
-						
-						service.kakaouserhos(hos);
-					}
-					
-				}
 				
 				double a = resultlist.get(0).getWgs84Lat();
 				double b = resultlist.get(0).getWgs84Lon();
@@ -298,32 +161,9 @@ public class ChooController {
 				model.addAttribute("y", a);
 				model.addAttribute("hos", resultlist);
 				
-				
 			}else if(W0.equals("얼굴") && W1.equals("얼굴떨림")){
 				QD = "D001";		//내과
 				List<ChooDTO> resultlist = api1.selectHos(QD, Q0, Q1);
-				
-				if(id != null) {
-					for(int a = 0; a < resultlist.size(); a++) {
-						hos.setId(id);
-						hos.setHosname(resultlist.get(a).getDutyName());
-						hos.setHosaddr(resultlist.get(a).getDutyAddr());
-						
-						service.userhos(hos);
-					}
-					
-				}else if(id1 != null) {
-					String nick = (String)session.getAttribute("knick");
-					for(int b = 0; b < resultlist.size(); b++) {
-						hos.setId(id1);
-						hos.setNick(nick);
-						hos.setHosname(resultlist.get(b).getDutyName());
-						hos.setHosaddr(resultlist.get(b).getDutyAddr());
-						
-						service.kakaouserhos(hos);
-					}
-					
-				}
 				
 				double a = resultlist.get(0).getWgs84Lat();
 				double b = resultlist.get(0).getWgs84Lon();
@@ -337,62 +177,16 @@ public class ChooController {
 				QD = "D012";		//안과
 				List<ChooDTO> resultlist = api1.selectHos(QD, Q0, Q1);
 				
-				if(id != null) {
-					for(int a = 0; a < resultlist.size(); a++) {
-						hos.setId(id);
-						hos.setHosname(resultlist.get(a).getDutyName());
-						hos.setHosaddr(resultlist.get(a).getDutyAddr());
-						
-						service.userhos(hos);
-					}
-					
-				}else if(id1 != null) {
-					String nick = (String)session.getAttribute("knick");
-					for(int b = 0; b < resultlist.size(); b++) {
-						hos.setId(id1);
-						hos.setNick(nick);
-						hos.setHosname(resultlist.get(b).getDutyName());
-						hos.setHosaddr(resultlist.get(b).getDutyAddr());
-						
-						service.kakaouserhos(hos);
-					}
-				
-				}
-				
 				double a = resultlist.get(0).getWgs84Lat();
 				double b = resultlist.get(0).getWgs84Lon();
 				
 				model.addAttribute("x", b);
 				model.addAttribute("y", a);
 				model.addAttribute("hos", resultlist);
-				
-				
 			
 			}else if(W0.equals("얼굴") && W1.equals("이통증") || W1.equals("이시림") || W1.equals("잇몸출혈")) {
 				QD = "D026";		//치과
 				List<ChooDTO> resultlist = api1.selectHos(QD, Q0, Q1);
-				
-				if(id != null) {
-					for(int a = 0; a < resultlist.size(); a++) {
-						hos.setId(id);
-						hos.setHosname(resultlist.get(a).getDutyName());
-						hos.setHosaddr(resultlist.get(a).getDutyAddr());
-						
-						service.userhos(hos);
-					}
-					
-				}else if(id1 != null) {
-					String nick = (String)session.getAttribute("knick");
-					for(int b = 0; b < resultlist.size(); b++) {
-						hos.setId(id1);
-						hos.setNick(nick);
-						hos.setHosname(resultlist.get(b).getDutyName());
-						hos.setHosaddr(resultlist.get(b).getDutyAddr());
-						
-						service.kakaouserhos(hos);
-					}
-					
-				}
 				
 				double a = resultlist.get(0).getWgs84Lat();
 				double b = resultlist.get(0).getWgs84Lon();
@@ -405,28 +199,6 @@ public class ChooController {
 				QD = "D013";		//이비인후과
 				List<ChooDTO> resultlist = api1.selectHos(QD, Q0, Q1);
 				
-				if(id != null) {
-					for(int a = 0; a < resultlist.size(); a++) {
-						hos.setId(id);
-						hos.setHosname(resultlist.get(a).getDutyName());
-						hos.setHosaddr(resultlist.get(a).getDutyAddr());
-						
-						service.userhos(hos);
-					}
-					
-				}else if(id1 != null) {
-					String nick = (String)session.getAttribute("knick");
-					for(int b = 0; b < resultlist.size(); b++) {
-						hos.setId(id1);
-						hos.setNick(nick);
-						hos.setHosname(resultlist.get(b).getDutyName());
-						hos.setHosaddr(resultlist.get(b).getDutyAddr());
-						
-						service.kakaouserhos(hos);
-					}
-					
-				}
-				
 				double a = resultlist.get(0).getWgs84Lat();
 				double b = resultlist.get(0).getWgs84Lon();
 				
@@ -437,28 +209,6 @@ public class ChooController {
 			}else if(W0.equals("목")){
 				QD = "D013";
 				List<ChooDTO> resultlist = api1.selectHos(QD, Q0, Q1);
-				
-				if(id != null) {
-					for(int a = 0; a < resultlist.size(); a++) {
-						hos.setId(id);
-						hos.setHosname(resultlist.get(a).getDutyName());
-						hos.setHosaddr(resultlist.get(a).getDutyAddr());
-						
-						service.userhos(hos);
-					}
-					
-				}else if(id1 != null) {
-					String nick = (String)session.getAttribute("knick");
-					for(int b = 0; b < resultlist.size(); b++) {
-						hos.setId(id1);
-						hos.setNick(nick);
-						hos.setHosname(resultlist.get(b).getDutyName());
-						hos.setHosaddr(resultlist.get(b).getDutyAddr());
-						
-						service.kakaouserhos(hos);
-					}
-					
-				}
 				
 				double a = resultlist.get(0).getWgs84Lat();
 				double b = resultlist.get(0).getWgs84Lon();
@@ -471,28 +221,6 @@ public class ChooController {
 				QD = "D007";		//흉부외과
 				List<ChooDTO> resultlist = api1.selectHos(QD, Q0, Q1);
 				
-				if(id != null) {
-					for(int a = 0; a < resultlist.size(); a++) {
-						hos.setId(id);
-						hos.setHosname(resultlist.get(a).getDutyName());
-						hos.setHosaddr(resultlist.get(a).getDutyAddr());
-						
-						service.userhos(hos);
-					}
-					
-				}else if(id1 != null) {
-					String nick = (String)session.getAttribute("knick");
-					for(int b = 0; b < resultlist.size(); b++) {
-						hos.setId(id1);
-						hos.setNick(nick);
-						hos.setHosname(resultlist.get(b).getDutyName());
-						hos.setHosaddr(resultlist.get(b).getDutyAddr());
-						
-						service.kakaouserhos(hos);
-					}
-					
-				}
-				
 				double a = resultlist.get(0).getWgs84Lat();
 				double b = resultlist.get(0).getWgs84Lon();
 				
@@ -503,28 +231,6 @@ public class ChooController {
 			}else if(W0.equals("가슴") && W1.equals("기침") || W1.equals("가슴쓰림")) {
 				QD = "D001";		//내과
 				List<ChooDTO> resultlist = api1.selectHos(QD, Q0, Q1);
-				
-				if(id != null) {
-					for(int a = 0; a < resultlist.size(); a++) {
-						hos.setId(id);
-						hos.setHosname(resultlist.get(a).getDutyName());
-						hos.setHosaddr(resultlist.get(a).getDutyAddr());
-						
-						service.userhos(hos);
-					}
-					
-				}else if(id1 != null) {
-					String nick = (String)session.getAttribute("knick");
-					for(int b = 0; b < resultlist.size(); b++) {
-						hos.setId(id1);
-						hos.setNick(nick);
-						hos.setHosname(resultlist.get(b).getDutyName());
-						hos.setHosaddr(resultlist.get(b).getDutyAddr());
-						
-						service.kakaouserhos(hos);
-					}
-					
-				}
 				
 				double a = resultlist.get(0).getWgs84Lat();
 				double b = resultlist.get(0).getWgs84Lon();
@@ -537,28 +243,6 @@ public class ChooController {
 				QD = "D001";		//내과(소화기내과가 따로 존재하지 않아서 내과로 지정)
 				List<ChooDTO> resultlist = api1.selectHos(QD, Q0, Q1);
 				
-				if(id != null) {
-					for(int a = 0; a < resultlist.size(); a++) {
-						hos.setId(id);
-						hos.setHosname(resultlist.get(a).getDutyName());
-						hos.setHosaddr(resultlist.get(a).getDutyAddr());
-						
-						service.userhos(hos);
-					}
-					
-				}else if(id1 != null) {
-					String nick = (String)session.getAttribute("knick");
-					for(int b = 0; b < resultlist.size(); b++) {
-						hos.setId(id1);
-						hos.setNick(nick);
-						hos.setHosname(resultlist.get(b).getDutyName());
-						hos.setHosaddr(resultlist.get(b).getDutyAddr());
-						
-						service.kakaouserhos(hos);
-					}
-					
-				}
-				
 				double a = resultlist.get(0).getWgs84Lat();
 				double b = resultlist.get(0).getWgs84Lon();
 				
@@ -569,28 +253,6 @@ public class ChooController {
 			}else if(W0.equals("골격계")) {
 				QD = "D008";		//정형외과
 				List<ChooDTO> resultlist = api1.selectHos(QD, Q0, Q1);
-				
-				if(id != null) {
-					for(int a = 0; a < resultlist.size(); a++) {
-						hos.setId(id);
-						hos.setHosname(resultlist.get(a).getDutyName());
-						hos.setHosaddr(resultlist.get(a).getDutyAddr());
-						
-						service.userhos(hos);
-					}
-					
-				}else if(id1 != null) {
-					String nick = (String)session.getAttribute("knick");
-					for(int b = 0; b < resultlist.size(); b++) {
-						hos.setId(id1);
-						hos.setNick(nick);
-						hos.setHosname(resultlist.get(b).getDutyName());
-						hos.setHosaddr(resultlist.get(b).getDutyAddr());
-						
-						service.kakaouserhos(hos);
-					}
-					
-				}
 				
 				double a = resultlist.get(0).getWgs84Lat();
 				double b = resultlist.get(0).getWgs84Lon();
@@ -603,28 +265,6 @@ public class ChooController {
 				QD = "D005";		//피부과
 				List<ChooDTO> resultlist = api1.selectHos(QD, Q0, Q1);
 				
-				if(id != null) {
-					for(int a = 0; a < resultlist.size(); a++) {
-						hos.setId(id);
-						hos.setHosname(resultlist.get(a).getDutyName());
-						hos.setHosaddr(resultlist.get(a).getDutyAddr());
-						
-						service.userhos(hos);
-					}
-					
-				}else if(id1 != null) {
-					String nick = (String)session.getAttribute("knick");
-					for(int b = 0; b < resultlist.size(); b++) {
-						hos.setId(id1);
-						hos.setNick(nick);
-						hos.setHosname(resultlist.get(b).getDutyName());
-						hos.setHosaddr(resultlist.get(b).getDutyAddr());
-						
-						service.kakaouserhos(hos);
-					}
-					
-				}
-				
 				double a = resultlist.get(0).getWgs84Lat();
 				double b = resultlist.get(0).getWgs84Lon();
 				
@@ -635,28 +275,6 @@ public class ChooController {
 			}else if(W0.equals("비뇨기")){
 				QD = "D014";		//비뇨기과
 				List<ChooDTO> resultlist = api1.selectHos(QD, Q0, Q1);
-				
-				if(id != null) {
-					for(int a = 0; a < resultlist.size(); a++) {
-						hos.setId(id);
-						hos.setHosname(resultlist.get(a).getDutyName());
-						hos.setHosaddr(resultlist.get(a).getDutyAddr());
-						
-						service.userhos(hos);
-					}
-					
-				}else if(id1 != null) {
-					String nick = (String)session.getAttribute("knick");
-					for(int b = 0; b < resultlist.size(); b++) {
-						hos.setId(id1);
-						hos.setNick(nick);
-						hos.setHosname(resultlist.get(b).getDutyName());
-						hos.setHosaddr(resultlist.get(b).getDutyAddr());
-						
-						service.kakaouserhos(hos);
-					}
-					
-				}
 				
 				double a = resultlist.get(0).getWgs84Lat();
 				double b = resultlist.get(0).getWgs84Lon();
@@ -725,22 +343,8 @@ public class ChooController {
 	//글작성
 	@RequestMapping("gradeWrite")
 	public String gradeWrite(Model model, @RequestParam("name") String name, @RequestParam("addr") String addr, String pageNum, HttpSession session) {
-		String id = (String)session.getAttribute("sid");
-		String id1 = (String)session.getAttribute("kid");
-		
-		if(id != null) {
-			model.addAttribute("memId", id);
-		}
-		
-		if(id1 != null) {
-			String nick = (String)session.getAttribute("knick");
-			model.addAttribute("nick", nick);
-		}
-		
-		if(id == null && id1 == null) {
-			String guest = "guest";
-			model.addAttribute("guest", guest);
-		}
+		String id = (String)session.getAttribute("memId");
+		model.addAttribute("memId", id);
 		
 		model.addAttribute("name", name);
 		model.addAttribute("addr", addr);
@@ -782,11 +386,11 @@ public class ChooController {
 		model.addAttribute("number",number);
 		
 		if(count > 0) {
-			int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);						
-			int startPage = (int)(currentPage / 10) * 10 + 1;										
+			int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);						//10 / 10 + (10%10) =2
+			int startPage = (int)(currentPage / 10) * 10 + 1;										//1 / 10 * 10+1 = 1
 			int pageBlock = 10;
-			int endPage = startPage + pageBlock -1;													
-			if(endPage > pageCount) endPage = pageCount;											
+			int endPage = startPage + pageBlock -1;													//1 + 10 -1 = 10
+			if(endPage > pageCount) endPage = pageCount;											//10 > 2)
 			
 			model.addAttribute("pageCount", pageCount);
 			model.addAttribute("startPage", startPage);
@@ -800,17 +404,8 @@ public class ChooController {
 	//글보는곳
 	@RequestMapping("gradecon")
 	public String gradecon(Model model, int num, @RequestParam("name") String name, @RequestParam("addr") String addr, @RequestParam("pageNum") String pageNum, HttpSession session) {
-		String id = (String)session.getAttribute("sid");
-		String id1 = (String)session.getAttribute("kid");
-		
-		if(id != null) {
-			model.addAttribute("memId", id);
-		}
-		
-		if(id1 != null) {
-			String nick = (String)session.getAttribute("knick");
-			model.addAttribute("nick", nick);
-		}
+		String id = (String)session.getAttribute("memId");
+		model.addAttribute("memId", id);
 		
 		model.addAttribute("dto",service.gradecon(num, addr));
 		model.addAttribute("name",name);
@@ -955,24 +550,7 @@ public class ChooController {
 	@RequestMapping("gesipanWrite")
 	public String gesipanWrite(Model model, String pageNum, HttpSession session) {
 		String id = (String)session.getAttribute("sid");
-		String id1 = (String)session.getAttribute("kid");
-		
-		if(id1 != null) {
-			String nick = (String)session.getAttribute("knick");
-			System.out.println(nick);
-			model.addAttribute("nick", nick);
-		}
-		
-		if(id != null) {
-			model.addAttribute("memId",id);
-		}
-		
-		if(id == null && id1 == null) {
-			String guest = "guest";
-			
-			model.addAttribute("guest", guest);
-		}
-		
+		model.addAttribute("memId",id);
 		model.addAttribute("pageNum", pageNum);
 		return "choo/gesipanWrite";
 	}
@@ -987,47 +565,39 @@ public class ChooController {
 	
 	//답글작성페이지
 	@RequestMapping("reconWrite")
-	public String gesipanReWrite(Model model, int num, HttpSession session) {
+	public String gesipanReWrite(Model model, ChooRecon dto, int num, HttpSession session, String con) {
 		String id = (String)session.getAttribute("sid");
-		model.addAttribute("memId", id);
-		model.addAttribute("num",num);
-		return "choo/reconWrite";
-	}
-	
-	//답글작성
-	@RequestMapping("reconWritePro")
-	public String reconWritePro(Model model, int num, ChooRecon recon) {
-		service.reconinsert(recon);
-		model.addAttribute("num", num);
 		
-		return "choo/reconWritePro";
+		System.out.println(con);
+		
+		dto.setId(id);
+		dto.setCon(con);
+		service.reconinsert(dto);
+		
+		
+		model.addAttribute("memId", id);
+		model.addAttribute(num);
+		return "choo/reconWrite";
 	}
 	
 	
 	//고객센터 글작성보기
 	@RequestMapping("gesipancon")
 	public String gesipancon(Model model, String pageNum, int num, ChooGesipan dto, RohDTO dto1, HttpSession session) {
-		dto = service.gesipancon(num);									//글을 가지고 오는 곳
-		List<ChooRecon> reconlist = service.reconlist(num);				//답글 가져오는 것
+		List<ChooRecon> reconlist = service.reconlist(num);
 		
 		String id = (String)session.getAttribute("sid");
-		String id1 = (String)session.getAttribute("kid");
-		
+			
+		dto = service.gesipancon(num);
 		
 		if(id != null) {
-			dto1 = service.memtype(id);									//멤버타입 확인하기 위한 것
-			model.addAttribute("dto1",dto1);
-			model.addAttribute("memId", id);
+			dto1 = service.memtype(id);
 		}
 		
-		
-		if(id1 != null) {
-			String nick = (String)session.getAttribute("knick");
-			model.addAttribute("nick", nick);
-		}
-		
-		model.addAttribute("dto", dto);									//글번호로 해당 글 정보를 가지고 옴
+		model.addAttribute("dto", dto);
+		model.addAttribute("dto1", dto1);
 		model.addAttribute("list", reconlist);
+		model.addAttribute("memId", id);
 		model.addAttribute("pageNum",pageNum);
 		return "choo/gesipancon";
 	}
@@ -1087,13 +657,9 @@ public class ChooController {
 	//고객센터 본인이 쓴 글 리스트로 표기
 	@RequestMapping("gesipanMylist")
 	public String gesipanMylist(Model model, String id, HttpSession session, String pageNum) {
+		id = (String)session.getAttribute("sid");
 		int count = 0;
-		int count1 = 0;
-		String nick = "";
-		id = (String)session.getAttribute("sid");					//유저 로그인
-		String id1 = (String)session.getAttribute("kid");			//카카오 로그인
 		
-		//홈페이지에서 회원가입한 유저
 		if(id == null) {
 			count = 0;
 		}else {
@@ -1110,53 +676,6 @@ public class ChooController {
 			model.addAttribute("check", count);
 			model.addAttribute("pageNum", pageNum);
 		}
-		
-		
-		//카카오 로그인 유저
-		if(id1 != null) {
-			RohDTO dto = service.kakaomember(id1);
-			id = dto.getKNick();						//카카오맵 로그인 유저일 경우에는 String id를 사용할 일이 없기때문에 id에 닉을 저장
-			count1 = service.conCheck(id);
-		}else {
-			count1 = 0;
-		}
-		
-		if(count1 != 0) {
-			model.addAttribute("check",count1);
-			model.addAttribute("pageNum",pageNum);
-			
-			List<ChooGesipan> mylist = service.mycon(id);
-			model.addAttribute("dto", mylist);
-		}else {
-			model.addAttribute("check", count);
-			model.addAttribute("pageNum", pageNum);
-		}
-		
 		return "choo/gesipanMylist";
-	}
-	
-	//최근 찾은 병원 검색해서 결과값 가지고 오는 곳
-	@RequestMapping("userhosselect")
-	public String userhosselect(Model model, HttpSession session) {
-		String id = (String)session.getAttribute("sid");
-		String id1 = (String)session.getAttribute("kid");
-		
-		if(id != null) {
-			List<Userhos> hos = service.userhosselect(id);
-			model.addAttribute("hos",hos);
-			model.addAttribute("sid", id);
-		}else if(id1 != null) {
-			id = id1;
-			List<Userhos> hos = service.userhosselect(id);
-			System.out.println(hos.get(0).getHosaddr());
-			
-			model.addAttribute("hos",hos);
-			model.addAttribute("kid", id1);
-		}else {
-			String hos = "";
-			model.addAttribute("hos",hos);
-		}
-		
-		return "choo/userhosselect";
 	}
 }

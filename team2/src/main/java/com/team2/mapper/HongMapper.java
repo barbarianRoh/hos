@@ -14,5 +14,7 @@ public interface HongMapper {
 	public List<HongDTO> data();
 	
 	public HongDTO getcontent(HongDTO dto);
+
+	public HongDTO getimgfile(HongDTO dto);
 	}
 	

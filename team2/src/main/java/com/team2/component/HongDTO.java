@@ -15,6 +15,7 @@ public class HongDTO {
 	private String intrcqesitm;	/*이 약을 사용하는 동안 주의해야 할 약 또는 음식은 무엇입니까?*/
 	private String seqesitm;	/*이 약은 어떤 이상반응이 나타날 수 있습니까?*/
 	private String depositmethodqesitm;	/*이 약은 어떻게 보관해야 합니까?*/
+	private String imgfile;	/* 이미지 */
 	
 	
 	public int getNum() {
@@ -113,4 +114,11 @@ public class HongDTO {
 		this.depositmethodqesitm = depositmethodqesitm;
 	}
 	
+	public String getImgfile() {
+		return imgfile;
+	}
+	
+	public void setImgfile(String imgfile) {
+		this.imgfile = imgfile;
+	}
 }

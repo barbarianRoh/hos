@@ -48,13 +48,11 @@ public class Choohosapi {
 	        	urlBuilder.append("&" + URLEncoder.encode("Q0","UTF-8") + "=" + URLEncoder.encode(Q0, "UTF-8")); /*주소(시도)*/
 	        }
 	        
-	        
 	        if(Q1 == null) {
 	        	urlBuilder.append("&" + URLEncoder.encode("Q1","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*주소(시구군)*/
 	        }else {	
 	        	urlBuilder.append("&" + URLEncoder.encode("Q1","UTF-8") + "=" + URLEncoder.encode(Q1, "UTF-8")); /*주소(시구군)*/
 	        }
-	        
 	        
 	        if(QD == null) {
 	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /*진료과*/
@@ -62,15 +60,13 @@ public class Choohosapi {
 	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode(QD, "UTF-8")); /*진료과*/
 	        }
 	        
-	        
 	        if(QZ == null) {
 	        	urlBuilder.append("&" + URLEncoder.encode("QZ","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); //병원분류
 	        }else {
 	        	urlBuilder.append("&" + URLEncoder.encode("QD","UTF-8") + "=" + URLEncoder.encode(QZ, "UTF-8")); //병원분류
 	        }
 	        
-	         urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("50", "UTF-8")); /*결과로 가져올 갯수*/
-	         
+	        // urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("10", "UTF-8")); /*결과로 가져올 갯수*/
 	        URL url = new URL(urlBuilder.toString());
 	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	        conn.setRequestMethod("GET");
@@ -254,11 +250,8 @@ public class Choohosapi {
 	 
 	 //UZHnvSBw7ESYEUBtz%2BH9YHocdwfx3wFhm54v1fiXwk9pj4Wv3pY5%2F4uhCj9YTxYd1gtqHkhlP9vC9tMQh6CulA%3D%3D
 	 //GPS 기반 좌표로 검색한 병원 이름과 입력받은 진료과를 넣고 해당 과에 해당하는 병원 분류
-	 public List hosselect(String QD, String Q0, String Q1, double WGS84_LAT, double WGS84_LON) throws Exception {
+	 public List hosselect(String QD, String Q0, String Q1) throws Exception {
 		 	List<ChooDTO> idlist = new ArrayList<>();
-		 	
-		 	double x = WGS84_LAT;
-		 	double y = WGS84_LON;
 		 	
 		 	StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncListInfoInqire"); /*URL*/
 	        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=UZHnvSBw7ESYEUBtz%2BH9YHocdwfx3wFhm54v1fiXwk9pj4Wv3pY5%2F4uhCj9YTxYd1gtqHkhlP9vC9tMQh6CulA%3D%3D"); /*Service Key*/
@@ -342,27 +335,12 @@ public class Choohosapi {
 				dto.setDutyTel1(telValue);
 				
 				double gdovalue = Double.parseDouble(hosgyodo.getNodeValue());
-				dto.setWgs84Lon(gdovalue);												//120 몇으로 시작하는 곳
+				dto.setWgs84Lon(gdovalue);
 				
 				double wido = Double.parseDouble(hoswido.getNodeValue());
-				dto.setWgs84Lat(wido);													//30 몇으로 시작하는
+				dto.setWgs84Lat(wido);
 				
-				double theta = y - gdovalue;
-				double dist = Math.sin(deg2rad(wido)) * Math.sin(deg2rad(x)) + Math.cos(deg2rad(wido)) * Math.cos(deg2rad(x)) * Math.cos(deg2rad(theta));
-				
-				dist = Math.acos(dist);
-				dist = rad2deg(dist);
-				dist = dist * 60 * 1.1515 * 1609.344;
-				int nodegre = (int) dist;
-				
-				dto.setBan(nodegre);
-				
-				int selectlength = 1000;
-				int resulthos = nodegre - selectlength;
-				
-				if(resulthos < 0) {
-					idlist.add(dto);
-				}
+				idlist.add(dto);
 			}	
 		return idlist;
 	}
@@ -378,14 +356,14 @@ public class Choohosapi {
 	        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=UZHnvSBw7ESYEUBtz%2BH9YHocdwfx3wFhm54v1fiXwk9pj4Wv3pY5%2F4uhCj9YTxYd1gtqHkhlP9vC9tMQh6CulA%3D%3D"); /*Service Key*/
 
 	        if(Q0 == null) {
-	        	urlBuilder.append("&" + URLEncoder.encode("Q0","UTF-8") + "=" + URLEncoder.encode("서울시","UTF-8"));		//시도
+	        	urlBuilder.append("&" + URLEncoder.encode("Q0","UTF-8") + "=" + URLEncoder.encode("","UTF-8"));		//시도
 	        }else {
 	        	urlBuilder.append("&" + URLEncoder.encode("Q0","UTF-8") + "=" + URLEncoder.encode(Q0,"UTF-8"));
 	        }
 	        
 	        
 	        if(Q1 == null) {
-	        	urlBuilder.append("&" + URLEncoder.encode("Q1","UTF-8") + "=" + URLEncoder.encode("관악구","UTF-8"));		//구
+	        	urlBuilder.append("&" + URLEncoder.encode("Q1","UTF-8") + "=" + URLEncoder.encode("","UTF-8"));		//구
 	        }else {
 	        	urlBuilder.append("&" + URLEncoder.encode("Q1","UTF-8") + "=" + URLEncoder.encode(Q1,"UTF-8"));
 	        }
@@ -398,7 +376,7 @@ public class Choohosapi {
 	        }
 	        
 	        
-	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("30", "UTF-8")); /*결과로 가져올 갯수*/
+	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("500", "UTF-8")); /*결과로 가져올 갯수*/
 	        
 	        URL url = new URL(urlBuilder.toString());
 	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -475,7 +453,7 @@ public class Choohosapi {
 				
 				dto.setBan(nodegre);						//단위는 미터로 들어간다고 되어있음
 				
-				int selectlength = 1500; 					//특정 거리 반경 설정 값 (단위 : meter)
+				int selectlength = 3000; 					//특정 거리 반경 설정 값 (단위 : meter)
 				int resulthos = nodegre - selectlength; 	// 거리 조건 식
 				
 				if(resulthos < 0) {

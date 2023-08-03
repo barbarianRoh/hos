@@ -23,12 +23,10 @@
 		</tr>
 		<tr>
 			<td colspan="4" align="right">
-			<c:if test="${memId != null || nick != null}">
-				<c:if test="${memId == dto.id || nick == dto.id}">
+				<c:if test="${memId == dto.id}">
 					<input type="button" value="글수정" onclick="location.href='updategrade?num=${dto.num}&name=${name}&addr=${addr}&pageNum=${pageNum}'">
 					<input type="button" value="글삭제" onclick="location.href='gradedelect?num=${dto.num}&name=${name}&addr=${addr}&pageNum=${pageNum}'">
 				</c:if>
-			</c:if>
 					<input type="button" value="돌아가기" onclick="location.href='hosgrade?name=${name}&addr=${addr}&pageNum=${pageNum}'"></td>
 		</tr>
 	</table>

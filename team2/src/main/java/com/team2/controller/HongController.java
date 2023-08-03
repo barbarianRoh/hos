@@ -1,5 +1,6 @@
 package com.team2.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -8,6 +9,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -21,12 +23,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
 import com.team2.component.HongDTO;
 import com.team2.component.Medicine;
 import com.team2.service.HongService;
-
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Controller
@@ -272,13 +273,13 @@ public class HongController {
     		model.addAttribute("intrcQesitmValues", intrcQesitmValues);	// 주의할 약또는 음식
     		model.addAttribute("seQesitmValues", seQesitmValues);	// 이상반응
     		model.addAttribute("depositMethodQesitmValues", depositMethodQesitmValues);	// 보관법
-    	
+    		
     	} else {
-    		System.out.println("resultCode 요소를 찾을 수 없습니다");
+    		return "/hong/error";
     	}
 
         } catch(IOException e) {
-    	e.printStackTrace(); 
+        	e.printStackTrace(); 
     	}
         return "/hong/itemName";
     }
@@ -296,8 +297,7 @@ public class HongController {
         model.addAttribute("medicines", medicines);
         // searchkeyword 속성을 entpname으로 설정해 업체명을 검색
         model.addAttribute("searchKeyword", "entpname");
-
-        return "/hong/entpName";
+    	return "/hong/entpName";
     }
     
     // 실제로 검색을 수행하는 메서드, api 요청에 대한 url을 구성하고 api 에서 xml 응답을 구문분석.
@@ -333,15 +333,15 @@ public class HongController {
     
 
 	@RequestMapping("othertotal")
-	public String othertotal(@RequestParam(defaultValue = "1") int page, Model model, String keyword) throws ParserConfigurationException, SAXException, MalformedURLException, IOException {
+	public String othertotal(@RequestParam(defaultValue = "1") int page, Model model, String keyword2) throws ParserConfigurationException, SAXException, MalformedURLException, IOException {
 		
 		final int rowpages = 21;	// 한페이지당 보여줄 행의 수
        
 		String url = null;
 		
 		// keyword 가 null 이면 빈 문자열로 설정
-		if(keyword == null) {
-			keyword = "";
+		if(keyword2 == null) {
+			keyword2 = "";
 		}
 	    int totalPages = 0;
 	    
@@ -349,7 +349,7 @@ public class HongController {
 		try {
 			StringBuilder urlBuilder = new StringBuilder("https://apis.data.go.kr/1471000/QdrgPrdtPrmsnInfoService02/getQdrgPrdtPrmsnInfoInq02");
 		    urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=MMbncKBwZqOh19KQELbd%2FeILVFSsR6IbbxB7%2BNF3Oz1uxb5VmjB9p%2BQ1LFZyk2F8RZ6QWiTXrf%2BhNb6G%2BiDWVw%3D%3D");
-	        urlBuilder.append("&" + URLEncoder.encode("item_name","UTF-8") + "=" + URLEncoder.encode(keyword, "UTF-8")); // 제품명
+	        urlBuilder.append("&" + URLEncoder.encode("item_name","UTF-8") + "=" + URLEncoder.encode(keyword2, "UTF-8")); // 제품명
 	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("20", "UTF-8")); // 보여줄 제품의 갯수
 	        urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(page), "UTF-8"));
 	        
@@ -403,6 +403,7 @@ public class HongController {
 		        }
 		    } else {
 		        System.out.println("No result");
+		        return "hong/error";
 		    }
 		    
 	    // 모델에 결과 리스트 추가해서 otheritemName 로 반환
@@ -507,18 +508,19 @@ public class HongController {
 	
 	// 의약품 정보 가져오는곳, 결과 페이지
     @RequestMapping("otherresult")
-    public String otherresult (@RequestParam(defaultValue = "1") int page, String keyword, Model model) {
+    public String otherresult (@RequestParam(defaultValue = "1") int page, String keyword2, Model model) {
 
     	String url = null;
     	
-		if(keyword == null) {
-			keyword = "";
+    	// keyword가 null 이면 keyword를 빈 문자열로 설정
+		if(keyword2 == null) {
+			keyword2 = "";
 		}
 
     	try {
 			StringBuilder urlBuilder = new StringBuilder("https://apis.data.go.kr/1471000/QdrgPrdtPrmsnInfoService02/getQdrgPrdtPrmsnInfoInq02");
 		    urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=MMbncKBwZqOh19KQELbd%2FeILVFSsR6IbbxB7%2BNF3Oz1uxb5VmjB9p%2BQ1LFZyk2F8RZ6QWiTXrf%2BhNb6G%2BiDWVw%3D%3D");
-	        urlBuilder.append("&" + URLEncoder.encode("item_name","UTF-8") + "=" + URLEncoder.encode(keyword, "UTF-8")); // 제품명
+	        urlBuilder.append("&" + URLEncoder.encode("item_name","UTF-8") + "=" + URLEncoder.encode(keyword2, "UTF-8")); // 제품명
 	        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("20", "UTF-8")); // 보여줄 제품의 갯수
 	        urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(page), "UTF-8")); // current page
 	        
@@ -537,19 +539,22 @@ public class HongController {
          List<String> ENTP_NAME_VALUES = new ArrayList<>();
          
 	    try {
+	    	// newInstance의 객체 생성 factory에 저장
 	    	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	    	// newDocumentBuilder에 builder로 에 저장
             DocumentBuilder builder = factory.newDocumentBuilder();
 
-            // get builder xml data from url
+            // url로부터 xml파일 데이터 생성
             Document document = builder.parse(new URL(url).openStream());
 
             // Parse the xml to get the list of root and itemNodeList
             Element root = document.getDocumentElement();
+            
             NodeList itemNodeList = root.getElementsByTagName("item");
-
             // Calculate the total number of drugs after parsing the xml data
     	
 		// entpNameList가 비어있지 않으면 for문을 실행
+            
    // 	if(itemNameList.getLength() > 0) {
 		System.out.println("약 찾음-=="+itemNodeList.getLength());
 		// for문을 반복해서  Nodelist 요소를 반복하고 String 변수에 추출된 값을 추가해서 텍스트 콘텐츠를 추출
@@ -583,17 +588,21 @@ public class HongController {
          
         } catch (Exception e) {
             e.printStackTrace();
-            return "/hong/error";
         }
+	    return "searchOtherItemName";
     }
     	
     @Autowired
     private HongService hongService;
     
-    @RequestMapping("safe")   
-    public String safe(Model model, HongDTO dto) { // model객체와 dto 객체를 파라미터로 받음
-       dto = hongService.getcontent(dto);   // hongservice를 통해 dto를 호출하며 dto에 넣고
-       model.addAttribute("dto" , dto);   // model에 dto를 "dto" 라는 이름으로 저장해서 
+    @RequestMapping("safe")
+    public String safe(Model model, HongDTO dto, HttpServletRequest request) { // model객체와 dto 객체를 파라미터로 받음
+    	String uploadPath = request.getRealPath("/resources/assets/hongimg");
+    	String img = "/resources/assets/hongimg" + "/" + dto.getImgfile();
+       dto = hongService.getcontent(dto);   // hongservice를 통해 dto를 호출하며 dto에 넣고       
+       model.addAttribute("img", img);
+       model.addAttribute("dto" , dto);   // model에 dto를 "dto" 라는 이름으로 저장해서
+       model.addAttribute("uploadPath", uploadPath);
        return "/hong/homesafe";   // homesafe 의 view 페이지로 전달
     }
     
@@ -609,7 +618,7 @@ public class HongController {
        model.addAttribute("list",list);
        return "/hong/dbsafe";
     }
-    
+	
     @RequestMapping("main")
     public String main(Model model) {
     	return "/hong/index";

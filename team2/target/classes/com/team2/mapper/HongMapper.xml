@@ -15,4 +15,8 @@
 	<select id="getcontent" resultType="com.team2.component.HongDTO">
 		select * from medicine where num = #{num}
 	</select>
+	
+	<select id="getimgfile" resultType="com.team2.component.HongDTO">
+		select imgfile from medicine where itemname = #{itemname}
+	</select>
 </mapper>

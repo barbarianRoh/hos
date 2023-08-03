@@ -6,9 +6,13 @@
 </head>
 	<body>
 	    <h1>안전 상비약</h1>
+	    <h1>${realPath}</h1>
 		<table align="center" width="900" border="1" cellspacing="0">
 			<tr height="30">
 				<td align="center" colspan="3">안전상비약</td>
+			</tr>
+			<tr>
+				<img src="/hos/resources/assets/hongimg/${dto.imgfile}" alt="Image" width="500" height="400">
 			</tr>
 			<tr>
 				<td align="center" width="300">업체명 : ${dto.entpname}</td>

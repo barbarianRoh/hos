@@ -76,12 +76,4 @@
 	<select id="memberCount" resultType="int">
 		select count(*) from p2_member
 	</select>
-	
-	<update id="memberEnabled">
-		update p2_member set enabled='1' where id=#{id}
-	</update>
-	
-	<update id="memberDisabled">
-		update p2_member set enabled='0' where id=#{id}
-	</update> 
 </mapper>
