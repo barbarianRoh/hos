@@ -23,8 +23,8 @@
 		</tr>
 		<tr>
 			<td colspan="4" align="right">
-		<c:if test="${dto.id != null && dto1.id != null || dto2.kNick != null}">
-			<c:if test="${dto.id == dto1.id || dto.id == dto2.kNick}">
+		<c:if test="${dto.id != null && memId != null || nick != null}">
+			<c:if test="${dto.id == memId || dto.id == nick}">
 				<input type="button" value="글수정" onclick="location.href='gesipanupdate?num=${dto.num}&pageNum=${pageNum}'">
 				<input type="button" value="글삭제" onclick="location.href='gesipandelect?num=${dto.num}&pageNum=${pageNum}'">
 				<c:if test="${dto1.memberType == 2}">

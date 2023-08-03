@@ -210,8 +210,6 @@ function panTo() {
 		<option value="A">상급/종합병원</option>
 		<option value="B">병원</option>
 		<option value="C">의원</option>
-		<option value="E">한방병원</option>
-		<option value="G">한의원</option>
 		<option value="M">치과병원</option>
 		<option value="N">치과의원</option>
 	</select>

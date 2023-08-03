@@ -4,7 +4,6 @@
 <head>
     <meta charset="utf-8">
     <title>병원이름으로 검색한 페이지</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" >
 </head>
 
 <c:if test="${dto.dutyName == null}">
@@ -15,20 +14,10 @@
 </c:if>
 
 <style>
-.b-example-vr {
-flex-shrink: 0;
-height: 100vh;
-width: 1.5rem;
-}
-.bi {
-vertical-align: -.125em;
-fill: currentColor;
-}
-
 html, body {width:100%;height:100%;margin:0;padding:0;} 
 .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
 .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-.map_wrap {position:relative;overflow:hidden;width:100%;height:800px;}
+.map_wrap {position:relative;overflow:hidden;width:100%;height:1000px;}
 .radius_border{border:1px solid #919191;border-radius:5px;}     
 .custom_typecontrol {position:absolute;top:10px;right:10px;overflow:hidden;width:130px;height:30px;margin:0;padding:0;z-index:1;font-size:12px;font-family:'Malgun Gothic', '맑은 고딕', sans-serif;}
 .custom_typecontrol span {display:block;width:65px;height:30px;float:left;text-align:center;line-height:30px;cursor:pointer;}
@@ -41,7 +30,7 @@ html, body {width:100%;height:100%;margin:0;padding:0;}
 .custom_zoomcontrol span {display:block;width:36px;height:40px;text-align:center;cursor:pointer;}     
 .custom_zoomcontrol span img {width:15px;height:15px;padding:12px 0;border:none;}             
 .custom_zoomcontrol span:first-child{border-bottom:1px solid #bfbfbf;}
-#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
+#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:441px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
 .bg_white {background:#fff;}
 #menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
 #menu_wrap .option{text-align: center;}
@@ -74,21 +63,18 @@ html, body {width:100%;height:100%;margin:0;padding:0;}
 #pagination {margin:10px auto;text-align: center;}
 #pagination a {display:inline-block;margin-right:10px;}
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
+#ifhide {position:absolute;top:0;left:0;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;z-index: 1;font-size:25px;border-radius: 10px;font-color:black;}
 </style>
 
 <c:if test="${dto.dutyName != null}">
 
-<div id="menu_wrap" class="bg_white">
-	<ul id = "hosList"></ul>
-</div>
-
 <div class="map_wrap">
 	<!-- 지도를 표시할 div 입니다 -->
-	<div id="map" style="width:2000px;height:800px;position:relative;overflow:hidden;"></div>
+	<div id="map" style="width:2000px;height:1000px;position:relative;overflow:hidden;"></div>
 	
-	<!--  지도타입 컨트롤 div 입니다 -->
+	<!-- 지도타입 컨트롤 div입니다 -->
 	<div class="custom_typecontrol radius_border">
-		<span id="btnRoadmap" class="selected_btn" onclick="setMapType('roadmap')">지도</span>
+		<span id="btnRoadmap" class="selected _btn" onclick="setMapType('roadmap')">지도</span>
 		<span id="btnSkyview" class="btn" onclick="setMapType('skyview')">스카이뷰</span>
 	</div>
 	
@@ -99,7 +85,7 @@ html, body {width:100%;height:100%;margin:0;padding:0;}
 	</div>
 </div>
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449&libraries=services,clusterer"></script>
 <script>
 
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -111,11 +97,15 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
 var map = new kakao.maps.Map(mapContainer, mapOption);
 
-//지도타입 컨트롤의 지도 또는 스카이뷰 버튼을 클릭하면 호출되어 지도타입을 바꾸는 함수
+//마커를 찍을 위치
+var position = new kakao.maps.LatLng(${dto.wgs84Lat},${dto.wgs84Lon});
+
+
+//지도타입의 컨트롤의 지도 또는 스카이뷰 버튼을 클릭하면 호출되어 지도타입을 바꾸는 함수
 function setMapType(maptype){
 	var roadmapControl = document.getElementById("btnRoadmap");
 	var skyviewControl = document.getElementById("btnSkyview");
-	if(maptype === 'roadmap'){
+	if(maptype == 'roadmap'){
 		map.setMapTypeId(kakao.maps.MapTypeId.ROADMAP);
 		roadmapControl.className = 'selected_btn';
 		skyviewControl.className = 'btn';
@@ -126,12 +116,13 @@ function setMapType(maptype){
 	}
 }
 
-//지도 확대 및 축소 컨트롤에 확대 버튼을 누르면 호출되어 지도를 확대
+//지도 확대 및 축소 컨트롤에 확대버튼을 누르면 호출되어 지도를 확대
 function zoomIn(){
 	map.setLevel(map.getLevel() - 1);
 }
 
-//지도 확대 및 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 축소
+
+//지도 확대 및 축소 컨트롤에 축소버튼을 누르면 호출되어 지도를 축소
 function zoomOut(){
 	map.setLevel(map.getLevel() + 1);
 }
@@ -141,34 +132,82 @@ var imageSrc = '/hos/resources/img/hosmark.png', // 마커이미지의 주소입
 	imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
   
 //마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
-	markerPosition = new kakao.maps.LatLng(${dto.wgs84Lat},${dto.wgs84Lon}); // 마커가 표시될 위치입니다
-		
-// 마커를 생성합니다
+var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+	
+//마커를 생성합니다
 var marker = new kakao.maps.Marker({
-	position: markerPosition,
-	image: markerImage
+	position: position,
+	image: markerImage,
+	clickable: true
 });
-		
+					
 // 마커가 지도 위에 표시되도록 설정합니다
 marker.setMap(map);
-		
 		
 var iwContent = '<div style="width: 300px; height: 100px; padding:5px;">  ${dto.dutyName} <hr>' + 
 				'<font size=2> 전화번호 : ${dto.dutyTel1} </font><br>' + 
 				'<font size=2> 주 소 : ${dto.dutyAddr} </font><br>' + 
 				'<a href="https://map.kakao.com/link/map/ ${dto.dutyName}  ,  ${dto.wgs84Lat}  ,  ${dto.wgs84Lon}  " style="color:blue" target="_blank">큰지도보기</a>&nbsp;' + 
 				'<a href="https://map.kakao.com/link/to/  ${dto.dutyName}  ,  ${dto.wgs84Lat}  ,  ${dto.wgs84Lon}  " style="color:blue" target="_blank">길찾기</a>&nbsp;' + 
-				'<a href="/hos/choo/hosgrade?name=${dto.dutyName}&addr=${dto.dutyAddr}" style="color:blue" target="_blank">병원평점</a></div>', 
-				iwPosition = new kakao.maps.LatLng(${dto.wgs84Lat},${dto.wgs84Lon});
-			
+				'<a href="/hos/choo/hosgrade?name=${dto.dutyName}&addr=${dto.dutyAddr}" style="color:blue" target="_blank">병원평점</a></div>',
+				iwRemoveable = true;
+
+var infowindow;
+
 //인포윈도우를 생성합니다
-var infowindow = new kakao.maps.InfoWindow({
-position : iwPosition, 
-content : iwContent 
+infowindow = new kakao.maps.InfoWindow({ 
+	content : iwContent,
+	removable : iwRemoveable
 });
 		
-//마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-infowindow.open(map, marker);
+//마커에 클릭이벤트를 등록합니다
+kakao.maps.event.addListener(marker, 'click', function() {
+      // 마커 위에 인포윈도우를 표시합니다
+      infowindow.open(map, marker);  
+});
+
+
+//사이드바의 각 병원을 클릭했을 때 해당 병원의 마커 인포윈도우를 출력하게 함
+function showme(){
+	infowindow.open(map, marker);
+	map.setCenter(position);
+}
+
+
+//사이드바 닫기 기능
+function hidebox(){
+	document.getElementById("menu_wrap").style.display = "none";
+	document.getElementById("ifhide").style.display = "block";
+}
+
+//사이드바 열기 기능
+function ifhidebox(){
+	document.getElementById("menu_wrap").style.display = "block";
+	document.getElementById("ifhide").style.display = "none";
+}
+
 </script>
+
+
+
+<%-- 사이드바 열기 --%>
+<div id="ifhide" style="display: none;">
+<button onclick="javascript:ifhidebox()">병원정보</button>
+</div>
+
+
+<div id="menu_wrap" class="bg_white">
+
+<%-- 사이드바 닫기 --%>
+<button onclick="javascript:hidebox()" style="float:right;font-size:15px">닫기</button><br />
+
+	<div id="" style="border: 1px solid gray;margin: 15px 0px 15px 0px;">
+	<a href="javascript:showme()">
+	병원이름 : ${dto.dutyName} <br />
+	주 소 : ${dto.dutyAddr} <br />
+	전화번호 : ${dto.dutyTel1} <br />
+	</a>
+	</div>
+	
+</div>
 </c:if>

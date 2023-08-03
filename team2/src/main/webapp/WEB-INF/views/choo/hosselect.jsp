@@ -27,7 +27,7 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 var map = new kakao.maps.Map(mapContainer, mapOption); 
 </script>
 
-<form method = "post" name="hosselect" action="/hos/choo/hosinfo">
+<form method = "get" name="hosselect" action="/hos/choo/hosinfo">
 	<table width="500" height="100" border="1" cellspacing="0" cellpadding="0" align="center">
 		<tr height="30">
 			<td width="150" align="center">병원검색</td>
