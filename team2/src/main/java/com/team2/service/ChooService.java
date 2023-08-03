@@ -16,19 +16,9 @@ public interface ChooService {
 	
 	public void insert(ChooTestDTO dto);
 	
-	// public ChooTestDTO gradeselect(String name, String addr);
-	
-	public List<ChooTestDTO> gradeselect(String name, String addr);
+	//public List<ChooTestDTO> gradeselect(String name, String addr);
 	
 	public ChooTestDTO gradecon(int num, String addr);
-	
-	public int goodCheck(int num, String name, String addr, String id);
-	
-	public int badCheck(int num, String name, String addr, String id);
-	
-	public void goodinsert(int num, String name, String addr, String id);
-	
-	public void goodupdate(int num, String name, String addr, String id);
 	
 	public int pwCheck(int num, String pw);
 	
@@ -42,7 +32,7 @@ public interface ChooService {
 	
 	public void gesipaninsert(ChooGesipan dto);
 	
-	public RohDTO kakaomember(String id);
+	public RohDTO kakaomember(String kid);
 	
 	public RohDTO kakaomember1(String id1);
 	
@@ -67,4 +57,6 @@ public interface ChooService {
 	public void userhos(Userhos hos);
 	
 	public void kakaouserhos(Userhos hos);
+	
+	public List<Userhos> userhosselect(String id);
 }

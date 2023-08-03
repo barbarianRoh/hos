@@ -62,6 +62,7 @@ html, body {width:100%;height:100%;margin:0;padding:0;}
 #pagination {margin:10px auto;text-align: center;}
 #pagination a {display:inline-block;margin-right:10px;}
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
+#ifhide {position:absolute;top:0;left:0;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;z-index: 1;font-size:25px;border-radius: 10px;font-color:black;}
 </style>
 
 
@@ -135,6 +136,7 @@ var imageSrc = '/hos/resources/img/hosmark.png',
 var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 
 
+
 //마커의 표시할 위치와 내용을 가지고 있는 객체 배열입니다.
 var positions=[
 				<c:forEach var="dto" items="${hos}">
@@ -154,7 +156,10 @@ var positions=[
 
 marker2 = [];
 infowindow2 = [];
+infowindow3=[];
+
 for(var i = 0; i < positions.length; i++){	
+	
 	//마커를 생성합니다
 	var marker = new kakao.maps.Marker({
 		map: map,
@@ -162,30 +167,59 @@ for(var i = 0; i < positions.length; i++){
 		title: positions[i].title,			//마커의 타이틀이고 마커를 클릭하면 병원정보가 출력
 		image: markerImage,					//커스텀 마커로 설정
 	});
+	
+	
 	marker.setMap(map);
 	var infowindow;
+	 
+	
 	//마커에 클릭이벤트 코드
-	(function(marker, content){
-		infowindow = new kakao.maps.InfoWindow({
+	(function(marker, content,a){
+		infowindow3[i] = new kakao.maps.InfoWindow({
 			content: content,
 			removable: true
 		});
+		
+	//인포메세지가 켜져있을 때 다른 인포메세지를 누르면 기존에 켜져있던 인포메세지가 꺼짐
+	function closeInfoWindow(){
+		for(var idx=0; idx < infowindow3.length; idx++){
+			infowindow3[idx].close();
+		}
+	}
 	
 	//마커에 클릭이벤트를 등록합니다
 	kakao.maps.event.addListener(marker, 'click', function(){
+			closeInfoWindow();
 			//마커위에 인포윈도우를 표시합니다
-			infowindow.open(map,marker);
+			infowindow3[a].open(map,marker);			
 		});
-	})(marker, positions[i].content);
-	
-	infowindow2[i]=infowindow;
+	})(marker, positions[i].content,i);
+	infowindow2[i]=infowindow3[i];
 	marker2[i] = marker;
 }
+
+
 
 //사이드바의 각 병원을 클릭했을 때 해당 병원의 마커 인포윈도우를 출력하게 함
 function showme(i){
 	console.log(marker2[i]);
+	for(var idx=0; idx < infowindow2.length; idx++){
+		infowindow2[idx].close();
+	}
 	infowindow2[i].open(map,marker2[i]);
+	map.setCenter(positions[i].latlng);
+}
+
+//사이드바 닫기 기능
+function hidebox(){
+	document.getElementById("menu_wrap").style.display = "none";
+	document.getElementById("ifhide").style.display = "block";
+}
+
+//사이드바 열기 기능
+function ifhidebox(){
+	document.getElementById("menu_wrap").style.display = "block";
+	document.getElementById("ifhide").style.display = "none";
 }
 
 </script>
@@ -199,7 +233,16 @@ function showme(i){
 }
 </style>
 
+<%-- 사이드바 열기 --%>
+<div id="ifhide" style="display: none;">
+<button onclick="javascript:ifhidebox()">병원정보</button>
+</div>
+
+
 <div id="menu_wrap" class="bg_white">
+
+<%-- 사이드바 닫기 --%>
+<button onclick="javascript:hidebox()" style="float:right;font-size:15px">닫기</button><br />
 
 <c:forEach var="dto" items="${hos}" varStatus="i">
 

@@ -16,39 +16,13 @@
 	insert into hosgrade(num,name,id,title,addr,con,pw,reg) values(hos_seq.NEXTVAL, #{name}, #{id}, #{title}, #{addr}, #{con}, #{pw}, sysdate)
 </insert>
 
-<select id="gradeselect" resultType="ChooTestDTO">
+<!-- <select id="gradeselect" resultType="ChooTestDTO">
 	select * from hosgrade where name=#{name} and addr=#{addr}
-</select>
+</select> -->
 
 <select id="gradecon" resultType="ChooTestDTO">
 	select * from hosgrade where num=#{num} and addr=#{addr}
 </select>
-
-<select id="goodCheck" resultType="int">
-	select good from hosgrade where num=#{num} and name=#{name} and addr=#{addr} and id=#{id}
-</select>
-
-<select id="badCheck" resultType="int">
-	select bad from hosgrade where num=#{num} and name=#{name} and addr=#{addr} and id#{id}
-</select>
-
-<update id="goodinsert">
-	update hosgrade
-	<set>
-		good=+1,
-		total=+1 
-	</set>
-	where num=#{num} and name=#{name} and addr=#{addr} and id=#{id}
-</update> 
-
-<update id="goodupdate">
-	update hosgrade
-	<set>
-		good=-1,
-		total=-1
-	</set>
-	where num=#{num} and name=#{name} and addr=#{addr} and id=#{id}
-</update>
 
 <select id="pwCheck" resultType="int">
 	select count(*) from hosgrade where num=#{num} and pw=#{pw}
@@ -80,7 +54,7 @@
 </insert>
 
 <select id="kakaomember" resultType="RohDTO">
-	select * from p2_kmember where id=#{id}
+	select * from p2_kmember where kid=#{kid}
 </select>
 
 <select id="kakaomember1" resultType="RohDTO">
@@ -129,11 +103,15 @@
 </select>
 
 <insert id="userhos">
-	insert into userhos(id,hosname,hosaddr) values(#{id}, #{hosname}, #{hosaddr})
+	insert into userhos(id,hosname,hosaddr,reg) values(#{id}, #{hosname}, #{hosaddr}, sysdate)
 </insert>
 
 <insert id="kakaouserhos">
-	insert into userhos(id,nick,hosname,hosaddr) values(#{id}, #{nick}, #{hosname}, #{hosaddr})
+	insert into userhos(id,nick,hosname,hosaddr,reg) values(#{id}, #{nick}, #{hosname}, #{hosaddr}, sysdate)
 </insert>
+
+<select id="userhosselect" resultType="Userhos">
+	select * from userhos where id=#{id}
+</select>
 
 </mapper>
