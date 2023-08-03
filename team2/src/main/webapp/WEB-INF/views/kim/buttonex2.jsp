@@ -269,7 +269,7 @@
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('손떨림') +
 						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
 						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
-					            	}       
+					            	}   
 					        	
 					                var link = hos1;
 					                var buttonText = buttonName; // Default text
@@ -281,7 +281,7 @@
 					                    buttonText = '내과';
 					                } else if (buttonName === '편두통') {
 					                    buttonText = '내과';
-					                } else if (buttonName === '손떨림') {
+					                } else if (buttonName === '손 떨림') {
 					                    buttonText = '내과';
 					                } 
 					                
