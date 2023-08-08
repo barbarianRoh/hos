@@ -30,7 +30,7 @@
                 <td>${itemSeqValues[status.index]}</td>
             </tr>          
             <tr>
-                <th>효능무엇</th>
+                <th>효능효과</th>
                 <td>${efcyQesitmValues[status.index]}</td>
             </tr>
    			<tr>
@@ -38,7 +38,7 @@
                 <td>${useMethodQesitmValues[status.index]}</td>
             </tr>          
             <tr>
-                <th>알아야함!</th>
+                <th>알아야 할 내용</th>
                 <td>${atpnWarnQesitmValues[status.index]}</td>
             </tr>
    			<tr>

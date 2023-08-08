@@ -42,7 +42,7 @@ public class HongController {
     private DataApiClient dataApiClient;
     
     // 목록페이지
-    @RequestMapping("total")
+    @RequestMapping("list")
     public String getMedicine(@RequestParam(defaultValue = "1") int page, Model model) throws IOException, ParserConfigurationException, SAXException {
 	try {
         String baseUrl = "https://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList";
@@ -289,7 +289,7 @@ public class HongController {
     public String searchentpname(@RequestParam("businessName") String businessName, Model model) throws IOException, ParserConfigurationException, SAXException {
         String baseUrl = "https://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList";
         String serviceKey = "MMbncKBwZqOh19KQELbd%2FeILVFSsR6IbbxB7%2BNF3Oz1uxb5VmjB9p%2BQ1LFZyk2F8RZ6QWiTXrf%2BhNb6G%2BiDWVw%3D%3D";
-
+    
         // businessname을 기반으로 검색하기위해 fetchMedicinessearchentpname 메서드를 실행에 medicines 에 반환
         List<Medicine> medicines = fetchMedicinessearchentpname(baseUrl, serviceKey, businessName);
 
@@ -297,8 +297,13 @@ public class HongController {
         model.addAttribute("medicines", medicines);
         // searchkeyword 속성을 entpname으로 설정해 업체명을 검색
         model.addAttribute("searchKeyword", "entpname");
-    	return "/hong/entpName";
-    }
+        
+        if(!businessName.isEmpty() && !medicines.isEmpty()) {
+        	return "/hong/entpName";
+        }else {
+        	return "hong/error";
+    	}
+    }   
     
     // 실제로 검색을 수행하는 메서드, api 요청에 대한 url을 구성하고 api 에서 xml 응답을 구문분석.
     private List<Medicine> fetchMedicinessearchentpname(String baseUrl, String serviceKey, String businessName) throws IOException, ParserConfigurationException, SAXException {
@@ -332,8 +337,8 @@ public class HongController {
     } 
     
 
-	@RequestMapping("othertotal")
-	public String othertotal(@RequestParam(defaultValue = "1") int page, Model model, String keyword2) throws ParserConfigurationException, SAXException, MalformedURLException, IOException {
+	@RequestMapping("otherlist")
+	public String otherlist(@RequestParam(defaultValue = "1") int page, Model model, String keyword2) throws ParserConfigurationException, SAXException, MalformedURLException, IOException {
 		
 		final int rowpages = 21;	// 한페이지당 보여줄 행의 수
        
@@ -402,7 +407,6 @@ public class HongController {
 		            ENTP_NAME_VALUES.add(entpName);
 		        }
 		    } else {
-		        System.out.println("No result");
 		        return "hong/error";
 		    }
 		    
@@ -583,13 +587,14 @@ public class HongController {
          model.addAttribute("NB_DOC_DATA_VALUES", NB_DOC_DATA_VALUES);
          model.addAttribute("ENTP_NAME_VALUES", ENTP_NAME_VALUES);
        
-    
-         return "/hong/otheritemName";
+         if(!ITEM_NAME_VALUES.isEmpty()) {
+        	 return "/hong/otheritemName";        	
+        }
          
         } catch (Exception e) {
             e.printStackTrace();
         }
-	    return "searchOtherItemName";
+	    return "/hong/error";
     }
     	
     @Autowired
