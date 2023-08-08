@@ -32,7 +32,7 @@
 	</tr>
 	<c:if test="${empty list}">
 		<tr align="center" height="30">
-			<td colspan="8">회원정보가 없습니다</td>
+			<td colspan="9">회원정보가 없습니다</td>
 		</tr>
 	</c:if>
 	<c:if test="${not empty list}">
@@ -62,7 +62,7 @@
 	<c:forEach var="i" begin="${startPage}" end="${endPage}">
 		<a href="/hos/roh/adminForm?pageNum=${i}">[${i}]</a>
 	</c:forEach>
-	<c:if test="${endPage > 9}">
+	<c:if test="${endPage > 9 && endPage - startPage}">
 		<a href="/hos/roh/adminForm?pageNum=${startPage + 10}">[다음]</a>
 	</c:if>
 </form>

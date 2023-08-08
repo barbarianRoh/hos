@@ -24,7 +24,7 @@
 		<div id="pagination">
 			<button id="first-page">처음</button>
 			<button id="prev-page">이전</button>
-			<span id="current-page">1</span> / <span id="total-pages">1</span>
+			<span id="current-page">1</span>/<span id="total-pages">1</span>
 			<button id="next-page">다음</button>
 			<button id="last-page">마지막</button>
 		</div>
@@ -46,7 +46,7 @@ var geolat = null, geolon = null; // 현 위치로 이동 기능 변수
 var geoInfoWindow = null; // 줌 변경 이벤트를 위해 미리 선언
 var keyword = null; // 장소검색용 키워드 변수
 
-if (navigator.geolocation) {
+if(navigator.geolocation) {
 
 	// GeoLocation을 이용해서 접속 위치를 얻어옵니다
 	navigator.geolocation.getCurrentPosition(function(position) {

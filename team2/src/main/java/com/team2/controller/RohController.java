@@ -43,6 +43,10 @@ public class RohController {
 	public String home() {
 		return "/roh/home";
 	}
+	@RequestMapping("test")
+	public String test() {
+		return "/roh/test";
+	}
 	
 	// 카카오맵 API+약국
 	@RequestMapping("pharmacyMap")
@@ -269,8 +273,8 @@ public class RohController {
 		
 		if(count > 0) {
 			int pageCount = count / pageSize + (count % pageSize == 0? 0:1);
-			int startPage = (int)(currentPage / 10) * 10 + 1;
 			int pageBlock = 10;
+			int startPage = (int)(currentPage / 10) * 10 + 1;
 			int endPage = startPage + pageBlock -1;
 			
 			if(endPage > pageCount) {endPage = pageCount;}
