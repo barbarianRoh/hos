@@ -8,8 +8,12 @@
     <meta charset="utf-8">
     <title>주소로 병원검색</title>
 </head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" >
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+
+
 <%-- 2100589fb32df980773796dffa657449 --%>
 
 <!-- 카카오맵API와 서비스, 클러스터기능 라이브러리 불러옴 -->
@@ -31,8 +35,10 @@ var mapOption = {
 var map = new kakao.maps.Map(mapContainer, mapOption);
 </script>
 
-<select name="sido1" id="sido1"></select>
-<select name="gugun1" id="gugun1"></select>
+<div class="d-flex justify-content-start">
+<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="sido1" id="sido1"></select>&nbsp;&nbsp;
+<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="gugun1" id="gugun1"></select>
+</div>
 
 <!-- Jquery를 이용한 지역선택기능 -->
 <script>
@@ -180,8 +186,10 @@ function panTo() {
 
 <form method = "get" name="hosselect" action="/hos/choo/hosapiresult">
 	<label for="selectOption"></label>
-	<select name="selectOption" id="selectOption" onchange="assignValue()">
-		<option value="">진료과선택</option>
+	<div class="d-flex justify-content-start">
+	
+	<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="selectOption" id="selectOption" onchange="assignValue()">
+		<option selected>진료과선택</option>
 		<option value="D001">내 과</option>
 		<option value="D002">소아과</option>
 		<option value="D003">신경과</option>
@@ -202,24 +210,27 @@ function panTo() {
 		<option value="D019">치료방사선과</option>
 		<option value="D022">가정의학과</option>
 		<option value="D026">치 과</option>
-	</select>
+	</select> &nbsp;&nbsp;
 	
 	<label for="hosType"></label>
-	<select name="hosType" id="hosType" onchange="TypeValue()">
-		<option value="">병원분류</option>
+	<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="hosType" id="hosType" onchange="TypeValue()">
+		<option selected>병원분류</option>
 		<option value="A">상급/종합병원</option>
 		<option value="B">병원</option>
 		<option value="C">의원</option>
 		<option value="M">치과병원</option>
 		<option value="N">치과의원</option>
 	</select>
+	&nbsp;&nbsp;
 	
 	<input type="hidden" id="Q0" name="Q0" value="">
 	<input type="hidden" id="Q1" name="Q1" value="">
 	<input type="hidden" id="selectedjinryo" name="QD" value="">
 	<input type="hidden" id="selecthos" name="QZ" value="">
 			
-	<input type="submit" value="검 색">
+	<input class="btn btn-primary" type="submit" value="검 색">
+	</div>
+	<br>
 </form>
 	
 <script>
@@ -271,7 +282,7 @@ function panTo() {
 	});
 </script>
 
-<button onclick="panTo()">내 위치로 이동</button>
+<button class="btn btn-info" onclick="panTo()">내 위치로 이동</button>
 
 <%-- <c:forEach var="dto" items="${hos}">
 	${dto.wgs84Lat}

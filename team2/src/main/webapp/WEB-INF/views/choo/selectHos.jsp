@@ -5,6 +5,8 @@
 <meta charset="utf-8">
 	<title>증상으로 병원찾기</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" >
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- 카카오맵API와 서비스, 클러스터기능 라이브러리 불러옴 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449&libraries=services,clusterer"></script>
@@ -24,8 +26,10 @@ var mapOption = {
 var map = new kakao.maps.Map(mapContainer, mapOption);
 </script>
 
-<select name="where1" id="where1"></select>
-<select name="apa1" id="apa1"></select>
+<div class="d-flex justify-content-start">
+<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="where1" id="where1"></select>
+<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="apa1" id="apa1"></select>
+</div>
 
 <script>
 $('document').ready(function(){
@@ -194,7 +198,7 @@ var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
 	<input type="hidden" id="Q0" name="Q0" value="">
 	<input type="hidden" id="Q1" name="Q1" value="">
 	
-	<input type="submit" value="검색">
+	<input class="btn btn-primary" type="submit" value="검색">
 </form>
 
-<button onclick="panTo()">내 위치로 이동</button>
+<button class="btn btn-info" onclick="panTo()">내 위치로 이동</button>

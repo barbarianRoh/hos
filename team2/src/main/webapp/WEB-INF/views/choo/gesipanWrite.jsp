@@ -4,41 +4,63 @@
 
 <title>의견글 작성</title>
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" >
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<br />
+<h1 class="text-center">고객센터 의견보내기</h1>
+
+<div class="d-flex justify-content-center">
 <form method="post" name="gesipanWrite" action="/hos/choo/gesipanWritePro?pageNum=${pageNum}">
-	<table width="1000" border="1" cellspacing="0" cellpadding="0">
+	<table width="1000"  cellspacing="0" cellpadding="0">
 		<tr height="30">
-			<td align="center" width="100">글제목</td>
-			<td width="100"><input type="text" size="100" maxlength="50" name="title"></td>
+			<td>
+				<div class="input-group mb-2">
+ 					<span class="input-group-text" id="basic-addon1" style="width:80px;">글제목</span>
+  					<input type="text" class="form-control" placeholder="제목을 입력해주세요" name="title" aria-describedby="basic-addon1">
+				</div>
+			</td>
 		</tr>
-		<tr height="30">
-			<td align="center" width="100">작성자</td>
-				
-			<c:if test="${memId != null}">
-				<td width="100">${memId}<input type="hidden" value="${memId}" name="id"></td>
-			</c:if>
+		<tr>
+			<td>
+				<div class="input-group mb-2">
+  					<span class="input-group-text" id="basic-addon1" style="width:80px;">작성자</span>
+						<c:if test="${memId != null}">
+							<input class="form-control" type="text" value="${memId}" name="id" readonly>
+						</c:if>
 			
-			<c:if test="${nick != null}">
-				<td width="100">${nick}<input type="hidden" value="${nick}" name="id"></td>
-			</c:if>
+						<c:if test="${nick != null}">
+							<input class="form-control" type="text" value="${nick}" name="id" readonly>
+						</c:if>
 			
-			<c:if test="${guest.equals(guest)}">
-				<td width="100"><input type="text" size="100" maxlength="50" name="id"></td>
-			</c:if>
+						<c:if test="${guest.equals(guest)}">
+							<input class="form-control" type="text" size="100" maxlength="50" name="id">
+						</c:if>
+				</div>
+			</td>
 		</tr>
 		<tr height="30">
-			<td align="center" width="300">글내용</td>
-			<td width="300"><textarea name="con" rows="44" cols="127"></textarea></td>
+			<td>
+				<div class="input-group mb-2">
+					<span class="input-group-text">글내용</span>
+					<textarea name="con" rows="20" cols="60" class="form-control" aria-label="With textarea" placeholder="내용을 입력해주세요"></textarea>	
+				</div>
+			</td>
 		</tr>
 		<tr height="30">
-			<td align="center" width="100">비밀번호</td>
-			<td width="100"><input type="text" size="100" maxlength="30" name="pw"></td>
+			<td>
+				<div class="input-group mb-2">
+ 					<span class="input-group-text" id="basic-addon1" style="width:80px;">비밀번호</span>
+  					<input type="text" class="form-control" placeholder="비밀번호를 입력해주세요" name="pw" aria-describedby="basic-addon1">
+				</div>
+			</td>
 		</tr>
 		<tr>
 			<td colspan="4" align="center">
-				<input type="submit" value="글작성">
-				<input type="reset" value="다시작성">
-				<input type="button" value="작성취소" onclick="location='gesipanmain?pageNum=${pageNum}'">
+				<input class="btn btn-primary" type="submit" value="글작성">
+				<input class="btn btn-secondary" type="reset" value="다시작성">
+				<input class="btn btn-danger" type="button" value="작성취소" onclick="location='gesipanmain?pageNum=${pageNum}'">
 			</td>
 		</tr>
 	</table>
 </form>
+</div>
