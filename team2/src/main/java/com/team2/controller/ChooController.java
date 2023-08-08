@@ -859,6 +859,7 @@ public class ChooController {
 	//글수정
 	@RequestMapping("updategradePro")
 	public String updategradePro(int num, String pw, Model model, ChooTestDTO dto, @RequestParam("name") String name, @RequestParam("addr") String addr, @RequestParam("pageNum") String pageNum) {
+		model.addAttribute("pw", pw);
 		int count = service.pwCheck(num, pw);
 		
 		if(count == 1) {
@@ -888,6 +889,7 @@ public class ChooController {
 	//글삭제
 	@RequestMapping("gradedelectPro")
 	public String gradedelectPro(Model model, int num, String pw, @RequestParam("name") String name, @RequestParam("addr") String addr, @RequestParam("pageNum") String pageNum) {
+		model.addAttribute("pw",pw);
 		int count = service.pwCheck(num,pw);
 		
 		if(count == 1) {
@@ -1044,6 +1046,7 @@ public class ChooController {
 	//고객센터 작성글 수정
 	@RequestMapping("gesipanupdatePro")
 	public String gesipanupdatePro(int num, String pw, String pageNum, Model model, ChooGesipan dto) {
+		model.addAttribute("pw",pw);
 		int check = service.pwcheck(num, pw);
 		
 		if(check == 1) {
@@ -1071,6 +1074,7 @@ public class ChooController {
 	//고객센터 작성글 삭제
 	@RequestMapping("gesipandelectPro")
 	public String gesipandelectPro(Model model, int num, String pageNum, String pw) {
+		model.addAttribute("pw",pw);
 		int check = service.pwcheck(num, pw);
 		
 		if(check == 1) {
@@ -1141,19 +1145,18 @@ public class ChooController {
 		String id = (String)session.getAttribute("sid");
 		String id1 = (String)session.getAttribute("kid");
 		
+		List<Userhos> hos = new ArrayList<Userhos>();
+		
 		if(id != null) {
-			List<Userhos> hos = service.userhosselect(id);
+			 hos = service.userhosselect(id);
 			model.addAttribute("hos",hos);
 			model.addAttribute("sid", id);
 		}else if(id1 != null) {
 			id = id1;
-			List<Userhos> hos = service.userhosselect(id);
-			System.out.println(hos.get(0).getHosaddr());
-			
+			hos = service.userhosselect(id);
 			model.addAttribute("hos",hos);
 			model.addAttribute("kid", id1);
 		}else {
-			String hos = "";
 			model.addAttribute("hos",hos);
 		}
 		

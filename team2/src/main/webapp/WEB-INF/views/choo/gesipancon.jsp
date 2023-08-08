@@ -2,23 +2,26 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" >
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <center><b>글내용보기</b></center>
 <br>
 <form>
-	<table align="center" width="1000" border="1" cellspacing="0" cellpadding="0">
+	<table class="table" align="center" width="1000" border="1" cellspacing="0" cellpadding="0">
 		<tr height="30">
-			<td align="center" width="50">글번호</td>
+			<td align="center" width="50" class="table-primary">글번호</td>
 			<td align="center" width="50" colspan="3">${dto.num}</td>
 		</tr>
 		<tr height="30">
-			<td align="center" width="50">작성자</td>
+			<td align="center" width="50" class="table-primary">작성자</td>
 			<td align="center" width="80">${dto.id}</td>
 			
-			<td align="center" width="50">글제목</td>
+			<td align="center" width="50" class="table-primary">글제목</td>
 			<td align="center" width="250">${dto.title}</td>
 		</tr>
 		<tr height="30">
-			<td align="center" width="50">글내용</td>
+			<td align="center" width="50" class="table-primary">글내용</td>
 			<td colspan="3" align="center" width="550">${dto.con}</td>
 		</tr>
 		<tr>
@@ -36,11 +39,11 @@
 	</table>
 	
 	<hr>
-	<hr>
+	
 	
 	<%-- 작성된 댓글이 있는지 없는지 확인 --%>
 	<c:if test="${list.size() == 0}">
-	<table align="center" width="1000" border="1" cellspacing="0" cellpadding="0">
+	<table class="table" align="center" width="1000" border="1" cellspacing="0" cellpadding="0">
 		<tr height="30">
 			<td align="center">작성된 댓글이 존재하지 않습니다</td>
 		</tr>

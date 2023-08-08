@@ -3,34 +3,56 @@
 
 <title>글수정</title>
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" >
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<br />
+
+<h1 class="text-center">병원평가 글수정</h1>
+
+<div class="d-flex justify-content-center">
 <form method="post" name="updategrade" action="/hos/choo/updategradePro?pageNum=${pageNum}">
-	<table align="center" width="1000" border="1" cellspacing="0" cellpadding="0">
+	<table width="1000" cellspacing="0" cellpadding="0">
 		<tr height="30">
-			<td align="center" width="70">글제목</td>
-			<td align="center" width="250"><input type="text" size="125" maxlength="50" name="title" value="${dto.title}"></td>
+			<td>
+				<div class="input-group mb-2">
+					<span class="input-group-text" id="basic-addon1" style="width:80px;">글제목</span>
+					<input type="text" class="form-control" name="title" value="${dto.title}">
+				</div>
+			</td>
 		</tr>
 		<tr>	
-			<td align="center" width="70">작성자</td>
-			<td align="left" width="250">${dto.id}</td>	
+			<td>
+				<div class="input-group mb-2">
+					<span class="input-group-text" id="basic-addon1" style="width:80px;">작성자</span>
+						<input class="form-control" type="text" value="${dto.id}" name="id" readonly>
+				</div>
+			</td>
 		</tr>
 		<tr height="30">
-			<td align="center" width="70">글내용</td>
-			<td colspan="3" align="center" width="550">
-				<textarea name="con" rows="44" cols="127">${dto.con}</textarea></td>
+			<td>
+				<div class="input-group mb-2">
+					<span class="input-group-text" style="width:80px;">글내용</span>
+					<textarea class="form-control" row="20" cols="60" value="${dto.con}" name="con">${dto.con}</textarea>
+				</div>
+			</td>
 		</tr>
-		<tr>
 		<tr height="30">
-			<td align="center" width="70">비밀번호</td>
-			<td width="100"><input type="text" size="25" maxlength="30" name="pw"></td>
+			<td>
+				<div class="input-group mb-2">
+ 					<span class="input-group-text" id="basic-addon1" style="width:80px;">비밀번호</span>
+  					<input type="text" class="form-control" placeholder="비밀번호를 입력해주세요" name="pw" aria-describedby="basic-addon1">
+				</div>
+			</td>
 		</tr>
 		<tr>
 			<td colspan="4" align="right">
-				<input type="submit" value="글수정">
-				<input type="reset" value="다시작성">
-				<input type="button" value="글목록" onclick="location.href='hosgrade?name=${name}&addr=${addr}&pageNum=${pageNum}'"></td>
+				<input class="btn btn-primary" type="submit" value="글수정">
+				<input class="btn btn-secondary" type="reset" value="다시작성">
+				<input class="btn btn-danger" type="button" value="글목록" onclick="location.href='hosgrade?name=${name}&addr=${addr}&pageNum=${pageNum}'"></td>
 		</tr>
 	</table>
 			<input type="hidden" name="num" value="${dto.num}">
 			<input type="hidden" name="name" value="${name}">
 			<input type="hidden" name="addr" value="${addr}">
 </form>
+</div>
