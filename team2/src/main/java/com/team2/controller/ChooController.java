@@ -752,6 +752,9 @@ public class ChooController {
 	//글작성
 	@RequestMapping("gradeWritePro")
 	public String gradeWritePro(ChooTestDTO dto, @RequestParam("name") String name, @RequestParam("addr") String addr, @RequestParam("pageNum") String pageNum,Model model) {
+		String con = dto.getCon();
+		con = con.replace("\r\n","<br>");		//게시글을 작성했을 때 엔터키가 눌린 부분에 자동으로 <br>이 채워지는데 개행문자라는 기능이 들어감
+		dto.setCon(con);
 		service.insert(dto);
 		model.addAttribute("name",name);
 		model.addAttribute("addr",addr);
@@ -863,6 +866,9 @@ public class ChooController {
 		int count = service.pwCheck(num, pw);
 		
 		if(count == 1) {
+			String con = dto.getCon();
+			con = con.replace("\r\n","<br>");		//게시글을 작성했을 때 엔터키가 눌린 부분에 자동으로 <br>이 채워지는데 개행문자라는 기능이 들어감
+			dto.setCon(con);
 			service.gradeUpdate(dto);
 			model.addAttribute("chack", count);
 			model.addAttribute("name",name);
@@ -982,6 +988,9 @@ public class ChooController {
 	//고객센터 게시판 글작성
 	@RequestMapping("gesipanWritePro")
 	public String gesipanWritePro(Model model, String pageNum, ChooGesipan dto) {
+		String con = dto.getCon();
+		con = con.replace("\r\n","<br>");		//게시글을 작성했을 때 엔터키가 눌린 부분에 자동으로 <br>이 채워지는데 개행문자라는 기능이 들어감
+		dto.setCon(con);
 		service.gesipaninsert(dto);
 		model.addAttribute("pageNum", pageNum);
 		return "choo/gesipanWritePro";
@@ -1050,6 +1059,9 @@ public class ChooController {
 		int check = service.pwcheck(num, pw);
 		
 		if(check == 1) {
+			String con = dto.getCon();
+			con = con.replace("\r\n","<br>");		//게시글을 작성했을 때 엔터키가 눌린 부분에 자동으로 <br>이 채워지는데 개행문자라는 기능이 들어감
+			dto.setCon(con);
 			service.gesipanupdate(dto);
 			model.addAttribute("count",check);
 			model.addAttribute("pageNum",pageNum);
