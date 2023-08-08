@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <script defer type="text/javascript" src="/hos/resources/js/body.content.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f4352b5c75fa4dee61f430ab3f1ff6f4&libraries=services"></script>
 <link rel="stylesheet" type="text/css" href="/hos/resources/css/symptom2.css">
 <title>증상체크</title>
     <style>
@@ -21,7 +22,44 @@
 
         /* 기존 CSS 스타일들 */
     </style>
-
+	<script>
+	var address = null;
+	var sido = null;
+	var gugun = null;
+	
+	if(navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(onSuccess, onError);
+	} else {
+		console.log("Geolocation 위치정보 오류")
+	}
+	
+	function onSuccess(position) {
+		var latitude = position.coords.latitude;
+		var longitude = position.coords.longitude;
+		var coords = new kakao.maps.LatLng(latitude, longitude);
+		
+		var geocoder = new kakao.maps.services.Geocoder();
+		
+		geocoder.coord2Address(coords.getLng(), coords.getLat(), function(result, status) {
+			if(status === kakao.maps.services.Status.OK) {
+				address = result[0].address.address_name;
+				
+				sido = result[0].address.address_name.split(" ")[0];
+				gugun = result[0].address.address_name.split(" ")[1];
+				
+				console.log(address);
+				console.log(sido);
+				console.log(gugun);
+			} else {
+				console.error("Error getting address: ", status);
+			}
+		});
+	}
+	
+	function onError(error) {
+		console.error("Error getting location: ", error.message);
+	}
+	</script>
 </head>
 
 
@@ -64,10 +102,6 @@
 					        };
 					        
 							var hos1 = 'http://localhost:8080/hos/choo/resultHos';
-							var W0 = W0;
-							var W1 = W1;
-							var Q0 = Q0;
-							var Q1 = Q1;
 					
 					        var customButtonLinks = {
 					            head: {
@@ -132,143 +166,143 @@
 					            	if(buttonName === '통증'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('비뇨기') +
 							                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('통증') +
-							                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-							                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+							                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+							                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '혈뇨'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('비뇨기') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('혈뇨') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '어지럼증'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('머리') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('어지럼증') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '요실금'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('비뇨기') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('요실금') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '두통'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('머리') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('두통') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '편두통'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('머리') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('편두통') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '손 떨림'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('머리') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('손 떨림') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	}else if(buttonName === '구토'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('배') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('구역질/구토') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '복통'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('배') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('복통') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '설사'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('배') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('설사') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '변비'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('배') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('변비') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '속쓰림'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('배') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('속쓰림') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '눈 충혈'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('눈충혈') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '저시력'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('저시력') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '눈간지럼'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('눈간지럼') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '귀 통증'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('귀통증') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '이명'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('이명') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '난청'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('난청') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '이 통증'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('이통증') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '이 시림'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('이시림') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '잇몸 출혈'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('잇몸출혈') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '코 막힘'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('코막힘') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '객혈'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('객혈') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '호흡곤란'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('호흡곤란') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '흉통'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('흉통') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '기침'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('기침') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '가슴쓰림'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('가슴쓰림') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	} else if(buttonName === '손떨림'){
 						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('머리') +
 						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('손떨림') +
-						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') +
-						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구');
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
 					            	}       
 					        	
 					                var link = hos1;
@@ -514,49 +548,49 @@
 			
 			        				<li>
 			        					<label>
-				        					<input class="body_type" type="radio" name="inputBody">
+				        					<input class="body_type" type="radio" name="inputBody" value ="머리" > <!-- 외과 -->
 				        					<span class="label">머리</span>
 			        					</label>
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody">
+			        						<input class="body_type" type="radio" name="inputBody" value ="정신"> <!-- 정신과 -->
 			        						<span class="label">정신</span>
 			        					</label>	
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-				        					<input class="body_type" type="radio" name="inputBody">
+				        					<input class="body_type" type="radio" name="inputBody" value ="얼굴">
 				        					<span class="label">얼굴</span>
 			        					</label>
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-				        					<input class="body_type" type="radio" name="inputBody">
+				        					<input class="body_type" type="radio" name="inputBody"> <!-- 내과 -->
 				        					<span class="label">목</span>
 				        				</label>	
 			        				</li> 
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody">
+			        						<input class="body_type" type="radio" name="inputBody"> <!-- 내과  -->
 			        						<span class="label">가슴/등</span>
 			        					</label>	
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-				        					<input class="body_type" type="radio" name="inputBody">
+				        					<input class="body_type" type="radio" name="inputBody" > <!-- 내과 -->
 				        					<span class="label">복부</span>
 				        				</label>	
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody">
+			        						<input class="body_type" type="radio" name="inputBody"><!--비뇨기과 -->
 			        						<span class="label">생식/비뇨기</span>
 			        					</label>	
 			        				</li>
@@ -577,14 +611,14 @@
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody">
+			        						<input class="body_type" type="radio" name="inputBody" >
 			        						<span class="label">뼈/근육</span>
 			        					</label>	
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody">
+			        						<input class="body_type" type="radio" name="inputBody" id ="skin"> <!-- 피부과  -->
 			        						<span class="label">피부</span>
 			        					</label>
 			        				</li>			        				        				        				        				        				        				        				        				       				        				        				        				
@@ -592,36 +626,19 @@
 			        			<div class="btn-area">
 			        				<button class="btn_search btn btn-lg btn-round btn-primary" type="button">검색</button>
 				        			<script>
-					        			$(function() {
-					        				  var urlTable = [
-					        				    "https://www.naver.com",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D003&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D004&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D014&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D008&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D008&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D016&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    //링크 변경 시키기
-					        				  ];
-	
-					        				  var selectedUrl = urlTable[0];
-	
-					        				  $(".body_type").click(function() {
-					        				    var selectedIndex = $(".body_type").index(this);
-					        				    selectedUrl = urlTable[selectedIndex];
-					        				  });
-	
-					        				  $(".btn_search").click(function() {
-					        				    window.open(selectedUrl, "_blank");
-					        				  });
-					        				});
+				        			$(function() {
+				        				  $(".btn_search").click(function() {
+				        				    // 새로운 버튼 요소 생성
+				        				    var newButton = $("<button>");
+				        				    newButton.addClass("custom-button");
+				        				    newButton.text("새 버튼");
 
-				        			</script>
+				        				    // 새로운 버튼을 버튼 컨테이너에 추가
+				        				    $("#buttonContainer").append(newButton);
+				        				  });
+				        				});
+
+					        		</script>
 			        			</div>			        			
 			        		</fieldset>       	
         				</form> 

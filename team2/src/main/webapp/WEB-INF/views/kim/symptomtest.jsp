@@ -572,18 +572,47 @@
 					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
 					        				    //링크 변경 시키기
 					        				  ];
-	
+					        				  
 					        				  var selectedUrl = urlTable[0];
-	
-					        				  $(".body_type").click(function() {
-					        				    var selectedIndex = $(".body_type").index(this);
-					        				    selectedUrl = urlTable[selectedIndex];
-					        				  });
-	
+					        				  
+					        				  var nButtonNames  = [
+					        					  "병원1",
+					        					  "병원1",
+					        					  "병원1",
+					        					  "병원1",
+					        					  "병원1",
+					        					  "병원1",
+					        					  "병원1",
+					        					  "병원1",
+					        					  "병원1",
+					        					  "병원1",
+					        					  "병원1",
+					        					  "병원1"
+					        				  ];
+					        				  
 					        				  $(".btn_search").click(function() {
-					        				    window.open(selectedUrl, "_blank");
-					        				  });
-					        				});
+					        					    // 이전 버튼을 지웁니다
+					        					    $("#buttonContainer").empty();
+
+					        					    // 새로운 버튼 생성 및 추가
+					        					    for (var i = 0; i < nButtonNames.length; i++) {
+					        					      var newButton = $("<button>");
+					        					      newButton.addClass("custom-button");
+					        					      newButton.text(nButtonNames[i]);
+					        					      newButton.click(function() {
+					        					        // 버튼 클릭 동작
+					        					        // 여기에 사용자 정의 기능을 추가할 수 있습니다
+					        					        // 예를 들어 클릭한 버튼에 따라 특정 URL로 이동하려면
+					        					        var buttonIndex = $(this).index();
+					        					        if (buttonIndex >= 0 && buttonIndex < urlTable.length) {
+					        					          selectedUrl = urlTable[buttonIndex];
+					        					          window.open(selectedUrl, "_blank");
+					        					        }
+					        					      });
+					        					      $("#buttonContainer").append(newButton);
+					        					    }
+					        					  });
+					        					});
 
 				        			</script>
 			        			</div>			        			
