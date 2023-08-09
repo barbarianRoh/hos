@@ -10,7 +10,7 @@
     
     <table>
         <tr>
-            <th>Item Name</th>
+            <th>제품명</th>
         </tr>
         <!-- list로 된 컬렉션에 dto 변수를 넣음 -->
         <c:forEach items="${list}" var="dto">
