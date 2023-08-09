@@ -548,97 +548,142 @@
 			
 			        				<li>
 			        					<label>
-				        					<input class="body_type" type="radio" name="inputBody" value ="머리" > <!-- 외과 -->
+				        					<input class="body_type" type="radio" name="inputBody" value ="head" > <!-- 외과 -->
 				        					<span class="label">머리</span>
 			        					</label>
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody" value ="정신"> <!-- 정신과 -->
+			        						<input class="body_type" type="radio" name="inputBody" value ="psyco"> <!-- 정신과 -->
 			        						<span class="label">정신</span>
 			        					</label>	
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-				        					<input class="body_type" type="radio" name="inputBody" value ="얼굴">
+				        					<input class="body_type" type="radio" name="inputBody" value ="face">
 				        					<span class="label">얼굴</span>
 			        					</label>
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-				        					<input class="body_type" type="radio" name="inputBody"> <!-- 내과 -->
+				        					<input class="body_type" type="radio" name="inputBody" value = "neck"> <!-- 내과 -->
 				        					<span class="label">목</span>
 				        				</label>	
 			        				</li> 
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody"> <!-- 내과  -->
+			        						<input class="body_type" type="radio" name="inputBody" value = "chest"> <!-- 내과  -->
 			        						<span class="label">가슴/등</span>
 			        					</label>	
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-				        					<input class="body_type" type="radio" name="inputBody" > <!-- 내과 -->
+				        					<input class="body_type" type="radio" name="inputBody" value = "abdomen"> <!-- 내과 -->
 				        					<span class="label">복부</span>
 				        				</label>	
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody"><!--비뇨기과 -->
+			        						<input class="body_type" type="radio" name="inputBody" value ="urology"><!--비뇨기과 -->
 			        						<span class="label">생식/비뇨기</span>
 			        					</label>	
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody">
+			        						<input class="body_type" type="radio" name="inputBody" value = "arm">
 			        						<span class="label">팔과 손</span>
 			        					</label>	
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody">
+			        						<input class="body_type" type="radio" name="inputBody" value = "leg">
 			        						<span class="label">다리와 발</span>
 			        					</label>
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody" >
+			        						<input class="body_type" type="radio" name="inputBody" value = "born">
 			        						<span class="label">뼈/근육</span>
 			        					</label>	
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody" id ="skin"> <!-- 피부과  -->
+			        						<input class="body_type" type="radio" name="inputBody" value ="skin"> <!-- 피부과  -->
 			        						<span class="label">피부</span>
 			        					</label>
 			        				</li>			        				        				        				        				        				        				        				        				       				        				        				        				
 			        			</ul>
 			        			<div class="btn-area">
 			        				<button class="btn_search btn btn-lg btn-round btn-primary" type="button">검색</button>
-				        			<script>
-				        			$(function() {
-				        				  $(".btn_search").click(function() {
-				        				    // 새로운 버튼 요소 생성
-				        				    var newButton = $("<button>");
-				        				    newButton.addClass("custom-button");
-				        				    newButton.text("새 버튼");
+										<script>
+										$(function() {
+										  $(".btn_search").click(function() {
+										    var selectedBody = $("input[name='inputBody']:checked").val();
+										    var newButton = $("<button>");
+										    newButton.addClass("custom-button");
+										
+										    if (selectedBody === "on") {
+										      newButton.text("종합병원");
+										      newButton.attr("data-link", "https://www.example.com/general_hospital");
+										    } else if (selectedBody === "head") {
+										      newButton.text("외과");
+										      newButton.attr("data-link", "http://localhost:8080/hos/choo/hosapiresult?selectOption=D006&hosType=A&Q0=&Q1=&QD=D006&QZ=A");
+										    } else if (selectedBody === "psyco") {
+										      newButton.text("정신과");
+										      newButton.attr("data-link", "http://localhost:8080/hos/choo/hosapiresult?selectOption=D004&hosType=A&Q0=&Q1=&QD=D004&QZ=A");
+										    } else if (selectedBody === "face") {
+											      newButton.text("내과");
+											      newButton.attr("data-link", "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D001&QZ=");
+										    } else if (selectedBody === "neck") {
+											      newButton.text("이비인후과");
+											      newButton.attr("data-link", "http://localhost:8080/hos/choo/hosapiresult?selectOption=D013&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D013&QZ=");
+										    } else if (selectedBody === "chest") {
+											      newButton.text("흉부외과");
+											      newButton.attr("data-link", "https://www.example.com/psychiatry");
+											} else if (selectedBody === "abdomen") {
+											      newButton.text("내과");
+											      newButton.attr("data-link", "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D001&QZ=");
+											} else if (selectedBody === "urology") {
+											      newButton.text("비뇨기과");
+											      newButton.attr("data-link", "https://www.example.com/psychiatry");
+											} else if (selectedBody === "arm") {
+											      newButton.text("외과");
+											      newButton.attr("data-link", "http://localhost:8080/hos/choo/hosapiresult?selectOption=D006&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D006&QZ=");
+											} else if (selectedBody === "leg") {
+											      newButton.text("외과");
+											      newButton.attr("data-link", "http://localhost:8080/hos/choo/hosapiresult?selectOption=D006&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D006&QZ=");
+											} else if (selectedBody === "born") {
+											      newButton.text("정형외과");
+											      newButton.attr("data-link", "http://localhost:8080/hos/choo/hosapiresult?selectOption=D008&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D008&QZ=");
+											} else if (selectedBody === "skin") {
+											      newButton.text("피부과");
+											      newButton.attr("data-link", "http://localhost:8080/hos/choo/hosapiresult?selectOption=D005&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D005&QZ=");
+											}
+										    
+										    // Add more cases for other body parts...
+										
+										    newButton.click(function() {
+										      var link = $(this).attr("data-link");
+										      window.open(link, "_blank");
+										    });
+											
+										    $("#buttonContainer").empty();
 
-				        				    // 새로운 버튼을 버튼 컨테이너에 추가
-				        				    $("#buttonContainer").append(newButton);
-				        				  });
-				        				});
+										    $("#buttonContainer").append(newButton);
+										  });
+										});
+										</script>
 
-					        		</script>
 			        			</div>			        			
 			        		</fieldset>       	
         				</form> 

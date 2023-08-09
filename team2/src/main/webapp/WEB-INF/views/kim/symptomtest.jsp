@@ -6,10 +6,60 @@
 <meta charset="UTF-8">
 <script defer type="text/javascript" src="/hos/resources/js/body.content.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/hos/resources/css/symptom.css">
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f4352b5c75fa4dee61f430ab3f1ff6f4&libraries=services"></script>
+<link rel="stylesheet" type="text/css" href="/hos/resources/css/symptom2.css">
 <title>증상체크</title>
+    <style>
+        .symptompage {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
+        #buttonContainer {
+            margin-bottom: auto;
+        }
 
+        /* 기존 CSS 스타일들 */
+    </style>
+	<script>
+	var address = null;
+	var sido = null;
+	var gugun = null;
+	
+	if(navigator.geolocation) {
+		navigator.geolocation.getCurrentPosition(onSuccess, onError);
+	} else {
+		console.log("Geolocation 위치정보 오류")
+	}
+	
+	function onSuccess(position) {
+		var latitude = position.coords.latitude;
+		var longitude = position.coords.longitude;
+		var coords = new kakao.maps.LatLng(latitude, longitude);
+		
+		var geocoder = new kakao.maps.services.Geocoder();
+		
+		geocoder.coord2Address(coords.getLng(), coords.getLat(), function(result, status) {
+			if(status === kakao.maps.services.Status.OK) {
+				address = result[0].address.address_name;
+				
+				sido = result[0].address.address_name.split(" ")[0];
+				gugun = result[0].address.address_name.split(" ")[1];
+				
+				console.log(address);
+				console.log(sido);
+				console.log(gugun);
+			} else {
+				console.error("Error getting address: ", status);
+			}
+		});
+	}
+	
+	function onError(error) {
+		console.error("Error getting location: ", error.message);
+	}
+	</script>
 </head>
 
 
@@ -32,310 +82,333 @@
 						margin-right: 100px;
 						
 					">
-						<button class="ghost-button">.</button>
-						<button id="head" class="ghost-button" onclick="createNewButton('head')">머리</button>
+						<button class="ghost-button"></button>
+						<input type="button" class="ghost-button" value="머리" id="head" onclick="addNewButton('head', 3)">
 
-							<script>
-							    let headButtonClicked = false;
-							    let abdomenButtonClicked = false;
-							    let faceButtonClicked = false;
-							    let urologyButtonClicked = false;
-								
-							    
-							    
-							    function applyCustomStyleToButton(newButton) {
-							        // 여기에 새로운 버튼에 원하는 스타일을 적용하는 코드를 작성합니다.
-							        newButton.style.backgroundColor = '#4CAF50'; // 녹색 배경색
-							        newButton.style.border = 'none'; // 테두리 없음
-							        newButton.style.color = 'white'; // 흰색 텍스트 색상
-							        newButton.style.padding = '10px 20px'; // 패딩 추가
-							        newButton.style.textAlign = 'center'; // 가운데 정렬
-							        newButton.style.textDecoration = 'none'; // 밑줄 제거
-							        newButton.style.display = 'inline-block'; // 블록 요소로 표시
-							        newButton.style.margin = '4px 2px'; // 마진 추가
-							        newButton.style.cursor = 'pointer'; // 커서를 포인터로 변경하여 호버 효과 생성
-							        newButton.style.borderRadius = '4px'; // 둥근 모서리
-
-							        // 버튼 호버 효과
-							        newButton.addEventListener('mouseover', function () {
-							            newButton.style.backgroundColor = '#45a049'; // 호버 시 어두운 녹색 배경색
-							        });
-
-							        newButton.addEventListener('mouseout', function () {
-							            newButton.style.backgroundColor = '#4CAF50'; // 호버 해제 시 다시 원래 배경색으로
-							        });
-							    }
-							    
-							    function toggleButton(buttonType) {
-							        if (buttonType === 'Urology' && !urologyButtonClicked) {
-							            createNewButton('Urology');
-							            urologyButtonClicked = true;
-							        } else if (buttonType === 'head' && !headButtonClicked) {
-							            createNewButton('head');
-							            headButtonClicked = true;
-							        } else if (buttonType === 'abdomen' && !abdomenButtonClicked) {
-							            createNewButton('abdomen');
-							            abdomenButtonClicked = true;
-							        } else if (buttonType === 'face' && !faceButtonClicked) {
-							            createNewButton('face');
-							            faceButtonClicked = true;
-							        } else if (buttonType === 'chest' && !chestButtonClicked) {
-							            createNewButton('chest');
-							            chestButtonClicked = true;
-							        }  else if (buttonType === 'neck' && !neckButtonClicked) {
-							            createNewButton('neck');
-							            neckButtonClicked = true;
-							        }  else {
-							            // Remove event listeners for all buttons
-							            document.getElementById('Urology').removeEventListener('click', function () {
-							                toggleButton('Urology');
-							            });
-							            document.getElementById('head').removeEventListener('click', function () {
-							                toggleButton('head');
-							            });
-							            document.getElementById('abdomen').removeEventListener('click', function () {
-							                toggleButton('abdomen');
-							            });
-							            document.getElementById('face').removeEventListener('click', function () {
-							                toggleButton('face');
-							            });
-							            document.getElementById('chest').removeEventListener('click', function () {
-							                toggleButton('chest');
-							            });
-							            document.getElementById('neck').removeEventListener('click', function () {
-							                toggleButton('neck');
-							            });							            
-							        }
-							    }
-							
-							    function createNewButton(buttonType) {
-							        let containerId;
-							        let newButtonClassName;
-							        let newButtonData = [];
-							        
-									var hos1 = 'http://localhost:8080/hos/choo/resultHos';
-									var hos2 = 'http://localhost:8080/hos/choo/resultHos';
-									var hos3 = 'http://localhost:8080/hos/choo/resultHos';
-									var hos4 = 'http://localhost:8080/hos/choo/resultHos';
-									var hos5 = 'http://localhost:8080/hos/choo/resultHos';
-									var hos6 = 'http://localhost:8080/hos/choo/resultHos';
-									var hos7 = 'http://localhost:8080/hos/choo/resultHos';
-									var hos8 = 'http://localhost:8080/hos/choo/resultHos';
-									var hos9 = 'http://localhost:8080/hos/choo/resultHos';
-									var hos10 = 'http://localhost:8080/hos/choo/resultHos';
-									var hos11 = 'http://localhost:8080/hos/choo/resultHos';
-									var W0 = W0;
-									var W1 = W1;
-									var Q0 = Q0;
-									var Q1 = Q1;
-							        if (buttonType === 'Urology') {
-							            containerId = 'buttonContainer-Urology';
-							            newButtonClassName = 'new-Ubutton';
-							            newButtonData = [
-							                { label: '통증', link: '통증 관련 링크' },
-							                { label: '혈뇨', link: '혈뇨 관련 링크' },
-							                { label: '요실금', link: '요실금 관련 링크' },
-							            ];
-
-							            clearContainers(['buttonContainer-head', 'buttonContainer-abdomen', 'buttonContainer-face', 'buttonContainer-chest', 'buttonContainer-neck']);
-
-							            // 새로운 버튼들을 생성하고 이벤트 리스너를 추가합니다.
-							            let container = document.getElementById(containerId);
-							            while (container.firstChild){
-							            	container.removeChild(container.firstChild);
-							            }
-							            
-							            newButtonData.forEach((data)=>{
-							            	let newButton = document.createElement('a');
-							            	newButton.className = newButtonClassName;
-							            	newButton.innerHTML = data.label;
-							            	newButton.href = data.link;
-							            	newButton.target = '_blank';// 새창에서 열기
-							            	container.appendChile(newButton);
-							            	
-							            	newButton.addEventListener('click',function(){
-							                    if (buttonType === 'head' || buttonType === 'abdomen' || buttonType === 'face' || buttonType === 'Urology' || buttonType === 'chest' || buttonType === 'neck') {
-							                        toggleButton(buttonType);
-							                    }else{}
-							            	});
-							            });
-	
-							
-							            clearContainers(['buttonContainer-head', 'buttonContainer-abdomen', 'buttonContainer-face','buttonContainer-chest','buttonContainer-neck']);
-							            headButtonClicked = false;
-							            abdomenButtonClicked = false;
-							            faceButtonClicked = false;
-							            chestButtonClicked = false;
-							            neckButtonClicked = false;							            
-							        } else if (buttonType === 'head') {
-							            containerId = 'buttonContainer-head';
-							            newButtonClassName = 'new-Hbutton';
-							            newButtonData = [
-							                { label: '두통', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('머리') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('두통')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구') },
-							                { label: '어지러움', link: hos2 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('머리') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('어지러움')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구') },
-							                { label: '편두통', link: hos4 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('머리') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('편두통')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '손떨림', link: hos5 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('머리') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('손떨림')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')}
-							            ];
-							
-							            clearContainers(['buttonContainer-Urology', 'buttonContainer-abdomen', 'buttonContainer-face','buttonContainer-chest','buttonContainer-neck']);
-							            urologyButtonClicked = false;
-							            abdomenButtonClicked = false;
-							            faceButtonClicked = false;
-							            chestButtonClicked = false;
-							            neckButtonClicked = false;							            
-							        } else if (buttonType === 'abdomen') {
-							            containerId = 'buttonContainer-abdomen';
-							            newButtonClassName = 'new-Abutton';
-							            newButtonData = [
-							                { label: '구토', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('배') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('구역질/구토') + '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '복통', link: hos2 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('배') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('복통')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '설사', link: hos3 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('배') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('설사')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '변비', link: hos4 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('배') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('변비')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '속쓰림', link: hos5 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('배') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('속쓰림')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')}
-							            ];
-							
-							            clearContainers(['buttonContainer-Urology', 'buttonContainer-head', 'buttonContainer-face','buttonContainer-chest','buttonContainer-neck']);
-							            urologyButtonClicked = false;
-							            headButtonClicked = false;
-							            faceButtonClicked = false;
-							            chestButtonClicked = false;
-							            neckButtonClicked = false;							            
-							        } else if (buttonType === 'face') {
-							            containerId = 'buttonContainer-face';
-							            newButtonClassName = 'new-Fbutton';
-							            newButtonData = [
-							                { label: '눈 충혈', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('눈충혈')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '저시력', link: hos6 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('저시력')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '눈 가지럼', link: hos2 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('눈간지럼') + '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '귀 통증', link: hos3 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('귀통증') + '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '이명', link: hos4 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('이명') + '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '난청', link: hos5 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('난청')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구') },
-							                { label: '이 통증', link: hos7 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('이통증')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '이 시림', link: hos8 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('이시림')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '잇몸 출혈', link: hos9 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('잇몸출혈')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '코 막힘', link: hos10 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('코막힘')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '얼굴 떨림', link: hos11 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('얼굴떨림')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')}
-							            ];
-							
-							            clearContainers(['buttonContainer-Urology', 'buttonContainer-head', 'buttonContainer-abdomen','buttonContainer-chest','buttonContainer-neck']);
-							            urologyButtonClicked = false;
-							            headButtonClicked = false;
-							            abdomenButtonClicked = false;
-							            chestButtonClicked = false;
-							            neckButtonClicked = false;
-							        } else if (buttonType === 'chest') {
-							            containerId = 'buttonContainer-chest';
-							            newButtonClassName = 'new-Cbutton';
-							            newButtonData = [
-							                { label: '객혈', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('객혈')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '호흡곤란', link: hos2 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('호흡곤란')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '흉통', link: hos3 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('흉통')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '기침', link: hos4 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('기침')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '가슴쓰림', link: hos5 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('가슴쓰림')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')}
-							            ];
-							
-							            clearContainers(['buttonContainer-Urology', 'buttonContainer-head', 'buttonContainer-abdomen','buttonContainer-neck','buttonContainer-face']);
-							            urologyButtonClicked = false;
-							            headButtonClicked = false;
-							            abdomenButtonClicked = false;
-							            neckButtonClicked = false;
-							            faceButtonClicked = false;
-							        } else if (buttonType === 'neck') {
-							            containerId = 'buttonContainer-neck';
-							            newButtonClassName = 'new-Nbutton';
-							            newButtonData = [
-							                { label: '목 통증', link: hos1 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('목') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('목 통증') + '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')},
-							                { label: '가래', link: hos2 += '?' + encodeURIComponent('W0') + '=' + encodeURIComponent('목') + '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('가래')+ '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent('서울') + '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent('관악구')}
-							            ];
-							
-							            clearContainers(['buttonContainer-Urology', 'buttonContainer-head', 'buttonContainer-abdomen','buttonContainer-face','buttonContainer-chest']);
-							            urologyButtonClicked = false;
-							            headButtonClicked = false;
-							            abdomenButtonClicked = false;
-							            faceButtonClicked = false;
-							            chestButtonClicked = false;
-							        }
-							
-							        let container = document.getElementById(containerId);
-							        newButtonData.forEach((data) => {
-							            let newButton = document.createElement('a');
-							            newButton.className = newButtonClassName;
-							            newButton.innerHTML = data.label;
-							            newButton.href = data.link;
-							            newButton.target = '_blank'; // 새 창에서 링크 열기
-							            container.appendChild(newButton);
-							        });
-							    }
-							    
-							    document.body.addEventListener('click',function(event){
-							    	if(event.target.classList.contains('new-Hbuton')){
-							    		let symptomName = event.target.innerText;
-							    		updateSymptomCount(symptomName)
-							    	}
-							    })
-							    
-							    function updateSymptomCount(symptomName){
-							    	featch('/updateSymptomCount?symptomName='+ encodeURIComponent(symptomName))
-							    		.then(response =>{
-							    			if(response.ok){
-							    				
-							    			}else{
-							    				
-							    			}
-							    		})
-							    		.catch(error =>{
-							    			
-							    		});
-							    }
-								
-							    // 각 섹션 버튼에 대한 이벤트 리스너
-							    document.getElementById('head').addEventListener('click', function () {
-							        toggleButton('head');
-							    });
-							
-							    document.getElementById('abdomen').addEventListener('click', function () {
-							        toggleButton('abdomen');
-							    });
-							
-							    document.getElementById('face').addEventListener('click', function () {
-							        toggleButton('face');
-							    });
-							
-							    document.getElementById('Urology').addEventListener('click', function () {
-							        toggleButton('Urology');
-							    });
-							    
-							    document.getElementById('chest').addEventListener('click', function () {
-							        toggleButton('chest');
-							    });
-							    
-							    document.getElementById('neck').addEventListener('click', function () {
-							        toggleButton('neck');
-							    });
-							
-							    function clearContainers(containerIds) {
-							        containerIds.forEach((id) => {
-							            let container = document.getElementById(id);
-							            while (container.firstChild) {
-							                container.removeChild(container.firstChild);
-							            }
-							        });
-							    }
-							</script>
+					    <script>
+					        var customButtonNames = {
+					            head: ['두통', '어지럼증', '편두통'],
+					            urology:['통증','혈뇨','요실금'],
+					            abdomen:['구토','복통','설사','변비','속쓰림'],
+					            face:['눈 충혈','저시력','눈간지럼','코 막힘'],
+					            chest:['객혈','호흡곤란','흉통','가슴쓰림'],
+					            ear:['귀 통증','이명','난청'],
+					            mouth:['이 통증','이 시림','잇몸 출혈'],
+					            neck:['기침'],
+					            hand:['손떨림']
+					        
+					            	
+					            // Add more custom button names and links here
+					        };
+					        
+							var hos1 = 'http://localhost:8080/hos/choo/resultHos';
+					
+					        var customButtonLinks = {
+					            head: {
+					                '두통': '',
+					                '어지럼증': '',
+					                '편두통': '',
+					                '손 떨림': ''
+					            },
+					            urology: {
+					                '통증': '',
+					                '혈뇨': '',
+					                '요실금': ''
+					            },
+					            abdomen: {
+					                '구토': '',
+					                '복통': '',
+					                '설사': '',
+					                '변비': '',
+					                '속쓰림': ''
+					                
+					            },
+					            face: {
+					                '눈 충혈': '',
+					                '저시력': '',
+					                '눈간지럼': '',
+					                '귀 통증': '',
+					                '이명': '',
+					                '난청': '',
+					                '이 통증': '',
+					                '이 시림': '',
+					                '잇몸 출혈': '',
+					                '코 막힘': ''
+					            },
+					            chest: {
+					                '객혈': '',
+					                '호흡곤란': '',
+					                '흉통': '',
+					                '가슴쓰림': '',
+					                '기침': ''
+					            },
+					            // Add more custom button links here
+					        };
+					
+					        function addNewButton(type, count) {
+					            var buttonContainer = document.getElementById('buttonContainer');
+					            buttonContainer.innerHTML = ''; // Clear previous buttons
+					            
+					            for (var i = 0; i < count; i++) {
+					                var button = document.createElement('button');
+					                button.setAttribute('class', 'link-button');
+					                var buttonName = customButtonNames[type][i] || type + ' Button ' + (i + 1);
+					                button.textContent = buttonName;
+					                button.onclick = createCustomLinksHandler(type, buttonName);
+					                buttonContainer.appendChild(button);
+					            }
+					        }
+					
+					        function createCustomLinksHandler(type, buttonName) {
+					            return function() {
+					            	var queryParams = '';
+					            	
+					            	if(buttonName === '통증'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('비뇨기') +
+							                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('통증') +
+							                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+							                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '혈뇨'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('비뇨기') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('혈뇨') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '어지럼증'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('머리') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('어지럼증') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '요실금'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('비뇨기') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('요실금') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '두통'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('머리') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('두통') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '편두통'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('머리') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('편두통') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '손 떨림'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('머리') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('손 떨림') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	}else if(buttonName === '구토'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('배') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('구역질/구토') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '복통'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('배') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('복통') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '설사'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('배') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('설사') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '변비'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('배') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('변비') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '속쓰림'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('배') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('속쓰림') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '눈 충혈'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('눈충혈') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '저시력'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('저시력') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '눈간지럼'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('눈간지럼') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '귀 통증'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('귀통증') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '이명'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('이명') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '난청'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('난청') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '이 통증'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('이통증') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '이 시림'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('이시림') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '잇몸 출혈'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('잇몸출혈') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '코 막힘'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('얼굴') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('코막힘') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '객혈'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('객혈') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '호흡곤란'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('호흡곤란') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '흉통'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('흉통') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '기침'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('기침') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '가슴쓰림'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('가슴') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('가슴쓰림') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	} else if(buttonName === '손떨림'){
+						            	queryParams = encodeURIComponent('W0') + '=' + encodeURIComponent('머리') +
+						                '&' + encodeURIComponent('W1') + '=' + encodeURIComponent('손떨림') +
+						                '&' + encodeURIComponent('Q0') + '=' + encodeURIComponent(sido) +
+						                '&' + encodeURIComponent('Q1') + '=' + encodeURIComponent(gugun);
+					            	}       
+					        	
+					                var link = hos1;
+					                var buttonText = buttonName; // Default text
+					                
+					                //머리
+					                if (buttonName === '두통') {
+					                    buttonText = '내과';
+					                } else if (buttonName === '어지럼증') {
+					                    buttonText = '내과';
+					                } else if (buttonName === '편두통') {
+					                    buttonText = '내과';
+					                } else if (buttonName === '손떨림') {
+					                    buttonText = '내과';
+					                } 
+					                
+					                //생식기
+					                if (buttonName === '통증'){
+					                	buttonText= '비뇨기과';
+					                } else if (buttonName === '혈뇨'){
+					                	buttonText = '비뇨기과';
+					                } else if (buttonName === '요실금'){
+					                	buttonText = '비뇨기과';
+					                } 
+					                
+					                //복부
+					                if (buttonName === '구토'){
+					                	buttonText = '내과';
+					                } else if (buttonName === '복통'){
+					                	buttonText = '내과';
+					                } else if (buttonName === '설사'){
+					                	buttonText = '내과';
+					                } else if (buttonName === '변비'){
+					                	buttonText = '내과'
+					                } else if (buttonName === '속쓰림'){
+					                	buttonText = '내과';
+					                }
+					                
+					                if (buttonName === '귀 통증'){
+					                	buttonText = '이비인후과';
+					                } else if (buttonName === '이명'){
+					                	buttonText = '이비인후과';
+					                } else if (buttonName === '난청'){
+					                	buttonText = '이비인후과';
+					                } else if (buttonName === '코 막힘'){
+					                	buttonText = '이비인후과'
+					                } else if (buttonName === '이 통증'){
+					                	buttonText = '치과';
+					                } else if (buttonName === '이 시림'){
+					                	buttonText = '치과';
+					                } else if (buttonName === '잇몸 출혈'){
+					                	buttonText = '치과';
+					                } else if (buttonName === '눈 충혈'){
+					                	buttonText = '안과';
+					                } else if (buttonName === '눈간지럼'){
+					                	buttonText = '안과';
+					                } else if (buttonName === '저시력'){
+					                	buttonText = '안과';
+					                } else if (buttonName === '얼굴 떨림'){
+					                	buttonText = '내과';
+					                }
+					                
+					                if (buttonName === '객혈'){
+					                	buttonText = '흉부외과';
+					                } else if (buttonName === '호흡곤란'){
+					                	buttonText = '흉부외과';
+					                } else if (buttonName === '흉통'){
+					                	buttonText = '흉부외과';
+					                } else if (buttonName === '기침'){
+					                	buttonText = '내과';
+					                } else if (buttonName === '가슴쓰림'){
+					                	buttonText = '내과';
+					                }
+					                
+					                if (link) {
+					                    var buttonContainer = document.getElementById('buttonContainer');
+					                    buttonContainer.innerHTML = '';
+					                    addButtonWithLink(link +'?' + queryParams, buttonText);
+					                }
+					            };
+					        }
+					
+					
+					        function addButtonWithLink(link, buttonText) {
+					            var buttonContainer = document.getElementById('buttonContainer');
+					            var button = document.createElement('a');
+					            button.setAttribute('href', link);
+					            button.setAttribute('class', 'link-button');
+					            button.textContent = buttonText;
+					            buttonContainer.appendChild(button);
+					        }
+					    </script>
 												
-						<button class="ghost-button2">.</button>
-						<button class="ghost-button2">.</button>
-						<button class="ghost-button2">.</button>
-						<button class="ghost-button2">.</button>
-						<button class="ghost-button2">.</button>																	
-						<button id="chest" class="ghost-button2" onclick="createNewButton('chest')">가슴</button>
+						<button class="ghost-button2"></button>
+						<button class="ghost-button2"></button>
+						<button class="ghost-button2"></button>
+						<button class="ghost-button2"></button>
+						<button class="ghost-button2"></button>																	
+						<input type="button" class="ghost-button2" value="가슴" id = "chest" onclick="addNewButton('chest', 4)">
 
 						
-						<button class="ghost-button3">.</button>
-						<button class="ghost-button3">.</button>
-						<button class="ghost-button3">.</button>																								
-						<button class="ghost-button3">.</button>
-						<button id="neck" class="ghost-button3" onclick="createNewButton('neck')">목</button>
+						<button class="ghost-button3"></button>
+						<button class="ghost-button3"></button>
+						<button class="ghost-button3"></button>																								
+						<button class="ghost-button3"></button>
+						<input type="button" class="ghost-button3" id="neck" value="목" onclick="addNewButton('neck', 1)">
 						
 						<button class="ghost-button4"></button>
 						<button class="ghost-button4"></button>
@@ -343,128 +416,125 @@
 						<button class="ghost-button4"></button>
 						<button class="ghost-button4"></button>
 						<button class="ghost-button4"></button>
-						<button id="abdomen" class="ghost-button4" onclick="createNewButton('abdomen')">복부</button>
+						<input type="button" class="ghost-button4" id="abdomen" value="복부" onclick="addNewButton('abdomen', 5)">
+						
+						<button class="ghost-button5"></button>
+						<button class="ghost-button5"></button>
+						<button class="ghost-button5"></button>
+						<button class="ghost-button5"></button>
+						<button class="ghost-button5"></button>
+						<button class="ghost-button5"></button>
+						<button class="ghost-button5"></button>
+						<input type="button" class="ghost-button5" id="urology" value="생식기" onclick="addNewButton('urology', 3)">
+						
+						<button class="ghost-button6"></button>
+						<button class="ghost-button6"></button>
+						<button class="ghost-button6"></button>
+						<button class="ghost-button6"></button>
+						<button class="ghost-button6"></button>
+						<button class="ghost-button6"></button>
+						<button class="ghost-button6"></button>
+						<button class="ghost-button6"></button>
+						<input type="button" class="ghost-button6" id="hand" value="손" onclick="addNewButton('hand', 1)">
 
 						
-						<button class="ghost-button5"></button>
-						<button class="ghost-button5"></button>
-						<button class="ghost-button5"></button>
-						<button class="ghost-button5"></button>
-						<button class="ghost-button5"></button>
-						<button class="ghost-button5"></button>
-						<button class="ghost-button5"></button>
-						<button id="Urology" class="ghost-button5" onclick="createNewButton('Urology')">비뇨기</button>
 
 						
-						<button class="ghost-button6">.</button>
-						<button class="ghost-button6">.</button>
-						<button class="ghost-button6">.</button>
-						<button class="ghost-button6">.</button>
-						<button class="ghost-button6">.</button>
-						<button class="ghost-button6">.</button>
-						<button class="ghost-button6">.</button>
-						<button class="ghost-button6">.</button>
-						<button id="armHandButton" class="ghost-button6" onclick="loadNewButton()">팔/손</button>
-						<div id="buttonContainer" class="add-button">
-						    <!-- 새로운 버튼이 여기에 추가됩니다. -->
-						</div>
+						<button class="ghost-button7"></button>
+						<button class="ghost-button7"></button>
+						<button class="ghost-button7"></button>
+						<button class="ghost-button7"></button>
+						<button class="ghost-button7"></button>
+						<button class="ghost-button7"></button>
+						<button class="ghost-button7"></button>
+						<button class="ghost-button7"></button>
+						<button id="armHandButton" class="ghost-button7" onclick="loadNewButton()"></button>
 						
-						    <script>
-						        document.getElementById("armHandButton").addEventListener("click", function createNewButton() {
-						            var newButton = document.createElement("button");
-						            var newButton2 = document.createElement("button");
-						            newButton.className = "new-button";
-						            newButton2.className = "new-button2";
-						            
-						            newButton.innerHTML = "새로운 버튼";
-									newButton2.innerHTML ="새로우 버튼2"
-						            
-									document.getElementById("buttonContainer").appendChild(newButton);
-						            document.getElementById("buttonContainer").appendChild(newButton2);
+						<button class="ghost-button8"></button>
+						<button class="ghost-button8"></button>
+						<button class="ghost-button8"></button>
+						<button class="ghost-button8"></button>
+						<button class="ghost-button8"></button>
+						<button class="ghost-button8"></button>
+						<button class="ghost-button8"></button>
+						<button class="ghost-button8"></button>
+						<input type="button" class="ghost-button8" id="hand" value="손" onclick="addNewButton('hand', 1)">
 						
-						            document.getElementById("armHandButton").removeEventListener("click", createNewButton);
-						        });
-						    </script>
+						<button class="ghost-button9"></button>
+						<button class="ghost-button9"></button>
+						<button class="ghost-button9"></button>
+						<button class="ghost-button9"></button>
+						<button class="ghost-button9"></button>
+						<button class="ghost-button9"></button>
+						<button class="ghost-button9"></button>
+						<button class="ghost-button9"></button>
+						<button id="armHandButton" class="ghost-button9" onclick="loadNewButton()"></button>
 						
-						<button class="ghost-button7">.</button>
-						<button class="ghost-button7">.</button>
-						<button class="ghost-button7">.</button>
-						<button class="ghost-button7">.</button>
-						<button class="ghost-button7">.</button>
-						<button class="ghost-button7">.</button>
-						<button class="ghost-button7">.</button>
-						<button class="ghost-button7">.</button>
-						<button id="armHandButton" class="ghost-button7" onclick="loadNewButton()">팔/손</button>
+						<button class="ghost-button10"></button>
+						<button class="ghost-button10"></button>
+						<button class="ghost-button10"></button>
+						<button class="ghost-button10"></button>
+						<button class="ghost-button10"></button>
+						<button class="ghost-button10"></button>
+						<button class="ghost-button10"></button>
+						<button class="ghost-button10"></button>
+						<button class="ghost-button10"></button>
+						<button class="ghost-button10"></button>
 						
-						<button class="ghost-button8">.</button>
-						<button class="ghost-button8">.</button>
-						<button class="ghost-button8">.</button>
-						<button class="ghost-button8">.</button>
-						<button class="ghost-button8">.</button>
-						<button class="ghost-button8">.</button>
-						<button class="ghost-button8">.</button>
-						<button class="ghost-button8">.</button>
-						<button id="armHandButton" class="ghost-button8" onclick="loadNewButton()">팔/손</button>
+						<button class="ghost-button11"></button>
+						<button class="ghost-button11"></button>
+						<button class="ghost-button11"></button>
+						<button class="ghost-button11"></button>
+						<button class="ghost-button11"></button>
+						<button class="ghost-button11"></button>
+						<button class="ghost-button11"></button>
+						<button class="ghost-button11"></button>
+						<button class="ghost-button11"></button>
+						<button class="ghost-button11"></button>
 						
-						<button class="ghost-button9">.</button>
-						<button class="ghost-button9">.</button>
-						<button class="ghost-button9">.</button>
-						<button class="ghost-button9">.</button>
-						<button class="ghost-button9">.</button>
-						<button class="ghost-button9">.</button>
-						<button class="ghost-button9">.</button>
-						<button class="ghost-button9">.</button>
-						<button id="armHandButton" class="ghost-button9" onclick="loadNewButton()">팔/손</button>
-						
-						<button class="ghost-button10">.</button>
-						<button class="ghost-button10">.</button>
-						<button class="ghost-button10">.</button>
-						<button class="ghost-button10">.</button>
-						<button class="ghost-button10">.</button>
-						<button class="ghost-button10">.</button>
-						<button class="ghost-button10">.</button>
-						<button class="ghost-button10">.</button>
-						<button class="ghost-button10">.</button>
-						<button class="ghost-button10">다리/발</button>
-						
-						<button class="ghost-button11">.</button>
-						<button class="ghost-button11">.</button>
-						<button class="ghost-button11">.</button>
-						<button class="ghost-button11">.</button>
-						<button class="ghost-button11">.</button>
-						<button class="ghost-button11">.</button>
-						<button class="ghost-button11">.</button>
-						<button class="ghost-button11">.</button>
-						<button class="ghost-button11">.</button>
-						<button class="ghost-button11">다리/발</button>
-						
-						<button class="ghost-button12">.</button>
-						<button class="ghost-button12">.</button>
-						<button class="ghost-button12">.</button>
-						<button class="ghost-button12">.</button>
-						<button class="ghost-button12">.</button>
-						<button class="ghost-button12">.</button>
-						<button class="ghost-button12">.</button>
-						<button class="ghost-button12">.</button>
-						<button class="ghost-button12">.</button>
-						<button class="ghost-button12">다리/발</button>
+						<button class="ghost-button12"></button>
+						<button class="ghost-button12"></button>
+						<button class="ghost-button12"></button>
+						<button class="ghost-button12"></button>
+						<button class="ghost-button12"></button>
+						<button class="ghost-button12"></button>
+						<button class="ghost-button12"></button>
+						<button class="ghost-button12"></button>
+						<button class="ghost-button12"></button>
+						<button class="ghost-button12"></button>
 
-						<button class="ghost-button13">.</button>
-						<button class="ghost-button13">.</button>
-						<button class="ghost-button13">.</button>
-						<button class="ghost-button13">.</button>
-						<button class="ghost-button13">.</button>
-						<button class="ghost-button13">.</button>
-						<button class="ghost-button13">.</button>
-						<button class="ghost-button13">.</button>
-						<button class="ghost-button13">.</button>
-						<button class="ghost-button13">다리/발</button>
+						<button class="ghost-button13"></button>
+						<button class="ghost-button13"></button>
+						<button class="ghost-button13"></button>
+						<button class="ghost-button13"></button>
+						<button class="ghost-button13"></button>
+						<button class="ghost-button13"></button>
+						<button class="ghost-button13"></button>
+						<button class="ghost-button13"></button>
+						<button class="ghost-button13"></button>
+						<button class="ghost-button13"></button>
 						
 						<button class="ghost-button14"></button>
 						<button class="ghost-button14"></button>
 						<button class="ghost-button14"></button>
-						<button id="face" class="ghost-button14" onclick="createNewButton('face')">얼굴</button>
+						<input type="button" class="ghost-button14" id="face" value="얼굴" onclick="addNewButton('face', 4)">
+
+						<button class="ghost-button15"></button>
+						<button class="ghost-button15"></button>
+						<button class="ghost-button15"></button>
+						<input type="button" class="ghost-button15" id="ear" value="귀" onclick="addNewButton('ear', 3)">
+
+						<button class="ghost-button16"></button>
+						<button class="ghost-button16"></button>
+						<button class="ghost-button16"></button>
+						<input type="button" class="ghost-button16" id="ear" value="귀" onclick="addNewButton('ear', 3)">
 						
+						<button class="ghost-button17"></button>
+						<button class="ghost-button17"></button>
+						<button class="ghost-button17"></button>
+						<input type="button" class="ghost-button17" id="mouth" value="입" onclick="addNewButton('mouth', 3)">
+						
+												
 			        	<form action="#" class="body-menu">
 			        		<fieldset>
 			        			<legend class="d-up-lg">증상을 보이는 신체부위를 선택하세요</legend>
@@ -478,143 +548,140 @@
 			
 			        				<li>
 			        					<label>
-				        					<input class="body_type" type="radio" name="inputBody">
+				        					<input class="body_type" type="radio" name="inputBody" value ="head" > <!-- 외과 -->
 				        					<span class="label">머리</span>
 			        					</label>
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody">
+			        						<input class="body_type" type="radio" name="inputBody" value ="psyco"> <!-- 정신과 -->
 			        						<span class="label">정신</span>
 			        					</label>	
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-				        					<input class="body_type" type="radio" name="inputBody">
+				        					<input class="body_type" type="radio" name="inputBody" value ="face">
 				        					<span class="label">얼굴</span>
 			        					</label>
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-				        					<input class="body_type" type="radio" name="inputBody">
+				        					<input class="body_type" type="radio" name="inputBody" value = "neck"> <!-- 내과 -->
 				        					<span class="label">목</span>
 				        				</label>	
 			        				</li> 
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody">
+			        						<input class="body_type" type="radio" name="inputBody" value = "chest"> <!-- 내과  -->
 			        						<span class="label">가슴/등</span>
 			        					</label>	
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-				        					<input class="body_type" type="radio" name="inputBody">
+				        					<input class="body_type" type="radio" name="inputBody" value = "abdomen"> <!-- 내과 -->
 				        					<span class="label">복부</span>
 				        				</label>	
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody">
+			        						<input class="body_type" type="radio" name="inputBody" value ="urology"><!--비뇨기과 -->
 			        						<span class="label">생식/비뇨기</span>
 			        					</label>	
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody">
+			        						<input class="body_type" type="radio" name="inputBody" value = "arm">
 			        						<span class="label">팔과 손</span>
 			        					</label>	
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody">
+			        						<input class="body_type" type="radio" name="inputBody" value = "leg">
 			        						<span class="label">다리와 발</span>
 			        					</label>
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody">
+			        						<input class="body_type" type="radio" name="inputBody" value = "born">
 			        						<span class="label">뼈/근육</span>
 			        					</label>	
 			        				</li>
 			        				
 			        				<li>
 			        					<label>
-			        						<input class="body_type" type="radio" name="inputBody">
+			        						<input class="body_type" type="radio" name="inputBody" value ="skin"> <!-- 피부과  -->
 			        						<span class="label">피부</span>
 			        					</label>
 			        				</li>			        				        				        				        				        				        				        				        				       				        				        				        				
 			        			</ul>
 			        			<div class="btn-area">
 			        				<button class="btn_search btn btn-lg btn-round btn-primary" type="button">검색</button>
-				        			<script>
-					        			$(function() {
-					        				  var urlTable = [
-					        				    "https://www.naver.com",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D003&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D004&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D014&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D008&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D008&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D016&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=&Q0=%EC%84%9C%EC%9A%B8%ED%8A%B9%EB%B3%84%EC%8B%9C&Q1=%EA%B4%80%EC%95%85%EA%B5%AC&QD=D001&QZ=",
-					        				    //링크 변경 시키기
-					        				  ];
-					        				  
-					        				  var selectedUrl = urlTable[0];
-					        				  
-					        				  var nButtonNames  = [
-					        					  "병원1",
-					        					  "병원1",
-					        					  "병원1",
-					        					  "병원1",
-					        					  "병원1",
-					        					  "병원1",
-					        					  "병원1",
-					        					  "병원1",
-					        					  "병원1",
-					        					  "병원1",
-					        					  "병원1",
-					        					  "병원1"
-					        				  ];
-					        				  
-					        				  $(".btn_search").click(function() {
-					        					    // 이전 버튼을 지웁니다
-					        					    $("#buttonContainer").empty();
+										<script>
+										$(function() {
+										  $(".btn_search").click(function() {
+										    var selectedBody = $("input[name='inputBody']:checked").val();
+										    var newButton = $("<button>");
+										    newButton.addClass("custom-button");
+										
+										    if (selectedBody === "on") {
+										      newButton.text("종합병원");
+										      newButton.attr("data-link", "https://www.example.com/general_hospital");
+										    } else if (selectedBody === "head") {
+										      newButton.text("외과");
+										      newButton.attr("data-link", "https://www.example.com/surgery");
+										    } else if (selectedBody === "psyco") {
+										      newButton.text("정신과");
+										      newButton.attr("data-link", "https://www.example.com/psychiatry");
+										    } else if (selectedBody === "face") {
+											      newButton.text("내과");
+											      newButton.attr("data-link", "https://www.example.com/psychiatry");
+										    } else if (selectedBody === "neck") {
+											      newButton.text("이비인후과");
+											      newButton.attr("data-link", "https://www.example.com/psychiatry");
+										    } else if (selectedBody === "chest") {
+											      newButton.text("흉부외과");
+											      newButton.attr("data-link", "https://www.example.com/psychiatry");
+											} else if (selectedBody === "abdomen") {
+											      newButton.text("내과");
+											      newButton.attr("data-link", "https://www.example.com/psychiatry");
+											} else if (selectedBody === "urology") {
+											      newButton.text("비뇨기과");
+											      newButton.attr("data-link", "https://www.example.com/psychiatry");
+											} else if (selectedBody === "arm") {
+											      newButton.text("외과");
+											      newButton.attr("data-link", "https://www.example.com/psychiatry");
+											} else if (selectedBody === "leg") {
+											      newButton.text("외과");
+											      newButton.attr("data-link", "https://www.example.com/psychiatry");
+											} else if (selectedBody === "born") {
+											      newButton.text("정형외과");
+											      newButton.attr("data-link", "https://www.example.com/psychiatry");
+											} else if (selectedBody === "skin") {
+											      newButton.text("피부과");
+											      newButton.attr("data-link", "https://www.example.com/psychiatry");
+											}
+										    
+										    // Add more cases for other body parts...
+										
+										    newButton.click(function() {
+										      var link = $(this).attr("data-link");
+										      window.open(link, "_blank");
+										    });
+										
+										    $("#buttonContainer").append(newButton);
+										  });
+										});
+										</script>
 
-					        					    // 새로운 버튼 생성 및 추가
-					        					    for (var i = 0; i < nButtonNames.length; i++) {
-					        					      var newButton = $("<button>");
-					        					      newButton.addClass("custom-button");
-					        					      newButton.text(nButtonNames[i]);
-					        					      newButton.click(function() {
-					        					        // 버튼 클릭 동작
-					        					        // 여기에 사용자 정의 기능을 추가할 수 있습니다
-					        					        // 예를 들어 클릭한 버튼에 따라 특정 URL로 이동하려면
-					        					        var buttonIndex = $(this).index();
-					        					        if (buttonIndex >= 0 && buttonIndex < urlTable.length) {
-					        					          selectedUrl = urlTable[buttonIndex];
-					        					          window.open(selectedUrl, "_blank");
-					        					        }
-					        					      });
-					        					      $("#buttonContainer").append(newButton);
-					        					    }
-					        					  });
-					        					});
-
-				        			</script>
 			        			</div>			        			
 			        		</fieldset>       	
         				</form> 
@@ -622,13 +689,9 @@
 					</div>
 				</div>            
 		</article>
+								<div id="buttonContainer" class="add-button">
+						    <!-- 새로운 버튼이 여기에 추가됩니다. -->
+						</div>
 	</div>
-	<div id="buttonContainer-head" class="add-Hbutton"></div>
-	<div id="buttonContainer-face" class="add-Fbutton"></div>
-	<div id="buttonContainer-neck" class="add-Nbutton"></div>	
-	<div id="buttonContainer-Urology" class="add-Ubutton"></div>		
-	<div id="buttonContainer-abdomen" class="add-Hbutton"></div>
-	<div id="buttonContainer-chest" class="add-Cbutton"></div>
-	
 </body>
 </html>
