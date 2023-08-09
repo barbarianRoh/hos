@@ -197,7 +197,6 @@ var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
 	<input type="hidden" id="W1" name="W1" vlaue="">
 	<input type="hidden" id="Q0" name="Q0" value="">
 	<input type="hidden" id="Q1" name="Q1" value="">
-	<br>
 	
 	<input class="btn btn-primary" type="submit" value="검색">
 </form>

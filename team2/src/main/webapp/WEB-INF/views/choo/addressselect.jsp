@@ -20,7 +20,7 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449&libraries=services,clusterer"></script>
 
 <!-- 지도를 표시할 div 입니다 -->
-<div id="map" style="width:2000px;height:800px;"></div>
+<div id="map" style="width:1200px;height:650px;"></div>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449"></script>
 <script>
@@ -35,6 +35,10 @@ var mapOption = {
 var map = new kakao.maps.Map(mapContainer, mapOption);
 </script>
 
+<div class="d-flex justify-content-start">
+<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="sido1" id="sido1"></select>&nbsp;&nbsp;
+<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="gugun1" id="gugun1"></select>
+</div>
 
 <!-- Jquery를 이용한 지역선택기능 -->
 <script>
@@ -183,9 +187,6 @@ function panTo() {
 <form method = "get" name="hosselect" action="/hos/choo/hosapiresult">
 	<label for="selectOption"></label>
 	<div class="d-flex justify-content-start">
-	
-	<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="sido1" id="sido1"></select>&nbsp;&nbsp;
-	<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="gugun1" id="gugun1"></select>&nbsp;&nbsp;
 	
 	<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="selectOption" id="selectOption" onchange="assignValue()">
 		<option selected>진료과선택</option>
