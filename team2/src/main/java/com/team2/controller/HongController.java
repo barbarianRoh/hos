@@ -42,7 +42,7 @@ public class HongController {
     private DataApiClient dataApiClient;
     
     // 목록페이지
-    @RequestMapping("list")
+    @RequestMapping("total")
     public String getMedicine(@RequestParam(defaultValue = "1") int page, Model model) throws IOException, ParserConfigurationException, SAXException {
 	try {
         String baseUrl = "https://apis.data.go.kr/1471000/DrbEasyDrugInfoService/getDrbEasyDrugList";
@@ -337,7 +337,7 @@ public class HongController {
     } 
     
 
-	@RequestMapping("otherlist")
+	@RequestMapping("othertotal")
 	public String otherlist(@RequestParam(defaultValue = "1") int page, Model model, String keyword2) throws ParserConfigurationException, SAXException, MalformedURLException, IOException {
 		
 		final int rowpages = 21;	// 한페이지당 보여줄 행의 수
