@@ -30,10 +30,13 @@
 			<c:if test="${dto.id == memId || dto.id == nick}">
 				<input type="button" value="글수정" onclick="location.href='gesipanupdate?num=${dto.num}&pageNum=${pageNum}'">
 				<input type="button" value="글삭제" onclick="location.href='gesipandelect?num=${dto.num}&pageNum=${pageNum}'">
+			</c:if>
+			<c:if test="${dto.id != null}">
 				<c:if test="${dto1.memberType == 2}">
 				<input type="button" value="답 글" onclick="location.href='reconWrite?num=${dto.num}'">
 				</c:if>
 			</c:if>
+			
 		</c:if>
 				<input type="button" value="돌아가기" onclick="location.href='gesipanmain?pageNum=${pageNum}'">
 	</table>

@@ -5,6 +5,8 @@
 <meta charset="utf-8">
 	<title>본인주변 병원표시</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" >
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- 카카오맵API와 서비스, 클러스터기능 라이브러리 불러옴 -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449&libraries=services,clusterer"></script>
@@ -135,12 +137,12 @@ var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
 	}
 </script>
 
-<button onclick="panTo()">내 위치로 이동</button>
-
 
 <form method = "post" name="GPSselect" action="/hos/choo/GPSresult">
 	<label for="selectOption"></label>
-	<select name="selectOption" id="selectOption" onchange="assignValue()">
+	<div class="d-flex justify-content-start">
+	
+	<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="selectOption" id="selectOption" onchange="assignValue()">
 		<option value="">진료과선택</option>
 		<option value="D001">내 과</option>
 		<option value="D002">소아과</option>
@@ -168,6 +170,7 @@ var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
 		<option value="D026">치 과</option>
 		<option value="D034">구강악안면외과</option>
 	</select>
+	</div>	
 			
 	<input type="hidden" id="Q0" name="Q0" value="">
 	<input type="hidden" id="Q1" name="Q1" value="">
@@ -175,9 +178,10 @@ var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
 	<input type="hidden" id="WGS84_LON" name="WGS84_LON" value="">
 	<input type="hidden" id="selectedjinryo" name="QD" value="">
 	
-	<input type="submit" value="검색">
+	<input class="btn btn-primary" type="submit" value="검색">	
 </form>
-	
+
+<button class="btn btn-info" onclick="panTo()">내 위치로 이동</button>
 <script>
 	//위에 select의 option값을 선택했을 때 QD에 자동으로 들어가게 하는 곳
 	function assignValue(){
@@ -185,4 +189,4 @@ var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
 		var selectedValue = selectElement.value;
 		document.getElementById("selectedjinryo").value = selectedValue;
 	}
-	</script>
+</script>
