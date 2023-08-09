@@ -752,6 +752,9 @@ public class ChooController {
 	//글작성
 	@RequestMapping("gradeWritePro")
 	public String gradeWritePro(ChooTestDTO dto, @RequestParam("name") String name, @RequestParam("addr") String addr, @RequestParam("pageNum") String pageNum,Model model) {
+		String con = dto.getCon();
+		con = con.replace("/r/n", "<br>");
+		dto.setCon(con);
 		service.insert(dto);
 		model.addAttribute("name",name);
 		model.addAttribute("addr",addr);
@@ -863,6 +866,9 @@ public class ChooController {
 		int count = service.pwCheck(num, pw);
 		
 		if(count == 1) {
+			String con = dto.getCon();
+			con = con.replace("/r/n", "<br>");
+			dto.setCon(con);
 			service.gradeUpdate(dto);
 			model.addAttribute("chack", count);
 			model.addAttribute("name",name);
@@ -911,6 +917,9 @@ public class ChooController {
 	@RequestMapping("gesipanmain")
 	public String gesipanmain(Model model, String pageNum, HttpSession session) {
 		
+		String id = (String)session.getAttribute("sid");
+		String id1 = (String)session.getAttribute("kid");
+		
 		int pageSize = 10;
 		model.addAttribute("pageSize",pageSize);
 		
@@ -947,8 +956,12 @@ public class ChooController {
 			model.addAttribute("pageBlock", pageBlock);
 			model.addAttribute("endPage", endPage);
 			
-			String id = (String)session.getAttribute("sid");
+		if(id != null) {
 			model.addAttribute("memId", id);
+		}else if(id1 != null) {
+			model.addAttribute("kid", id1);
+		}
+		
 		}
 		return "choo/gesipanmain";
 	}
@@ -982,6 +995,9 @@ public class ChooController {
 	//고객센터 게시판 글작성
 	@RequestMapping("gesipanWritePro")
 	public String gesipanWritePro(Model model, String pageNum, ChooGesipan dto) {
+		String con = dto.getCon();
+		con = con.replace("/r/n", "<br>");
+		dto.setCon(con);
 		service.gesipaninsert(dto);
 		model.addAttribute("pageNum", pageNum);
 		return "choo/gesipanWritePro";
@@ -1050,6 +1066,9 @@ public class ChooController {
 		int check = service.pwcheck(num, pw);
 		
 		if(check == 1) {
+			String con = dto.getCon();
+			con = con.replace("/r/n", "<br>");
+			dto.setCon(con);
 			service.gesipanupdate(dto);
 			model.addAttribute("count",check);
 			model.addAttribute("pageNum",pageNum);
