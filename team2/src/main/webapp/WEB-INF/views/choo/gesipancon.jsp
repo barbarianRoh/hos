@@ -43,6 +43,7 @@
 	
 	<hr>
 	
+	<h2 align="center">답변</h2>
 	
 	<%-- 작성된 댓글이 있는지 없는지 확인 --%>
 	<c:if test="${list.size() == 0}">
@@ -55,15 +56,12 @@
 	
 	<c:if test="${list.size() != 0}">
 	<%-- 댓글 보여주는 창 --%>
-	<table align="center" width="1000" border="1" cellspacing="0" cellpadding="0">
+	<table class="table" align="center" width="1000" border="1" cellspacing="0" cellpadding="0">
 		<tr height="30">
-			<td align="center" colspan="5" width="50">답 변</td>
-		</tr>
-		<tr height="30">
-			<td align="center" width="50">답변번호</td>
-			<td align="center" width="80">작성자</td>
-			<td align="center" width="400">답변내용</td>
-			<td align="center" width="150">작성날짜</td>
+			<td align="center" width="50" class="table-primary">번 호</td>
+			<td align="center" width="80" class="table-primary">작성자</td>
+			<td align="center" width="400" class="table-primary">답 변</td>
+			<td align="center" width="150" class="table-primary">작성날짜</td>
 		</tr>
 		<c:forEach var="re" items="${list}">
 		<tr height="30">

@@ -14,26 +14,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
 
-<%-- 2100589fb32df980773796dffa657449 --%>
 
-<!-- 카카오맵API와 서비스, 클러스터기능 라이브러리 불러옴 -->
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449&libraries=services,clusterer"></script>
-
-<!-- 지도를 표시할 div 입니다 -->
-<div id="map" style="width:2000px;height:800px;"></div>
-
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449"></script>
-<script>
-
-var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
-var mapOption = { 
-        center: new kakao.maps.LatLng(37.350701, 127.0016), // 지도의 중심좌표
-        level: 13 // 지도의 확대 레벨
-    };
-
-//지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-var map = new kakao.maps.Map(mapContainer, mapOption);
-</script>
 
 
 <!-- Jquery를 이용한 지역선택기능 -->
@@ -106,7 +87,86 @@ $('document').ready(function() {
 		});
 		console.log(gugunValue);
 });
+</script>
+<div>
+<p style="font-size: 20px;font-weight: 400;">&nbsp;&nbsp;주소로 병원 검색</p>
+</div>
+<div class="d-flex justify-content-start mb-1">
+<form method = "get" name="hosselect" action="/hos/choo/hosapiresult">
+	<label for="selectOption"></label>
+	
+	<div class="d-flex justify-content-start" style="width:35%;">
+	<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="sido1" id="sido1"></select>&nbsp;&nbsp;
+	<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="gugun1" id="gugun1"></select>&nbsp;&nbsp;
+	
+	<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="selectOption" id="selectOption" onchange="assignValue()">
+		<option selected>진료과선택</option>
+		<option value="D001">내 과</option>
+		<option value="D002">소아과</option>
+		<option value="D003">신경과</option>
+		<option value="D004">정신건강의학과</option>
+		<option value="D005">피부과</option>
+		<option value="D006">외 과</option>
+		<option value="D007">흉부외과</option>
+		<option value="D008">정형외과</option>
+		<option value="D009">신경외과</option>
+		<option value="D010">성형외과</option>
+		<option value="D011">산부인과</option>
+		<option value="D012">안 과</option>
+		<option value="D013">이비인후과</option>
+		<option value="D014">비뇨기과</option>
+		<option value="D016">재활의학과</option>
+		<option value="D017">마취통증의학과</option>
+		<option value="D018">영상의학과</option>
+		<option value="D019">치료방사선과</option>
+		<option value="D022">가정의학과</option>
+		<option value="D026">치 과</option>
+	</select> &nbsp;&nbsp;
+	
+	<label for="hosType"></label>
+	<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="hosType" id="hosType" onchange="TypeValue()">
+		<option selected>병원분류</option>
+		<option value="A">상급/종합병원</option>
+		<option value="B">병원</option>
+		<option value="C">의원</option>
+		<option value="M">치과병원</option>
+		<option value="N">치과의원</option>
+	</select>
+	&nbsp;&nbsp;
+	
+	<input type="hidden" id="Q0" name="Q0" value="">
+	<input type="hidden" id="Q1" name="Q1" value="">
+	<input type="hidden" id="selectedjinryo" name="QD" value="">
+	<input type="hidden" id="selecthos" name="QZ" value="">
+			
+	<input class="btn btn-primary" type="submit" value="검 색">	
+	</div>
+	
+</form>
+<div class="">
+<div class="container mb-4"></div>
+<button class="btn btn-info" onclick="panTo()" style="height: 40px;" >내 위치로 이동</button>
 
+</div></div>
+<%-- 2100589fb32df980773796dffa657449 --%>
+
+<!-- 카카오맵API와 서비스, 클러스터기능 라이브러리 불러옴 -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449&libraries=services,clusterer"></script>
+
+<!-- 지도를 표시할 div 입니다 -->
+<div id="map" style="width:1918px;height:788px;"></div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449"></script>
+<script>
+
+var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
+var mapOption = { 
+        center: new kakao.maps.LatLng(37.350701, 127.0016), // 지도의 중심좌표
+        level: 13 // 지도의 확대 레벨
+    };
+
+//지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+var map = new kakao.maps.Map(mapContainer, mapOption);
 
 <!-- Geolocation API -->        
 var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
@@ -176,61 +236,6 @@ function panTo() {
     }
 }
 </script>
-
-<br>
-<br>
-
-<form method = "get" name="hosselect" action="/hos/choo/hosapiresult">
-	<label for="selectOption"></label>
-	<div class="d-flex justify-content-start">
-	
-	<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="sido1" id="sido1"></select>&nbsp;&nbsp;
-	<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="gugun1" id="gugun1"></select>&nbsp;&nbsp;
-	
-	<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="selectOption" id="selectOption" onchange="assignValue()">
-		<option selected>진료과선택</option>
-		<option value="D001">내 과</option>
-		<option value="D002">소아과</option>
-		<option value="D003">신경과</option>
-		<option value="D004">정신건강의학과</option>
-		<option value="D005">피부과</option>
-		<option value="D006">외 과</option>
-		<option value="D007">흉부외과</option>
-		<option value="D008">정형외과</option>
-		<option value="D009">신경외과</option>
-		<option value="D010">성형외과</option>
-		<option value="D011">산부인과</option>
-		<option value="D012">안 과</option>
-		<option value="D013">이비인후과</option>
-		<option value="D014">비뇨기과</option>
-		<option value="D016">재활의학과</option>
-		<option value="D017">마취통증의학과</option>
-		<option value="D018">영상의학과</option>
-		<option value="D019">치료방사선과</option>
-		<option value="D022">가정의학과</option>
-		<option value="D026">치 과</option>
-	</select> &nbsp;&nbsp;
-	
-	<label for="hosType"></label>
-	<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="hosType" id="hosType" onchange="TypeValue()">
-		<option selected>병원분류</option>
-		<option value="A">상급/종합병원</option>
-		<option value="B">병원</option>
-		<option value="C">의원</option>
-		<option value="M">치과병원</option>
-		<option value="N">치과의원</option>
-	</select>
-	&nbsp;&nbsp;
-	
-	<input type="hidden" id="Q0" name="Q0" value="">
-	<input type="hidden" id="Q1" name="Q1" value="">
-	<input type="hidden" id="selectedjinryo" name="QD" value="">
-	<input type="hidden" id="selecthos" name="QZ" value="">
-			
-	<input class="btn btn-primary" type="submit" value="검 색">
-	</div>
-	<br>
-</form>
 	
 <script>
 	//위에 select의 option값을 선택했을 때 QD에 자동으로 들어가게 하는 곳
@@ -281,7 +286,6 @@ function panTo() {
 	});
 </script>
 
-<button class="btn btn-info" onclick="panTo()">내 위치로 이동</button>
 
 <%-- <c:forEach var="dto" items="${hos}">
 	${dto.wgs84Lat}

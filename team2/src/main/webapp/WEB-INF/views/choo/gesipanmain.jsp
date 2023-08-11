@@ -57,7 +57,9 @@
 		<tr>
 			<td align="right" colspan="4">
 				<a class="btn btn-primary" href="gesipanWrite?pageNum=${pageNum}">글작성</a>
+			<c:if test="${memId != null || kid != null}">	
 				<a class="btn btn-primary" href="gesipanMylist?num=${dto.num}&pageNum=${pageNum}">내가쓴글</a>
+			</c:if>
 				<a class="btn btn-primary" href="/hos/roh/">메인페이지로</a>
 			</td>
 			</tr>
