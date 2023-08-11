@@ -136,6 +136,7 @@
   }
   .body-search .body-list .label {
     height: 50px;
+    width: 350px;
   }
   
 }
@@ -643,7 +644,7 @@ button {
 .symptompage {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* 적어도 뷰포트 높이만큼 채우도록 설정 */
+    min-height: 80vh; /* 적어도 뷰포트 높이만큼 채우도록 설정 */
 }
 
 /* Additional styles for custom-button class (if used) */

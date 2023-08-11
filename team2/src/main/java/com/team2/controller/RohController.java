@@ -119,7 +119,7 @@ public class RohController {
 	public String signout(HttpSession session, Model model) {
 		session.invalidate();
 		model.addAttribute("logout", true);
-		return "/roh/home";
+		return "/kim/main";
 	}
 	
 	// 회원탈퇴 폼
