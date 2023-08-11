@@ -9,8 +9,6 @@
         <meta name="author" content="Roh" />
         <title>아파, 어디가? 약국지도</title>
         
-        <!-- 파비콘 -->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- 부트스트랩 -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
@@ -25,8 +23,6 @@
     
     <body>
         <!-- 헤더 -->
-        
-        
         <div class="bg-dark">
             <div class="p-header d-flex flex-row text-white align-items-center">
                	<div class="fw-normal">아이콘</div>
