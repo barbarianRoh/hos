@@ -367,6 +367,7 @@ Kakao.Auth.createLoginButton({
 
 <br />
 <br />
+<br />
 <h1 class="text-center">고객센터</h1>
 
 <c:if test="${list.size() == 0}">

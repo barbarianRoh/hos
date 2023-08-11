@@ -2,7 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:if test="${type != 2}">
+<c:if test="${dto.memberType == 2}">
+	<script>
+		alert('삭제되었습니다');
+		location.href="/hos/choo/gesipanmain?pageNum=${pageNum}"
+	</script>
+</c:if>
+
+<c:if test="${dto.memberType != 2}">
 	<c:if test="${pw == null}">
 		<script>
 			alert('비밀번호를 입력해주세요');
@@ -23,11 +30,4 @@
 			location.href="/hos/choo/gesipanmain?pageNum=${pageNum}"
 		</script>
 	</c:if>
-</c:if>
-
-<c:if test="${type == 2}">
-	<script>
-		alert('삭제되었습니다');
-		location.href="/hos/choo/gesipanmain?pageNum=${pageNum}"
-	</script>
 </c:if>

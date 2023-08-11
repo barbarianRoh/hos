@@ -1111,16 +1111,16 @@ public class ChooController {
 	@RequestMapping("gesipandelectPro")
 	public String gesipandelectPro(Model model, int num, String pageNum, String pw, HttpSession session, RohDTO dto) {
 		String id = (String)session.getAttribute("sid");
-		String memberType = "";
 		
 		if(id != null) {
 			dto = service.memtype(id);
-			memberType = dto.getMemberType();
-		}else if(memberType.equals("2")) {
-			model.addAttribute("type", memberType);
+
+		}else if(dto.getMemberType() == "2") {
+			model.addAttribute("dto", dto);
 			service.gesipandelect(num);
 			model.addAttribute("pageNum", pageNum);
-		}else if(memberType != "2") {
+		
+		}else if(dto.getMemberType() != "2") {
 		
 		model.addAttribute("pw",pw);
 		int check = service.pwcheck(num, pw);
