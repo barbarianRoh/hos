@@ -26,260 +26,53 @@
 		<link rel="stylesheet" type="text/css" href="/hos/resources/css/main.css">
 		<link rel="stylesheet" type="text/css" href="/hos/resources/css/main2.css">
 		
-		
 		<script>
-document.addEventListener("DOMContentLoaded", function () {
-	var loginButton = document.querySelector(".loginButton");
-	var loginModal = document.getElementById("loginModal");
-	var modalOverlay = document.getElementById("modalOverlay");
-	var closeLoginModalButton = document.getElementById("closeLoginModal");
-	var myInfoForm = document.getElementById("myInfoForm");
-	
-	loginButton.addEventListener("click", function (event) {
-		event.preventDefault();
-		loginModal.style.display = "block";
-		modalOverlay.style.display = "block";
-		toggleForms(); // 폼 전환 함수 호출
-    });
-
-	modalOverlay.addEventListener("click", function () {
-		loginModal.style.display = "none";
-		modalOverlay.style.display = "none";
-    });
-
-    closeLoginModalButton.addEventListener("click", function () {
-      loginModal.style.display = "none";
-      modalOverlay.style.display = "none";
-    });
-
-    // 페이지 로딩 시 폼 전환 함수 호출
-    toggleForms();
-});
-
-function toggleForms() {
-	var loginButton = document.querySelector(".loginButton");
-	var myInfoForm = document.getElementById("myInfoForm");
-	var sessionSid = "${sessionScope.sid}";
-	var sessionKnick = "${sessionScope.knick}";
-
-	if (sessionSid || sessionKnick) {
-		loginButton.style.display = "none"; // 세션이 있을 때 로그인 버튼 숨기기
-		myInfoForm.style.display = "block"; // 세션이 있을 때 로그인 후 버튼 보이기
-	} else {
-		loginButton.style.display = "block"; // 세션이 없을 때 로그인 버튼 보이기
-		myInfoForm.style.display = "none"; // 세션이 없을 때 로그인 후 버튼 숨기기
-	}
-}
-</script>
-		
-    </head>
-    <style>
-    #kakao-login-btn {
-    background-color: #FFEB00;
-    color: #000000;
-    border: none;
-    padding: 1px 6px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    width:100px;
-}
-    
-#kakao-login-btn img{width:100%;}
-    
-.btn-primary {
-    --bs-btn-color: black;
-    --bs-btn-bg: white;
-    --bs-btn-border-color: white;
-    --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #0b5ed7;
-    --bs-btn-hover-border-color: #0a58ca;
-    --bs-btn-focus-shadow-rgb: 49,132,253;
-    --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #0a58ca;
-    --bs-btn-active-border-color: #0a53be;
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #0d6efd;
-    --bs-btn-disabled-border-color: #0d6efd;
-}
-
-.btn-primary2 {
-    --bs-btn-color: black;
-    --bs-btn-bg: white;
-    --bs-btn-border-color: white;
-    --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #0b5ed7;
-    --bs-btn-hover-border-color: #0a58ca;
-    --bs-btn-focus-shadow-rgb: 49,132,253;
-    --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #0a58ca;
-    --bs-btn-active-border-color: #0a53be;
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #0d6efd;
-    --bs-btn-disabled-border-color: #0d6efd;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-}
-
-.offcanvas{
-    --bs-offcanvas-zindex: 1045;
-    --bs-offcanvas-width: 220px;
-    --bs-offcanvas-height: 30vh;
-    --bs-offcanvas-padding-x: 1rem;
-    --bs-offcanvas-padding-y: 1rem;
-    --bs-offcanvas-color: var(--bs-body-color);
-    --bs-offcanvas-bg: var(--bs-body-bg);
-    --bs-offcanvas-border-width: var(--bs-border-width);
-    --bs-offcanvas-border-color: var(--bs-border-color-translucent);
-    --bs-offcanvas-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    --bs-offcanvas-transition: transform 0.3s ease-in-out;
-    --bs-offcanvas-title-line-height: 1.5;
-}
-
-#offcanvasRight{
-    --bs-offcanvas-zindex: 1045;
-    --bs-offcanvas-width: 400px;
-    --bs-offcanvas-height: 30vh;
-    --bs-offcanvas-padding-x: 1rem;
-    --bs-offcanvas-padding-y: 1rem;
-    --bs-offcanvas-color: var(--bs-body-color);
-    --bs-offcanvas-bg: var(--bs-body-bg);
-    --bs-offcanvas-border-width: var(--bs-border-width);
-    --bs-offcanvas-border-color: var(--bs-border-color-translucent);
-    --bs-offcanvas-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    --bs-offcanvas-transition: transform 0.3s ease-in-out;
-    --bs-offcanvas-title-line-height: 1.5;
-}
-
-.MuiAvatar-img{
-	width: 35px; /* 필요한 크기에 맞게 조정해주세요 */
-	height: 35px;
-	border-radius: 50%;
-	overflow: hidden; /* 이 속성으로 넘치는 내용을 가리게 됩니다 */
-	position: absolute;
-	top: 20px;
-	right: 20px;
-}
-
-.dropdown-divider{
-	content: "";
-	display: block;
-	width: 3px;
-	border-bottom: 3px;
-}
-
-#closeLoginModal {
-	position: absolute;
-	top: 0px;
-	right: 10px;
-	font-size: 20px;
-	background: none;
-	border: none;
-	cursor: pointer;
-}
-
-#loginModal {
-	position: absolute;
-	top: 48.8%;
-	left: 91.2%;
-	transform: translate(-50%, -50%);
-	width: 300px;
-	/* … (other styles) … */
-}
-
-
-
-		.p-header {
-		background:#fff;
-			height: 64px;
-		}
-		
-		.p-header > div {
-			padding: 0px 15px 0px 15px;
-		}
-		
-		.p-header2 {
-			height: 54px;
+		document.addEventListener("DOMContentLoaded", function () {
+			var loginButton = document.querySelector(".loginButton");
+			var loginModal = document.getElementById("loginModal");
+			var modalOverlay = document.getElementById("modalOverlay");
+			var closeLoginModalButton = document.getElementById("closeLoginModal");
+			var myInfoForm = document.getElementById("myInfoForm");
 			
-		}
+			loginButton.addEventListener("click", function (event) {
+				event.preventDefault();
+				loginModal.style.display = "block";
+				modalOverlay.style.display = "block";
+				toggleForms(); // 폼 전환 함수 호출
+		    });
 		
-		.p-header2 > div {
-			padding: 0px 15px 0px 15px;
-		}
+			modalOverlay.addEventListener("click", function () {
+				loginModal.style.display = "none";
+				modalOverlay.style.display = "none";
+		    });
 		
-		.gps-icon {
-		 	position:absolute;
-		 	top: 33.3%;
-		 	right: 1.1%;
-		 	z-index:1;
-		}
+		    closeLoginModalButton.addEventListener("click", function () {
+		      loginModal.style.display = "none";
+		      modalOverlay.style.display = "none";
+		    });
 		
-		#toggle-menu { 
-		    display: none;
-		    z-index:3;
-		}
+		    // 페이지 로딩 시 폼 전환 함수 호출
+		    toggleForms();
+		});
 		
-		.container {
-			background-color: #fff;
-			display: flex;
-		}
+		function toggleForms() {
+			var loginButton = document.querySelector(".loginButton");
+			var myInfoForm = document.getElementById("myInfoForm");
+			var sessionSid = "${sessionScope.sid}";
+			var sessionKnick = "${sessionScope.knick}";
 		
-		.sidebar {
-			width: 500px;
-		  	background-color: #fff;
-		  	transition: transform 0.5s ease;
-		  	transform: translateX(-500px);
-		  	position: fixed;
-		  	top: 64px;
-		  	z-index:1;
-		  	overflow-y: auto;
-		  	height: 85vh;
+			if (sessionSid || sessionKnick) {
+				loginButton.style.display = "none"; // 세션이 있을 때 로그인 버튼 숨기기
+				myInfoForm.style.display = "block"; // 세션이 있을 때 로그인 후 버튼 보이기
+			} else {
+				loginButton.style.display = "block"; // 세션이 없을 때 로그인 버튼 보이기
+				myInfoForm.style.display = "none"; // 세션이 없을 때 로그인 후 버튼 숨기기
+			}
 		}
-		
-		.sidebar ul {
-			margin-left: -9px;
-		}
-		.sidebar li {
-			display: block;
-			width: 24rem;
-		}
-		.sidebar.open {
-		  	transform: translateX(0);
-		}
-		
-		#pagination {
-			display: flex;
-    		justify-content: center;
-    		gap: 5px;
-		}
-		
-		.content {
-			flex: 1;
-		  	padding: 20px;
-		}
-		
-		.menu-button {
-			cursor: pointer;
-			position: absolute;
-			top:43vh;
-		  	z-index: 2;
-		  	border-color: #fff;
-		  	background-color: #fff;
-		  	cursor: pointer;
-		  	width: 23px;
-		  	height: 50px;
-		  	border-radius: 0px 3px 3px 0px;
-		  	display: flex;
-		  	justify-content: center;
-		  	align-items: center;
-		  	padding-right: 4px;
-		  	transition: transform 0.5s ease;
-		}
-		a{color:#111;}
-	</style>
+		</script>
+	</head>
+	
+
     <body>
         <!-- 헤더 -->
         <div class="">
@@ -320,6 +113,11 @@ function toggleForms() {
 							
 							<ul class = "nav flex-column">
 								<li><a class = "nav-link active" aria-current="page" href="/hos/choo/addressselect">병원찾기</a></li>
+								<li>
+                  					<c:if test="${sessionScope.sid != null}">
+                     					<a class = "nav-link active" aria-current="page" href="/hos/choo/userhosselect">최근 찾은 병원</a>                  
+                  					</c:if>
+               					</li>   
 							</ul>
 						
 							<div>
@@ -363,7 +161,10 @@ function toggleForms() {
 								</form>
 							</c:if>
 							<div id="myInfoForm" class="profilearea">
-								<p class="input_row txt" style="color: rgb(26, 26, 26);">환영합니다, ${knick}님!</p>
+								<p class="input_row txt" style="color: rgb(26, 26, 26);">
+                  					<c:if test="${sessionScope.sid != null}">환영합니다! ${sid}님</c:if>
+                  					<c:if test="${sessionScope.knick != null}">환영합니다! ${knick}님</c:if>                  
+               					</p>
 								<a href="/hos/roh/myProfileForm">내 프로필</a>
 								<a id="logoutButton" href="/hos/kim/main">로그아웃</a>
 							</div>
@@ -933,7 +734,7 @@ function toggleForms() {
 							}
 			
 							// Assuming each page displays 10 items
-							var itemsPerPage = 6;
+							var itemsPerPage = 5;
 							var currentPage = 1;
 			
 							// Call the pagination function to display the initial page
@@ -1184,6 +985,209 @@ function toggleForms() {
 		})
 		</script>
     </body>
+    <style>
+    #kakao-login-btn {
+	    background-color: #FFEB00;
+	    color: #000000;
+	    border: none;
+	    padding: 1px 6px;
+	    font-size: 16px;
+	    cursor: pointer;
+	    border-radius: 5px;
+	    width:100px;
+    }
     
+	#kakao-login-btn img{width:100%;}
+    
+	.btn-primary {
+	    --bs-btn-color: black;
+	    --bs-btn-bg: white;
+	    --bs-btn-border-color: white;
+	    --bs-btn-hover-color: #fff;
+	    --bs-btn-hover-bg: #0b5ed7;
+	    --bs-btn-hover-border-color: #0a58ca;
+	    --bs-btn-focus-shadow-rgb: 49,132,253;
+	    --bs-btn-active-color: #fff;
+	    --bs-btn-active-bg: #0a58ca;
+	    --bs-btn-active-border-color: #0a53be;
+	    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+	    --bs-btn-disabled-color: #fff;
+	    --bs-btn-disabled-bg: #0d6efd;
+	    --bs-btn-disabled-border-color: #0d6efd;
+	}
+
+	.btn-primary2 {
+	    --bs-btn-color: black;
+	    --bs-btn-bg: white;
+	    --bs-btn-border-color: white;
+	    --bs-btn-hover-color: #fff;
+	    --bs-btn-hover-bg: #0b5ed7;
+	    --bs-btn-hover-border-color: #0a58ca;
+	    --bs-btn-focus-shadow-rgb: 49,132,253;
+	    --bs-btn-active-color: #fff;
+	    --bs-btn-active-bg: #0a58ca;
+	    --bs-btn-active-border-color: #0a53be;
+	    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+	    --bs-btn-disabled-color: #fff;
+	    --bs-btn-disabled-bg: #0d6efd;
+	    --bs-btn-disabled-border-color: #0d6efd;
+	    position: absolute;
+	    top: 20px;
+	    left: 20px;
+	}
+
+	.offcanvas{
+	    --bs-offcanvas-zindex: 1045;
+	    --bs-offcanvas-width: 220px;
+	    --bs-offcanvas-height: 30vh;
+	    --bs-offcanvas-padding-x: 1rem;
+	    --bs-offcanvas-padding-y: 1rem;
+	    --bs-offcanvas-color: var(--bs-body-color);
+	    --bs-offcanvas-bg: var(--bs-body-bg);
+	    --bs-offcanvas-border-width: var(--bs-border-width);
+	    --bs-offcanvas-border-color: var(--bs-border-color-translucent);
+	    --bs-offcanvas-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+	    --bs-offcanvas-transition: transform 0.3s ease-in-out;
+	    --bs-offcanvas-title-line-height: 1.5;
+	}
+
+	#offcanvasRight{
+	    --bs-offcanvas-zindex: 1045;
+	    --bs-offcanvas-width: 400px;
+	    --bs-offcanvas-height: 30vh;
+	    --bs-offcanvas-padding-x: 1rem;
+	    --bs-offcanvas-padding-y: 1rem;
+	    --bs-offcanvas-color: var(--bs-body-color);
+	    --bs-offcanvas-bg: var(--bs-body-bg);
+	    --bs-offcanvas-border-width: var(--bs-border-width);
+	    --bs-offcanvas-border-color: var(--bs-border-color-translucent);
+	    --bs-offcanvas-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+	    --bs-offcanvas-transition: transform 0.3s ease-in-out;
+	    --bs-offcanvas-title-line-height: 1.5;
+	}
+
+	.MuiAvatar-img{
+		width: 35px;
+		height: 35px;
+		border-radius: 50%;
+		overflow: hidden;
+		position: absolute;
+		top: 20px;
+		right: 20px;
+	}
+
+	.dropdown-divider{
+		content: "";
+		display: block;
+		width: 3px;
+		border-bottom: 3px;
+	}
+
+	#closeLoginModal {
+		position: absolute;
+		top: 0px;
+		right: 10px;
+		font-size: 20px;
+		background: none;
+		border: none;
+		cursor: pointer;
+	}
+
+	#loginModal {
+		position: absolute;
+		top: 48.8%;
+		left: 91.2%;
+		transform: translate(-50%, -50%);
+		width: 300px;
+	}
 	
+	.p-header {
+		background:#fff;
+		height: 64px;
+	}
+		
+	.p-header > div {
+		padding: 0px 15px 0px 15px;
+	}
+	
+	.p-header2 {
+		height: 54px;
+		
+	}
+	
+	.p-header2 > div {
+		padding: 0px 15px 0px 15px;
+	}
+	
+	.gps-icon {
+	 	position:absolute;
+	 	top: 34.2%;
+	 	right: 0.2%;
+	 	z-index:1;
+	}
+	
+	#toggle-menu { 
+	    display: none;
+	    z-index:3;
+	}
+	
+	.container {
+		background-color: #fff;
+		display: flex;
+	}
+	
+	.sidebar {
+		width: 500px;
+	  	background-color: #fff;
+	  	transition: transform 0.5s ease;
+	  	transform: translateX(-500px);
+	  	position: fixed;
+	  	top: 118px;
+	  	z-index:1;
+	  	overflow-y: auto;
+	  	height: 85vh;
+	}
+	
+	.sidebar ul {
+		margin-left: 27px;
+		height: 95%;
+	}
+	.sidebar li {
+		display: block;
+		width: 24rem;
+	}
+	.sidebar.open {
+	  	transform: translateX(0);
+	}
+	
+	#pagination {
+		display: flex;
+   		justify-content: center;
+   		gap: 5px;
+	}
+	
+	.content {
+		flex: 1;
+	  	padding: 20px;
+	}
+	
+	.menu-button {
+		cursor: pointer;
+		position: absolute;
+		top:52vh;
+	  	z-index: 2;
+	  	border-color: #fff;
+	  	background-color: #fff;
+	  	cursor: pointer;
+	  	width: 23px;
+	  	height: 50px;
+	  	border-radius: 0px 3px 3px 0px;
+	  	display: flex;
+	  	justify-content: center;
+	  	align-items: center;
+	  	padding-right: 4px;
+	  	transition: transform 0.5s ease;
+	}
+	a{color:#111;}
+	</style>
 </html>
