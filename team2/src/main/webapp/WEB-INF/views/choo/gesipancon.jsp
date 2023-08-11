@@ -26,12 +26,12 @@
 		</tr>
 		<tr>
 			<td colspan="4" align="right">
-		<c:if test="${dto.id != null && memId != null || nick != null}">
-			<c:if test="${dto.id == memId || dto.id == nick}">
+		<c:if test="${dto.id != null && dto1.id != null}">
+			<c:if test="${dto.id == dto1.id || dto.id == nick || dto1.memberType == 2}">
 				<input type="button" value="글수정" onclick="location.href='gesipanupdate?num=${dto.num}&pageNum=${pageNum}'">
 				<input type="button" value="글삭제" onclick="location.href='gesipandelect?num=${dto.num}&pageNum=${pageNum}'">
 			</c:if>
-			<c:if test="${dto.id != null}">
+			<c:if test="${dto1.id != null}">
 				<c:if test="${dto1.memberType == 2}">
 				<input type="button" value="답 글" onclick="location.href='reconWrite?num=${dto.num}'">
 				</c:if>

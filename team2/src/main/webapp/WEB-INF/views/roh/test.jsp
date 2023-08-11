@@ -11,10 +11,6 @@
 <script src="//code.jquery.com/jquery-3.7.0.min.js"></script>
 <!-- 폰트어썸 -->
 <script src="https://kit.fontawesome.com/f507061817.js" crossorigin="anonymous"></script>
-<!-- 챗봇 -->
-<script src="/hos/resources/js/chatForm2.js"></script>
-<script src="/hos/resources/js/chatForm.js"></script>
-<link rel="stylesheet" type="text/css" href="/hos/resources/css/chatbot.css">
 <!-- 카카오 로그인 -->        
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <!-- 닥터게이트 -->

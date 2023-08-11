@@ -95,7 +95,16 @@ public class ChooController {
 	}
 	
 	@RequestMapping("addressselect")
-	public String addressselect(Model model) {		//시랑 구를 텍스트로 입력값을 넣는 페이지
+	public String addressselect(Model model, HttpSession session) {		//시랑 구를 텍스트로 입력값을 넣는 페이지
+		String id = (String)session.getAttribute("sid");
+		String id1 = (String)session.getAttribute("kid");
+		
+		if(id != null) {
+			model.addAttribute("memId", id);
+		}else if(id1 != null) {
+			model.addAttribute("kid", id1);
+		}
+		
 		return "/choo/addressselect";
 	}
 	
@@ -1035,7 +1044,6 @@ public class ChooController {
 		if(id != null) {
 			dto1 = service.memtype(id);									//멤버타입 확인하기 위한 것
 			model.addAttribute("dto1",dto1);
-			model.addAttribute("memId", id);
 		}
 		
 		
@@ -1082,7 +1090,16 @@ public class ChooController {
 	
 	//고객센터 작성글 삭제
 	@RequestMapping("gesipandelect")
-	public String gesipandelect(Model model, int num, String pageNum) {
+	public String gesipandelect(Model model, int num, String pageNum, HttpSession session, RohDTO dto) {
+		String id = (String)session.getAttribute("sid");
+		
+		if(id != null) {
+			dto = service.memtype(id);
+			model.addAttribute("dto", dto);
+			model.addAttribute("num",num);
+			model.addAttribute("pageNum",pageNum);
+		}
+		
 		model.addAttribute("num",num);
 		model.addAttribute("pageNum",pageNum);
 		
@@ -1092,7 +1109,19 @@ public class ChooController {
 	
 	//고객센터 작성글 삭제
 	@RequestMapping("gesipandelectPro")
-	public String gesipandelectPro(Model model, int num, String pageNum, String pw) {
+	public String gesipandelectPro(Model model, int num, String pageNum, String pw, HttpSession session, RohDTO dto) {
+		String id = (String)session.getAttribute("sid");
+		String memberType = "";
+		
+		if(id != null) {
+			dto = service.memtype(id);
+			memberType = dto.getMemberType();
+		}else if(memberType.equals("2")) {
+			model.addAttribute("type", memberType);
+			service.gesipandelect(num);
+			model.addAttribute("pageNum", pageNum);
+		}else if(memberType != "2") {
+		
 		model.addAttribute("pw",pw);
 		int check = service.pwcheck(num, pw);
 		
@@ -1103,7 +1132,7 @@ public class ChooController {
 		}else {
 			model.addAttribute("count",check);
 		}
-		
+	}	
 		return "choo/gesipandelectPro";
 	}
 	
@@ -1186,11 +1215,5 @@ public class ChooController {
 	public String test() {
 		
 		return "choo/test";
-	}
-	
-	@RequestMapping("test1")
-	public String test1() {
-		
-		return "choo/test1";
 	}
 }
