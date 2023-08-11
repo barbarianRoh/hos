@@ -198,7 +198,7 @@
 			
 			<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 				<div class="offcanvas-header">
-					<h5 class="offcanvas-title" id="offcanvasExampleLabel">아파, 어디가?</h5>
+					<a class="offcanvas-title" id="offcanvasExampleLabel" href="/hos/kim/main">아파:어디가?</a>
 					<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 				</div>
 				
@@ -228,6 +228,11 @@
 						
 						<ul class = "nav flex-column">
 							<li><a class = "nav-link active" aria-current="page" href="/hos/choo/addressselect">병원찾기</a></li>
+							<li>
+								<c:if test="${sessionScope.sid != null || sessionScope.knick != null  }">
+									<a class = "nav-link active" aria-current="page" href="/hos/choo/userhosselect">최근 찾은 병원</a>						
+								</c:if>
+							</li>							
 						</ul>
 					
 						<div>
@@ -271,7 +276,13 @@
 							</form>
 						</c:if>
 						<div id="myInfoForm" class="profilearea">
-							<p class="input_row txt" style="color: rgb(26, 26, 26);">환영합니다, ${knick}님!</p>
+						    <p class="input_row txt" style="color: rgb(26, 26, 26);">
+								<c:if test="${sessionScope.sid != null && sessionScope.knick == null}">
+									<button id="closeLoginModal" class="close-button">×</button>
+								</c:if>						    	
+						    	<c:if test="${sessionScope.sid != null}">환영합니다! ${sid}님</c:if>
+								<c:if test="${sessionScope.knick != null}">환영합니다! ${knick}님</c:if>	
+						    </p>						
 							<a href="/hos/roh/myProfileForm">내 프로필</a>
 							<a id="logoutButton" href="/hos/kim/main">로그아웃</a>
 						</div>
