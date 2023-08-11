@@ -102,7 +102,7 @@ public class RohController {
 			session.setAttribute("sbirth", dto.getBirth());
 			session.setAttribute("smembertype", dto.getMemberType());
 			session.setAttribute("senabled", dto.getEnabled());
-			System.out.println(dto.getEnabled());
+			//System.out.println(dto.getEnabled());
 			if(dto.getEnabled().equals("0")) {
 				model.addAttribute("enabledFailed", true);
 				session.invalidate();
