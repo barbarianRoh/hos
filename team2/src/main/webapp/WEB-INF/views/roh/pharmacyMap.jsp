@@ -184,7 +184,7 @@
             
             <div class="p-header2 align-items-center d-flex row-g3 search-header">
 	            <ul>
-	            	<li>
+	            	<li style="padding: 0 40px;">
 	            		<input type="text" id="areaKeyword" placeholder="지역입력" onkeydown="searchEnter(event)" /><button id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
 	            	</li>
 	            	<li>
@@ -1032,7 +1032,7 @@
 	    --bs-btn-disabled-bg: #0d6efd;
 	    --bs-btn-disabled-border-color: #0d6efd;
 	    position: absolute;
-	    top: 20px;
+	    top: 12px;
 	    left: 20px;
 	}
 
@@ -1072,8 +1072,8 @@
 		border-radius: 50%;
 		overflow: hidden;
 		position: absolute;
-		top: 20px;
-		right: 20px;
+		top: 14px;
+		right: 25px;
 	}
 
 	.dropdown-divider{
