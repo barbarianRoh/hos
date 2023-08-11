@@ -11,7 +11,10 @@
 <script src="//code.jquery.com/jquery-3.7.0.min.js"></script>
 <!-- 폰트어썸 -->
 <script src="https://kit.fontawesome.com/f507061817.js" crossorigin="anonymous"></script>
-
+<!-- 챗봇 -->
+<script src="/hos/resources/js/chatForm2.js"></script>
+<script src="/hos/resources/js/chatForm.js"></script>
+<link rel="stylesheet" type="text/css" href="/hos/resources/css/chatbot.css">
 <!-- 카카오 로그인 -->        
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <!-- 닥터게이트 -->
@@ -107,7 +110,14 @@ function toggleForms() {
 				
 				<ul class = "nav flex-column">
 					<li><a class = "nav-link active" aria-current="page" href="/hos/choo/addressselect">병원찾기</a></li>
+					<li>
+						<c:if test="${sessionScope.sid != null}">
+							<a class = "nav-link active" aria-current="page" href="/hos/choo/userhosselect">최근 찾은 병원</a>						
+						</c:if>
+						
+					</li>					
 				</ul>
+				
 			
 				<div>
 					<hr style="margin-top: 10px; margin-bottom: 10px; border-color: black;">
@@ -150,7 +160,11 @@ function toggleForms() {
 					</form>
 				</c:if>
 				<div id="myInfoForm" class="profilearea">
-					<p class="input_row txt" style="color: rgb(26, 26, 26);">환영합니다, ${knick}님!</p>
+					<p class="input_row txt" style="color: rgb(26, 26, 26);">
+						<c:if test="${sessionScope.sid != null}">환영합니다! ${sid}님</c:if>
+						<c:if test="${sessionScope.knick != null}">환영합니다! ${knick}님</c:if>						
+					</p>
+					
 					<a href="/hos/roh/myProfileForm">내 프로필</a>
 					<a id="logoutButton" href="/hos/kim/main">로그아웃</a>
 				</div>
@@ -239,5 +253,119 @@ Kakao.Auth.createLoginButton({
 </script>
 
 <style>
+#kakao-login-btn {
+    background-color: #FFEB00;
+    color: #000000;
+    border: none;
+    padding: 1px 6px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    width:100px;
+}
+    
+#kakao-login-btn img{width:100%;}
+    
+.btn-primary {
+    --bs-btn-color: black;
+    --bs-btn-bg: white;
+    --bs-btn-border-color: white;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #0b5ed7;
+    --bs-btn-hover-border-color: #0a58ca;
+    --bs-btn-focus-shadow-rgb: 49,132,253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #0a58ca;
+    --bs-btn-active-border-color: #0a53be;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #0d6efd;
+    --bs-btn-disabled-border-color: #0d6efd;
+}
 
+.btn-primary2 {
+    --bs-btn-color: black;
+    --bs-btn-bg: white;
+    --bs-btn-border-color: white;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #0b5ed7;
+    --bs-btn-hover-border-color: #0a58ca;
+    --bs-btn-focus-shadow-rgb: 49,132,253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #0a58ca;
+    --bs-btn-active-border-color: #0a53be;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #0d6efd;
+    --bs-btn-disabled-border-color: #0d6efd;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.offcanvas{
+    --bs-offcanvas-zindex: 1045;
+    --bs-offcanvas-width: 220px;
+    --bs-offcanvas-height: 30vh;
+    --bs-offcanvas-padding-x: 1rem;
+    --bs-offcanvas-padding-y: 1rem;
+    --bs-offcanvas-color: var(--bs-body-color);
+    --bs-offcanvas-bg: var(--bs-body-bg);
+    --bs-offcanvas-border-width: var(--bs-border-width);
+    --bs-offcanvas-border-color: var(--bs-border-color-translucent);
+    --bs-offcanvas-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --bs-offcanvas-transition: transform 0.3s ease-in-out;
+    --bs-offcanvas-title-line-height: 1.5;
+}
+
+#offcanvasRight{
+    --bs-offcanvas-zindex: 1045;
+    --bs-offcanvas-width: 400px;
+    --bs-offcanvas-height: 30vh;
+    --bs-offcanvas-padding-x: 1rem;
+    --bs-offcanvas-padding-y: 1rem;
+    --bs-offcanvas-color: var(--bs-body-color);
+    --bs-offcanvas-bg: var(--bs-body-bg);
+    --bs-offcanvas-border-width: var(--bs-border-width);
+    --bs-offcanvas-border-color: var(--bs-border-color-translucent);
+    --bs-offcanvas-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --bs-offcanvas-transition: transform 0.3s ease-in-out;
+    --bs-offcanvas-title-line-height: 1.5;
+}
+
+.MuiAvatar-img{
+	width: 35px; /* 필요한 크기에 맞게 조정해주세요 */
+	height: 35px;
+	border-radius: 50%;
+	overflow: hidden; /* 이 속성으로 넘치는 내용을 가리게 됩니다 */
+	position: absolute;
+	top: 20px;
+	right: 20px;
+}
+
+.dropdown-divider{
+	content: "";
+	display: block;
+	width: 3px;
+	border-bottom: 3px;
+}
+
+#closeLoginModal {
+	position: absolute;
+	top: 0px;
+	right: 10px;
+	font-size: 20px;
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+#loginModal {
+	position: absolute;
+	top: 48.8%;
+	left: 91.2%;
+	transform: translate(-50%, -50%);
+	width: 300px;
+	/* ... (other styles) ... */
+}
 </style>

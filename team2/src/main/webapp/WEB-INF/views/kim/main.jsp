@@ -213,7 +213,7 @@
             <a class="btn btn-primary2" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"><i class="fa-solid fa-bars" style="color: #000000;"></i></a>
 			<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 			  <div class="offcanvas-header">
-			    <h5 class="offcanvas-title" id="offcanvasExampleLabel">아파:어디가?</h5>
+			    <a class="offcanvas-title" id="offcanvasExampleLabel" href="/hos/kim/main">아파:어디가?</a>
 			    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 			  </div>
 			  <div>
@@ -242,6 +242,11 @@
 						<li>
 							<a class = "nav-link active" aria-current="page" href="/hos/choo/addressselect">병원찾기</a>						
 						</li>
+						<li>
+							<c:if test="${sessionScope.sid != null || sessionScope.knick != null  }">
+								<a class = "nav-link active" aria-current="page" href="/hos/choo/userhosselect">최근 찾은 병원</a>						
+							</c:if>
+						</li>						
 					</ul>
 					<div>
 						<hr style="margin-top: 10px; margin-bottom: 10px; border-color: black;">
@@ -312,22 +317,28 @@
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     <div class="col mb-5">
                         <div class="card h-100">
-                            <!-- Product image-->
-                         
-                            <!-- Product details-->
-                            <div class="card-body p-4">
+                            <!-- Sale badge-->
+                                <div class="card-body p-4">
                                 <div class="text-center">
                                     <!-- Product name-->
                                     <h5 class="fw-bolder">병원지도</h5>
+                                    <!-- Product reviews-->
+                                    <div class="d-flex justify-content-center small text-warning mb-2">
+                                    </div>
                                     <!-- Product price-->
-                                    쓸 말 정리해서 쓰기<br/><br/><br/><br/><br/><br/>
+                                    <span class="text-muted text-decoration-line-through"></span>
+                                    내 주위 병원을 찾아보세요!<br/><br/>
+                                    <div>
+                                	    <i class="fa-solid fa-hospital fa-10x"></i>
+                                	</div>
                                 </div>
                             </div>
+                            <!-- Product actions-->
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/hos/choo/selectHos">서비스 이용하기</a></div>
                             </div>
                         </div>
-                    </div>
+                    </div>                    
                     <div class="col mb-5">
                         <div class="card h-100">
                             <!-- Sale badge-->
@@ -340,7 +351,10 @@
                                     </div>
                                     <!-- Product price-->
                                     <span class="text-muted text-decoration-line-through"></span>
-                                    쓸 말 정리해서 쓰기<br/><br/><br/><br/><br/><br/><br/><br/><br/></br>
+                                    내 주위 약국을 찾아보세요!<br/><br>
+                                    <div>
+                                    	<i class="fa-solid fa-prescription-bottle-medical fa-10x"></i>
+                                	</div>
                                 </div>
                             </div>
                             <!-- Product actions-->
@@ -356,9 +370,14 @@
                                 <div class="text-center">
                                     <!-- Product name-->
                                     <h5 class="fw-bolder">부위별 병원 찾기</h5>
+                                    <div class="d-flex justify-content-center small text-warning mb-2">
+                                    </div>                                    
                                     <!-- Product price-->
                                     <span class="text-muted text-decoration-line-through"></span>
-                                    쓸 말 정리해서 쓰기<br/><br/><br/><br/><br/><br/><br/><br/><br/></br>
+                                    아픈 곳을 클릭해보세요!<br/><br/>
+                                    <div>
+                                    	<i class="fa-solid fa-person fa-10x"></i>
+                                	</div>
                                 </div>
                             </div>
                             <!-- Product actions-->
@@ -375,8 +394,13 @@
                                 <div class="text-center">
                                     <!-- Product name-->
                                     <h5 class="fw-bolder">약품정보</h5>
+                                    <div class="d-flex justify-content-center small text-warning mb-2">
+                                    </div>                                    
                                     <!-- Product price-->
-                                    쓸 말 정리해서 쓰기<br/><br/><br/><br/><br/><br/><br/><br/><br/></br>
+                                    약의 정보를 찾아보세요!<br/><br/>
+                                    <div>
+                                    	<i class="fa-solid fa-capsules fa-10x"></i>
+                                	</div>
                                 </div>
                             </div>
                             <!-- Product actions-->
