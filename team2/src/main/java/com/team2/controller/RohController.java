@@ -110,7 +110,8 @@ public class RohController {
 		} else { 
 			model.addAttribute("loginFailed", true);
 		}
-		return "/roh/home";
+		//return "/roh/home";
+		return "/kim/main";
 	}
 	
 	//로그아웃
