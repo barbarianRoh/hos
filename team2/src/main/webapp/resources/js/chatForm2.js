@@ -7,7 +7,6 @@
         event.preventDefault();
         if ($('#message').val() == "") {
           // 질문을 입력하지 않고 제출 버튼을 클릭했을 때 환영 메시지가 표시되는 것을 방지합니다.
-          alert("질문을 입력해주세요.");
           return false;
         }
         if ($('#message').val() != "") {
@@ -139,7 +138,6 @@
             }
           },
           error: function(data) {
-            alert("오류가 발생했습니다.");
           }
         });
       }

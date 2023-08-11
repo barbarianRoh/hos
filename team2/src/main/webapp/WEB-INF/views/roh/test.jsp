@@ -1,52 +1,77 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<meta charset="UTF-8">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+   
+<a id="kakao-login-btn"></a>
 
-<title>테스트</title>
-
-<!-- 카카오맵API와 서비스, 클러스터기능 라이브러리 -->
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f4352b5c75fa4dee61f430ab3f1ff6f4&libraries=services"></script>
-
-<div id="centerAddr">위치정보 표시자리</div>
-
-<script>
-var address = null;
-var sido = null;
-var gugun = null;
-
-if(navigator.geolocation) {
-	navigator.geolocation.getCurrentPosition(onSuccess, onError);
-} else {
-	console.log("Geolocation 위치정보 오류")
-}
-
-function onSuccess(position) {
-	var latitude = position.coords.latitude;
-	var longitude = position.coords.longitude;
-	var coords = new kakao.maps.LatLng(latitude, longitude);
+	<script>
+	var loginBtnElement = document.getElementById('kakao-login-btn');
 	
-	var geocoder = new kakao.maps.services.Geocoder();
+	//로그인
+	Kakao.init('f4352b5c75fa4dee61f430ab3f1ff6f4'); // javascript키
+	//console.log(Kakao.isInitialized()); // 카카오디벨로퍼 활성화시 true
+	Kakao.Auth.createLoginButton({
+		container: loginBtnElement,
+		success: function(authObj) {
+			Kakao.API.request({
+				url: '/v2/user/me',
+				success: function(result) {
+					console.log(result);
+					$('#result').append(result);
+					id = result.id;
+					connected_at = result.connected_at;
+					kakao_account = result.kakao_account;
+					$('#result').append(kakao_account);
+					resultdiv = "<h2>로그인 성공 !!";
+					resultdiv += '<h4>id: ' + id + '<h4>';
+					resultdiv += '<h4>connected_at: '+connected_at+'<h4>';
 	
-	geocoder.coord2Address(coords.getLng(), coords.getLat(), function(result, status) {
-		if(status === kakao.maps.services.Status.OK) {
-			address = result[0].address.address_name;
-			
-			var infoDiv = document.getElementById('centerAddr');
-			infoDiv.innerHTML = address;
-			
-			sido = result[0].address.address_name.split(" ")[0];
-			gugun = result[0].address.address_name.split(" ")[1];
-			
-			console.log(address);
-			console.log(sido);
-			console.log(gugun);
-		} else {
-			console.error("Error getting address: ", status);
-		}
-	});
-}
-
-function onError(error) {
-	console.error("Error getting location: ", error.message);
-}
-</script>
+					nick = kakao_account.profile.nickname;
+					resultdiv += '<h4>nick: ' + nick + '<h4>';
+	
+					gender = kakao_account.gender;
+					resultdiv += '<h4>gender: ' + gender + '<h4>';
+	
+					age_range = kakao_account.age_range;
+	                resultdiv += '<h4>age_range: ' + age_range + '<h4>';
+	                
+					$('#result').append(resultdiv);
+					// 서버로 값 전송
+					$.ajax({
+						type : 'POST',
+						url : 'kakaoSigninPro',
+						data : {
+							id : id,
+							nick : nick,
+							gender : gender ? gender : null,
+	                        age_range : age_range ? age_range : null
+							// 필요한경우 추가작성
+						},
+						success : function(response) {
+							// 서버로부터 응답 처리
+							console.log(response);
+							//location.reload()
+							// 원하는 작업 수행
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+				            // 현재 에러가 나오고는 있으나 DB, 로그인 자체는 정상적으로 진행되는것으로 확인됨
+							console.log(jqXHR);
+				            console.log(textStatus);
+				            console.log(errorThrown);
+						},
+						complete: function() {
+							location.reload();
+						}
+					});
+				},
+				fail: function(error) {
+					alert('login success, but failed to request user information: ' +JSON.stringify(error))
+				},
+			})
+		},
+		fail: function(err) {
+			alert('failed to login: ' + JSON.stringify(err))
+		},
+	})
+	</script>

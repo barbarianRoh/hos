@@ -1,5 +1,7 @@
 package com.team2.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.team2.component.KimDTO;
 import com.team2.mapper.KimMapper;
+import com.team2.service.RohService;
 import com.team2.service.SympotyService;
 
 
@@ -20,9 +23,16 @@ public class KimController {
 	@Autowired
 	private SympotyService service;
 	
+	@Autowired
+	private RohService service2;
+	
 	@RequestMapping("/symptom")
 	public String symptom() {
 		return "kim/symptom";
+	}
+	@RequestMapping("/main")
+	public String main() {
+		return "kim/main";
 	}
 	@RequestMapping("/symptomtest")
 	public String symptomtest() {
@@ -56,6 +66,32 @@ public class KimController {
         kimDTO.setSymptom_name(symptomName);
         service.updateSymptomCount(kimDTO);
     }
+    
+    
+ 	@RequestMapping("kakaoSigninPro")
+ 	public String kakaoSigninPro(HttpSession session,
+ 			@RequestParam String id,
+ 			@RequestParam String nick,
+ 			@RequestParam String gender,
+ 			@RequestParam String age_range) {
+ 		
+ 		String kId = id; 
+ 		String kNick = nick;
+ 		String kGender = gender;
+ 		String kAge = age_range;
+ 	      
+ 		int count = service.kSignin(kId);
+ 	      
+ 		if(count == 0) {
+ 			service.kSignup(kId, kNick, kGender, kAge);
+ 		}
+ 		session.setAttribute("kid", kId);
+ 		session.setAttribute("knick", kNick);
+ 		session.setAttribute("kgender", kGender);
+ 		session.setAttribute("kage", kAge);
+ 		
+ 		return "roh/home";
+ 	}
 
 	
 }

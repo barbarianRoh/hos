@@ -9,4 +9,11 @@
 		SET count = count + 1
 		WHERE symptom_name = #{symptom_Name}
 	</update>
+	<select id="kSignin" resultType="int">
+		select count(*) from p2_kMember where kId=#{kId}
+	</select>
+	
+	<insert id="kSignup">
+		insert into p2_kmember values(#{kId}, #{kNick}, #{kGender}, #{kAge}, '1', sysdate, '1')
+	</insert>
 </mapper>

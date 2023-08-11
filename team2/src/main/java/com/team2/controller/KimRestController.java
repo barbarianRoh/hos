@@ -22,5 +22,14 @@ public class KimRestController {
         return "kim/message"; 
     }
 	
+	@RequestMapping("/roh/chatbotArtineer1")
+    public String chatbotSend2(@RequestParam("inputText") String inputText,Model model) {
+        
+        model.addAttribute("message",chatbotService.chatbotArtineer(inputText));
+        return "kim/message"; 
+    }
+	
+	
+	
 
 } 

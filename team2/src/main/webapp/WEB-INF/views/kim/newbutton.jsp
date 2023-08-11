@@ -1,41 +1,77 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!-- CSS only -->
-<!DOCTYPE html>
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content = "IE=edge">
-	<title>오프캔버스</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">    
-	<!-- JavaScript Bundle with Popper -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>    
-	<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-	<script src="/hos/resources/js/chatForm2.js"></script>
-	<link rel="stylesheet" type="text/css" href="/hos/resources/css/chatbot.css">
-</head>
-<body>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+   
+<a id="kakao-login-btn"></a>
 
-<button id = "offcanvas-Button" class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Toggle right offcanvas</button>
-
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-  <div class="offcanvas-header">
-    <h3 id="offcanvasRightLabel">챗봇 서비스</h3>
-    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-  </div>
-  <div class="offcanvas-body">
-    <body>
-	  <div id="wrap">
+	<script>
+	var loginBtnElement = document.getElementById('kakao-login-btn');
 	
-	    <!-- 응답 메시지 표시 -->
-	    <div id="chatBox"></div><br>
+	//로그인
+	Kakao.init('f4352b5c75fa4dee61f430ab3f1ff6f4'); // javascript키
+	//console.log(Kakao.isInitialized()); // 카카오디벨로퍼 활성화시 true
+	Kakao.Auth.createLoginButton({
+		container: loginBtnElement,
+		success: function(authObj) {
+			Kakao.API.request({
+				url: '/v2/user/me',
+				success: function(result) {
+					console.log(result);
+					$('#result').append(result);
+					id = result.id;
+					connected_at = result.connected_at;
+					kakao_account = result.kakao_account;
+					$('#result').append(kakao_account);
+					resultdiv = "<h2>로그인 성공 !!";
+					resultdiv += '<h4>id: ' + id + '<h4>';
+					resultdiv += '<h4>connected_at: '+connected_at+'<h4>';
 	
-	    <!-- 질문 메시지 입력 폼 -->
-	    <form id="chatForm">
-	      <input type="text" id="message" name="message" size="30" placeholder="질문을 입력하세요">
-	      <input type="submit" value="제출">
-	    </form>
-	  </div>
-	</body>
-  </div>
-</div>
-</body>
+					nick = kakao_account.profile.nickname;
+					resultdiv += '<h4>nick: ' + nick + '<h4>';
+	
+					gender = kakao_account.gender;
+					resultdiv += '<h4>gender: ' + gender + '<h4>';
+	
+					age_range = kakao_account.age_range;
+	                resultdiv += '<h4>age_range: ' + age_range + '<h4>';
+	                
+					$('#result').append(resultdiv);
+					// 서버로 값 전송
+					$.ajax({
+						type : 'POST',
+						url : 'kakaoSigninPro',
+						data : {
+							id : id,
+							nick : nick,
+							gender : gender ? gender : null,
+	                        age_range : age_range ? age_range : null
+							// 필요한경우 추가작성
+						},
+						success : function(response) {
+							// 서버로부터 응답 처리
+							console.log(response);
+							//location.reload()
+							// 원하는 작업 수행
+						},
+						error: function(jqXHR, textStatus, errorThrown) {
+				            // 현재 에러가 나오고는 있으나 DB, 로그인 자체는 정상적으로 진행되는것으로 확인됨
+							console.log(jqXHR);
+				            console.log(textStatus);
+				            console.log(errorThrown);
+						},
+						complete: function() {
+							location.reload();
+						}
+					});
+				},
+				fail: function(error) {
+					alert('login success, but failed to request user information: ' +JSON.stringify(error))
+				},
+			})
+		},
+		fail: function(err) {
+			alert('failed to login: ' + JSON.stringify(err))
+		},
+	})
+	</script>
