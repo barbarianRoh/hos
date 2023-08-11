@@ -195,7 +195,6 @@ public class HongController {
     	
     	// entpNameList가 비어있지 않으면 for문을 실행
     	if(entpNameList.getLength() > 0) {
-    		System.out.println("약 찾음-=="+resultCodeList.getLength());
     		// for문을 반복해서  Nodelist 요소를 반복하고 String 변수에 추출된 값을 추가해서 텍스트 콘텐츠를 추출
     		for(int i = 0; i < resultCodeList.getLength(); i++) {
     			Element resultCodeElement = (Element)resultCodeList.item(i);
@@ -338,7 +337,7 @@ public class HongController {
     
 
 	@RequestMapping("othertotal")
-	public String otherlist(@RequestParam(defaultValue = "1") int page, Model model, String keyword2) throws ParserConfigurationException, SAXException, MalformedURLException, IOException {
+	public String othertotal(@RequestParam(defaultValue = "1") int page, Model model, String keyword2) throws ParserConfigurationException, SAXException, MalformedURLException, IOException {
 		
 		final int rowpages = 21;	// 한페이지당 보여줄 행의 수
        
@@ -363,7 +362,6 @@ public class HongController {
 	        totalPages = (int) Math.ceil((double) totalRows / rowpages);
 
 		    url = urlBuilder.toString();
-		    System.out.println(url);
 		    
 		} catch(UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -560,7 +558,6 @@ public class HongController {
 		// entpNameList가 비어있지 않으면 for문을 실행
             
    // 	if(itemNameList.getLength() > 0) {
-		System.out.println("약 찾음-=="+itemNodeList.getLength());
 		// for문을 반복해서  Nodelist 요소를 반복하고 String 변수에 추출된 값을 추가해서 텍스트 콘텐츠를 추출
 		 for (int i = 0; i < itemNodeList.getLength(); i++) {
              Element itemElement = (Element) itemNodeList.item(i);
@@ -590,12 +587,11 @@ public class HongController {
          if(!ITEM_NAME_VALUES.isEmpty()) {
         	 return "/hong/otheritemName";        	
         }
-         
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-	    return "/hong/error";
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+    return "/hong/error";
+}
     	
     @Autowired
     private HongService hongService;
@@ -632,5 +628,10 @@ public class HongController {
     @RequestMapping("main2")
     public String main2(Model model) {
     	return "/hong/taunt";
+    }
+    
+    @RequestMapping("test")
+    public String test(Model model) {
+    	return "/hong/test";
     }
 }
