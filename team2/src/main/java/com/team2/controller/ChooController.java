@@ -1181,4 +1181,16 @@ public class ChooController {
 		
 		return "choo/userhosselect";
 	}
+	
+	@RequestMapping("test")
+	public String test() {
+		
+		return "choo/test";
+	}
+	
+	@RequestMapping("test1")
+	public String test1() {
+		
+		return "choo/test1";
+	}
 }

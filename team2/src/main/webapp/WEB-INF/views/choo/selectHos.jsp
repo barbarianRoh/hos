@@ -8,28 +8,9 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" >
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- 카카오맵API와 서비스, 클러스터기능 라이브러리 불러옴 -->
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449&libraries=services,clusterer"></script>
 
-<!-- 지도를 표시할 div 입니다 -->
-<div id="map" style="width:2000px;height:800px;"></div>
 
-<script>
 
-var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
-var mapOption = { 
-        center: new kakao.maps.LatLng(37.350701, 127.0016), // 지도의 중심좌표
-        level: 13 // 지도의 확대 레벨
-    };
-    
-//지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-var map = new kakao.maps.Map(mapContainer, mapOption);
-</script>
-
-<div class="d-flex justify-content-start">
-<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="where1" id="where1"></select>
-<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="apa1" id="apa1"></select>
-</div>
 
 <script>
 $('document').ready(function(){
@@ -78,6 +59,52 @@ $('document').ready(function(){
 		});
 		console.log(apaValue);
 });
+</script>
+
+<div>
+<p style="font-size: 20px;font-weight:400;">증상으로 병원 검색</p>
+</div>
+<div class="d-flex justify-content-start mb-0">
+<!-- W0은 선택된 부위의 값 W1 선택된 증상의 값 -->
+<form method="get" name="selectHos" action="/hos/choo/resultHos">
+	
+	<div class="d-flex justify-content-start" style="width:80%;">
+		<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="where1" id="where1"></select>&nbsp;&nbsp;
+		<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="apa1" id="apa1"></select>&nbsp;&nbsp;
+	
+		<input type="hidden" id="W0" name="W0" value="">
+		<input type="hidden" id="W1" name="W1" vlaue="">
+		<input type="hidden" id="Q0" name="Q0" value="">
+		<input type="hidden" id="Q1" name="Q1" value="">
+	
+	
+	<input class="btn btn-primary" type="submit" value="검색">
+	</div>
+</form>
+<div class="">
+<div class="container mb-0"></div>
+<button class="btn btn-info" onclick="panTo()" style="height: 40px;">내 위치로 이동</button>
+</div></div>
+
+
+
+<!-- 카카오맵API와 서비스, 클러스터기능 라이브러리 불러옴 -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2100589fb32df980773796dffa657449&libraries=services,clusterer"></script>
+
+<!-- 지도를 표시할 div 입니다 -->
+<div id="map" style="width:1918px;height:788px;"></div>
+
+
+<script>
+var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
+var mapOption = { 
+        center: new kakao.maps.LatLng(37.350701, 127.0016), // 지도의 중심좌표
+        level: 13 // 지도의 확대 레벨
+    };
+    
+//지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+var map = new kakao.maps.Map(mapContainer, mapOption);
+
 
 <!-- Geolocation API -->        
 var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
@@ -191,14 +218,3 @@ var geolat = "", geolon = ""; // 현 위치로 이동 기능 변수
 
 </script>
 
-<!-- W0은 선택된 부위의 값 W1 선택된 증상의 값 -->
-<form method="get" name="selectHos" action="/hos/choo/resultHos">
-	<input type="hidden" id="W0" name="W0" value="">
-	<input type="hidden" id="W1" name="W1" vlaue="">
-	<input type="hidden" id="Q0" name="Q0" value="">
-	<input type="hidden" id="Q1" name="Q1" value="">
-	
-	<input class="btn btn-primary" type="submit" value="검색">
-</form>
-
-<button class="btn btn-info" onclick="panTo()">내 위치로 이동</button>
