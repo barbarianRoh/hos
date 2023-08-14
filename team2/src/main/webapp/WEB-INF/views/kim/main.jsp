@@ -413,11 +413,35 @@
 				            <div class="gridcontainer signin_options">
 				              <div class="input_row padding-10px">
 				              </div>
-				              <div class="input_row pc padding-10px border-top-1px">
-				                <a class="forgotid" href="/hos/roh/findMyIdForm" target="_blank" style="color: rgb(26, 26, 26); font-size: 12px;">아이디 찾기</a>
-				                <a class="forgotpassword" href="/hos/roh/findMyPwForm" style="color: rgb(26, 26, 26); font-size: 12px;">비밀번호 찾기</a>
-				                <a class="join" href="/hos/roh/signupForm" style="font-size: 12px;">회원 가입</a>
-				              </div>
+                          <div class="input_row pc padding-10px border-top-1px">
+                            <a class="forgotid" href="/hos/roh/findMyIdForm" id = "bbbb" style="color: rgb(26, 26, 26); font-size: 12px;">아이디 찾기</a>
+                            <a class="forgotpassword" href="/hos/roh/findMyPwForm" id = "cccc" style="color: rgb(26, 26, 26); font-size: 12px;">비밀번호 찾기</a>
+                            <a class="join" href="/hos/roh/signupForm" id = "aaaa" style="font-size: 12px;">회원 가입</a>
+                          </div>
+                        <script>
+                            document.getElementById('aaaa').addEventListener('click', function(event) {
+                                event.preventDefault();
+                                const width = screen.availWidth;
+                                const height = screen.availHeight;   
+                                window.open(this.href, '_blank', `width=400,height=500,noopener,noreferrer`);
+                            });
+                        </script>
+                        <script>
+                            document.getElementById('bbbb').addEventListener('click', function(event) {
+                                event.preventDefault();
+                                const width = screen.availWidth;
+                                const height = screen.availHeight;   
+                                window.open(this.href, '_blank', `width=400,height=300,noopener,noreferrer`);
+                            });
+                        </script>   
+                        <script>
+                            document.getElementById('cccc').addEventListener('click', function(event) {
+                                event.preventDefault();
+                                const width = screen.availWidth;
+                                const height = screen.availHeight;   
+                                window.open(this.href, '_blank', `width=400,height=400,noopener,noreferrer`);
+                            });
+                        </script>   
 				              <div class="input_row mobile padding-10px border-top-1px">
 				              </div>
 				            </div>
