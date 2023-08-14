@@ -330,7 +330,7 @@
 						        event.preventDefault();
 						        const width = screen.availWidth;
 						        const height = screen.availHeight;	
-						        window.open(this.href, '_blank', `width=400,height=300,noopener,noreferrer`);
+						        window.open(this.href, '_blank', `width=400,height=550,noopener,noreferrer`);
 						    });
 						</script>
 						<c:if test="${logout}">

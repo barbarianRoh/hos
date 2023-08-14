@@ -5,7 +5,71 @@
 <meta charset="UTF-8">
 
 <title>내정보</title>
-
+    <style>
+        body {
+            background-color: #e9ecef;
+            color: #212529;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        h1 {
+            color: #212529;
+        }
+        
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        label {
+            display: inline-block;
+            width: 160px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            padding: 8px;
+            margin-bottom: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #212529;
+            color: #ffffff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        a {
+            color: #212529;
+            text-decoration: none;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        #updatebtn[disabled] {
+            background-color: #aaaaaa;
+            cursor: not-allowed;
+        }
+        
+        #updatebtn {
+            background-color: #b0f6ac;
+        }
+    </style>
 <h1>내정보</h1>
 
 <c:if test="${sessionScope.sid != null}">	
@@ -153,4 +217,3 @@
 	</c:if>
 </c:if>
 
-<a href="/hos/roh/">메인으로</a>
