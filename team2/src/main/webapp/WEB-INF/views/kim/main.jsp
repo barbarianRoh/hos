@@ -258,6 +258,123 @@
     cursor: pointer;
   	}
   	
+#kakao-login-btn {
+    background-color: #FFEB00;
+    color: #000000;
+    border: none;
+    padding: 1px 6px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    width:100px;
+}
+    
+#kakao-login-btn img{width:100%;}
+    
+.btn-primary {
+    --bs-btn-color: black;
+    --bs-btn-bg: white;
+    --bs-btn-border-color: white;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #0b5ed7;
+    --bs-btn-hover-border-color: #0a58ca;
+    --bs-btn-focus-shadow-rgb: 49,132,253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #0a58ca;
+    --bs-btn-active-border-color: #0a53be;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #0d6efd;
+    --bs-btn-disabled-border-color: #0d6efd;
+}
+
+.btn-primary2 {
+    --bs-btn-color: black;
+    --bs-btn-bg: white;
+    --bs-btn-border-color: white;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #0b5ed7;
+    --bs-btn-hover-border-color: #0a58ca;
+    --bs-btn-focus-shadow-rgb: 49,132,253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #0a58ca;
+    --bs-btn-active-border-color: #0a53be;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #0d6efd;
+    --bs-btn-disabled-border-color: #0d6efd;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.offcanvas{
+    --bs-offcanvas-zindex: 1045;
+    --bs-offcanvas-width: 220px;
+    --bs-offcanvas-height: 30vh;
+    --bs-offcanvas-padding-x: 1rem;
+    --bs-offcanvas-padding-y: 1rem;
+    --bs-offcanvas-color: var(--bs-body-color);
+    --bs-offcanvas-bg: var(--bs-body-bg);
+    --bs-offcanvas-border-width: var(--bs-border-width);
+    --bs-offcanvas-border-color: var(--bs-border-color-translucent);
+    --bs-offcanvas-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --bs-offcanvas-transition: transform 0.3s ease-in-out;
+    --bs-offcanvas-title-line-height: 1.5;
+}
+
+#offcanvasRight{
+    --bs-offcanvas-zindex: 1045;
+    --bs-offcanvas-width: 400px;
+    --bs-offcanvas-height: 30vh;
+    --bs-offcanvas-padding-x: 1rem;
+    --bs-offcanvas-padding-y: 1rem;
+    --bs-offcanvas-color: var(--bs-body-color);
+    --bs-offcanvas-bg: var(--bs-body-bg);
+    --bs-offcanvas-border-width: var(--bs-border-width);
+    --bs-offcanvas-border-color: var(--bs-border-color-translucent);
+    --bs-offcanvas-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --bs-offcanvas-transition: transform 0.3s ease-in-out;
+    --bs-offcanvas-title-line-height: 1.5;
+}
+
+.MuiAvatar-img{
+	width: 35px; /* 필요한 크기에 맞게 조정해주세요 */
+	height: 35px;
+	border-radius: 50%;
+	overflow: hidden; /* 이 속성으로 넘치는 내용을 가리게 됩니다 */
+	position: absolute;
+	top: 20px;
+	right: 20px;
+}
+
+.dropdown-divider{
+	content: "";
+	display: block;
+	width: 3px;
+	border-bottom: 3px;
+}
+
+#closeLoginModal {
+	position: absolute;
+	top: 0px;
+	right: 10px;
+	font-size: 20px;
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+#loginModal {
+	position: absolute;
+	top: 48.8%;
+	left: 91.2%;
+	transform: translate(-50%, -50%);
+	width: 300px;
+	/* ... (other styles) ... */
+}
+
+  	
     </style>
     
 <script>
@@ -604,8 +721,7 @@
     </ul>
   </footer>
 </div>
-        
-        	<script>
+<script>
 	var loginBtnElement = document.getElementById('kakao-login-btn');
 	
 	//로그인
@@ -699,10 +815,10 @@
 		  </div>
 		</div>
 		
-		<script>
-		$('button[id=closemyInfoForm]').on('click',function(){
-			console.log('????')
-			$('#loginModal').hide(100)
-			})
-		</script>
+	<script>
+	$('button[id=closemyInfoForm]').on('click',function(){
+		console.log('????')
+		$('#loginModal').hide(100)
+		})
+	</script>
 </html>

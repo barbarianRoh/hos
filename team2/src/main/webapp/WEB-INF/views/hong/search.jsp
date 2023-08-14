@@ -21,49 +21,331 @@
 <link rel="stylesheet" type="text/css" href="/hos/resources/css/main2.css">
         
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-	var loginButton = document.querySelector(".loginButton");
-	var loginModal = document.getElementById("loginModal");
-	var modalOverlay = document.getElementById("modalOverlay");
-	var closeLoginModalButton = document.getElementById("closeLoginModal");
-	var myInfoForm = document.getElementById("myInfoForm");
+  document.addEventListener("DOMContentLoaded", function () {
+    var loginButton = document.querySelector(".loginButton");
+    var loginModal = document.getElementById("loginModal");
+    var modalOverlay = document.getElementById("modalOverlay");
+    var closeLoginModalButton = document.getElementById("closeLoginModal");
+    var closemyInfoFormButton = document.getElementById("closemyInfoForm");
+    var myInfoForm = document.getElementById("myInfoForm");
 	
-	loginButton.addEventListener("click", function (event) {
-		event.preventDefault();
-		loginModal.style.display = "block";
-		modalOverlay.style.display = "block";
-		toggleForms(); // 폼 전환 함수 호출
+    loginButton.addEventListener("click", function (event) {
+      event.preventDefault();
+      loginModal.style.display = "block";
+      modalOverlay.style.display = "block";
+      toggleForms(); // 폼 전환 함수 호출
     });
 
-	modalOverlay.addEventListener("click", function () {
-		loginModal.style.display = "none";
-		modalOverlay.style.display = "none";
-    });
-
-    closeLoginModalButton.addEventListener("click", function () {
+    modalOverlay.addEventListener("click", function () {
       loginModal.style.display = "none";
       modalOverlay.style.display = "none";
     });
 
+    closeLoginModalButton.addEventListener("click", function () {
+		loginModal.style.display = "none";
+		modalOverlay.style.display = "none";
+    });
+    
+    closemyInfoFormButton.addEventListener("click", function () {
+    	console.log("assadsadfsafdsadfsadf");
+        myInfoForm.style.display = "none";
+        modalOverlay.style.display = "none";
+    });
+
+  
+  function closemyInfoForm(){
+	  var myInfoForm = document.getElementById("myInfoForm");
+	  var loginModal = document.getElementById("loginModal");
+	  myInfoForm.style.display = "none";
+      modalOverlay.style.display = "none";
+  }
+
     // 페이지 로딩 시 폼 전환 함수 호출
     toggleForms();
-});
-
-function toggleForms() {
-	var loginButton = document.querySelector(".loginButton");
-	var myInfoForm = document.getElementById("myInfoForm");
-	var sessionSid = "${sessionScope.sid}";
-	var sessionKnick = "${sessionScope.knick}";
-
-	if (sessionSid || sessionKnick) {
-		loginButton.style.display = "none"; // 세션이 있을 때 로그인 버튼 숨기기
+  });
+  
+	function toggleForms() {
+	  var loginButton = document.querySelector(".loginButton");
+	  var myInfoForm = document.getElementById("myInfoForm");
+	  var sessionSid = "${sessionScope.sid}";
+	  var sessionKnick = "${sessionScope.knick}";
+	  var loginModal = document.getElementById("loginModal");
+	  if (sessionSid || sessionKnick) {
 		myInfoForm.style.display = "block"; // 세션이 있을 때 로그인 후 버튼 보이기
-	} else {
-		loginButton.style.display = "block"; // 세션이 없을 때 로그인 버튼 보이기
-		myInfoForm.style.display = "none"; // 세션이 없을 때 로그인 후 버튼 숨기기
+	  } else {
+	    myInfoForm.style.display = "none"; // 세션이 없을 때 로그인 후 버튼 숨기기
+	  }
 	}
-}
+
 </script>
+
+<style>
+.btn {
+    --bs-btn-padding-x: 0.75rem;
+    --bs-btn-padding-y: 0.6rem;
+    --bs-btn-font-family: ;
+    --bs-btn-font-size: 1rem;
+    --bs-btn-font-weight: 400;
+    --bs-btn-line-height: 1.5;
+    --bs-btn-color: var(--bs-body-color);
+    --bs-btn-bg: transparent;
+    --bs-btn-border-width: var(--bs-border-width);
+    --bs-btn-border-color: transparent;
+    --bs-btn-border-radius: var(--bs-border-radius);
+    --bs-btn-hover-border-color: transparent;
+    --bs-btn-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),0 1px 1px rgba(0, 0, 0, 0.075);
+    --bs-btn-disabled-opacity: 0.65;
+    --bs-btn-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-btn-focus-shadow-rgb), .5);
+    display: inline-block;
+    padding: var(--bs-btn-padding-y) var(--bs-btn-padding-x);
+    font-family: var(--bs-btn-font-family);
+    font-size: var(--bs-btn-font-size);
+    font-weight: var(--bs-btn-font-weight);
+    line-height: var(--bs-btn-line-height);
+    color: var(--bs-btn-color);
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);
+    border-radius: var(--bs-btn-border-radius);
+    background-color: var(--bs-btn-bg);
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.lead fw-normal text-white-50 mb-0{
+	color: lead fw-normal text-white-50 mb-0;
+}
+
+		 .btn-primary2 {
+	    --bs-btn-color: black;
+	    --bs-btn-bg: white;
+	    --bs-btn-border-color: white;
+	    --bs-btn-hover-color: #fff;
+	    --bs-btn-hover-bg: #0b5ed7;
+	    --bs-btn-hover-border-color: #0a58ca;
+	    --bs-btn-focus-shadow-rgb: 49,132,253;
+	    --bs-btn-active-color: #fff;
+	    --bs-btn-active-bg: #0a58ca;
+	    --bs-btn-active-border-color: #0a53be;
+	    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+	    --bs-btn-disabled-color: #fff;
+	    --bs-btn-disabled-bg: #0d6efd;
+	    --bs-btn-disabled-border-color: #0d6efd;
+	    position: absolute;
+	    top: 20px;
+	    left: 20px;
+	}
+		.offcanvas{
+	    --bs-offcanvas-zindex: 1045;
+	    --bs-offcanvas-width: 220px;
+	    --bs-offcanvas-height: 30vh;
+	    --bs-offcanvas-padding-x: 1rem;
+	    --bs-offcanvas-padding-y: 1rem;
+	    --bs-offcanvas-color: var(--bs-body-color);
+	    --bs-offcanvas-bg: var(--bs-body-bg);
+	    --bs-offcanvas-border-width: var(--bs-border-width);
+	    --bs-offcanvas-border-color: var(--bs-border-color-translucent);
+	    --bs-offcanvas-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+	    --bs-offcanvas-transition: transform 0.3s ease-in-out;
+	    --bs-offcanvas-title-line-height: 1.5;
+	}
+		#offcanvasRight{
+	    --bs-offcanvas-zindex: 1045;
+	    --bs-offcanvas-width: 400px;
+	    --bs-offcanvas-height: 30vh;
+	    --bs-offcanvas-padding-x: 1rem;
+	    --bs-offcanvas-padding-y: 1rem;
+	    --bs-offcanvas-color: var(--bs-body-color);
+	    --bs-offcanvas-bg: var(--bs-body-bg);
+	    --bs-offcanvas-border-width: var(--bs-border-width);
+	    --bs-offcanvas-border-color: var(--bs-border-color-translucent);
+	    --bs-offcanvas-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+	    --bs-offcanvas-transition: transform 0.3s ease-in-out;
+	    --bs-offcanvas-title-line-height: 1.5;
+	}
+		.MuiAvatar-img{
+			width: 35px; /* 필요한 크기에 맞게 조정해주세요 */
+		    height: 35px;
+		    border-radius: 50%;
+		    overflow: hidden; /* 이 속성으로 넘치는 내용을 가리게 됩니다 */
+		    position: absolute;
+		    top: 20px;
+		    right: 20px;
+		}
+	.dropdown-divider{
+	  content: "";
+	  display: block;
+	  width: 3px;
+	  border-bottom: 3px;
+	}
+	#closeLoginModal {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  	}
+  	#loginModal {
+    position: absolute;
+    top: 48.8%;
+    left: 91.2%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    /* ... (other styles) ... */
+  	}
+  	.profilearea.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    margin: 0 auto;
+	}
+
+	.profilearea.login p.input_row.txt {
+	    color: #1a1a1a;
+	    text-align: center;
+	    margin: 0;
+	    font-size: 16px;
+	}
+	
+	.profilearea.login .input_row {
+	    margin-top: 10px;
+	    width: 100%;
+	}
+	
+	.profilearea.login .form-control {
+	    width: 100%;
+	    padding: 8px;
+	    border: 1px solid #ccc;
+	    border-radius: 4px;
+	}
+	
+	.profilearea.login .mdc-button {
+	    margin-top: 15px;
+	    width: 100%;
+	    text-align: center;
+	    background-color: #007bff;
+	    color: white;
+	    border: none;
+	    border-radius: 4px;
+	    cursor: pointer;
+	    padding: 10px;
+	    font-size: 16px;
+	}
+	
+	.profilearea.login #kakao-login-btn {
+	    margin-top: 10px;
+	    width: 100%;
+	    text-align: center;
+	    background-color: #f4f4f4;
+	    color: #1a1a1a;
+	    border: none;
+	    border-radius: 4px;
+	    cursor: pointer;
+	    padding: 10px;
+	    font-size: 16px;
+	}
+	
+	.profilearea.login .signin_options {
+	    width: 90%;
+	    margin-top: 15px;
+	    text-align: center;
+	}
+	
+	.profilearea.login .signin_options a {
+	    color: #1a1a1a;
+	    text-decoration: none;
+	    font-size: 12px;
+	    margin: 0 10px;
+	}
+	
+	.profilearea.login .signin_options .border-top-1px {
+	    border-top: 1px solid #ccc;
+	    margin-top: 10px;
+	    padding-top: 10px;
+	}
+  	
+  	#myInfoForm {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 350px;
+    margin: 0 auto;
+}
+
+#myInfoForm p.input_row.txt {
+    color: #1a1a1a;
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+#myInfoForm a {
+    color: #007bff;
+    text-decoration: none;
+    margin: 10px 0;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+#myInfoForm a:hover {
+    color: #0056b3;
+}
+
+/* Style for buttons */
+#logoutButton, #kakao-login-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+#kakao-login-btn {
+    background-color: #FFEB00;
+    color: #000000;
+}
+
+#kakao-login-btn:hover {
+    background-color: #ffffff;
+}
+
+/* Align the buttons horizontally */
+#myInfoForm a:last-child {
+    margin-left: 10px;
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+    #myInfoForm {
+        width: 90%;
+    }
+    
+    #closemyInfoForm{
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  	}
+  	
+    </style>
+
 
  <c:if test="${loginFailed}">
 	<script>
@@ -72,7 +354,15 @@ function toggleForms() {
 	</script>
 </c:if> 
 <!-- 헤더 -->
-<header>
+<header class="bg-dark py-3">
+	<div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">약품 검색</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">...</p>
+                    <%--
+                    <a id="kakao-login-btn"></a>
+                --%>
+                </div>	
 	<!-- 버튼 프라이머리 2가 햄버거 -->        
 	<a class="btn btn-primary2" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"><i class="fa-solid fa-bars" style="color: #000000;"></i></a>
 	<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
@@ -125,53 +415,82 @@ function toggleForms() {
 		</div>
 	</div>
 	<!-- 로그인 아이콘 있는곳 -->
-	<a class="loginButton" href="#"><img alt="Cindy Baker2" src="//image.medigate.net/static/mobile/ver_3/images/icon_profilethumb.gif" class="MuiAvatar-img"></a>
-	<div id="loginModal" class="modal">
-		<div class="modal-dialog">
-			<div class="contwrap modal-content">
-				<c:if test="${sessionScope.sid == null && sessionScope.knick == null}">
-					<button id="closeLoginModal" class="close-button">×</button>
-					<form action="/hos/roh/signinPro">
-						<div class="profilearea login">
-							<p class="input_row txt" style="color: rgb(26, 26, 26);">아파, 어디가?</p>
-							<div class="input_row">
-								<input type="text" id="id" name="id" placeholder="아이디" class="form-control" value="">
-							</div>
+				<a class="loginButton" href="#">
+				  <img alt="Cindy Baker2" src="//image.medigate.net/static/mobile/ver_3/images/icon_profilethumb.gif" class="MuiAvatar-img">
+				</a>
+				
+				<div id="loginModal" class="modal">
+				  <div class="modal-dialog">
+				    <div class="contwrap modal-content">
+				      <c:if test="${sessionScope.sid == null && sessionScope.knick == null}">
+				      <button id="closeLoginModal" class="close-button">×</button>
+				        <form action="/hos/roh/signinPro">
+				          <div class="profilearea login">
+				            <p class="input_row txt" style="color: rgb(26, 26, 26);">아파, 어디가?</p>
+				            <div class="input_row">
+				              <input type="text" id="id" name="id" placeholder="아이디" class="form-control" value="">
+				            </div>
 				            <div class="input_row">
 				              <input type="password" id="pw" name="pw" placeholder="비밀번호" class="form-control" value="">
 				            </div>
 				            <button type="submit" class="mdc-button mdc-button--raised select left">로그인</button>
 				            <button type="button" id="kakao-login-btn">카카오 로그인</button>
 				            <div class="gridcontainer signin_options">
-								<div class="input_row padding-10px"></div>
-								<div class="input_row pc padding-10px border-top-1px">
-									<a class="forgotid" href="/hos/roh/findMyIdForm" target="_blank" style="color: rgb(26, 26, 26); font-size: 12px;">아이디 찾기</a>
-					                <a class="forgotpassword" href="/hos/roh/findMyPwForm" style="color: rgb(26, 26, 26); font-size: 12px;">비밀번호 찾기</a>
-					                <a class="join" href="/hos/roh/signupForm" style="font-size: 12px;">회원 가입</a>
-								</div>
-								<div class="input_row mobile padding-10px border-top-1px"></div>
-							</div>
+				              <div class="input_row padding-10px">
+				              </div>
+                          <div class="input_row pc padding-10px border-top-1px">
+                            <a class="forgotid" href="/hos/roh/findMyIdForm" id = "bbbb" style="color: rgb(26, 26, 26); font-size: 12px;">아이디 찾기</a>
+                            <a class="forgotpassword" href="/hos/roh/findMyPwForm" id = "cccc" style="color: rgb(26, 26, 26); font-size: 12px;">비밀번호 찾기</a>
+                            <a class="join" href="/hos/roh/signupForm" id = "aaaa" style="font-size: 12px;">회원 가입</a>
+                          </div>
+                        <script>
+                            document.getElementById('aaaa').addEventListener('click', function(event) {
+                                event.preventDefault();
+                                const width = screen.availWidth;
+                                const height = screen.availHeight;   
+                                window.open(this.href, '_blank', `width=400,height=500,noopener,noreferrer`);
+                            });
+                        </script>
+                        <script>
+                            document.getElementById('bbbb').addEventListener('click', function(event) {
+                                event.preventDefault();
+                                const width = screen.availWidth;
+                                const height = screen.availHeight;   
+                                window.open(this.href, '_blank', `width=400,height=300,noopener,noreferrer`);
+                            });
+                        </script>   
+                        <script>
+                            document.getElementById('cccc').addEventListener('click', function(event) {
+                                event.preventDefault();
+                                const width = screen.availWidth;
+                                const height = screen.availHeight;   
+                                window.open(this.href, '_blank', `width=400,height=400,noopener,noreferrer`);
+                            });
+                        </script>   
+				              <div class="input_row mobile padding-10px border-top-1px">
+				              </div>
+				            </div>
+				          </div>
+				        </form>
+				      </c:if>
+						<div id="myInfoForm" class="profilearea">
+							<button id="closemyInfoForm" class="close-button">×</button>
+						    <p class="input_row txt" style="color: rgb(26, 26, 26);">
+						    	<c:if test="${sessionScope.sid != null}">환영합니다! ${sid}님</c:if>
+								<c:if test="${sessionScope.knick != null}">환영합니다! ${knick}님</c:if>	
+						    </p>
+						    <a href="/hos/roh/myProfileForm">프로필</a>
+						    <a id="logoutButton" href="/hos/roh/signout">로그아웃</a>
+						    <a href="/hos/roh/withdrawalForm">회원탈퇴</a>
 						</div>
-					</form>
-				</c:if>
-				<div id="myInfoForm" class="profilearea">
-					<p class="input_row txt" style="color: rgb(26, 26, 26);">
-                  		<c:if test="${sessionScope.sid != null}">환영합니다! ${sid}님</c:if>
-                  		<c:if test="${sessionScope.knick != null}">환영합니다! ${knick}님</c:if>                  
-               		</p>
-					<a href="/hos/roh/myProfileForm">내 프로필</a>
-					<a id="logoutButton" href="/hos/kim/main">로그아웃</a>
+						<c:if test="${logout}">
+							<script>
+								window.location.href = '/hos/kim/main';
+							</script>
+						</c:if>
+				    </div>
+				  </div>
 				</div>
-				<c:if test="${logout}">
-					<script>
-						alert("로그아웃 되었습니다");
-						// 새로고침 할 때 마다 또 로그아웃 되는것을 방지
-						window.location.href = '/hos/kim/main';
-					</script>
-				</c:if> 
-			</div>
-		</div>
-	</div>
 	<div id="modalOverlay" class = "overlay"></div>
 </header>
         
@@ -246,124 +565,6 @@ Kakao.Auth.createLoginButton({
 })
 </script>
 
-<style>
-#kakao-login-btn {
-    background-color: #FFEB00;
-    color: #000000;
-    border: none;
-    padding: 1px 6px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    width:100px;
-}
-    
-#kakao-login-btn img{width:100%;}
-    
-.btn-primary {
-    --bs-btn-color: black;
-    --bs-btn-bg: white;
-    --bs-btn-border-color: white;
-    --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #0b5ed7;
-    --bs-btn-hover-border-color: #0a58ca;
-    --bs-btn-focus-shadow-rgb: 49,132,253;
-    --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #0a58ca;
-    --bs-btn-active-border-color: #0a53be;
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #0d6efd;
-    --bs-btn-disabled-border-color: #0d6efd;
-}
-
-.btn-primary2 {
-    --bs-btn-color: black;
-    --bs-btn-bg: white;
-    --bs-btn-border-color: white;
-    --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #0b5ed7;
-    --bs-btn-hover-border-color: #0a58ca;
-    --bs-btn-focus-shadow-rgb: 49,132,253;
-    --bs-btn-active-color: #fff;
-    --bs-btn-active-bg: #0a58ca;
-    --bs-btn-active-border-color: #0a53be;
-    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-    --bs-btn-disabled-color: #fff;
-    --bs-btn-disabled-bg: #0d6efd;
-    --bs-btn-disabled-border-color: #0d6efd;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-}
-
-.offcanvas{
-    --bs-offcanvas-zindex: 1045;
-    --bs-offcanvas-width: 220px;
-    --bs-offcanvas-height: 30vh;
-    --bs-offcanvas-padding-x: 1rem;
-    --bs-offcanvas-padding-y: 1rem;
-    --bs-offcanvas-color: var(--bs-body-color);
-    --bs-offcanvas-bg: var(--bs-body-bg);
-    --bs-offcanvas-border-width: var(--bs-border-width);
-    --bs-offcanvas-border-color: var(--bs-border-color-translucent);
-    --bs-offcanvas-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    --bs-offcanvas-transition: transform 0.3s ease-in-out;
-    --bs-offcanvas-title-line-height: 1.5;
-}
-
-#offcanvasRight{
-    --bs-offcanvas-zindex: 1045;
-    --bs-offcanvas-width: 400px;
-    --bs-offcanvas-height: 30vh;
-    --bs-offcanvas-padding-x: 1rem;
-    --bs-offcanvas-padding-y: 1rem;
-    --bs-offcanvas-color: var(--bs-body-color);
-    --bs-offcanvas-bg: var(--bs-body-bg);
-    --bs-offcanvas-border-width: var(--bs-border-width);
-    --bs-offcanvas-border-color: var(--bs-border-color-translucent);
-    --bs-offcanvas-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    --bs-offcanvas-transition: transform 0.3s ease-in-out;
-    --bs-offcanvas-title-line-height: 1.5;
-}
-
-.MuiAvatar-img{
-	width: 35px; /* 필요한 크기에 맞게 조정해주세요 */
-	height: 35px;
-	border-radius: 50%;
-	overflow: hidden; /* 이 속성으로 넘치는 내용을 가리게 됩니다 */
-	position: absolute;
-	top: 20px;
-	right: 20px;
-}
-
-.dropdown-divider{
-	content: "";
-	display: block;
-	width: 3px;
-	border-bottom: 3px;
-}
-
-#closeLoginModal {
-	position: absolute;
-	top: 0px;
-	right: 10px;
-	font-size: 20px;
-	background: none;
-	border: none;
-	cursor: pointer;
-}
-
-#loginModal {
-	position: absolute;
-	top: 48.8%;
-	left: 91.2%;
-	transform: translate(-50%, -50%);
-	width: 300px;
-	/* ... (other styles) ... */
-}
-</style>
-
 <script>
     function searchItemName() {
         var keyword = document.getElementById('keyword').value;
@@ -395,15 +596,6 @@ Kakao.Auth.createLoginButton({
         }
     }
 </script>
-
-<!-- Header-->
-<header class="bg-dark py-1">
-    <div class="container px-4 px-lg-5 my-5">
-        <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">약품 검색</h1>
-        </div>
-    </div>
-</header>
 
 </head>
 <!-- 배경사진 넣을곳 <div class="bg-image h-100" style="background-image: url(https://mdbootstrap.com/img/Photos/new-templates/search-box/img4.jpg);">  -->
@@ -509,4 +701,11 @@ Kakao.Auth.createLoginButton({
       <li class="nav-item"><a href="/hos/hong/index" class="nav-link px-2 text-muted">About</a></li>
     </ul>
   </footer>
+  
+  		<script>
+		$('button[id=closemyInfoForm]').on('click',function(){
+			console.log('????')
+			$('#loginModal').hide(100)
+			})
+		</script>
 </div>
