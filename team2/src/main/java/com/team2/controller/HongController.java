@@ -620,18 +620,14 @@ public class HongController {
        return "/hong/dbsafe";
     }
 	
-    @RequestMapping("main")
+    @RequestMapping("index")
     public String main(Model model) {
     	return "/hong/index";
-    }
-    
-    @RequestMapping("main2")
-    public String main2(Model model) {
-    	return "/hong/taunt";
     }
     
     @RequestMapping("test")
     public String test(Model model) {
     	return "/hong/test";
     }
+    
 }

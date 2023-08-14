@@ -454,7 +454,7 @@
     <ul class="nav col-md-4 justify-content-end">
       <li class="nav-item"><a href="/hos/kim/main" class="nav-link px-2 text-muted">Home</a></li>
       <li class="nav-item"><a href="/hos/choo/gesipanmain" class="nav-link px-2 text-muted">FAQs</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+      <li class="nav-item"><a href="/hos/hong/index" class="nav-link px-2 text-muted">About</a></li>
     </ul>
   </footer>
 </div>
