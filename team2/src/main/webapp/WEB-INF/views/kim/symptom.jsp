@@ -329,7 +329,7 @@
 					            // Add more custom button names and links here
 					        };
 					        
-							var hos1 = 'http://localhost:8080/hos/choo/resultHos';
+							var hos1 = '/hos/choo/resultHos';
 					
 					        var customButtonLinks = {
 					            head: {
@@ -862,40 +862,40 @@
 										
 										    if (selectedBody === "on") {
 										      newButton.text("종합병원");
-										      newButton.attr("data-link", "https://www.example.com/general_hospital");
+										      newButton.attr("data-link", "/hos/choo/hosapiresult?selectOption=D006&hosType=A&Q0=&Q1=&QD=D006&QZ=A");
 										    } else if (selectedBody === "head") {
 										      newButton.text("외과");
-										      newButton.attr("data-link", "http://localhost:8080/hos/choo/hosapiresult?selectOption=D006&hosType=A&Q0=&Q1=&QD=D006&QZ=A");
+										      newButton.attr("data-link", "/hos/choo/hosapiresult?selectOption=D006&hosType=A&Q0=&Q1=&QD=D006&QZ=A");
 										    } else if (selectedBody === "psyco") {
 										      newButton.text("정신과");
-										      newButton.attr("data-link", "http://localhost:8080/hos/choo/hosapiresult?selectOption=D004&hosType=A&Q0=&Q1=&QD=D004&QZ=A");
+										      newButton.attr("data-link", "/hos/choo/hosapiresult?selectOption=D004&hosType=A&Q0=&Q1=&QD=D004&QZ=A");
 										    } else if (selectedBody === "face") {
 											      newButton.text("내과");
-											      newButton.attr("data-link", "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D001&QZ=");
+											      newButton.attr("data-link", "/hos/choo/hosapiresult?selectOption=D001&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D001&QZ=");
 										    } else if (selectedBody === "neck") {
 											      newButton.text("이비인후과");
-											      newButton.attr("data-link", "http://localhost:8080/hos/choo/hosapiresult?selectOption=D013&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D013&QZ=");
+											      newButton.attr("data-link", "/hos/choo/hosapiresult?selectOption=D013&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D013&QZ=");
 										    } else if (selectedBody === "chest") {
 											      newButton.text("흉부외과");
-											      newButton.attr("data-link", "https://www.example.com/psychiatry");
+											      newButton.attr("data-link", "/hos/choo/hosapiresult?Q0=&Q1=&QD=D007&QZ=");
 											} else if (selectedBody === "abdomen") {
 											      newButton.text("내과");
-											      newButton.attr("data-link", "http://localhost:8080/hos/choo/hosapiresult?selectOption=D001&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D001&QZ=");
+											      newButton.attr("data-link", "/hos/choo/hosapiresult?selectOption=D001&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D001&QZ=");
 											} else if (selectedBody === "urology") {
 											      newButton.text("비뇨기과");
 											      newButton.attr("data-link", "https://www.example.com/psychiatry");
 											} else if (selectedBody === "arm") {
 											      newButton.text("외과");
-											      newButton.attr("data-link", "http://localhost:8080/hos/choo/hosapiresult?selectOption=D006&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D006&QZ=");
+											      newButton.attr("data-link", "/hos/choo/hosapiresult?selectOption=D006&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D006&QZ=");
 											} else if (selectedBody === "leg") {
 											      newButton.text("외과");
-											      newButton.attr("data-link", "http://localhost:8080/hos/choo/hosapiresult?selectOption=D006&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D006&QZ=");
+											      newButton.attr("data-link", "/hos/choo/hosapiresult?selectOption=D006&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D006&QZ=");
 											} else if (selectedBody === "born") {
 											      newButton.text("정형외과");
-											      newButton.attr("data-link", "http://localhost:8080/hos/choo/hosapiresult?selectOption=D008&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D008&QZ=");
+											      newButton.attr("data-link", "/hos/choo/hosapiresult?selectOption=D008&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D008&QZ=");
 											} else if (selectedBody === "skin") {
 											      newButton.text("피부과");
-											      newButton.attr("data-link", "http://localhost:8080/hos/choo/hosapiresult?selectOption=D005&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D005&QZ=");
+											      newButton.attr("data-link", "/hos/choo/hosapiresult?selectOption=D005&hosType=%EB%B3%91%EC%9B%90%EB%B6%84%EB%A5%98&Q0=&Q1=&QD=D005&QZ=");
 											}
 										    
 										    // Add more cases for other body parts...
