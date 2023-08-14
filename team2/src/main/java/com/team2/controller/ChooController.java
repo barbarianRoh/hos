@@ -1032,7 +1032,7 @@ public class ChooController {
 	public String reconWritePro(Model model, int num, ChooRecon recon, String pageNum) {
 		service.reconinsert(recon);
 		model.addAttribute("num", num);
-		model.addAttribute("paegNum", pageNum);
+		model.addAttribute("pageNum", pageNum);
 		
 		return "choo/reconWritePro";
 	}
