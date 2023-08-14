@@ -400,8 +400,7 @@ Kakao.Auth.createLoginButton({
 <header class="bg-dark py-1">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">메인화면이동</h1>
-            <p class="lead fw-normal text-white-50 mb-0">약품 검색</p>
+            <h1 class="display-4 fw-bolder">약품 검색</h1>
         </div>
     </div>
 </header>
@@ -476,7 +475,7 @@ Kakao.Auth.createLoginButton({
 	   	<form method="GET" action="data" align="center" >
 			<input type="button" class="btn btn-secondary" value="안전상비약" onclick="location.href='data'">
 			<input type="button" class="btn btn-secondary" value="의약품 전체" onclick="location.href='total'">
-			<input type="button" class="btn btn-secondary" value="으이약외품 전체" onclick="location.href='othertotal'">
+			<input type="button" class="btn btn-secondary" value="의약외품 전체" onclick="location.href='othertotal'">
 		</form>
 	</body>
 	
@@ -502,12 +501,12 @@ Kakao.Auth.createLoginButton({
   </head>
   <body>
 <div class="container">
-  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-5 my-5 border-top" style="border-top-width: 10px;">
     <p class="col-md-4 mb-0 text-muted">&copy; 2023 Company, Inc</p>
     <ul class="nav col-md-4 justify-content-end">
       <li class="nav-item"><a href="/hos/kim/main" class="nav-link px-2 text-muted">Home</a></li>
       <li class="nav-item"><a href="/hos/choo/gesipanmain" class="nav-link px-2 text-muted">FAQs</a></li>
-      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+      <li class="nav-item"><a href="/hos/hong/index" class="nav-link px-2 text-muted">About</a></li>
     </ul>
   </footer>
 </div>

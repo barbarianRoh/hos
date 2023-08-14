@@ -4,73 +4,64 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
 
-<title>내정보</title>
-    <style>
+<title>내 정보 수정</title>
+
+ <style>
         body {
-            background-color: #e9ecef;
-            color: #212529;
             font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-        
-        h1 {
-            color: #212529;
-        }
-        
-        form {
-            background-color: #ffffff;
+        .profile-container {
+            background-color: white;
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            width: 400px;
         }
-        
+        h1 {
+            text-align: center;
+        }
         label {
-            display: inline-block;
-            width: 160px;
-            font-weight: bold;
-            margin-top: 10px;
+            display: block;
+            margin-bottom: 5px;
         }
-        
-        input[type="text"],
-        input[type="password"] {
-            padding: 8px;
-            margin-bottom: 10px;
+        input[type="password"], input[type="text"], input[type="submit"] {
             width: 100%;
+            padding: 8px;
             border: 1px solid #ccc;
-            border-radius: 3px;
+            border-radius: 4px;
+            margin-bottom: 10px;
         }
-        
         input[type="submit"] {
-            padding: 10px 20px;
-            background-color: #212529;
-            color: #ffffff;
+            background-color: #007bff;
+            color: white;
             border: none;
-            border-radius: 3px;
+            border-radius: 4px;
             cursor: pointer;
         }
-        
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
         a {
-            color: #212529;
-            text-decoration: none;
+            display: block;
+            text-align: center;
             margin-top: 10px;
-            display: inline-block;
+            text-decoration: none;
+            color: #007bff;
         }
-        
-        a:hover {
-            text-decoration: underline;
-        }
-        
-        #updatebtn[disabled] {
-            background-color: #aaaaaa;
-            cursor: not-allowed;
-        }
-        
-        #updatebtn {
-            background-color: #b0f6ac;
+        .error-msg {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
         }
     </style>
-<h1>내정보</h1>
+
 
 <c:if test="${sessionScope.sid != null}">	
 	<script>
@@ -171,27 +162,28 @@
 		</script>
 	</c:if>
 	
+	
 	<form action="/hos/roh/myProfilePro" id="frm" method="post">
+		<h1>내 정보 수정</h1>
 		<input type="hidden" id="id" name="id" value="${sessionScope.sid}" />
-		<label for="id">아이디 : </label>
-		${sessionScope.sid}<br />
-		
-		<label for="pw">기존 비밀번호 : </label>
+		<label for="id">아이디 : ${sessionScope.sid}</label>
+
+		<label for="pw">기존 비밀번호</label>
 		<input type="password" id="pw" name="pw" placeholder="기존 비밀번호" oninput="checkPw1()" /><br />
 		
-		<label for="pw2">변경할 비밀번호 : </label>
+		<label for="pw2">변경할 비밀번호</label>
 		<input type="password" id="pw2" name="pw2" oninput="checkPw2(), checkPw3()" placeholder="바꿀 비밀번호"/><br />
 		
-		<label for="pw3">변경할 비밀번호 확인 : </label>
+		<label for="pw3">변경할 비밀번호 확인</label>
 		<input type="password" id="pw3" name="pw3" oninput="checkPw3()" placeholder="비밀번호 확인" /><br />
 		
-		<label for="name">이름 : </label>
-		${sessionScope.sname}<br />
+		<label for="name">이름 : ${sessionScope.sname}</label>
 		
-		<label for="name">생년월일 : </label>
-		${sessionScope.sbirth}<br />
+		<label for="name">생년월일 : ${sessionScope.sbirth}</label>
 		
 		<input type="submit" value="수정" id="updatebtn" />
+		
+		<a href="/hos/roh/">메인으로</a>
 	</form>
 </c:if>
 
@@ -216,4 +208,3 @@
 		성별 : 비공개<br />
 	</c:if>
 </c:if>
-
