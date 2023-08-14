@@ -268,7 +268,7 @@
 				    <div class="contwrap modal-content">
 				      <c:if test="${sessionScope.sid == null && sessionScope.knick == null}">
 				        <button id="closeLoginModal" class="close-button">×</button>
-				        <form action="/hos/roh/signinPro">
+				        <form method="post" action="/hos/roh/signinPro">
 				          <div class="profilearea login">
 				            <p class="input_row txt" style="color: rgb(26, 26, 26);">아파, 어디가?</p>
 				            <div class="input_row">
