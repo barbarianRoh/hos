@@ -249,14 +249,13 @@
 
   .ghost-button {
     position: absolute;
-    top: 23%;
-    left: 29.24%;
+    top: 20.5%;
+    left: 30.5%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
     background-color: transparent;
-    color: black;
-/*     color: transparent; */
+    color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -269,13 +268,13 @@
 
   .ghost-button2 {
     position: absolute;
-    top: 35%;
-    left: 29.24%;
+    top: 32%;
+    left: 30.5%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
     background-color: transparent;
-    color: black;
+    color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -288,13 +287,13 @@
 
   .ghost-button3 {
     position: absolute;
-    top: 31%;
-    left: 29.24%;
+    top: 27.2%;
+    left: 30.5%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
     background-color: transparent;
-    color: black;
+    color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -306,13 +305,13 @@
 
   .ghost-button4 {
     position: absolute;
-    top: 42%;
-    left: 29.24%;
+    top: 40%;
+    left: 30.5%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
     background-color: transparent;
-    color: black;
+    color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -325,13 +324,13 @@
 
   .ghost-button5 {
     position: absolute;
-    top: 49.7%;
-    left: 29.24%;
+    top: 47%;
+    left: 30.5%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
     background-color: transparent;
-    color: black;
+    color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -344,13 +343,13 @@
 
   .ghost-button6 {
     position: absolute;
-    top: 52%;
-    left: 24.6%;
+    top: 49.3%;
+    left: 25.7%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
     background-color: transparent;
-    color: black;
+    color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -369,7 +368,7 @@
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
     background-color: transparent;
-    color: black;
+    color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -382,13 +381,13 @@
 
   .ghost-button8 {
     position: absolute;
-    top: 52%;
-    left: 34%;
+    top: 49.3%;
+    left: 35.2%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
     background-color: transparent;
-    color: black;
+    color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -407,7 +406,7 @@
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
     background-color: transparent;
-    color: black;
+    color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -425,7 +424,7 @@
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
     background-color: transparent;
-    color: black;
+    color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -443,7 +442,7 @@
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
     background-color: transparent;
-    color: black;
+    color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -461,7 +460,7 @@
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
     background-color: transparent;
-    color: black;
+    color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -479,7 +478,7 @@
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
     background-color: transparent;
-    color: black;
+    color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -491,13 +490,13 @@
 
   .ghost-button14 {
     position: absolute;
-    top: 26.5%;
-    left: 29.24%;
+    top: 23.8%;
+    left: 30.5%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
     background-color: transparent;
-    color: black;
+    color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -509,13 +508,13 @@
 
   .ghost-button15 {
     position: absolute;
-    top: 27%;
-    left: 30.5%;
+    top: 23.5%;
+    left: 32%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
     background-color: transparent;
-    color: black;
+    color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -527,13 +526,13 @@
 
   .ghost-button16 {
     position: absolute;
-    top: 27%;
-    left: 27.5%;
+    top: 23.5%;
+    left: 29%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
     background-color: transparent;
-    color: black;
+    color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -545,13 +544,13 @@
 
   .ghost-button17 {
     position: absolute;
-    top: 29%;
-    left: 29.2%;
+    top: 25.5%;
+    left: 30.5%;
     transform: translate(-50%, -50%);
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
     background-color: transparent;
-    color: black;
+    color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -569,7 +568,7 @@
     /* Add any additional styling you want for the button */
     padding: 1px 2px;
     background-color: transparent;
-    color: black;
+    color: transparent;
     border: none;
     border-radius: 5px;
     cursor: pointer;

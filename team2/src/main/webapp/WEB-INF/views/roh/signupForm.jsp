@@ -1,7 +1,63 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <meta charset="UTF-8">
-
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up</title>
+    <style>
+        body {
+            background-color: #e9ecef;
+            color: #212529;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        h1 {
+            color: #212529;
+        }
+        
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        label {
+            display: inline-block;
+            width: 150px;
+            font-weight: bold;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            padding: 8px;
+            margin-bottom: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        
+        input[type="button"] {
+            padding: 10px 20px;
+            background-color: #212529;
+            color: #ffffff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        a {
+            color: #212529;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
 <title>회원가입</title>
 
 <h1>회원가입</h1>
@@ -156,7 +212,7 @@ $(function() {
 				console.log(result);
 				if(result == "ok") {
 					alert("가입되었습니다");
-					location="/hos/roh/"; // 저장이 완료된 이후 이동
+					window.close(); // 저장이 완료된 이후 이동
 				} else {
 					alert("이미 존재하는 아이디입니다");
 				}
