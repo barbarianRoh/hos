@@ -24,7 +24,7 @@
 </c:if>
 
 
-<c:if test="${dto.memberType != 2}">
+<c:if test="${dto.memberType == 1}">
 	<center><b>글삭제</b></center>
 	<div class="d-flex justify-content-center">
 		<form method="post" name="gesipandelect" action="gesipandelectPro?num=${num}&pageNum=${pageNum}">

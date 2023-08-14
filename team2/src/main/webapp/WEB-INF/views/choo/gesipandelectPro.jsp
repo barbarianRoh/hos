@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
 <c:if test="${dto.memberType == 2}">
 	<script>
 		alert('삭제되었습니다');
@@ -9,7 +10,7 @@
 	</script>
 </c:if>
 
-<c:if test="${dto.memberType != 2}">
+<c:if test="${dto.memberType == 1}">
 	<c:if test="${pw == null}">
 		<script>
 			alert('비밀번호를 입력해주세요');

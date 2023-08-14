@@ -814,8 +814,11 @@ public class ChooController {
 	public String gradecon(Model model, int num, @RequestParam("name") String name, @RequestParam("addr") String addr, @RequestParam("pageNum") String pageNum, HttpSession session) {
 		String id = (String)session.getAttribute("sid");
 		String id1 = (String)session.getAttribute("kid");
+		RohDTO dto1 = new RohDTO();
 		
 		if(id != null) {
+			dto1 =  service.memtype(id);
+			model.addAttribute("dto1",dto1);
 			model.addAttribute("memId", id);
 		}
 		
@@ -832,31 +835,6 @@ public class ChooController {
 		return "choo/gradecon";
 	}
 	
-	/*
-	 * //병원 평점 기능 좋아요 페이지
-	 * 
-	 * @RequestMapping("hosgood") public String hosgood(Model model, int
-	 * num, @RequestParam("name") String name, @RequestParam("addr") String addr,
-	 * String id) { int count = service.goodCheck(num, name, addr, id); int count1 =
-	 * service.badCheck(num, name, addr, id);
-	 * 
-	 * if(count == 0) { model.addAttribute("check",count); service.goodinsert(num,
-	 * name, addr, id); }else if(count1 == 1){
-	 * 
-	 * }else { model.addAttribute("check",count); service.goodupdate(num, name,
-	 * addr, id); }
-	 * 
-	 * return "choo/hosgood"; }
-	 * 
-	 * //병원 평점기능 싫어요 페이지
-	 * 
-	 * @RequestMapping("hosbad") public String hosbad(Model model, int
-	 * num, @RequestParam("name") String name, @RequestParam("addr") String addr,
-	 * String id) {
-	 * 
-	 * 
-	 * return "choo/hosbad"; }
-	 */
 	
 	//글수정
 	@RequestMapping("updategrade")
@@ -892,18 +870,44 @@ public class ChooController {
 	
 	//글삭제
 	@RequestMapping("gradedelect")
-	public String gradedelect(Model model, int num, @RequestParam("name") String name, @RequestParam("addr") String addr, @RequestParam("pageNum") String pageNum) {
-		model.addAttribute("num", num);
-		model.addAttribute("name",name);
-		model.addAttribute("addr",addr);
-		model.addAttribute("pageNum",pageNum);
+	public String gradedelect(Model model, int num, @RequestParam("name") String name, @RequestParam("addr") String addr, @RequestParam("pageNum") String pageNum, HttpSession session) {
+		String id = (String)session.getAttribute("sid");
+		RohDTO dto1 = new RohDTO();
+		dto1 =  service.memtype(id);
+		
+		if(dto1.getMemberType().equals("2")) {
+			model.addAttribute("dto",dto1);
+			model.addAttribute("num", num);
+			model.addAttribute("name",name);
+			model.addAttribute("addr",addr);
+			model.addAttribute("pageNum",pageNum);
+		}else if(dto1.getMemberType().equals("1")) {
+			model.addAttribute("dto",dto1);
+			model.addAttribute("num", num);
+			model.addAttribute("name",name);
+			model.addAttribute("addr",addr);
+			model.addAttribute("pageNum",pageNum);
+		}
 		
 		return "choo/gradedelect";
 	}
 	
 	//글삭제
 	@RequestMapping("gradedelectPro")
-	public String gradedelectPro(Model model, int num, String pw, @RequestParam("name") String name, @RequestParam("addr") String addr, @RequestParam("pageNum") String pageNum) {
+	public String gradedelectPro(Model model, int num, String pw, @RequestParam("name") String name, @RequestParam("addr") String addr, @RequestParam("pageNum") String pageNum, HttpSession session) {
+		String id = (String)session.getAttribute("sid");
+		RohDTO dto = new RohDTO();
+		dto =  service.memtype(id);
+		
+		if(dto.getMemberType().equals("2")) {
+			model.addAttribute("dto", dto);
+			service.gradedelect(num, addr);
+			model.addAttribute("name",name);
+			model.addAttribute("addr",addr);
+			model.addAttribute("pageNum",pageNum);
+		}else if(dto.getMemberType().equals("1")) {
+		
+		model.addAttribute("dto", dto);
 		model.addAttribute("pw",pw);
 		int count = service.pwCheck(num,pw);
 		
@@ -917,7 +921,7 @@ public class ChooController {
 			model.addAttribute("chack",count);
 			model.addAttribute("pageNum",pageNum);
 		}
-		
+	}	
 		return "choo/gradedelectPro";
 	}
 	
@@ -931,6 +935,7 @@ public class ChooController {
 		
 		int pageSize = 10;
 		model.addAttribute("pageSize",pageSize);
+		
 		
 		if(pageNum == null) {
 			pageNum = "1";
@@ -1093,16 +1098,11 @@ public class ChooController {
 	public String gesipandelect(Model model, int num, String pageNum, HttpSession session, RohDTO dto) {
 		String id = (String)session.getAttribute("sid");
 		
-		if(id != null) {
-			dto = service.memtype(id);
-			model.addAttribute("dto", dto);
-			model.addAttribute("num",num);
-			model.addAttribute("pageNum",pageNum);
-		}
-		
+		dto = service.memtype(id);
+		model.addAttribute("dto", dto);
 		model.addAttribute("num",num);
 		model.addAttribute("pageNum",pageNum);
-		
+	
 		return "choo/gesipandelect";
 	}
 	
@@ -1111,19 +1111,19 @@ public class ChooController {
 	@RequestMapping("gesipandelectPro")
 	public String gesipandelectPro(Model model, int num, String pageNum, String pw, HttpSession session, RohDTO dto) {
 		String id = (String)session.getAttribute("sid");
+		int check;
 		
-		if(id != null) {
-			dto = service.memtype(id);
-
-		}else if(dto.getMemberType() == "2") {
-			model.addAttribute("dto", dto);
+		dto = service.memtype(id);
+		model.addAttribute("dto", dto);
+		
+		if(dto.getMemberType().equals("2")) {
 			service.gesipandelect(num);
 			model.addAttribute("pageNum", pageNum);
 		
-		}else if(dto.getMemberType() != "2") {
+		}else if(dto.getMemberType().equals("1")) {
 		
 		model.addAttribute("pw",pw);
-		int check = service.pwcheck(num, pw);
+		check = service.pwcheck(num, pw);
 		
 		if(check == 1) {
 			service.gesipandelect(num);

@@ -419,7 +419,7 @@ Kakao.Auth.createLoginButton({
 			<c:if test="${memId != null || kid != null}">	
 				<a class="btn btn-primary" href="gesipanMylist?num=${dto.num}&pageNum=${pageNum}">내가쓴글</a>
 			</c:if>
-				<a class="btn btn-primary" href="/hos/roh/">메인페이지로</a>
+				<a class="btn btn-primary" href="/hos/kim/main">메인페이지로</a>
 			</td>
 			</tr>
 	</table>

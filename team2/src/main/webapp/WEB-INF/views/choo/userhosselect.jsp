@@ -373,7 +373,7 @@ Kakao.Auth.createLoginButton({
 		<br />
 		<h1 align="center">${sid}님이 최근에 검색하신 병원입니다.</h1>
 		<div class="d-flex justify-content-end mb-2">
-			<button class="btn btn-primary" onclick="location='/hos/roh/'">메인으로</button>
+			<button class="btn btn-primary" onclick="location='/hos/kim/main'">메인으로</button>
 		</div>
 	</c:if>
 	<c:if test="${kid1 != null}">
@@ -381,7 +381,7 @@ Kakao.Auth.createLoginButton({
 		<br />
 		<h1 align="center">${hos.nick}님이 최근에 검색하신 병원입니다.</h1>
 		<div class="d-flex justify-content-end mb-2">
-			<button class="btn btn-primary" onclick="location='/hos/roh/'">메인으로</button>
+			<button class="btn btn-primary" onclick="location='/hos/kim/main'">메인으로</button>
 		</div>
 	</c:if>
 	<table align="center" width="700" border="1" cellspacing="0" cellpadding="0">
@@ -397,7 +397,7 @@ Kakao.Auth.createLoginButton({
 		<br />
 		<h1 align="center">${sid}님이 최근에 검색하신 병원입니다.</h1>
 		<div class="d-flex justify-content-end mb-2">
-			<button class="btn btn-primary" onclick="location='/hos/roh/'">메인으로</button>
+			<button class="btn btn-primary" onclick="location='/hos/kim/main'">메인으로</button>
 		</div>
 	</c:if>
 	<c:if test="${kid1 != null}">
@@ -405,7 +405,7 @@ Kakao.Auth.createLoginButton({
 		<br />
 		<h1 align="center">${hos.nick}님이 최근에 검색하신 병원입니다.</h1>
 		<div class="d-flex justify-content-end mb-2">
-			<button class="btn btn-primary" onclick="location='/hos/roh/'">메인으로</button>
+			<button class="btn btn-primary" onclick="location='/hos/kim/main'">메인으로</button>
 		</div>
 	</c:if>
 	<table class="table" >

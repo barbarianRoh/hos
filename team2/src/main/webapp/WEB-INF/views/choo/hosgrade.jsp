@@ -369,6 +369,7 @@ Kakao.Auth.createLoginButton({
 
 <br />
 <br />
+<br />
 <h1 class="text-center">병원평가게시판</h1>
 
 <c:if test="${list.size() == 0}">

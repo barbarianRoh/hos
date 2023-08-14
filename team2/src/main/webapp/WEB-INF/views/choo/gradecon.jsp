@@ -30,6 +30,8 @@
 			<c:if test="${memId != null || nick != null}">
 				<c:if test="${memId == dto.id || nick == dto.id}">
 					<input class="btn btn-primary" type="button" value="글수정" onclick="location.href='updategrade?num=${dto.num}&name=${name}&addr=${addr}&pageNum=${pageNum}'">
+				</c:if>
+				<c:if test="${memId == dto.id || nick == dto.id || dto1.memberType == 2}">
 					<input class="btn btn-primary" type="button" value="글삭제" onclick="location.href='gradedelect?num=${dto.num}&name=${name}&addr=${addr}&pageNum=${pageNum}'">
 				</c:if>
 			</c:if>

@@ -138,6 +138,24 @@
 	width: 300px;
 	/* ... (other styles) ... */
 }
+
+.p-header {
+		background:#fff;
+		height: 64px;
+	}
+		
+	.p-header > div {
+		padding: 0px 15px 0px 15px;
+	}
+	
+	.p-header2 {
+		height: 54px;
+		
+	}
+	
+	.p-header2 > div {
+		padding: 0px 15px 0px 15px;
+	}
 </style>
 
 <c:if test="${loginFailed}">
@@ -147,111 +165,172 @@
 	</script>
 </c:if>
 
-<!-- 헤더이면서 사이드바와 로그인버튼을 헤더부분에 고정시키는 곳 -->
-<header>
-	<!-- 버튼 프라이머리 2가 햄버거 -->        
-	<a class="btn btn-primary2" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"><i class="fa-solid fa-bars" style="color: #000000;"></i></a>
-	
-	<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-		<div class="offcanvas-header">
-			<h5 class="offcanvas-title" id="offcanvasExampleLabel">아파, 어디가?</h5>
-			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-		</div>
-		
-		<div>
-			<hr style="margin-top: 10px; margin-bottom: 10px; border-color: black;">
-		</div>
-		
-		<div class="offcanvas2-body">
-			<div class="dropdown mt-3">
-				<ul class="nav flex-column">
-					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="/hos/choo/selectHos">병원지도</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/hos/roh/pharmacyMap">약국지도</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/hos/kim/symptom">부위별 증상 찾기</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/hos/hong/search">약품정보</a>
-					</li>						
-				</ul>
-				<div>
-					<hr style="margin-top: 10px; margin-bottom: 10px; border-color: black;">
-				</div>
+<body>
+        <!-- 헤더 -->
+        <div class="">
+            <div class="p-header d-flex flex-row text-white align-items-center">
+               	<header>
+				<!-- 버튼 프라이머리 2가 햄버거 -->        
+				<a class="btn btn-primary2" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"><i class="fa-solid fa-bars" style="color: #000000;"></i></a>
 				
-				<ul class = "nav flex-column">
-					<li><a class = "nav-link active" aria-current="page" href="/hos/choo/addressselect">병원찾기</a></li>
-	                <li>
-	                   <c:if test="${sessionScope.sid != null || sessionScope.knick != null}">
-	                      <a class = "nav-link active" aria-current="page" href="/hos/choo/userhosselect">최근 찾은 병원</a>                  
-	                   </c:if>
-	                </li>  				
-				</ul>
-			
-				<div>
-					<hr style="margin-top: 10px; margin-bottom: 10px; border-color: black;">
-				</div>
-			
-				<ul class = "nav flex-column">
-					<li><a class = "nav-link active" aria-current="page" href="/hos/choo/gesipanmain">고객센터</a></li>
-				</ul>								
-			</div>
-		</div>
-	</div>
-	<!-- 로그인 아이콘 있는곳 -->
-	<a class="loginButton" href="#"><img alt="Cindy Baker2" src="//image.medigate.net/static/mobile/ver_3/images/icon_profilethumb.gif" class="MuiAvatar-img"></a>
-	<div id="loginModal" class="modal">
-		<div class="modal-dialog">
-			<div class="contwrap modal-content">
-				<c:if test="${sessionScope.sid == null && sessionScope.knick == null}">
-					<button id="closeLoginModal" class="close-button">×</button>
-					<form action="/hos/roh/signinPro">
-						<div class="profilearea login">
-							<p class="input_row txt" style="color: rgb(26, 26, 26);">아파, 어디가?</p>
-							<div class="input_row">
-								<input type="text" id="id" name="id" placeholder="아이디" class="form-control" value="">
+				<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+					<div class="offcanvas-header">
+						<h5 class="offcanvas-title" id="offcanvasExampleLabel">아파, 어디가?</h5>
+						<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+					</div>
+					
+					<div>
+						<hr style="margin-top: 10px; margin-bottom: 10px; border-color: black;">
+					</div>
+					
+					<div class="offcanvas2-body">
+						<div class="dropdown mt-3">
+							<ul class="nav flex-column">
+								<li class="nav-item">
+									<a class="nav-link active" aria-current="page" href="/hos/choo/selectHos">병원지도</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="/hos/roh/pharmacyMap">약국지도</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="/hos/kim/symptom">부위별 증상 찾기</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="/hos/hong/search">약품정보</a>
+								</li>						
+							</ul>
+							<div>
+								<hr style="margin-top: 10px; margin-bottom: 10px; border-color: black;">
 							</div>
-				            <div class="input_row">
-				              <input type="password" id="pw" name="pw" placeholder="비밀번호" class="form-control" value="">
-				            </div>
-				            <button type="submit" class="mdc-button mdc-button--raised select left">로그인</button>
-				            <button type="button" id="kakao-login-btn">카카오 로그인</button>
-				            <div class="gridcontainer signin_options">
-								<div class="input_row padding-10px"></div>
-								<div class="input_row pc padding-10px border-top-1px">
-									<a class="forgotid" href="/hos/roh/findMyIdForm" target="_blank" style="color: rgb(26, 26, 26); font-size: 12px;">아이디 찾기</a>
-					                <a class="forgotpassword" href="/hos/roh/findMyPwForm" style="color: rgb(26, 26, 26); font-size: 12px;">비밀번호 찾기</a>
-					                <a class="join" href="/hos/roh/signupForm" style="font-size: 12px;">회원 가입</a>
-								</div>
-								<div class="input_row mobile padding-10px border-top-1px"></div>
+							
+							<ul class = "nav flex-column">
+								<li><a class = "nav-link active" aria-current="page" href="/hos/choo/addressselect">병원찾기</a></li>
+								<li>
+                  					<c:if test="${sessionScope.sid != null}">
+                     					<a class = "nav-link active" aria-current="page" href="/hos/choo/userhosselect">최근 찾은 병원</a>                  
+                  					</c:if>
+               					</li>   
+							</ul>
+						
+							<div>
+								<hr style="margin-top: 10px; margin-bottom: 10px; border-color: black;">
 							</div>
+						
+							<ul class = "nav flex-column">
+								<li><a class = "nav-link active" aria-current="page" href="/hos/choo/gesipanmain">고객센터</a></li>
+							</ul>										
 						</div>
-					</form>
-				</c:if>
-				<div id="myInfoForm" class="profilearea">
-	               <p class="input_row txt" style="color: rgb(26, 26, 26);">
-	                  <c:if test="${sessionScope.sid != null}">환영합니다! ${sid}님</c:if>
-	                  <c:if test="${sessionScope.knick != null}">환영합니다! ${knick}님</c:if>                  
-	               </p>				
-					<a href="/hos/roh/myProfileForm">내 프로필</a>
-					<a id="logoutButton" href="/hos/kim/main">로그아웃</a>
+					</div>
 				</div>
-				<c:if test="${logout}">
-					<script>
-						alert("로그아웃 되었습니다");
-						// 새로고침 할 때 마다 또 로그아웃 되는것을 방지
-						window.location.href = '/hos/kim/main';
-					</script>
-				</c:if>
-			</div>
-		</div>
-	</div>
-	<div id="modalOverlay" class = "overlay"></div>
-</header>
+				<!-- 로그인 아이콘 있는곳 -->
+				<a class="loginButton" href="#"><img alt="Cindy Baker2" src="//image.medigate.net/static/mobile/ver_3/images/icon_profilethumb.gif" class="MuiAvatar-img"></a>
+				<div id="loginModal" class="modal">
+					<div class="modal-dialog">
+						<div class="contwrap modal-content">
+							<c:if test="${sessionScope.sid == null && sessionScope.knick == null}">
+								<button id="closeLoginModal" class="close-button">×</button>
+								<form action="/hos/roh/signinPro">
+									<div class="profilearea login">
+										<p class="input_row txt" style="color: rgb(26, 26, 26);">아파, 어디가?</p>
+										<div class="input_row">
+											<input type="text" id="id" name="id" placeholder="아이디" class="form-control" value="">
+										</div>
+							            <div class="input_row">
+							              <input type="password" id="pw" name="pw" placeholder="비밀번호" class="form-control" value="">
+							            </div>
+							            <button type="submit" class="mdc-button mdc-button--raised select left">로그인</button>
+							            <button type="button" id="kakao-login-btn">카카오 로그인</button>
+							            <div class="gridcontainer signin_options">
+											<div class="input_row padding-10px"></div>
+											<div class="input_row pc padding-10px border-top-1px">
+												<a class="forgotid" href="/hos/roh/findMyIdForm" target="_blank" style="color: rgb(26, 26, 26); font-size: 12px;">아이디 찾기</a>
+								                <a class="forgotpassword" href="/hos/roh/findMyPwForm" style="color: rgb(26, 26, 26); font-size: 12px;">비밀번호 찾기</a>
+								                <a class="join" href="/hos/roh/signupForm" style="font-size: 12px;">회원 가입</a>
+											</div>
+											<div class="input_row mobile padding-10px border-top-1px"></div>
+										</div>
+									</div>
+								</form>
+							</c:if>
+							<div id="myInfoForm" class="profilearea">
+								<p class="input_row txt" style="color: rgb(26, 26, 26);">
+                  					<c:if test="${sessionScope.sid != null}">환영합니다! ${sid}님</c:if>
+                  					<c:if test="${sessionScope.knick != null}">환영합니다! ${knick}님</c:if>                  
+               					</p>
+								<a href="/hos/roh/myProfileForm">내 프로필</a>
+								<a id="logoutButton" href="/hos/kim/main">로그아웃</a>
+							</div>
+							<c:if test="${logout}">
+								<script>
+									alert("로그아웃 되었습니다");
+									// 새로고침 할 때 마다 또 로그아웃 되는것을 방지
+									window.location.href = '/hos/kim/main';
+								</script>
+							</c:if>
+						</div>
+					</div>
+				</div>
+				<div id="modalOverlay" class = "overlay"></div>
+			</header>
+            </div>
+            
+            <div class="p-header2 align-items-center d-flex row-g3 search-header">
+	            <ul>
+	            	<li>
+	            		<select name="sido" id="sido"></select>
+	            	</li>
+	            	<li>
+	            		<select name="gugun" id="gugun"></select>
+	            	</li>
+	            	<li>
+	            		<select name="selectOption" id="selectOption" onchange="assignValue()">
+	            			<option selected>진료과선택</option>
+								<option value="D001">내 과</option>
+								<option value="D002">소아과</option>
+								<option value="D003">신경과</option>
+								<option value="D004">정신건강의학과</option>
+								<option value="D005">피부과</option>
+								<option value="D006">외 과</option>
+								<option value="D007">흉부외과</option>
+								<option value="D008">정형외과</option>
+								<option value="D009">신경외과</option>
+								<option value="D010">성형외과</option>
+								<option value="D011">산부인과</option>
+								<option value="D012">안 과</option>
+								<option value="D013">이비인후과</option>
+								<option value="D014">비뇨기과</option>
+								<option value="D016">재활의학과</option>
+								<option value="D017">마취통증의학과</option>
+								<option value="D018">영상의학과</option>
+								<option value="D019">치료방사선과</option>
+								<option value="D022">가정의학과</option>
+								<option value="D026">치 과</option>
+	            		</select>
+	            	</li>
+	            	<li>
+	            		<select name="hosType" id="hosType" onchange="TypeValue()">
+	            			<option selected>병원분류</option>
+							<option value="A">상급/종합병원</option>
+							<option value="B">병원</option>
+							<option value="C">의원</option>
+							<option value="M">치과병원</option>
+							<option value="N">치과의원</option>
+	            		</select>
+	            	</li>
+      					<form method="get" name="hosselect" action="/hos/choo/hosapiresult">
+       					<input type="hidden" id="Q0" name="Q0" value="">
+        				<input type="hidden" id="Q1" name="Q1" value="">
+        				<input type="hidden" id="selectedjinryo" name="QD" value="">
+        				<input type="hidden" id="selecthos" name="QZ" value="">
+        				&nbsp;&nbsp;<input class="btn btn-primary" type="submit" value="검 색">&nbsp;&nbsp;
+      					</form>
+	           
+	            		<button class="btn btn-info" onclick="panTo()">내 위치로 이동</button>
+	            </ul>
+        	</div>
+        </div>
 
+	
 
 <!-- 여기부터 토클폼까지가 위에 해더부분에 공간을 만든것 같음 -->
 <script>
@@ -333,7 +412,7 @@ $('document').ready(function() {
 		$.each(eval(area0), function() {
 			$selsido.append("<option value='"+this+"'>"+this+"</option>");
 		});
-		$selsido.next().append("<option value=''>구/군 선택</option>");
+		$selsido.parent().siblings("li").find("select[name='gugun']").append("<option value=''>구/군 선택</option>");
 	});
 	
 	// 시/도 선택시 구/군 설정
@@ -345,7 +424,7 @@ $('document').ready(function() {
    // area가 0이 아닌 경우 area 변수를 기반으로 구/군 배열을 검색하고 드롭다운에 추가
 	$("select[name^=sido]").change(function() {
 		var area = "area"+$("option",$(this)).index($("option:selected",$(this))); // 선택지역의 구군 Array
-		var $gugun = $(this).next(); // 선택영역 군구 객체
+		var $gugun = $(this).parent().siblings("li").find("select[name='gugun']"); // 선택영역 구군 객체
 		$("option",$gugun).remove(); // 구군 초기화
 	
 		if(area == "area0") {
@@ -357,81 +436,24 @@ $('document').ready(function() {
 		}
 		
 		// 시도시 선택시 자동으로 구/군도 들어가는 곳
- 		var sidoValue = $("select[name=sido1]").val();
+ 		var sidoValue = $(this).val();
 		$("input[name=Q0]").val(sidoValue);
-		var gugunValue = $("select[name=gugun1]").val();
+		
+		$("select[name=gugun]").val("");
+		var gugunValue = $("select[name=gugun]").val();
 		$("input[name=Q1]").val(gugunValue);
 	});
 		 
 		//구/군 변경시 동작하는 곳
-		$("select[name=gugun1]").change(function() {
-		gugunValue = $(this).val();
+		$("select[name=gugun]").change(function() {
+		var gugunValue = $(this).val();
 		$("input[name=Q1]").val(gugunValue);
 		});
-		console.log(gugunValue);
 });
-</script>
-<div>
-<br />
-<p align="center" style="font-size: 20px;font-weight: 400;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>주소로 병원 검색</strong></p>
-</div>
-<div class="d-flex justify-content-start mb-1">
-<form method = "get" name="hosselect" action="/hos/choo/hosapiresult">
-	<label for="selectOption"></label>
-	
-	<div class="d-flex justify-content-start" style="width:35%;">
-	&nbsp;&nbsp;&nbsp;<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="sido1" id="sido1"></select>&nbsp;&nbsp;
-	<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="gugun1" id="gugun1"></select>&nbsp;&nbsp;
-	
-	<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="selectOption" id="selectOption" onchange="assignValue()">
-		<option selected>진료과선택</option>
-		<option value="D001">내 과</option>
-		<option value="D002">소아과</option>
-		<option value="D003">신경과</option>
-		<option value="D004">정신건강의학과</option>
-		<option value="D005">피부과</option>
-		<option value="D006">외 과</option>
-		<option value="D007">흉부외과</option>
-		<option value="D008">정형외과</option>
-		<option value="D009">신경외과</option>
-		<option value="D010">성형외과</option>
-		<option value="D011">산부인과</option>
-		<option value="D012">안 과</option>
-		<option value="D013">이비인후과</option>
-		<option value="D014">비뇨기과</option>
-		<option value="D016">재활의학과</option>
-		<option value="D017">마취통증의학과</option>
-		<option value="D018">영상의학과</option>
-		<option value="D019">치료방사선과</option>
-		<option value="D022">가정의학과</option>
-		<option value="D026">치 과</option>
-	</select> &nbsp;&nbsp;
-	
-	<label for="hosType"></label>
-	<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="hosType" id="hosType" onchange="TypeValue()">
-		<option selected>병원분류</option>
-		<option value="A">상급/종합병원</option>
-		<option value="B">병원</option>
-		<option value="C">의원</option>
-		<option value="M">치과병원</option>
-		<option value="N">치과의원</option>
-	</select>
-	&nbsp;&nbsp;
-	
-	<input type="hidden" id="Q0" name="Q0" value="">
-	<input type="hidden" id="Q1" name="Q1" value="">
-	<input type="hidden" id="selectedjinryo" name="QD" value="">
-	<input type="hidden" id="selecthos" name="QZ" value="">
-			
-	<input class="btn btn-primary" type="submit" value="검 색">	
-	</div>
-	
-</form>
-<div class="">
-<div class="container mb-4"></div>
-<button class="btn btn-info" onclick="panTo()" style="height: 40px;" >내 위치로 이동</button>
 
-</div></div>
+
+</script>
+
 <%-- 2100589fb32df980773796dffa657449 --%>
 
 <!-- 카카오맵API와 서비스, 클러스터기능 라이브러리 불러옴 -->
@@ -526,6 +548,8 @@ function panTo() {
 	function assignValue(){
 	var selectElement = document.getElementById("selectOption");
 	var selectedValue = selectElement.value;
+	var selectOption = document.getElementById("selectOption");
+	var selectedDepartment = selectOption.options[selectOption.selectedIndex];
 	document.getElementById("selectedjinryo").value = selectedValue;
 	
 	//선택한 진료과가 치과일 경우 병원분류에 치과병원 혹은 치과의원을 select에 보이게 하는 곳
@@ -539,6 +563,8 @@ function panTo() {
 	function TypeValue(){
 		var selectElement = document.getElementById("hosType");
 		var selectedValue = selectElement.value;
+		var hosType = document.getElementById("hosType");
+		var selectedHospitalType = hosType.options[hosType.selectedIndex].text;
 		document.getElementById("selecthos").value = selectedValue;
 	}
 	

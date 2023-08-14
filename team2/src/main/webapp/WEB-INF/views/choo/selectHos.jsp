@@ -136,6 +136,24 @@
 	width: 300px;
 	/* ... (other styles) ... */
 }
+
+.p-header {
+		background:#fff;
+		height: 64px;
+	}
+		
+	.p-header > div {
+		padding: 0px 15px 0px 15px;
+	}
+	
+	.p-header2 {
+		height: 54px;
+		
+	}
+	
+	.p-header2 > div {
+		padding: 0px 15px 0px 15px;
+	}
 </style>
 
 <c:if test="${loginFailed}">
@@ -145,110 +163,135 @@
 	</script>
 </c:if>
 
-<!-- 헤더이면서 사이드바와 로그인버튼을 헤더부분에 고정시키는 곳 -->
-<header>
-	<!-- 버튼 프라이머리 2가 햄버거 -->        
-	<a class="btn btn-primary2" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"><i class="fa-solid fa-bars" style="color: #000000;"></i></a>
-	
-	<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-		<div class="offcanvas-header">
-			<h5 class="offcanvas-title" id="offcanvasExampleLabel">아파, 어디가?</h5>
-			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-		</div>
-		
-		<div>
-			<hr style="margin-top: 10px; margin-bottom: 10px; border-color: black;">
-		</div>
-		
-		<div class="offcanvas2-body">
-			<div class="dropdown mt-3">
-				<ul class="nav flex-column">
-					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="/hos/choo/selectHos">병원지도</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/hos/roh/pharmacyMap">약국지도</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/hos/kim/symptom">부위별 증상 찾기</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="/hos/hong/search">약품정보</a>
-					</li>						
-				</ul>
-				<div>
-					<hr style="margin-top: 10px; margin-bottom: 10px; border-color: black;">
-				</div>
+<body>
+        <!-- 헤더 -->
+        <div class="">
+            <div class="p-header d-flex flex-row text-white align-items-center">
+               	<header>
+				<!-- 버튼 프라이머리 2가 햄버거 -->        
+				<a class="btn btn-primary2" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"><i class="fa-solid fa-bars" style="color: #000000;"></i></a>
 				
-				<ul class = "nav flex-column">
-					<li><a class = "nav-link active" aria-current="page" href="/hos/choo/addressselect">병원찾기</a></li>
-	               <li>
-	                  <c:if test="${sessionScope.sid != null || sessionScope.knick != null}">
-	                     <a class = "nav-link active" aria-current="page" href="/hos/choo/userhosselect">최근 찾은 병원</a>                  
-	                  </c:if>
-	               </li>   				
-				</ul>
-			
-				<div>
-					<hr style="margin-top: 10px; margin-bottom: 10px; border-color: black;">
-				</div>
-			
-				<ul class = "nav flex-column">
-					<li><a class = "nav-link active" aria-current="page" href="/hos/choo/gesipanmain">고객센터</a></li>
-				</ul>										
-			</div>
-		</div>
-	</div>
-	<!-- 로그인 아이콘 있는곳 -->
-	<a class="loginButton" href="#"><img alt="Cindy Baker2" src="//image.medigate.net/static/mobile/ver_3/images/icon_profilethumb.gif" class="MuiAvatar-img"></a>
-	<div id="loginModal" class="modal">
-		<div class="modal-dialog">
-			<div class="contwrap modal-content">
-				<c:if test="${sessionScope.sid == null && sessionScope.knick == null}">
-					<button id="closeLoginModal" class="close-button">×</button>
-					<form action="/hos/roh/signinPro">
-						<div class="profilearea login">
-							<p class="input_row txt" style="color: rgb(26, 26, 26);">아파, 어디가?</p>
-							<div class="input_row">
-								<input type="text" id="id" name="id" placeholder="아이디" class="form-control" value="">
+				<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+					<div class="offcanvas-header">
+						<h5 class="offcanvas-title" id="offcanvasExampleLabel">아파, 어디가?</h5>
+						<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+					</div>
+					
+					<div>
+						<hr style="margin-top: 10px; margin-bottom: 10px; border-color: black;">
+					</div>
+					
+					<div class="offcanvas2-body">
+						<div class="dropdown mt-3">
+							<ul class="nav flex-column">
+								<li class="nav-item">
+									<a class="nav-link active" aria-current="page" href="/hos/choo/selectHos">병원지도</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="/hos/roh/pharmacyMap">약국지도</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="/hos/kim/symptom">부위별 증상 찾기</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="/hos/hong/search">약품정보</a>
+								</li>						
+							</ul>
+							<div>
+								<hr style="margin-top: 10px; margin-bottom: 10px; border-color: black;">
 							</div>
-				            <div class="input_row">
-				              <input type="password" id="pw" name="pw" placeholder="비밀번호" class="form-control" value="">
-				            </div>
-				            <button type="submit" class="mdc-button mdc-button--raised select left">로그인</button>
-				            <button type="button" id="kakao-login-btn">카카오 로그인</button>
-				            <div class="gridcontainer signin_options">
-								<div class="input_row padding-10px"></div>
-								<div class="input_row pc padding-10px border-top-1px">
-									<a class="forgotid" href="/hos/roh/findMyIdForm" target="_blank" style="color: rgb(26, 26, 26); font-size: 12px;">아이디 찾기</a>
-					                <a class="forgotpassword" href="/hos/roh/findMyPwForm" style="color: rgb(26, 26, 26); font-size: 12px;">비밀번호 찾기</a>
-					                <a class="join" href="/hos/roh/signupForm" style="font-size: 12px;">회원 가입</a>
-								</div>
-								<div class="input_row mobile padding-10px border-top-1px"></div>
+							
+							<ul class = "nav flex-column">
+								<li><a class = "nav-link active" aria-current="page" href="/hos/choo/addressselect">병원찾기</a></li>
+								<li>
+                  					<c:if test="${sessionScope.sid != null}">
+                     					<a class = "nav-link active" aria-current="page" href="/hos/choo/userhosselect">최근 찾은 병원</a>                  
+                  					</c:if>
+               					</li>   
+							</ul>
+						
+							<div>
+								<hr style="margin-top: 10px; margin-bottom: 10px; border-color: black;">
 							</div>
+						
+							<ul class = "nav flex-column">
+								<li><a class = "nav-link active" aria-current="page" href="/hos/choo/gesipanmain">고객센터</a></li>
+							</ul>										
 						</div>
-					</form>
-				</c:if>
-				<div id="myInfoForm" class="profilearea">
-	               <p class="input_row txt" style="color: rgb(26, 26, 26);">
-	                  <c:if test="${sessionScope.sid != null}">환영합니다! ${sid}님</c:if>
-	                  <c:if test="${sessionScope.knick != null}">환영합니다! ${knick}님</c:if>                  
-	               </p>				
-					<a href="/hos/roh/myProfileForm">내 프로필</a>
-					<a id="logoutButton" href="/hos/kim/main">로그아웃</a>
+					</div>
 				</div>
-				<c:if test="${logout}">
-					<script>
-						alert("로그아웃 되었습니다");
-						// 새로고침 할 때 마다 또 로그아웃 되는것을 방지
-						window.location.href = '/hos/kim/main';
-					</script>
-				</c:if>
-			</div>
-		</div>
-	</div>
-	<div id="modalOverlay" class = "overlay"></div>
-</header>
+				<!-- 로그인 아이콘 있는곳 -->
+				<a class="loginButton" href="#"><img alt="Cindy Baker2" src="//image.medigate.net/static/mobile/ver_3/images/icon_profilethumb.gif" class="MuiAvatar-img"></a>
+				<div id="loginModal" class="modal">
+					<div class="modal-dialog">
+						<div class="contwrap modal-content">
+							<c:if test="${sessionScope.sid == null && sessionScope.knick == null}">
+								<button id="closeLoginModal" class="close-button">×</button>
+								<form action="/hos/roh/signinPro">
+									<div class="profilearea login">
+										<p class="input_row txt" style="color: rgb(26, 26, 26);">아파, 어디가?</p>
+										<div class="input_row">
+											<input type="text" id="id" name="id" placeholder="아이디" class="form-control" value="">
+										</div>
+							            <div class="input_row">
+							              <input type="password" id="pw" name="pw" placeholder="비밀번호" class="form-control" value="">
+							            </div>
+							            <button type="submit" class="mdc-button mdc-button--raised select left">로그인</button>
+							            <button type="button" id="kakao-login-btn">카카오 로그인</button>
+							            <div class="gridcontainer signin_options">
+											<div class="input_row padding-10px"></div>
+											<div class="input_row pc padding-10px border-top-1px">
+												<a class="forgotid" href="/hos/roh/findMyIdForm" target="_blank" style="color: rgb(26, 26, 26); font-size: 12px;">아이디 찾기</a>
+								                <a class="forgotpassword" href="/hos/roh/findMyPwForm" style="color: rgb(26, 26, 26); font-size: 12px;">비밀번호 찾기</a>
+								                <a class="join" href="/hos/roh/signupForm" style="font-size: 12px;">회원 가입</a>
+											</div>
+											<div class="input_row mobile padding-10px border-top-1px"></div>
+										</div>
+									</div>
+								</form>
+							</c:if>
+							<div id="myInfoForm" class="profilearea">
+								<p class="input_row txt" style="color: rgb(26, 26, 26);">
+                  					<c:if test="${sessionScope.sid != null}">환영합니다! ${sid}님</c:if>
+                  					<c:if test="${sessionScope.knick != null}">환영합니다! ${knick}님</c:if>                  
+               					</p>
+								<a href="/hos/roh/myProfileForm">내 프로필</a>
+								<a id="logoutButton" href="/hos/kim/main">로그아웃</a>
+							</div>
+							<c:if test="${logout}">
+								<script>
+									alert("로그아웃 되었습니다");
+									// 새로고침 할 때 마다 또 로그아웃 되는것을 방지
+									window.location.href = '/hos/kim/main';
+								</script>
+							</c:if>
+						</div>
+					</div>
+				</div>
+				<div id="modalOverlay" class = "overlay"></div>
+			</header>
+            </div>
+            
+            <div class="p-header2 align-items-center d-flex row-g3 search-header">
+            	<ul>
+            		<li>
+            			<select name="where" id="where"></select>
+            		</li>
+            		<li>
+            			<select name="apa" id="apa"></select>
+            		</li>
+            		<form method="get" name="selectHos" action="/hos/choo/resultHos">
+            			<input type="hidden" id="W0" name="W0" value="">
+						<input type="hidden" id="W1" name="W1" vlaue="">
+						<input type="hidden" id="Q0" name="Q0" value="">
+						<input type="hidden" id="Q1" name="Q1" value="">
+						&nbsp;&nbsp;<input class="btn btn-primary" type="submit" value="검 색">&nbsp;&nbsp;
+					</form>
+					
+					<button class="btn btn-info" onclick="panTo()">내 위치로 이동</button>
+            	</ul>
+            </div>
+         </div>
 
 
 <script>
@@ -312,12 +355,12 @@ $('document').ready(function(){
 		$.each(eval(area0), function(){
 			$selwhere.append("<option value='"+this+"'>"+this+"</option>");
 		});
-		$selwhere.next().append("<option value=''>증상선택</option>");
+		$selwhere.parent().siblings("li").find("select[name='apa']").append("<option value=''>증상선택</option>");
 	});
 	
 	$("select[name^=where]").change(function(){
 		var area = "area"+$("option",$(this)).index($("option:selected",$(this)));
-		var $apa = $(this).next();			//선택영역 증상선택 객체
+		var $apa = $(this).parent().siblings("li").find("select[name='apa']");			//선택영역 증상선택 객체
 		$("option",$apa).remove();			//증상선택 초기화
 		
 		if(area == "area0"){
@@ -329,48 +372,21 @@ $('document').ready(function(){
 		}
 		
 		//부위가 선택되면 해당 부위의 값과 증상의 선택값이 들어가는 곳
-		var whereValue = $("select[name=where1]").val();
+		var whereValue = $(this).val();
 		$("input[name=W0]").val(whereValue);
-		var apaValue = $("select[name=apa1]").val();
+		
+		$("select[name=apa]").val("");
+		var apaValue = $("select[name=apa]").val();
 		$("input[name=W1]").val(apaValue);
 	});
 		
 		//증상 select를 변경시 해당 변경값이 대입
-		$("select[name=apa1]").change(function(){
-			apaValue = $(this).val();
+		$("select[name=apa]").change(function(){
+		var apaValue = $(this).val();
 		$("input[name=W1]").val(apaValue);
 		});
-		console.log(apaValue);
 });
 </script>
-
-<div>
-<br />
-<p align="center" style="font-size: 20px;font-weight:400;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>증상으로 병원 검색</strong></p>
-<br />
-</div>
-<div class="d-flex justify-content-start mb-0">
-<!-- W0은 선택된 부위의 값 W1 선택된 증상의 값 -->
-<form method="get" name="selectHos" action="/hos/choo/resultHos">
-	
-	<div class="d-flex justify-content-start" style="width:80%;">
-		&nbsp;&nbsp;&nbsp;&nbsp;<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="where1" id="where1"></select>&nbsp;&nbsp;
-		<select style="width: 150px;" class="form-select form-select-sm" aria-lable="Small select example" name="apa1" id="apa1"></select>&nbsp;&nbsp;
-	
-		<input type="hidden" id="W0" name="W0" value="">
-		<input type="hidden" id="W1" name="W1" vlaue="">
-		<input type="hidden" id="Q0" name="Q0" value="">
-		<input type="hidden" id="Q1" name="Q1" value="">
-	
-	
-	<input class="btn btn-primary" type="submit" value="검색">
-	</div>
-</form>
-<div class="">
-<div class="container mb-0"></div>
-<button class="btn btn-info" onclick="panTo()" style="height: 40px;">내 위치로 이동</button>
-</div></div>
-
 
 
 <!-- 카카오맵API와 서비스, 클러스터기능 라이브러리 불러옴 -->
