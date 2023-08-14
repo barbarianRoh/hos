@@ -32,33 +32,7 @@
         
     </head>
     <style>
-     #kakao-login-btn {
-     	background-color: #FFEB00;
-	    color: #000000;
-	    border: none;
-	    padding: 1px 6px;
-	    font-size: 16px;
-	    cursor: pointer;
-	    border-radius: 5px;
-	    width:100px;
-     }
-     #kakao-login-btn img{width:100%;}
-	 .btn-primary {
-	    --bs-btn-color: black;
-	    --bs-btn-bg: white;
-	    --bs-btn-border-color: white;
-	    --bs-btn-hover-color: #fff;
-	    --bs-btn-hover-bg: #0b5ed7;
-	    --bs-btn-hover-border-color: #0a58ca;
-	    --bs-btn-focus-shadow-rgb: 49,132,253;
-	    --bs-btn-active-color: #fff;
-	    --bs-btn-active-bg: #0a58ca;
-	    --bs-btn-active-border-color: #0a53be;
-	    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-	    --bs-btn-disabled-color: #fff;
-	    --bs-btn-disabled-bg: #0d6efd;
-	    --bs-btn-disabled-border-color: #0d6efd;
-	}
+    
 		 .btn-primary2 {
 	    --bs-btn-color: black;
 	    --bs-btn-bg: white;
@@ -135,19 +109,164 @@
     top: 48.8%;
     left: 91.2%;
     transform: translate(-50%, -50%);
-    width: 300px;
+    width: 350px;
     /* ... (other styles) ... */
   	}
+  	.profilearea.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    margin: 0 auto;
+	}
+
+	.profilearea.login p.input_row.txt {
+	    color: #1a1a1a;
+	    text-align: center;
+	    margin: 0;
+	    font-size: 16px;
+	}
+	
+	.profilearea.login .input_row {
+	    margin-top: 10px;
+	    width: 100%;
+	}
+	
+	.profilearea.login .form-control {
+	    width: 100%;
+	    padding: 8px;
+	    border: 1px solid #ccc;
+	    border-radius: 4px;
+	}
+	
+	.profilearea.login .mdc-button {
+	    margin-top: 15px;
+	    width: 100%;
+	    text-align: center;
+	    background-color: #007bff;
+	    color: white;
+	    border: none;
+	    border-radius: 4px;
+	    cursor: pointer;
+	    padding: 10px;
+	    font-size: 16px;
+	}
+	
+	.profilearea.login #kakao-login-btn {
+	    margin-top: 10px;
+	    width: 100%;
+	    text-align: center;
+	    background-color: #f4f4f4;
+	    color: #1a1a1a;
+	    border: none;
+	    border-radius: 4px;
+	    cursor: pointer;
+	    padding: 10px;
+	    font-size: 16px;
+	}
+	
+	.profilearea.login .signin_options {
+	    width: 90%;
+	    margin-top: 15px;
+	    text-align: center;
+	}
+	
+	.profilearea.login .signin_options a {
+	    color: #1a1a1a;
+	    text-decoration: none;
+	    font-size: 12px;
+	    margin: 0 10px;
+	}
+	
+	.profilearea.login .signin_options .border-top-1px {
+	    border-top: 1px solid #ccc;
+	    margin-top: 10px;
+	    padding-top: 10px;
+	}
   	
-  	
+  	#myInfoForm {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 350px;
+    margin: 0 auto;
+}
+
+#myInfoForm p.input_row.txt {
+    color: #1a1a1a;
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+#myInfoForm a {
+    color: #007bff;
+    text-decoration: none;
+    margin: 10px 0;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+#myInfoForm a:hover {
+    color: #0056b3;
+}
+
+/* Style for buttons */
+#logoutButton, #kakao-login-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+#kakao-login-btn {
+    background-color: #FFEB00;
+    color: #000000;
+}
+
+#kakao-login-btn:hover {
+    background-color: #ffffff;
+}
+
+/* Align the buttons horizontally */
+#myInfoForm a:last-child {
+    margin-left: 10px;
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+    #myInfoForm {
+        width: 90%;
+    }
+    
+    #closemyInfoForm{
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  	}
   	
     </style>
+    
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     var loginButton = document.querySelector(".loginButton");
     var loginModal = document.getElementById("loginModal");
     var modalOverlay = document.getElementById("modalOverlay");
     var closeLoginModalButton = document.getElementById("closeLoginModal");
+    var closemyInfoFormButton = document.getElementById("closemyInfoForm");
     var myInfoForm = document.getElementById("myInfoForm");
 	
     loginButton.addEventListener("click", function (event) {
@@ -163,25 +282,37 @@
     });
 
     closeLoginModalButton.addEventListener("click", function () {
-      loginModal.style.display = "none";
-      modalOverlay.style.display = "none";
+		loginModal.style.display = "none";
+		modalOverlay.style.display = "none";
     });
+    
+    closemyInfoFormButton.addEventListener("click", function () {
+    	console.log("assadsadfsafdsadfsadf");
+        myInfoForm.style.display = "none";
+        modalOverlay.style.display = "none";
+    });
+
+  
+  function closemyInfoForm(){
+	  var myInfoForm = document.getElementById("myInfoForm");
+	  var loginModal = document.getElementById("loginModal");
+	  myInfoForm.style.display = "none";
+      modalOverlay.style.display = "none";
+  }
 
     // 페이지 로딩 시 폼 전환 함수 호출
     toggleForms();
   });
-
-  function toggleForms() {
+  
+	function toggleForms() {
 	  var loginButton = document.querySelector(".loginButton");
 	  var myInfoForm = document.getElementById("myInfoForm");
 	  var sessionSid = "${sessionScope.sid}";
 	  var sessionKnick = "${sessionScope.knick}";
-
+	  var loginModal = document.getElementById("loginModal");
 	  if (sessionSid || sessionKnick) {
-	    loginButton.style.display = "none"; // 세션이 있을 때 로그인 버튼 숨기기
-	    myInfoForm.style.display = "block"; // 세션이 있을 때 로그인 후 버튼 보이기
+		myInfoForm.style.display = "block"; // 세션이 있을 때 로그인 후 버튼 보이기
 	  } else {
-	    loginButton.style.display = "block"; // 세션이 없을 때 로그인 버튼 보이기
 	    myInfoForm.style.display = "none"; // 세션이 없을 때 로그인 후 버튼 숨기기
 	  }
 	}
@@ -267,7 +398,7 @@
 				  <div class="modal-dialog">
 				    <div class="contwrap modal-content">
 				      <c:if test="${sessionScope.sid == null && sessionScope.knick == null}">
-				        <button id="closeLoginModal" class="close-button">×</button>
+				      <button id="closeLoginModal" class="close-button">×</button>
 				        <form action="/hos/roh/signinPro">
 				          <div class="profilearea login">
 				            <p class="input_row txt" style="color: rgb(26, 26, 26);">아파, 어디가?</p>
@@ -294,12 +425,14 @@
 				        </form>
 				      </c:if>
 						<div id="myInfoForm" class="profilearea">
+							<button id="closemyInfoForm" class="close-button">×</button>
 						    <p class="input_row txt" style="color: rgb(26, 26, 26);">
 						    	<c:if test="${sessionScope.sid != null}">환영합니다! ${sid}님</c:if>
 								<c:if test="${sessionScope.knick != null}">환영합니다! ${knick}님</c:if>	
 						    </p>
-						    <a href="/hos/roh/myProfileForm">내 프로필</a>
+						    <a href="/hos/roh/myProfileForm">프로필</a>
 						    <a id="logoutButton" href="/hos/roh/signout">로그아웃</a>
+						    <a href="/hos/roh/withdrawalForm">회원탈퇴</a>
 						</div>
 						<c:if test="${logout}">
 							<script>
@@ -435,21 +568,10 @@
     <link href="footers.css" rel="stylesheet">
   </head>
   <body>
-    
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-  <symbol id="bootstrap" viewBox="0 0 118 94">
-    <title>main</title>
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z"></path>
-  </symbol>
-</svg>
 
 <div class="container">
   <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
     <p class="col-md-4 mb-0 text-muted">&copy; 2023 Company, Inc</p>
-
-    <a href="/hos/kim/main" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-      <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
-    </a>
 
     <ul class="nav col-md-4 justify-content-end">
       <li class="nav-item"><a href="/hos/kim/main" class="nav-link px-2 text-muted">Home</a></li>
@@ -552,4 +674,11 @@
 			  </div>
 		  </div>
 		</div>
+		
+		<script>
+		$('button[id=closemyInfoForm]').on('click',function(){
+			console.log('????')
+			$('#loginModal').hide(100)
+			})
+		</script>
 </html>
