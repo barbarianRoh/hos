@@ -1019,18 +1019,20 @@ public class ChooController {
 	
 	//답글작성페이지
 	@RequestMapping("reconWrite")
-	public String gesipanReWrite(Model model, int num, HttpSession session) {
+	public String gesipanReWrite(Model model, int num, HttpSession session, String pageNum) {
 		String id = (String)session.getAttribute("sid");
 		model.addAttribute("memId", id);
 		model.addAttribute("num",num);
+		model.addAttribute("pageNum",pageNum);
 		return "choo/reconWrite";
 	}
 	
 	//답글작성
 	@RequestMapping("reconWritePro")
-	public String reconWritePro(Model model, int num, ChooRecon recon) {
+	public String reconWritePro(Model model, int num, ChooRecon recon, String pageNum) {
 		service.reconinsert(recon);
 		model.addAttribute("num", num);
+		model.addAttribute("paegNum", pageNum);
 		
 		return "choo/reconWritePro";
 	}
@@ -1052,7 +1054,7 @@ public class ChooController {
 		}
 		
 		
-		if(id1 != null) {
+		if(id1 != null) {												//카카오유저
 			String nick = (String)session.getAttribute("knick");
 			model.addAttribute("nick", nick);
 		}

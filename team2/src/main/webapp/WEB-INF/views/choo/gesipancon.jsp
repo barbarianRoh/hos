@@ -35,7 +35,7 @@
 			</c:if>
 			<c:if test="${dto1.id != null}">
 				<c:if test="${dto1.memberType == 2}">
-				<input type="button" value="답 글" onclick="location.href='reconWrite?num=${dto.num}'">
+				<input type="button" value="답 글" onclick="location.href='reconWrite?num=${dto.num}&pageNum=${pageNum}'">
 				</c:if>
 			</c:if>
 			
