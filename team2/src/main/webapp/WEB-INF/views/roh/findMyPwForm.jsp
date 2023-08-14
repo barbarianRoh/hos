@@ -1,9 +1,62 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
-<meta charset="UTF-8">
-
-<title>비밀번호 찾기</title>
+<head>
+    <meta charset="UTF-8">
+    <title>비밀번호 찾기</title>
+    <style>
+        body {
+            background-color: #e9ecef;
+            color: #212529;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        h1 {
+            color: #212529;
+        }
+        
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        label {
+            display: inline-block;
+            width: 120px;
+            font-weight: bold;
+        }
+        
+        input[type="text"] {
+            padding: 8px;
+            margin-bottom: 10px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #212529;
+            color: #ffffff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        a {
+            color: #212529;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
 
 <c:if test="${pwError == true}">
     <script>
@@ -23,4 +76,9 @@
 </form>
 
 ${findMyPw}<br />
-<a href="/hos/roh/">돌아가기</a>
+<button onclick="closeWindow()">닫기</button>
+<script>
+function closeWindow() {
+    window.close();
+}
+</script>

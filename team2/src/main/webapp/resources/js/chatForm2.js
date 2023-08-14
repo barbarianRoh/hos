@@ -34,7 +34,7 @@
               for (var b in bubbles) {
                 if (bubbles[b].type == 'text') { // 기본 응답인 경우
                   /* 받은 메시지를 chatBox에 추가합니다. */
-                  $('#chatBox').append('<div class="msgBox receive"><span id="in"><span>Chatbot</span><br><span>' +
+                  $('#chatBox').append('<div class="msgBox receive"><span id="in"><span>챗봇</span><br><span>' +
                     bubbles[b].data.description + '</span></span></div><br><br>');
 
                   // 음성 변환을 위해 TTS 호출합니다.
@@ -47,12 +47,12 @@
                       $("#chatBox").append("<a href='" + bubbles[b].data.cover.data.action.data.url + "' target='_blank'>" +
                         bubbles[b].data.cover.data.action.data.displayText + "</a><br>");
                     } else {
-                      $("#chatBox").append("<div class=\"msgBox receive\"><span id=\"in\"><span>Chatbot</span><br><span>" + bubbles[ b].data.cover.data.description + "</p>");
+                      $("#chatBox").append("<div class=\"msgBox receive\"><span id=\"in\"><span>챗봇</span><br><span>" + bubbles[ b].data.cover.data.description + "</p>");
                       // 음성 변환을 위해 TTS 호출합니다.
                       callAjaxTTS(bubbles[b].data.cover.data.description);
                     }
                   } else if (bubbles[b].data.cover.type == "text") { // 다중 링크 응답인 경우
-                    $("#chatBox").append("<div class=\"msgBox receive\"><span id=\"in\"><span>Chatbot</span><br><span>" + bubbles[ b].data.cover.data.description + "</p>");
+                    $("#chatBox").append("<div class=\"msgBox receive\"><span id=\"in\"><span>챗봇</span><br><span>" + bubbles[ b].data.cover.data.description + "</p>");
                     // 음성 변환을 위해 TTS 호출합니다.
                     callAjaxTTS(bubbles[b].data.cover.data.description);
                   }
@@ -91,7 +91,7 @@
 
                         // 챗박스에 버튼을 추가합니다.
                         var msgBox = $('<div class="msgBox receive"></div>');
-                        var buttonContainer = $('<span id="in"><span>Chatbot</span><br></span>');
+                        var buttonContainer = $('<span id="in"><span>챗봇</span><br></span>');
                         buttonContainer.append(button).append('<br><br>');
                         msgBox.append(buttonContainer);
                         $("#chatBox").append(msgBox);
@@ -121,7 +121,7 @@
 
                         // 챗박스에 버튼을 추가합니다.
                         var msgBox = $('<div class="msgBox receive"></div>');
-                        var buttonContainer = $('<span id="in"><span>Chatbot</span><br></span>');
+                        var buttonContainer = $('<span id="in"><span>챗봇</span><br></span>');
                         buttonContainer.append(button).append('<br><br>');
                         msgBox.append(buttonContainer);
                         $("#chatBox").append(msgBox);
@@ -152,7 +152,7 @@
         // 클릭한 링크의 텍스트를 chatBox에 마치 챗봇이 입력한 것처럼 추가합니다.
         var clickedLinkText = $(this).text();
         var msgBox = $('<div class="msgBox receive"></div>');
-        msgBox.html('<span id="in"><span>Chatbot</span><br><span>' + clickedLinkText + '</span></span><br><br>');
+        msgBox.html('<span id="in"><span>챗봇</span><br><span>' + clickedLinkText + '</span></span><br><br>');
         $("#chatBox").append(msgBox);
 
         // postbackFullValue를 기반으로 다음 대화로 이동하는 함수를 호출합니다.
